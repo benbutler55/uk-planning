@@ -21,6 +21,7 @@ def page(title: str, subhead: str, active: str, body: str) -> str:
         ("plans.html", "Plans", "plans"),
         ("contradictions.html", "Contradictions", "contradictions"),
         ("recommendations.html", "Recommendations", "recommendations"),
+        ("roadmap.html", "Roadmap", "roadmap"),
         ("methodology.html", "Methodology", "methodology"),
         ("sources.html", "Sources", "sources"),
     ]
@@ -72,6 +73,97 @@ def render_table(rows, columns):
         + "".join(body)
         + "</tbody></table></section>"
     )
+
+
+def render_filter_controls(table_id: str, text_label: str, filter_defs):
+    controls = [
+        "<section class=\"card\">",
+        "<div class=\"filter-row\">",
+        f"<label class=\"filter-item\">{html.escape(text_label)}<input type=\"search\" data-table=\"{table_id}\" data-filter=\"search\" placeholder=\"Type to search...\" /></label>",
+    ]
+    for field, label, options in filter_defs:
+        option_html = ['<option value="">All</option>']
+        option_html.extend(f"<option>{html.escape(opt)}</option>" for opt in options)
+        controls.append(
+            f"<label class=\"filter-item\">{html.escape(label)}<select data-table=\"{table_id}\" data-filter=\"{field}\">{''.join(option_html)}</select></label>"
+        )
+    controls.append("</div>")
+    controls.append("<p class=\"small\" data-filter-count-for=\"{}\"></p>".format(table_id))
+    controls.append("</section>")
+    return "".join(controls)
+
+
+def render_filterable_table(rows, columns, table_id, data_fields):
+    head = "".join(f"<th>{html.escape(label)}</th>" for _, label in columns)
+    body_rows = []
+    for row in rows:
+        attrs = " ".join(
+            f'data-{field}="{html.escape((row.get(field, "") or "").strip().lower())}"' for field in data_fields
+        )
+        cells = "".join(f"<td>{html.escape(row.get(key, ''))}</td>" for key, _ in columns)
+        body_rows.append(f"<tr {attrs}>{cells}</tr>")
+    return (
+        f"<section class=\"card\"><table id=\"{table_id}\"><thead><tr>"
+        + head
+        + "</tr></thead><tbody>"
+        + "".join(body_rows)
+        + "</tbody></table></section>"
+    )
+
+
+def render_filter_script(table_id, fields):
+    field_js = ",".join(f'"{field}"' for field in fields)
+    return f"""
+<script>
+(function() {{
+  const table = document.getElementById('{table_id}');
+  if (!table) return;
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  const controls = Array.from(document.querySelectorAll('[data-table="{table_id}"]'));
+  const countEl = document.querySelector('[data-filter-count-for="{table_id}"]');
+  const fields = [{field_js}];
+
+  function update() {{
+    let visible = 0;
+    const searchControl = controls.find(c => c.dataset.filter === 'search');
+    const searchText = searchControl ? searchControl.value.toLowerCase().trim() : '';
+    const selected = {{}};
+    controls.forEach(control => {{
+      if (control.dataset.filter !== 'search' && control.value) {{
+        selected[control.dataset.filter] = control.value.toLowerCase();
+      }}
+    }});
+
+    rows.forEach(row => {{
+      let show = true;
+      for (const [field, value] of Object.entries(selected)) {{
+        if ((row.dataset[field] || '') !== value) {{
+          show = false;
+        }}
+      }}
+
+      if (show && searchText) {{
+        const blob = fields.map(field => row.dataset[field] || '').join(' ');
+        if (!blob.includes(searchText)) {{
+          show = false;
+        }}
+      }}
+
+      row.classList.toggle('hidden-row', !show);
+      if (show) visible += 1;
+    }});
+
+    if (countEl) {{
+      countEl.textContent = `${{visible}} of ${{rows.length}} rows shown`;
+    }}
+  }}
+
+  controls.forEach(control => control.addEventListener('input', update));
+  controls.forEach(control => control.addEventListener('change', update));
+  update();
+}})();
+</script>
+"""
 
 
 def render_plan_docs_table(rows):
@@ -241,6 +333,7 @@ def build_contradictions():
     rows = read_csv(ROOT / "data/issues/contradiction-register.csv")
     columns = [
         ("issue_id", "Issue"),
+        ("scope", "Scope"),
         ("issue_type", "Type"),
         ("affected_pathway", "Pathway"),
         ("severity_score", "Severity"),
@@ -296,7 +389,29 @@ def build_contradictions():
       </section>
 """
 
-    body += render_table(rows, columns)
+    issue_types = sorted({r.get("issue_type", "") for r in rows if r.get("issue_type")})
+    pathways = sorted({r.get("affected_pathway", "") for r in rows if r.get("affected_pathway")})
+    scopes = sorted({r.get("scope", "") for r in rows if r.get("scope")})
+    body += render_filter_controls(
+        "issues-table",
+        "Search issues",
+        [
+            ("issue_type", "Issue Type", issue_types),
+            ("affected_pathway", "Pathway", pathways),
+            ("scope", "Scope", scopes),
+        ],
+    )
+    body += render_filterable_table(
+        rows,
+        columns,
+        "issues-table",
+        ["issue_id", "scope", "issue_type", "affected_pathway", "summary"],
+    )
+    body += render_filter_script(
+        "issues-table",
+        ["issue_id", "scope", "issue_type", "affected_pathway", "summary"],
+    )
+
     write(
         SITE / "contradictions.html",
         page(
@@ -312,19 +427,121 @@ def build_recommendations():
     rows = read_csv(ROOT / "data/issues/recommendations.csv")
     columns = [
         ("recommendation_id", "ID"),
-        ("title", "Recommendation"),
+        ("priority", "Priority"),
         ("time_horizon", "Horizon"),
+        ("policy_goal", "Goal"),
+        ("title", "Recommendation"),
         ("implementation_vehicle", "Vehicle"),
         ("kpi_primary", "Primary KPI"),
         ("target", "Target"),
     ]
-    body = render_table(rows, columns)
+    priorities = sorted({r.get("priority", "") for r in rows if r.get("priority")})
+    horizons = sorted({r.get("time_horizon", "") for r in rows if r.get("time_horizon")})
+    vehicles = sorted({r.get("implementation_vehicle", "") for r in rows if r.get("implementation_vehicle")})
+
+    body = render_filter_controls(
+        "recommendations-table",
+        "Search recommendations",
+        [
+            ("priority", "Priority", priorities),
+            ("time_horizon", "Time Horizon", horizons),
+            ("implementation_vehicle", "Vehicle", vehicles),
+        ],
+    )
+    body += render_filterable_table(
+        rows,
+        columns,
+        "recommendations-table",
+        [
+            "recommendation_id",
+            "priority",
+            "time_horizon",
+            "policy_goal",
+            "title",
+            "implementation_vehicle",
+            "kpi_primary",
+            "target",
+        ],
+    )
+    body += render_filter_script(
+        "recommendations-table",
+        [
+            "recommendation_id",
+            "priority",
+            "time_horizon",
+            "policy_goal",
+            "title",
+            "implementation_vehicle",
+            "kpi_primary",
+            "target",
+        ],
+    )
+
     write(
         SITE / "recommendations.html",
         page(
             "Recommendations and Model Text",
             "Actionable reforms aligned to legal vehicles, implementation owners, and KPIs.",
             "recommendations",
+            body,
+        ),
+    )
+
+
+def build_roadmap():
+    milestones = read_csv(ROOT / "data/issues/implementation-roadmap.csv")
+    recs = read_csv(ROOT / "data/issues/recommendations.csv")
+
+    quick = [m for m in milestones if m.get("phase") == "Quick Wins"]
+    structural = [m for m in milestones if m.get("phase") == "Statutory and Structural"]
+
+    body = "<section class=\"grid\">"
+    body += "<article class=\"card\"><h3>Quick Wins (0-12 months)</h3><p>Guidance and process changes with immediate delivery impact.</p></article>"
+    body += "<article class=\"card\"><h3>Statutory and Structural (12-24+ months)</h3><p>Changes requiring SI, legislative, or multi-agency coordination pathways.</p></article>"
+    body += "</section>"
+
+    body += "<section class=\"card\"><h2>Quick Wins Milestones</h2></section>"
+    body += render_table(
+        quick,
+        [
+            ("window", "Window"),
+            ("action", "Action"),
+            ("owner", "Owner"),
+            ("linked_recommendations", "Linked Recs"),
+            ("status_metric", "Success Metric"),
+        ],
+    )
+
+    body += "<section class=\"card\"><h2>Statutory and Structural Milestones</h2></section>"
+    body += render_table(
+        structural,
+        [
+            ("window", "Window"),
+            ("action", "Action"),
+            ("owner", "Owner"),
+            ("dependencies", "Dependencies"),
+            ("linked_recommendations", "Linked Recs"),
+        ],
+    )
+
+    body += "<section class=\"card\"><h2>Recommendation to Horizon Mapping</h2></section>"
+    body += render_table(
+        recs,
+        [
+            ("recommendation_id", "Recommendation"),
+            ("title", "Title"),
+            ("time_horizon", "Horizon"),
+            ("delivery_owner", "Owner"),
+            ("implementation_vehicle", "Vehicle"),
+        ],
+    )
+
+    write(
+        SITE / "roadmap.html",
+        page(
+            "Implementation Roadmap",
+            "Delivery sequence from quick operational wins to statutory reform packages.",
+            "roadmap",
             body,
         ),
     )
@@ -339,6 +556,10 @@ def build_methodology():
       <section class=\"card\">
         <h2>Data Model</h2>
         <p>Core fields include legal status, decision weight, supersession chain, and conflict linkage.</p>
+      </section>
+      <section class=\"card\">
+        <h2>Validation</h2>
+        <p>Dataset schema checks run via <code>scripts/validate_data.py</code>. Internal links are checked via <code>scripts/check_links.py</code>.</p>
       </section>
 """
     write(
@@ -365,6 +586,7 @@ def main():
     build_plans()
     build_contradictions()
     build_recommendations()
+    build_roadmap()
     build_methodology()
     build_sources()
     print("Built site pages from CSV data.")

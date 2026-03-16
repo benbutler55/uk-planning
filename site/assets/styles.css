@@ -110,6 +110,33 @@ th {
   background: #f0f4f8;
 }
 
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 190px;
+  font-size: 0.95rem;
+}
+
+input[type="search"],
+select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+
+.hidden-row {
+  display: none;
+}
+
 @media (max-width: 700px) {
   h1 {
     font-size: 1.35rem;

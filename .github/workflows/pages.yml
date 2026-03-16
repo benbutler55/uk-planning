@@ -3,7 +3,6 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-      - master
       - main
   workflow_dispatch:
 
@@ -25,6 +24,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate data schemas
+        run: python3 scripts/validate_data.py
+
+      - name: Build static site
+        run: python3 scripts/build_site.py
+
+      - name: Check internal links
+        run: python3 scripts/check_links.py
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

@@ -1,0 +1,119 @@
+{
+  "datasets": [
+    {
+      "path": "data/legislation/england-core-legislation.csv",
+      "required_columns": [
+        "id",
+        "title",
+        "type",
+        "citation",
+        "jurisdiction",
+        "status",
+        "in_force",
+        "decision_weight",
+        "commencement_date",
+        "last_updated",
+        "source_url"
+      ],
+      "date_columns": ["commencement_date", "last_updated"],
+      "url_columns": ["source_url"]
+    },
+    {
+      "path": "data/policy/england-national-policy.csv",
+      "required_columns": [
+        "id",
+        "title",
+        "type",
+        "authority",
+        "status",
+        "scope",
+        "decision_weight",
+        "last_updated",
+        "source_url"
+      ],
+      "date_columns": ["last_updated"],
+      "url_columns": ["source_url"]
+    },
+    {
+      "path": "data/plans/pilot-lpas.csv",
+      "required_columns": [
+        "pilot_id",
+        "lpa_name",
+        "lpa_type",
+        "region",
+        "selection_rationale",
+        "constraint_profile",
+        "growth_context",
+        "data_access_status"
+      ]
+    },
+    {
+      "path": "data/plans/pilot-plan-documents.csv",
+      "required_columns": [
+        "plan_id",
+        "pilot_id",
+        "authority",
+        "document_title",
+        "plan_level",
+        "status",
+        "adoption_or_publication_date",
+        "notes",
+        "source_url"
+      ],
+      "date_columns": ["adoption_or_publication_date"],
+      "url_columns": ["source_url"]
+    },
+    {
+      "path": "data/issues/contradiction-register.csv",
+      "required_columns": [
+        "issue_id",
+        "status",
+        "scope",
+        "issue_type",
+        "affected_pathway",
+        "linked_instruments",
+        "severity_score",
+        "frequency_score",
+        "legal_risk_score",
+        "delay_impact_score",
+        "fixability_score",
+        "summary"
+      ],
+      "score_columns": [
+        "severity_score",
+        "frequency_score",
+        "legal_risk_score",
+        "delay_impact_score",
+        "fixability_score"
+      ]
+    },
+    {
+      "path": "data/issues/recommendations.csv",
+      "required_columns": [
+        "recommendation_id",
+        "priority",
+        "time_horizon",
+        "policy_goal",
+        "delivery_owner",
+        "implementation_vehicle",
+        "linked_issues",
+        "title",
+        "kpi_primary",
+        "target"
+      ]
+    },
+    {
+      "path": "data/issues/implementation-roadmap.csv",
+      "required_columns": [
+        "milestone_id",
+        "phase",
+        "window",
+        "action",
+        "owner",
+        "dependencies",
+        "linked_recommendations",
+        "status_metric"
+      ]
+    }
+  ]
+}

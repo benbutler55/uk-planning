@@ -26,3 +26,15 @@ Or use:
 ```bash
 ./scripts/serve_local.sh
 ```
+
+## Quality Checks
+
+Run data and site integrity checks:
+
+```bash
+python3 scripts/validate_data.py
+python3 scripts/build_site.py
+python3 scripts/check_links.py
+```
+
+These checks also run in GitHub Actions (`.github/workflows/ci.yml`) and before GitHub Pages deployment (`.github/workflows/pages.yml`).

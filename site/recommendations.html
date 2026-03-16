@@ -21,10 +21,61 @@
 <a href="plans.html">Plans</a>
 <a href="contradictions.html">Contradictions</a>
 <a class="active" href="recommendations.html">Recommendations</a>
+<a href="roadmap.html">Roadmap</a>
 <a href="methodology.html">Methodology</a>
 <a href="sources.html">Sources</a>
       </nav>
-<section class="card"><table><thead><tr><th>ID</th><th>Recommendation</th><th>Horizon</th><th>Vehicle</th><th>Primary KPI</th><th>Target</th></tr></thead><tbody><tr><td>REC-001</td><td>National standard validation list for major and minor applications</td><td>0-12 months</td><td>Guidance update</td><td>Validation rework rate</td><td>Reduce by 30 percent in pilot LPAs</td></tr><tr><td>REC-002</td><td>Clarify precedence rules where local criteria conflict with strategic housing delivery</td><td>12-24 months</td><td>SI amendment</td><td>Appeal overturn rate in housing refusals</td><td>Reduce by 20 percent</td></tr><tr><td>REC-003</td><td>Synchronized annual policy update windows for central and local plans</td><td>0-12 months</td><td>Guidance update</td><td>Policy conflict incidents logged per quarter</td><td>Reduce by 40 percent</td></tr><tr><td>REC-004</td><td>Single coordinated evidence gateway for EIA and habitats requirements</td><td>12-24 months</td><td>Primary legislation</td><td>Median determination time for affected schemes</td><td>Reduce by 25 percent</td></tr><tr><td>REC-005</td><td>Baseline local-fit design code with measurable compliance checklist</td><td>0-12 months</td><td>Plan revision</td><td>First submission policy compliance rate</td><td>Increase to 75 percent</td></tr></tbody></table></section>
+<section class="card"><div class="filter-row"><label class="filter-item">Search recommendations<input type="search" data-table="recommendations-table" data-filter="search" placeholder="Type to search..." /></label><label class="filter-item">Priority<select data-table="recommendations-table" data-filter="priority"><option value="">All</option><option>High</option><option>Medium</option></select></label><label class="filter-item">Time Horizon<select data-table="recommendations-table" data-filter="time_horizon"><option value="">All</option><option>0-12 months</option><option>12-24 months</option></select></label><label class="filter-item">Vehicle<select data-table="recommendations-table" data-filter="implementation_vehicle"><option value="">All</option><option>Guidance update</option><option>Plan revision</option><option>Primary legislation</option><option>SI amendment</option></select></label></div><p class="small" data-filter-count-for="recommendations-table"></p></section><section class="card"><table id="recommendations-table"><thead><tr><th>ID</th><th>Priority</th><th>Horizon</th><th>Goal</th><th>Recommendation</th><th>Vehicle</th><th>Primary KPI</th><th>Target</th></tr></thead><tbody><tr data-recommendation_id="rec-001" data-priority="high" data-time_horizon="0-12 months" data-policy_goal="speed" data-title="national standard validation list for major and minor applications" data-implementation_vehicle="guidance update" data-kpi_primary="validation rework rate" data-target="reduce by 30 percent in pilot lpas"><td>REC-001</td><td>High</td><td>0-12 months</td><td>Speed</td><td>National standard validation list for major and minor applications</td><td>Guidance update</td><td>Validation rework rate</td><td>Reduce by 30 percent in pilot LPAs</td></tr><tr data-recommendation_id="rec-002" data-priority="high" data-time_horizon="12-24 months" data-policy_goal="consistency" data-title="clarify precedence rules where local criteria conflict with strategic housing delivery" data-implementation_vehicle="si amendment" data-kpi_primary="appeal overturn rate in housing refusals" data-target="reduce by 20 percent"><td>REC-002</td><td>High</td><td>12-24 months</td><td>Consistency</td><td>Clarify precedence rules where local criteria conflict with strategic housing delivery</td><td>SI amendment</td><td>Appeal overturn rate in housing refusals</td><td>Reduce by 20 percent</td></tr><tr data-recommendation_id="rec-003" data-priority="medium" data-time_horizon="0-12 months" data-policy_goal="coordination" data-title="synchronized annual policy update windows for central and local plans" data-implementation_vehicle="guidance update" data-kpi_primary="policy conflict incidents logged per quarter" data-target="reduce by 40 percent"><td>REC-003</td><td>Medium</td><td>0-12 months</td><td>Coordination</td><td>Synchronized annual policy update windows for central and local plans</td><td>Guidance update</td><td>Policy conflict incidents logged per quarter</td><td>Reduce by 40 percent</td></tr><tr data-recommendation_id="rec-004" data-priority="high" data-time_horizon="12-24 months" data-policy_goal="restriction reduction" data-title="single coordinated evidence gateway for eia and habitats requirements" data-implementation_vehicle="primary legislation" data-kpi_primary="median determination time for affected schemes" data-target="reduce by 25 percent"><td>REC-004</td><td>High</td><td>12-24 months</td><td>Restriction Reduction</td><td>Single coordinated evidence gateway for EIA and habitats requirements</td><td>Primary legislation</td><td>Median determination time for affected schemes</td><td>Reduce by 25 percent</td></tr><tr data-recommendation_id="rec-005" data-priority="high" data-time_horizon="0-12 months" data-policy_goal="baseline certainty" data-title="baseline local-fit design code with measurable compliance checklist" data-implementation_vehicle="plan revision" data-kpi_primary="first submission policy compliance rate" data-target="increase to 75 percent"><td>REC-005</td><td>High</td><td>0-12 months</td><td>Baseline Certainty</td><td>Baseline local-fit design code with measurable compliance checklist</td><td>Plan revision</td><td>First submission policy compliance rate</td><td>Increase to 75 percent</td></tr></tbody></table></section>
+<script>
+(function() {
+  const table = document.getElementById('recommendations-table');
+  if (!table) return;
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  const controls = Array.from(document.querySelectorAll('[data-table="recommendations-table"]'));
+  const countEl = document.querySelector('[data-filter-count-for="recommendations-table"]');
+  const fields = ["recommendation_id","priority","time_horizon","policy_goal","title","implementation_vehicle","kpi_primary","target"];
+
+  function update() {
+    let visible = 0;
+    const searchControl = controls.find(c => c.dataset.filter === 'search');
+    const searchText = searchControl ? searchControl.value.toLowerCase().trim() : '';
+    const selected = {};
+    controls.forEach(control => {
+      if (control.dataset.filter !== 'search' && control.value) {
+        selected[control.dataset.filter] = control.value.toLowerCase();
+      }
+    });
+
+    rows.forEach(row => {
+      let show = true;
+      for (const [field, value] of Object.entries(selected)) {
+        if ((row.dataset[field] || '') !== value) {
+          show = false;
+        }
+      }
+
+      if (show && searchText) {
+        const blob = fields.map(field => row.dataset[field] || '').join(' ');
+        if (!blob.includes(searchText)) {
+          show = false;
+        }
+      }
+
+      row.classList.toggle('hidden-row', !show);
+      if (show) visible += 1;
+    });
+
+    if (countEl) {
+      countEl.textContent = `${visible} of ${rows.length} rows shown`;
+    }
+  }
+
+  controls.forEach(control => control.addEventListener('input', update));
+  controls.forEach(control => control.addEventListener('change', update));
+  update();
+})();
+</script>
+
     </div>
   </body>
 </html>
