@@ -1,6 +1,19 @@
 id,title,type,authority,status,scope,decision_weight,last_updated,source_url
 POL-ENG-NPPF,National Planning Policy Framework,National policy framework,MHCLG,In force (rolling updates),England,High material consideration,2026-03-16,https://www.gov.uk/government/collections/revised-national-planning-policy-framework
 POL-ENG-PPG,Planning Practice Guidance,Web guidance collection,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/government/collections/planning-practice-guidance
+POL-ENG-PPG-06-HOUSING,Housing supply and delivery,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/housing-supply-and-delivery
+POL-ENG-PPG-08-HELAA,Housing and economic land availability assessment,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/housing-and-economic-land-availability-assessment
+POL-ENG-PPG-13-GREENBELT,Green Belt,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/green-belt
+POL-ENG-PPG-16-DESIGN,Design process and tools,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/design-process-and-tools
+POL-ENG-PPG-18-DC,Design codes,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/design-codes
+POL-ENG-PPG-21-EIA,Environmental Impact Assessment,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/environmental-impact-assessment
+POL-ENG-PPG-23-FLOOD,Flood risk and coastal change,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/flood-risk-and-coastal-change
+POL-ENG-PPG-26-HERITAGE,Conserving and enhancing the historic environment,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/conserving-and-enhancing-the-historic-environment
+POL-ENG-PPG-34-TRAVEL,Travel plans transport assessments and statements,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/travel-plans-transport-assessments-and-statements
+POL-ENG-PPG-41-PLANMAKING,Plan-making,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/plan-making
+POL-ENG-PPG-45-NEIGHBOURHOOD,Neighbourhood planning,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/neighbourhood-planning--2
+POL-ENG-PPG-57-USECLASS,When is permission required,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/when-is-permission-required
+POL-ENG-PPG-68-VIABILITY,Viability,PPG topic,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/guidance/viability
 POL-ENG-NPS-EN1,National Policy Statement for Energy (EN-1),National Policy Statement,DESNZ,In force,England and Wales NSIP,Primary policy for NSIP exams,2026-03-16,https://www.gov.uk/government/publications/overarching-national-policy-statement-for-energy-en-1
 POL-ENG-NPS-NN,National Policy Statement for National Networks,National Policy Statement,DFT,In force,England NSIP transport,Primary policy for NSIP exams,2026-03-16,https://www.gov.uk/government/publications/national-policy-statement-for-national-networks
 POL-ENG-NPPW,National Planning Policy for Waste,National planning policy,DLUHC,In force,England,Material consideration,2026-03-16,https://www.gov.uk/government/publications/national-planning-policy-for-waste

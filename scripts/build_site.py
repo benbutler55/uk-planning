@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import csv
 import html
+from collections import defaultdict
 from pathlib import Path
 
 
@@ -73,6 +74,27 @@ def render_table(rows, columns):
     )
 
 
+def render_plan_docs_table(rows):
+    body = [
+        "<section class=\"card\"><table><thead><tr><th>Document</th><th>Level</th><th>Status</th><th>Date</th><th>Notes</th><th>Source</th></tr></thead><tbody>"
+    ]
+    for row in rows:
+        source = html.escape(row.get("source_url", ""))
+        source_cell = f'<a href="{source}">Link</a>' if source else ""
+        body.append(
+            "<tr>"
+            + f"<td>{html.escape(row.get('document_title', ''))}</td>"
+            + f"<td>{html.escape(row.get('plan_level', ''))}</td>"
+            + f"<td>{html.escape(row.get('status', ''))}</td>"
+            + f"<td>{html.escape(row.get('adoption_or_publication_date', ''))}</td>"
+            + f"<td>{html.escape(row.get('notes', ''))}</td>"
+            + f"<td>{source_cell}</td>"
+            + "</tr>"
+        )
+    body.append("</tbody></table></section>")
+    return "".join(body)
+
+
 def build_index():
     body = """
       <section class=\"card\">
@@ -112,6 +134,7 @@ def build_index():
 
 def build_legislation():
     rows = read_csv(ROOT / "data/legislation/england-core-legislation.csv")
+    policy_rows = read_csv(ROOT / "data/policy/england-national-policy.csv")
     columns = [
         ("title", "Instrument"),
         ("type", "Type"),
@@ -120,7 +143,17 @@ def build_legislation():
         ("citation", "Citation"),
     ]
     body = render_table(rows, columns)
+    policy_columns = [
+        ("title", "Policy or Guidance"),
+        ("type", "Type"),
+        ("authority", "Owner"),
+        ("status", "Status"),
+        ("scope", "Scope"),
+    ]
+    body += "\n<section class=\"card\"><h2>National Policy and Guidance Index</h2></section>"
+    body += render_table(policy_rows, policy_columns)
     body += "\n<section class=\"card\"><p class=\"small\">Source: <code>data/legislation/england-core-legislation.csv</code></p></section>"
+    body += "\n<section class=\"card\"><p class=\"small\">Source: <code>data/policy/england-national-policy.csv</code></p></section>"
     write(
         SITE / "legislation.html",
         page(
@@ -134,13 +167,11 @@ def build_legislation():
 
 def build_plans():
     rows = read_csv(ROOT / "data/plans/pilot-lpas.csv")
-    columns = [
-        ("lpa_name", "Authority"),
-        ("lpa_type", "Type"),
-        ("region", "Region"),
-        ("growth_context", "Growth Context"),
-        ("constraint_profile", "Constraints"),
-    ]
+    docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    docs_by_lpa = defaultdict(list)
+    for item in docs:
+        docs_by_lpa[item["pilot_id"]].append(item)
+
     body = """
       <section class=\"card\">
         <ul>
@@ -153,7 +184,25 @@ def build_plans():
         </ul>
       </section>
 """
-    body += render_table(rows, columns)
+
+    table_rows = [
+        "<section class=\"card\"><table><thead><tr><th>Authority</th><th>Type</th><th>Region</th><th>Growth Context</th><th>Constraints</th><th>Profile</th></tr></thead><tbody>"
+    ]
+    for row in rows:
+        lpa_page = f"plans-{row['pilot_id'].lower()}.html"
+        table_rows.append(
+            "<tr>"
+            + f"<td>{html.escape(row.get('lpa_name', ''))}</td>"
+            + f"<td>{html.escape(row.get('lpa_type', ''))}</td>"
+            + f"<td>{html.escape(row.get('region', ''))}</td>"
+            + f"<td>{html.escape(row.get('growth_context', ''))}</td>"
+            + f"<td>{html.escape(row.get('constraint_profile', ''))}</td>"
+            + f"<td><a href=\"{lpa_page}\">View documents</a></td>"
+            + "</tr>"
+        )
+    table_rows.append("</tbody></table></section>")
+    body += "".join(table_rows)
+
     write(
         SITE / "plans.html",
         page(
@@ -163,6 +212,29 @@ def build_plans():
             body,
         ),
     )
+
+    for row in rows:
+        lpa_docs = docs_by_lpa.get(row["pilot_id"], [])
+        profile_body = ""
+        profile_body += "<section class=\"card\">"
+        profile_body += f"<h2>{html.escape(row.get('lpa_name', ''))}</h2>"
+        profile_body += f"<p><strong>Type:</strong> {html.escape(row.get('lpa_type', ''))}</p>"
+        profile_body += f"<p><strong>Region:</strong> {html.escape(row.get('region', ''))}</p>"
+        profile_body += f"<p><strong>Selection rationale:</strong> {html.escape(row.get('selection_rationale', ''))}</p>"
+        profile_body += f"<p><strong>Constraint profile:</strong> {html.escape(row.get('constraint_profile', ''))}</p>"
+        profile_body += "<p><a href=\"plans.html\">Back to pilot overview</a></p>"
+        profile_body += "</section>"
+        profile_body += render_plan_docs_table(lpa_docs)
+
+        write(
+            SITE / f"plans-{row['pilot_id'].lower()}.html",
+            page(
+                f"{row['lpa_name']} Plan Profile",
+                "Pilot authority planning document stack used for MVP analysis.",
+                "plans",
+                profile_body,
+            ),
+        )
 
 
 def build_contradictions():
@@ -187,6 +259,43 @@ def build_contradictions():
         </ul>
       </section>
 """
+
+    issue_count = len(rows)
+    avg_severity = 0.0
+    avg_delay = 0.0
+    if issue_count:
+        avg_severity = sum(float(r.get("severity_score", 0) or 0) for r in rows) / issue_count
+        avg_delay = sum(float(r.get("delay_impact_score", 0) or 0) for r in rows) / issue_count
+
+    counts_by_type = defaultdict(int)
+    for row in rows:
+        counts_by_type[row.get("issue_type", "Unspecified")] += 1
+
+    breakdown_items = "".join(
+        f"<li>{html.escape(issue_type)}: {count}</li>"
+        for issue_type, count in sorted(counts_by_type.items(), key=lambda item: item[0])
+    )
+    body += f"""
+      <section class=\"grid\">
+        <article class=\"card\">
+          <h3>Total Issues</h3>
+          <p>{issue_count}</p>
+        </article>
+        <article class=\"card\">
+          <h3>Average Severity</h3>
+          <p>{avg_severity:.2f} / 5</p>
+        </article>
+        <article class=\"card\">
+          <h3>Average Delay Impact</h3>
+          <p>{avg_delay:.2f} / 5</p>
+        </article>
+      </section>
+      <section class=\"card\">
+        <h3>Issue Type Breakdown</h3>
+        <ul>{breakdown_items}</ul>
+      </section>
+"""
+
     body += render_table(rows, columns)
     write(
         SITE / "contradictions.html",
