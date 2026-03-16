@@ -1,0 +1,6 @@
+issue_id,status,scope,issue_type,affected_pathway,linked_instruments,severity_score,frequency_score,legal_risk_score,delay_impact_score,fixability_score,summary
+ISSUE-001,Open,Cross-authority,Ambiguity,Housing,"LEG-ENG-1990-TCPA|POL-ENG-NPPF|POL-ENG-PPG",4,5,3,4,4,"Unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals."
+ISSUE-002,Open,Cross-authority,Process Delay,Mixed,"LEG-ENG-2015-DMPO|POL-ENG-DMPO-GUIDANCE",4,4,2,5,5,"Validation requirements differ materially between LPAs, creating repeat submissions and front-end delay."
+ISSUE-003,Open,Authority-specific,Duplication,Commercial,"PLN-NEWHAM-LOCALPLAN|POL-ENG-NPPF",3,3,2,3,4,"Local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift."
+ISSUE-004,Open,National,Restriction,Infrastructure,"LEG-ENG-2017-HABITATS|LEG-ENG-2017-EIA|POL-ENG-NPS-EN1",5,3,4,5,2,"Environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines."
+ISSUE-005,Open,Cross-authority,Contradiction,Housing,"LEG-ENG-2023-LURA|POL-ENG-NPPF",4,3,3,4,3,"Transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities."

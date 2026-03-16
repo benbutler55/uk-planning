@@ -1,0 +1,7 @@
+pilot_id,lpa_name,lpa_type,region,selection_rationale,constraint_profile,growth_context,data_access_status
+LPA-01,Manchester City Council,Metropolitan District,North West,Major core city with high regeneration and dense development pipeline,Transport capacity and urban form constraints,High growth urban,Good
+LPA-02,Oxford City Council,Non-metropolitan District,South East,High-demand constrained city with acute housing pressure,Green Belt and heritage sensitivity,High demand constrained,Good
+LPA-03,South Cambridgeshire District Council,Non-metropolitan District,East of England,Growth corridor authority with strategic allocations and cross-boundary dependence,Green Belt flood risk and infrastructure sequencing,Growth corridor,Good
+LPA-04,Cornwall Council,Unitary Authority,South West,Large unitary area combining market towns coastal settlements and rural contexts,Coastal change AONB and transport coverage constraints,Mixed growth dispersed,Moderate
+LPA-05,Newham London Borough Council,London Borough,London,Inner-city growth area with major regeneration and London Plan interactions,Density viability and transport node pressure,Very high urban growth,Good
+LPA-06,Kent County Council (minerals/waste planning role),County Council,South East,County-tier minerals and waste planning needed to test county-local coordination,Strategic waste minerals and transport network constraints,County strategic layer,Good

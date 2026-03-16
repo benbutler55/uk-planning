@@ -1,0 +1,8 @@
+id,title,type,authority,status,scope,decision_weight,last_updated,source_url
+POL-ENG-NPPF,National Planning Policy Framework,National policy framework,MHCLG,In force (rolling updates),England,High material consideration,2026-03-16,https://www.gov.uk/government/collections/revised-national-planning-policy-framework
+POL-ENG-PPG,Planning Practice Guidance,Web guidance collection,MHCLG,In force (living guidance),England,Material guidance,2026-03-16,https://www.gov.uk/government/collections/planning-practice-guidance
+POL-ENG-NPS-EN1,National Policy Statement for Energy (EN-1),National Policy Statement,DESNZ,In force,England and Wales NSIP,Primary policy for NSIP exams,2026-03-16,https://www.gov.uk/government/publications/overarching-national-policy-statement-for-energy-en-1
+POL-ENG-NPS-NN,National Policy Statement for National Networks,National Policy Statement,DFT,In force,England NSIP transport,Primary policy for NSIP exams,2026-03-16,https://www.gov.uk/government/publications/national-policy-statement-for-national-networks
+POL-ENG-NPPW,National Planning Policy for Waste,National planning policy,DLUHC,In force,England,Material consideration,2026-03-16,https://www.gov.uk/government/publications/national-planning-policy-for-waste
+POL-ENG-PPWPG,Planning Practice Guidance for Waste,Web guidance,MHCLG,In force,England,Material guidance,2026-03-16,https://www.gov.uk/guidance/waste
+POL-ENG-DMPO-GUIDANCE,Validation and DM procedural guidance,Procedural guidance,MHCLG,In force,England,Operational guidance,2026-03-16,https://www.gov.uk/guidance/making-an-application
