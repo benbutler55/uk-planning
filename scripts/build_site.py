@@ -60,6 +60,7 @@ def page(title, subhead, active, body):
         ("recommendations.html", "Recommendations", "recommendations"),
         ("roadmap.html", "Roadmap", "roadmap"),
         ("baselines.html", "Baselines", "baselines"),
+        ("bottlenecks.html", "Bottlenecks", "bottlenecks"),
         ("audience-policymakers.html", "For Policy Makers", "policymakers"),
         ("audience-lpas.html", "For LPAs", "lpas"),
         ("audience-developers.html", "For Developers", "developers"),
@@ -484,6 +485,66 @@ def build_baselines():
         "baselines", body))
 
 
+def build_bottlenecks():
+    rows = read_csv(ROOT / "data/issues/bottleneck-heatmap.csv")
+    stages = ["Pre-application", "Validation", "Consultation", "Committee", "Legal Agreements", "Condition Discharge"]
+    pathways = ["Housing", "Commercial", "Infrastructure", "Mixed"]
+
+    # Summary stats
+    total_delay = sum(float(r.get("median_delay_weeks", 0) or 0) for r in rows)
+    worst = max(rows, key=lambda r: float(r.get("median_delay_weeks", 0) or 0)) if rows else {}
+
+    body = '<section class="card"><h2>Process Stage Overview</h2>'
+    body += "<p>Bottleneck analysis covering all six planning process stages across housing, commercial, and infrastructure pathways. Median delay figures are indicative based on official statistics and pilot LPA evidence.</p></section>"
+
+    body += '<section class="grid">'
+    body += f'<article class="card"><h3>Bottlenecks Identified</h3><p>{len(rows)}</p></article>'
+    body += f'<article class="card"><h3>Cumulative Delay (weeks, all stages)</h3><p>{total_delay:.0f} weeks</p></article>'
+    if worst:
+        body += f'<article class="card"><h3>Worst Single Bottleneck</h3><p>{html.escape(worst.get("process_stage",""))} — {html.escape(worst.get("pathway",""))} ({worst.get("median_delay_weeks","")} weeks)</p></article>'
+    body += "</section>"
+
+    # Heatmap table: stages as rows, pathways as columns
+    body += '<section class="card"><h2>Delay Heatmap (median weeks by stage and pathway)</h2>'
+    body += "<table><thead><tr><th>Stage</th>"
+    for pw in pathways:
+        body += f"<th>{html.escape(pw)}</th>"
+    body += "</tr></thead><tbody>"
+
+    by_stage_pathway = {}
+    for r in rows:
+        key = (r.get("process_stage", ""), r.get("pathway", ""))
+        by_stage_pathway[key] = r
+
+    for stage in stages:
+        body += f"<tr><td><strong>{html.escape(stage)}</strong></td>"
+        for pw in pathways:
+            entry = by_stage_pathway.get((stage, pw))
+            if entry:
+                weeks = float(entry.get("median_delay_weeks", 0) or 0)
+                sev = entry.get("severity", "Low")
+                css = {"High": "badge-red", "Medium": "badge-amber", "Low": "badge-green"}.get(sev, "badge-grey")
+                body += f'<td><span class="badge {css}">{weeks:.0f}w</span></td>'
+            else:
+                body += "<td>—</td>"
+        body += "</tr>"
+    body += "</tbody></table></section>"
+
+    # Detail table
+    columns = [
+        ("stage_id", "ID"), ("process_stage", "Stage"), ("pathway", "Pathway"),
+        ("median_delay_weeks", "Median Delay (weeks)"), ("frequency", "Frequency"),
+        ("severity", "Severity"), ("delay_driver", "Driver"), ("linked_issues", "Issues"),
+    ]
+    body += '<section class="card"><h2>Bottleneck Detail</h2></section>'
+    body += render_table(rows, columns)
+
+    write(SITE / "bottlenecks.html", page(
+        "Bottleneck Heatmap",
+        "Process delay analysis across all six planning stages with severity and pathway breakdown.",
+        "bottlenecks", body))
+
+
 # --- Audience views ---
 
 def build_audience_policymakers():
@@ -619,7 +680,7 @@ def build_exports_index():
     body += "<p>All core datasets are available in CSV and JSON format for external analysis.</p>"
     body += "<ul>"
     for name in ["contradiction-register", "recommendations", "recommendation_evidence_links",
-                  "official_baseline_metrics", "implementation-roadmap"]:
+                  "official_baseline_metrics", "implementation-roadmap", "bottleneck-heatmap"]:
         body += f'<li><a href="exports/{name}.csv">{name}.csv</a> | <a href="exports/{name}.json">{name}.json</a></li>'
     body += "</ul></section>"
     write(SITE / "exports.html", page(
@@ -638,6 +699,7 @@ def main():
     build_recommendations(weights)
     build_roadmap()
     build_baselines()
+    build_bottlenecks()
     build_audience_policymakers()
     build_audience_lpas()
     build_audience_developers()
@@ -653,6 +715,7 @@ def main():
         "recommendation_evidence_links": read_csv(ROOT / "data/evidence/recommendation_evidence_links.csv"),
         "official_baseline_metrics": read_csv(ROOT / "data/evidence/official_baseline_metrics.csv"),
         "implementation-roadmap": read_csv(ROOT / "data/issues/implementation-roadmap.csv"),
+        "bottleneck-heatmap": read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"),
     })
 
     print("Built site pages from CSV data.")

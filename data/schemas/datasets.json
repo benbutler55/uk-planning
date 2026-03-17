@@ -55,7 +55,7 @@
       "path": "data/issues/contradiction-register.csv",
       "required_columns": [
         "issue_id", "status", "scope", "issue_type",
-        "affected_pathway", "linked_instruments",
+        "affected_pathway", "process_stage", "linked_instruments",
         "severity_score", "frequency_score", "legal_risk_score",
         "delay_impact_score", "fixability_score", "summary",
         "verification_state", "confidence"
@@ -68,6 +68,7 @@
       "enum_columns": {
         "issue_type": ["Ambiguity", "Contradiction", "Duplication", "Process Delay", "Restriction"],
         "affected_pathway": ["Housing", "Commercial", "Infrastructure", "Mixed"],
+        "process_stage": ["Pre-application", "Validation", "Consultation", "Committee", "Legal Agreements", "Condition Discharge"],
         "scope": ["National", "Cross-authority", "Authority-specific"],
         "status": ["Open", "In Review", "Resolved"],
         "verification_state": ["draft", "verified", "legal-reviewed"],
@@ -111,6 +112,30 @@
           "target_column": "recommendation_id",
           "multi_value_separator": "|"
         }
+      }
+    },
+    {
+      "path": "data/plans/policy-hierarchy.csv",
+      "required_columns": [
+        "hierarchy_id", "pilot_id", "authority", "tier",
+        "instrument_id", "instrument_title", "legal_basis",
+        "decision_weight_rank", "ambiguity_notes"
+      ],
+      "id_column": "hierarchy_id"
+    },
+    {
+      "path": "data/issues/bottleneck-heatmap.csv",
+      "required_columns": [
+        "stage_id", "process_stage", "pathway", "median_delay_weeks",
+        "delay_driver", "frequency", "severity", "linked_issues",
+        "source_evidence", "notes"
+      ],
+      "id_column": "stage_id",
+      "enum_columns": {
+        "process_stage": ["Pre-application", "Validation", "Consultation", "Committee", "Legal Agreements", "Condition Discharge"],
+        "pathway": ["Housing", "Commercial", "Infrastructure", "Mixed"],
+        "frequency": ["High", "Medium", "Low"],
+        "severity": ["High", "Medium", "Low"]
       }
     },
     {

@@ -2,16 +2,21 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State
+## Current State (v1.0 MVP)
 
 - 16 core legislation and regulation records
-- 20 national policy and PPG topic records
-- 6 pilot LPAs with 18 plan document records
-- 5 issues in contradiction register (weighted-scored, confidence and verification state)
-- 5 recommendations with official evidence traces (GOV.UK planning statistics and PINS data)
+- 31 national policy, PPG topic, and NPS records (full energy NPS suite included)
+- 6 pilot LPAs with 22 plan document records (including neighbourhood plans)
+- Policy precedence hierarchy mapping for all 6 pilot authorities
+- 22 issues in contradiction register across all 6 process stages (weighted-scored)
+- 12 bottleneck records with severity heatmap by stage and pathway
+- 11 recommendations with model drafting text and official evidence traces
+- 12 evidence links to GOV.UK planning statistics and PINS data
 - 12 official baseline metrics (England aggregate and pilot LPA breakdowns)
 - 6 implementation roadmap milestones
-- 20 generated site pages including split audience views and CSV/JSON exports
+- QA report with scenario testing across 3 development pathways
+- Scale-out backlog for expansion to all 317 England LPAs
+- 23 generated site pages including split audience views, bottleneck heatmap, and CSV/JSON exports
 - Monthly automated freshness check (warning-only mode)
 
 ## Repository Structure
@@ -20,12 +25,14 @@ Citation-backed analysis of England's planning system identifying contradictions
 uk-planning/
 ├── AGENTS.md                        # Agent operating rules (commit, push, README hygiene)
 ├── IMPLEMENTATION_PLAN.md           # Phased delivery plan
+├── RELEASE_NOTES.md                 # Version release notes
 ├── README.md                        # This file
 ├── data/
 │   ├── evidence/
 │   │   ├── official_baseline_metrics.csv
 │   │   └── recommendation_evidence_links.csv
 │   ├── issues/
+│   │   ├── bottleneck-heatmap.csv
 │   │   ├── contradiction-register.csv
 │   │   ├── implementation-roadmap.csv
 │   │   └── recommendations.csv
@@ -33,7 +40,8 @@ uk-planning/
 │   │   └── england-core-legislation.csv
 │   ├── plans/
 │   │   ├── pilot-lpas.csv
-│   │   └── pilot-plan-documents.csv
+│   │   ├── pilot-plan-documents.csv
+│   │   └── policy-hierarchy.csv     # Precedence mapping per pilot LPA
 │   ├── policy/
 │   │   └── england-national-policy.csv
 │   └── schemas/
@@ -45,11 +53,17 @@ uk-planning/
 │   ├── check_links.py               # Internal link integrity checker
 │   ├── serve_local.sh               # Build and serve on localhost
 │   └── validate_data.py             # Schema, FK, enum, and unique-ID validation
+├── content/
+│   ├── methodology/
+│   │   ├── qa-report.md             # QA report with scenario testing
+│   │   └── scale-out-backlog.md     # Plan for expansion to all England LPAs
+│   ├── recommendations/
+│   │   └── model-text/              # Model drafting text for all 11 recommendations
+│   └── templates/                   # Entry templates for legislation, plans, issues
 ├── site/                            # Generated static website (committed)
 │   ├── assets/styles.css
 │   ├── exports/                     # CSV and JSON exports of all datasets
-│   └── *.html                       # 20 generated pages
-├── content/                         # Source markdown and templates
+│   └── *.html                       # 23 generated pages
 └── .github/workflows/
     ├── ci.yml                       # PR and push: validate, build, link check
     ├── pages.yml                    # Push to main: same checks then deploy to GitHub Pages
@@ -108,7 +122,8 @@ See `AGENTS.md` for full agent operating rules.
 | `legislation.html` | Acts, regulations, and national policy index |
 | `plans.html` | Plan hierarchy and pilot LPA profiles |
 | `contradictions.html` | Weighted-scored issue register with filters |
-| `recommendations.html` | Reform proposals with evidence traces |
+| `bottlenecks.html` | Process delay heatmap by stage and pathway |
+| `recommendations.html` | Reform proposals with model text and evidence traces |
 | `roadmap.html` | Delivery milestones (quick wins and statutory reforms) |
 | `baselines.html` | Official KPI baselines from GOV.UK and PINS |
 | `audience-policymakers.html` | View for policy makers |

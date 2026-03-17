@@ -57,6 +57,9 @@ def check_urls_in_rows(rows, url_col, label):
         status, err = check_url(url)
         if status is None:
             warnings.append(f"{label}:{idx} URL unreachable: {url} ({err})")
+        elif status == 403:
+            # 403 may indicate server-level bot-blocking rather than a missing page
+            warnings.append(f"{label}:{idx} URL returned 403 (access blocked - verify manually): {url}")
         elif status >= 400:
             warnings.append(f"{label}:{idx} URL returned {status}: {url}")
     return warnings
