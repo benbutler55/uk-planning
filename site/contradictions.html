@@ -13,7 +13,7 @@
     <div class="layout">
       <header>
         <h1>Contradictions and Bottlenecks</h1>
-        <p class="subhead">Cross-layer conflicts and process delay drivers with comparable scoring.</p>
+        <p class="subhead">Cross-layer conflicts scored with explicit weighting and confidence levels.</p>
       </header>
       <nav>
 <a href="index.html">Overview</a>
@@ -22,86 +22,44 @@
 <a class="active" href="contradictions.html">Contradictions</a>
 <a href="recommendations.html">Recommendations</a>
 <a href="roadmap.html">Roadmap</a>
+<a href="baselines.html">Baselines</a>
+<a href="audience-policymakers.html">For Policy Makers</a>
+<a href="audience-lpas.html">For LPAs</a>
+<a href="audience-developers.html">For Developers</a>
+<a href="audience-public.html">For Public</a>
 <a href="methodology.html">Methodology</a>
 <a href="sources.html">Sources</a>
       </nav>
-
-      <section class="card">
-        <h2>Scoring Dimensions</h2>
-        <ul>
-          <li>Severity</li>
-          <li>Frequency</li>
-          <li>Legal risk</li>
-          <li>Delay impact</li>
-          <li>Fixability</li>
-        </ul>
-      </section>
-
-      <section class="grid">
-        <article class="card">
-          <h3>Total Issues</h3>
-          <p>5</p>
-        </article>
-        <article class="card">
-          <h3>Average Severity</h3>
-          <p>4.00 / 5</p>
-        </article>
-        <article class="card">
-          <h3>Average Delay Impact</h3>
-          <p>4.20 / 5</p>
-        </article>
-      </section>
-      <section class="card">
-        <h3>Issue Type Breakdown</h3>
-        <ul><li>Ambiguity: 1</li><li>Contradiction: 1</li><li>Duplication: 1</li><li>Process Delay: 1</li><li>Restriction: 1</li></ul>
-      </section>
-<section class="card"><div class="filter-row"><label class="filter-item">Search issues<input type="search" data-table="issues-table" data-filter="search" placeholder="Type to search..." /></label><label class="filter-item">Issue Type<select data-table="issues-table" data-filter="issue_type"><option value="">All</option><option>Ambiguity</option><option>Contradiction</option><option>Duplication</option><option>Process Delay</option><option>Restriction</option></select></label><label class="filter-item">Pathway<select data-table="issues-table" data-filter="affected_pathway"><option value="">All</option><option>Commercial</option><option>Housing</option><option>Infrastructure</option><option>Mixed</option></select></label><label class="filter-item">Scope<select data-table="issues-table" data-filter="scope"><option value="">All</option><option>Authority-specific</option><option>Cross-authority</option><option>National</option></select></label></div><p class="small" data-filter-count-for="issues-table"></p></section><section class="card"><table id="issues-table"><thead><tr><th>Issue</th><th>Scope</th><th>Type</th><th>Pathway</th><th>Severity</th><th>Delay Impact</th><th>Summary</th></tr></thead><tbody><tr data-issue_id="issue-001" data-scope="cross-authority" data-issue_type="ambiguity" data-affected_pathway="housing" data-summary="unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals."><td>ISSUE-001</td><td>Cross-authority</td><td>Ambiguity</td><td>Housing</td><td>4</td><td>4</td><td>Unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals.</td></tr><tr data-issue_id="issue-002" data-scope="cross-authority" data-issue_type="process delay" data-affected_pathway="mixed" data-summary="validation requirements differ materially between lpas, creating repeat submissions and front-end delay."><td>ISSUE-002</td><td>Cross-authority</td><td>Process Delay</td><td>Mixed</td><td>4</td><td>5</td><td>Validation requirements differ materially between LPAs, creating repeat submissions and front-end delay.</td></tr><tr data-issue_id="issue-003" data-scope="authority-specific" data-issue_type="duplication" data-affected_pathway="commercial" data-summary="local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift."><td>ISSUE-003</td><td>Authority-specific</td><td>Duplication</td><td>Commercial</td><td>3</td><td>3</td><td>Local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift.</td></tr><tr data-issue_id="issue-004" data-scope="national" data-issue_type="restriction" data-affected_pathway="infrastructure" data-summary="environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines."><td>ISSUE-004</td><td>National</td><td>Restriction</td><td>Infrastructure</td><td>5</td><td>5</td><td>Environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines.</td></tr><tr data-issue_id="issue-005" data-scope="cross-authority" data-issue_type="contradiction" data-affected_pathway="housing" data-summary="transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities."><td>ISSUE-005</td><td>Cross-authority</td><td>Contradiction</td><td>Housing</td><td>4</td><td>4</td><td>Transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities.</td></tr></tbody></table></section>
+<section class="card"><h2>Scoring Model</h2><p>Weighted scores use explicit weights: delay_impact_score (35%), legal_risk_score (30%), severity_score (20%), frequency_score (10%), fixability_score (5%).</p></section><section class="grid"><article class="card"><h3>Total Issues</h3><p>5</p></article><article class="card"><h3>Average Weighted Score</h3><p>3.59 / 5</p></article></section><section class="card"><h3>Issue Type Breakdown</h3><ul><li>Ambiguity: 1</li><li>Contradiction: 1</li><li>Duplication: 1</li><li>Process Delay: 1</li><li>Restriction: 1</li></ul></section><section class="card"><div class="filter-row"><label class="filter-item">Search issues<input type="search" data-table="issues-table" data-filter="search" placeholder="Type to search..." /></label><label class="filter-item">Type<select data-table="issues-table" data-filter="issue_type"><option value="">All</option><option>Ambiguity</option><option>Contradiction</option><option>Duplication</option><option>Process Delay</option><option>Restriction</option></select></label><label class="filter-item">Pathway<select data-table="issues-table" data-filter="affected_pathway"><option value="">All</option><option>Commercial</option><option>Housing</option><option>Infrastructure</option><option>Mixed</option></select></label><label class="filter-item">Scope<select data-table="issues-table" data-filter="scope"><option value="">All</option><option>Authority-specific</option><option>Cross-authority</option><option>National</option></select></label></div><p class="small" data-filter-count-for="issues-table"></p></section><section class="card"><table id="issues-table"><thead><tr><th>Issue</th><th>Scope</th><th>Type</th><th>Pathway</th><th>Weighted Score</th><th>Severity</th><th>Delay</th><th>Status</th><th>Confidence</th><th>Summary</th></tr></thead><tbody><tr data-issue_id="issue-001" data-scope="cross-authority" data-issue_type="ambiguity" data-affected_pathway="housing" data-summary="unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals." data-confidence="medium" data-verification_state="draft"><td>ISSUE-001</td><td>Cross-authority</td><td>Ambiguity</td><td>Housing</td><td>3.7</td><td>4</td><td>4</td><td>draft</td><td>medium</td><td>Unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals.</td></tr><tr data-issue_id="issue-002" data-scope="cross-authority" data-issue_type="process delay" data-affected_pathway="mixed" data-summary="validation requirements differ materially between lpas, creating repeat submissions and front-end delay." data-confidence="high" data-verification_state="draft"><td>ISSUE-002</td><td>Cross-authority</td><td>Process Delay</td><td>Mixed</td><td>3.6</td><td>4</td><td>5</td><td>draft</td><td>high</td><td>Validation requirements differ materially between LPAs, creating repeat submissions and front-end delay.</td></tr><tr data-issue_id="issue-003" data-scope="authority-specific" data-issue_type="duplication" data-affected_pathway="commercial" data-summary="local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift." data-confidence="medium" data-verification_state="draft"><td>ISSUE-003</td><td>Authority-specific</td><td>Duplication</td><td>Commercial</td><td>2.65</td><td>3</td><td>3</td><td>draft</td><td>medium</td><td>Local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift.</td></tr><tr data-issue_id="issue-004" data-scope="national" data-issue_type="restriction" data-affected_pathway="infrastructure" data-summary="environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines." data-confidence="high" data-verification_state="draft"><td>ISSUE-004</td><td>National</td><td>Restriction</td><td>Infrastructure</td><td>4.45</td><td>5</td><td>5</td><td>draft</td><td>high</td><td>Environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines.</td></tr><tr data-issue_id="issue-005" data-scope="cross-authority" data-issue_type="contradiction" data-affected_pathway="housing" data-summary="transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities." data-confidence="medium" data-verification_state="draft"><td>ISSUE-005</td><td>Cross-authority</td><td>Contradiction</td><td>Housing</td><td>3.55</td><td>4</td><td>4</td><td>draft</td><td>medium</td><td>Transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities.</td></tr></tbody></table></section>
 <script>
 (function() {
-  const table = document.getElementById('issues-table');
+  var table = document.getElementById('issues-table');
   if (!table) return;
-  const rows = Array.from(table.querySelectorAll('tbody tr'));
-  const controls = Array.from(document.querySelectorAll('[data-table="issues-table"]'));
-  const countEl = document.querySelector('[data-filter-count-for="issues-table"]');
-  const fields = ["issue_id","scope","issue_type","affected_pathway","summary"];
-
+  var rows = Array.from(table.querySelectorAll('tbody tr'));
+  var controls = Array.from(document.querySelectorAll('[data-table="issues-table"]'));
+  var countEl = document.querySelector('[data-filter-count-for="issues-table"]');
+  var fields = ["issue_id","scope","issue_type","affected_pathway","summary","confidence","verification_state"];
   function update() {
-    let visible = 0;
-    const searchControl = controls.find(c => c.dataset.filter === 'search');
-    const searchText = searchControl ? searchControl.value.toLowerCase().trim() : '';
-    const selected = {};
-    controls.forEach(control => {
-      if (control.dataset.filter !== 'search' && control.value) {
-        selected[control.dataset.filter] = control.value.toLowerCase();
-      }
+    var visible = 0;
+    var sc = controls.find(function(c) { return c.dataset.filter === 'search'; });
+    var st = sc ? sc.value.toLowerCase().trim() : '';
+    var sel = {};
+    controls.forEach(function(c) {
+      if (c.dataset.filter !== 'search' && c.value) sel[c.dataset.filter] = c.value.toLowerCase();
     });
-
-    rows.forEach(row => {
-      let show = true;
-      for (const [field, value] of Object.entries(selected)) {
-        if ((row.dataset[field] || '') !== value) {
-          show = false;
-        }
+    rows.forEach(function(row) {
+      var show = true;
+      for (var f in sel) { if ((row.dataset[f] || '') !== sel[f]) show = false; }
+      if (show && st) {
+        var blob = fields.map(function(f) { return row.dataset[f] || ''; }).join(' ');
+        if (blob.indexOf(st) === -1) show = false;
       }
-
-      if (show && searchText) {
-        const blob = fields.map(field => row.dataset[field] || '').join(' ');
-        if (!blob.includes(searchText)) {
-          show = false;
-        }
-      }
-
       row.classList.toggle('hidden-row', !show);
-      if (show) visible += 1;
+      if (show) visible++;
     });
-
-    if (countEl) {
-      countEl.textContent = `${visible} of ${rows.length} rows shown`;
-    }
+    if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
   }
-
-  controls.forEach(control => control.addEventListener('input', update));
-  controls.forEach(control => control.addEventListener('change', update));
+  controls.forEach(function(c) { c.addEventListener('input', update); c.addEventListener('change', update); });
   update();
 })();
 </script>

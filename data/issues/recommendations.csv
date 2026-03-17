@@ -1,6 +1,6 @@
-recommendation_id,priority,time_horizon,policy_goal,delivery_owner,implementation_vehicle,linked_issues,title,kpi_primary,target
-REC-001,High,0-12 months,Speed,MHCLG,Guidance update,ISSUE-002,National standard validation list for major and minor applications,Validation rework rate,Reduce by 30 percent in pilot LPAs
-REC-002,High,12-24 months,Consistency,MHCLG,SI amendment,ISSUE-001,Clarify precedence rules where local criteria conflict with strategic housing delivery,Appeal overturn rate in housing refusals,Reduce by 20 percent
-REC-003,Medium,0-12 months,Coordination,MHCLG and LPAs,Guidance update,ISSUE-005,Synchronized annual policy update windows for central and local plans,Policy conflict incidents logged per quarter,Reduce by 40 percent
-REC-004,High,12-24 months,Restriction Reduction,MHCLG and DESNZ,Primary legislation,ISSUE-004,Single coordinated evidence gateway for EIA and habitats requirements,Median determination time for affected schemes,Reduce by 25 percent
-REC-005,High,0-12 months,Baseline Certainty,LPAs,Plan revision,ISSUE-003,Baseline local-fit design code with measurable compliance checklist,First submission policy compliance rate,Increase to 75 percent
+recommendation_id,priority,time_horizon,policy_goal,delivery_owner,implementation_vehicle,linked_issues,title,kpi_primary,target,verification_state,confidence
+REC-001,High,0-12 months,Speed,MHCLG,Guidance update,ISSUE-002,National standard validation list for major and minor applications,Validation rework rate,Reduce by 30 percent in pilot LPAs,draft,high
+REC-002,High,12-24 months,Consistency,MHCLG,SI amendment,ISSUE-001,Clarify precedence rules where local criteria conflict with strategic housing delivery,Appeal overturn rate in housing refusals,Reduce by 20 percent,draft,medium
+REC-003,Medium,0-12 months,Coordination,MHCLG and LPAs,Guidance update,ISSUE-005,Synchronized annual policy update windows for central and local plans,Policy conflict incidents logged per quarter,Reduce by 40 percent,draft,medium
+REC-004,High,12-24 months,Restriction Reduction,MHCLG and DESNZ,Primary legislation,ISSUE-004,Single coordinated evidence gateway for EIA and habitats requirements,Median determination time for affected schemes,Reduce by 25 percent,draft,medium
+REC-005,High,0-12 months,Baseline Certainty,LPAs,Plan revision,ISSUE-003,Baseline local-fit design code with measurable compliance checklist,First submission policy compliance rate,Increase to 75 percent,draft,medium

@@ -3,117 +3,133 @@
     {
       "path": "data/legislation/england-core-legislation.csv",
       "required_columns": [
-        "id",
-        "title",
-        "type",
-        "citation",
-        "jurisdiction",
-        "status",
-        "in_force",
-        "decision_weight",
-        "commencement_date",
-        "last_updated",
-        "source_url"
+        "id", "title", "type", "citation", "jurisdiction",
+        "status", "in_force", "decision_weight",
+        "commencement_date", "last_updated", "source_url"
       ],
+      "id_column": "id",
       "date_columns": ["commencement_date", "last_updated"],
       "url_columns": ["source_url"]
     },
     {
       "path": "data/policy/england-national-policy.csv",
       "required_columns": [
-        "id",
-        "title",
-        "type",
-        "authority",
-        "status",
-        "scope",
-        "decision_weight",
-        "last_updated",
-        "source_url"
+        "id", "title", "type", "authority", "status",
+        "scope", "decision_weight", "last_updated", "source_url"
       ],
+      "id_column": "id",
       "date_columns": ["last_updated"],
       "url_columns": ["source_url"]
     },
     {
       "path": "data/plans/pilot-lpas.csv",
       "required_columns": [
-        "pilot_id",
-        "lpa_name",
-        "lpa_type",
-        "region",
-        "selection_rationale",
-        "constraint_profile",
-        "growth_context",
-        "data_access_status"
-      ]
+        "pilot_id", "lpa_name", "lpa_type", "region",
+        "selection_rationale", "constraint_profile",
+        "growth_context", "data_access_status"
+      ],
+      "id_column": "pilot_id"
     },
     {
       "path": "data/plans/pilot-plan-documents.csv",
       "required_columns": [
-        "plan_id",
-        "pilot_id",
-        "authority",
-        "document_title",
-        "plan_level",
-        "status",
-        "adoption_or_publication_date",
-        "notes",
-        "source_url"
+        "plan_id", "pilot_id", "authority", "document_title",
+        "plan_level", "status", "adoption_or_publication_date",
+        "notes", "source_url"
       ],
+      "id_column": "plan_id",
       "date_columns": ["adoption_or_publication_date"],
-      "url_columns": ["source_url"]
+      "url_columns": ["source_url"],
+      "enum_columns": {
+        "plan_level": ["National", "Regional/Sub-regional", "Sub-regional/Strategic", "County", "District/Unitary", "Neighbourhood", "Sector Overlay"],
+        "status": ["Adopted", "Emerging", "Published", "In force", "Superseded"]
+      },
+      "fk_columns": {
+        "pilot_id": {
+          "target_dataset": "data/plans/pilot-lpas.csv",
+          "target_column": "pilot_id"
+        }
+      }
     },
     {
       "path": "data/issues/contradiction-register.csv",
       "required_columns": [
-        "issue_id",
-        "status",
-        "scope",
-        "issue_type",
-        "affected_pathway",
-        "linked_instruments",
-        "severity_score",
-        "frequency_score",
-        "legal_risk_score",
-        "delay_impact_score",
-        "fixability_score",
-        "summary"
+        "issue_id", "status", "scope", "issue_type",
+        "affected_pathway", "linked_instruments",
+        "severity_score", "frequency_score", "legal_risk_score",
+        "delay_impact_score", "fixability_score", "summary",
+        "verification_state", "confidence"
       ],
+      "id_column": "issue_id",
       "score_columns": [
-        "severity_score",
-        "frequency_score",
-        "legal_risk_score",
-        "delay_impact_score",
-        "fixability_score"
-      ]
+        "severity_score", "frequency_score", "legal_risk_score",
+        "delay_impact_score", "fixability_score"
+      ],
+      "enum_columns": {
+        "issue_type": ["Ambiguity", "Contradiction", "Duplication", "Process Delay", "Restriction"],
+        "affected_pathway": ["Housing", "Commercial", "Infrastructure", "Mixed"],
+        "scope": ["National", "Cross-authority", "Authority-specific"],
+        "status": ["Open", "In Review", "Resolved"],
+        "verification_state": ["draft", "verified", "legal-reviewed"],
+        "confidence": ["high", "medium", "low"]
+      }
     },
     {
       "path": "data/issues/recommendations.csv",
       "required_columns": [
-        "recommendation_id",
-        "priority",
-        "time_horizon",
-        "policy_goal",
-        "delivery_owner",
-        "implementation_vehicle",
-        "linked_issues",
-        "title",
-        "kpi_primary",
-        "target"
-      ]
+        "recommendation_id", "priority", "time_horizon",
+        "policy_goal", "delivery_owner", "implementation_vehicle",
+        "linked_issues", "title", "kpi_primary", "target",
+        "verification_state", "confidence"
+      ],
+      "id_column": "recommendation_id",
+      "enum_columns": {
+        "priority": ["High", "Medium", "Low"],
+        "time_horizon": ["0-12 months", "12-24 months", "24+ months"],
+        "verification_state": ["draft", "verified", "legal-reviewed"],
+        "confidence": ["high", "medium", "low"]
+      },
+      "fk_columns": {
+        "linked_issues": {
+          "target_dataset": "data/issues/contradiction-register.csv",
+          "target_column": "issue_id",
+          "multi_value_separator": "|"
+        }
+      }
     },
     {
       "path": "data/issues/implementation-roadmap.csv",
       "required_columns": [
-        "milestone_id",
-        "phase",
-        "window",
-        "action",
-        "owner",
-        "dependencies",
-        "linked_recommendations",
+        "milestone_id", "phase", "window", "action",
+        "owner", "dependencies", "linked_recommendations",
         "status_metric"
-      ]
+      ],
+      "id_column": "milestone_id",
+      "fk_columns": {
+        "linked_recommendations": {
+          "target_dataset": "data/issues/recommendations.csv",
+          "target_column": "recommendation_id",
+          "multi_value_separator": "|"
+        }
+      }
+    },
+    {
+      "path": "data/evidence/recommendation_evidence_links.csv",
+      "required_columns": [
+        "link_id", "recommendation_id", "evidence_type",
+        "source_dataset", "source_row_ref", "metric_name",
+        "baseline_value", "baseline_window", "source_url",
+        "retrieved_at", "notes"
+      ],
+      "id_column": "link_id",
+      "date_columns": ["retrieved_at"],
+      "url_columns": ["source_url"],
+      "fk_columns": {
+        "recommendation_id": {
+          "target_dataset": "data/issues/recommendations.csv",
+          "target_column": "recommendation_id"
+        }
+      }
     }
   ]
 }

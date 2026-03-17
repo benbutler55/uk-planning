@@ -1,0 +1,72 @@
+[
+  {
+    "recommendation_id": "REC-001",
+    "priority": "High",
+    "time_horizon": "0-12 months",
+    "policy_goal": "Speed",
+    "delivery_owner": "MHCLG",
+    "implementation_vehicle": "Guidance update",
+    "linked_issues": "ISSUE-002",
+    "title": "National standard validation list for major and minor applications",
+    "kpi_primary": "Validation rework rate",
+    "target": "Reduce by 30 percent in pilot LPAs",
+    "verification_state": "draft",
+    "confidence": "high"
+  },
+  {
+    "recommendation_id": "REC-002",
+    "priority": "High",
+    "time_horizon": "12-24 months",
+    "policy_goal": "Consistency",
+    "delivery_owner": "MHCLG",
+    "implementation_vehicle": "SI amendment",
+    "linked_issues": "ISSUE-001",
+    "title": "Clarify precedence rules where local criteria conflict with strategic housing delivery",
+    "kpi_primary": "Appeal overturn rate in housing refusals",
+    "target": "Reduce by 20 percent",
+    "verification_state": "draft",
+    "confidence": "medium"
+  },
+  {
+    "recommendation_id": "REC-003",
+    "priority": "Medium",
+    "time_horizon": "0-12 months",
+    "policy_goal": "Coordination",
+    "delivery_owner": "MHCLG and LPAs",
+    "implementation_vehicle": "Guidance update",
+    "linked_issues": "ISSUE-005",
+    "title": "Synchronized annual policy update windows for central and local plans",
+    "kpi_primary": "Policy conflict incidents logged per quarter",
+    "target": "Reduce by 40 percent",
+    "verification_state": "draft",
+    "confidence": "medium"
+  },
+  {
+    "recommendation_id": "REC-004",
+    "priority": "High",
+    "time_horizon": "12-24 months",
+    "policy_goal": "Restriction Reduction",
+    "delivery_owner": "MHCLG and DESNZ",
+    "implementation_vehicle": "Primary legislation",
+    "linked_issues": "ISSUE-004",
+    "title": "Single coordinated evidence gateway for EIA and habitats requirements",
+    "kpi_primary": "Median determination time for affected schemes",
+    "target": "Reduce by 25 percent",
+    "verification_state": "draft",
+    "confidence": "medium"
+  },
+  {
+    "recommendation_id": "REC-005",
+    "priority": "High",
+    "time_horizon": "0-12 months",
+    "policy_goal": "Baseline Certainty",
+    "delivery_owner": "LPAs",
+    "implementation_vehicle": "Plan revision",
+    "linked_issues": "ISSUE-003",
+    "title": "Baseline local-fit design code with measurable compliance checklist",
+    "kpi_primary": "First submission policy compliance rate",
+    "target": "Increase to 75 percent",
+    "verification_state": "draft",
+    "confidence": "medium"
+  }
+]

@@ -1,0 +1,7 @@
+milestone_id,phase,window,action,owner,dependencies,linked_recommendations,status_metric
+M-001,Quick Wins,0-3 months,Publish national standard validation template for major and minor applications,MHCLG,Working group of pilot LPAs and PINS,REC-001,Template adopted by all pilot LPAs
+M-002,Quick Wins,3-6 months,Deploy synchronized policy update protocol and annual review timetable,MHCLG and LPAs,Central policy bulletin process and LPA calendar coordination,REC-003,Quarterly policy conflict logs reduced
+M-003,Quick Wins,6-12 months,Adopt measurable local-fit checklist in pilot authorities,LPAs,Design code alignment and officer training,REC-005,First submission compliance rate reaches target
+M-004,Statutory and Structural,12-18 months,Draft and consult on SI text clarifying precedence in strategic housing conflicts,MHCLG,Legal drafting resources and consultation response cycle,REC-002,Appeal overturn rate trend declines
+M-005,Statutory and Structural,12-24 months,Define and pilot single evidence gateway for EIA and habitats assessments,MHCLG and DESNZ,Cross-agency protocol and digital workflow support,REC-004,Median determination time reduced on target pathways
+M-006,Statutory and Structural,18-24+ months,Roll out proven reforms from pilot LPAs to wider England cohort,MHCLG and LPAs,Evaluation evidence and implementation funding,REC-001|REC-002|REC-003|REC-004|REC-005,National rollout plan approved

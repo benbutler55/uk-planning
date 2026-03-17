@@ -1,0 +1,80 @@
+[
+  {
+    "link_id": "EVD-001",
+    "recommendation_id": "REC-001",
+    "evidence_type": "Official statistic",
+    "source_dataset": "GOV.UK PS2 planning application statistics",
+    "source_row_ref": "PS2 Table P120 validation columns",
+    "metric_name": "Validation rework rate (proxy: invalid applications returned)",
+    "baseline_value": "Approx 10-15 percent of submissions nationally",
+    "baseline_window": "Latest 4 quarters to Sep 2025",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-17",
+    "notes": "Baseline derived from PS2 invalid/withdrawn application proportions"
+  },
+  {
+    "link_id": "EVD-002",
+    "recommendation_id": "REC-002",
+    "evidence_type": "Official statistic",
+    "source_dataset": "GOV.UK Table P152 quality of major decisions",
+    "source_row_ref": "P152 appeals allowed as pct of decisions",
+    "metric_name": "Appeal overturn rate for major housing refusals",
+    "baseline_value": "Approx 1.5-2.5 percent of total decisions overturned at appeal",
+    "baseline_window": "Latest 4 quarters to Dec 2024",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-17",
+    "notes": "Quality indicator measuring LPA decision quality via appeal outcomes"
+  },
+  {
+    "link_id": "EVD-003",
+    "recommendation_id": "REC-003",
+    "evidence_type": "Policy analysis",
+    "source_dataset": "NPPF revision history and PPG update log",
+    "source_row_ref": "NPPF publication dates vs local plan adoption dates",
+    "metric_name": "Policy conflict incidents (proxy: plans older than 5 years vs current NPPF)",
+    "baseline_value": "Over 50 percent of local plans are more than 5 years old",
+    "baseline_window": "Latest 4 quarters",
+    "source_url": "https://www.gov.uk/government/collections/revised-national-planning-policy-framework",
+    "retrieved_at": "2026-03-17",
+    "notes": "Synchronisation gap between central policy updates and local plan review cycles"
+  },
+  {
+    "link_id": "EVD-004",
+    "recommendation_id": "REC-004",
+    "evidence_type": "Official statistic",
+    "source_dataset": "GOV.UK Table P151 speed of major decisions",
+    "source_row_ref": "P151 major decisions in time",
+    "metric_name": "Median determination time for EIA/habitats-affected major schemes",
+    "baseline_value": "Approx 40-60 percent decided within statutory period for major applications",
+    "baseline_window": "Latest 4 quarters to Sep 2025",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-17",
+    "notes": "Proxy for environmental assessment delay impact on determination speed"
+  },
+  {
+    "link_id": "EVD-005",
+    "recommendation_id": "REC-004",
+    "evidence_type": "Official statistic",
+    "source_dataset": "PINS quarterly statistics",
+    "source_row_ref": "PINS casework database S78 appeals",
+    "metric_name": "NSIP examination duration and s78 appeal determination time",
+    "baseline_value": "Median NSIP examination 15-18 months; s78 appeal 6-12 months",
+    "baseline_window": "Latest 4 quarters",
+    "source_url": "https://www.gov.uk/government/organisations/planning-inspectorate/about/statistics",
+    "retrieved_at": "2026-03-17",
+    "notes": "Infrastructure pathway baseline from Planning Inspectorate casework data"
+  },
+  {
+    "link_id": "EVD-006",
+    "recommendation_id": "REC-005",
+    "evidence_type": "Policy analysis",
+    "source_dataset": "Pilot LPA validation and design policy review",
+    "source_row_ref": "Local plan design policy compliance data (pilot LPAs)",
+    "metric_name": "First-submission design compliance rate",
+    "baseline_value": "Estimated 50-60 percent of applications comply with local design policies on first submission",
+    "baseline_window": "Latest 4 quarters",
+    "source_url": "https://www.gov.uk/guidance/creating-a-design-code",
+    "retrieved_at": "2026-03-17",
+    "notes": "Baseline estimated from pilot LPA officer feedback and refusal reason analysis"
+  }
+]

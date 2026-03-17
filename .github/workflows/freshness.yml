@@ -1,0 +1,33 @@
+name: Monthly Source Freshness Check
+
+on:
+  schedule:
+    - cron: "0 9 1 * *"  # 1st of each month at 09:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - name: Set up Python
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f  # v5.1.1
+        with:
+          python-version: "3.12"
+
+      - name: Run freshness check
+        run: python3 scripts/check_freshness.py --warn-only
+
+      - name: Upload freshness report
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+        with:
+          name: freshness-report
+          path: freshness-report.txt
+          retention-days: 30

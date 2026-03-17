@@ -1,0 +1,47 @@
+{
+  "scoring_model": {
+    "description": "Explicit weighting for contradiction/issue scoring dimensions. Weights sum to 1.0.",
+    "dimensions": {
+      "delay_impact_score": {
+        "weight": 0.35,
+        "description": "How much delay this issue adds to the planning process"
+      },
+      "legal_risk_score": {
+        "weight": 0.30,
+        "description": "Risk of legal challenge, appeal overturn, or judicial review"
+      },
+      "severity_score": {
+        "weight": 0.20,
+        "description": "Overall severity of the contradiction or friction"
+      },
+      "frequency_score": {
+        "weight": 0.10,
+        "description": "How often this issue arises in practice across authorities"
+      },
+      "fixability_score": {
+        "weight": 0.05,
+        "description": "Ease of resolving the issue (higher = easier to fix, inverted in weighted calc)"
+      }
+    },
+    "scale": {
+      "min": 1,
+      "max": 5
+    },
+    "weighted_score_formula": "sum(dimension_score * weight) for all dimensions except fixability is inverted: (6 - fixability_score) * weight",
+    "baseline_window": "latest_4_quarters",
+    "confidence_levels": ["high", "medium", "low"],
+    "verification_states": ["draft", "verified", "legal-reviewed"]
+  },
+  "enums": {
+    "issue_type": ["Ambiguity", "Contradiction", "Duplication", "Process Delay", "Restriction"],
+    "affected_pathway": ["Housing", "Commercial", "Infrastructure", "Mixed"],
+    "scope": ["National", "Cross-authority", "Authority-specific"],
+    "issue_status": ["Open", "In Review", "Resolved"],
+    "plan_level": ["National", "Regional/Sub-regional", "County", "District/Unitary", "Neighbourhood", "Sector Overlay"],
+    "plan_status": ["Adopted", "Emerging", "Published", "In force", "Superseded"],
+    "priority": ["High", "Medium", "Low"],
+    "time_horizon": ["0-12 months", "12-24 months", "24+ months"],
+    "verification_state": ["draft", "verified", "legal-reviewed"],
+    "confidence": ["high", "medium", "low"]
+  }
+}

@@ -13,7 +13,7 @@
     <div class="layout">
       <header>
         <h1>Methodology</h1>
-        <p class="subhead">Taxonomy, source standards, scoring model, and QA controls.</p>
+        <p class="subhead">Taxonomy, scoring model, evidence standards, and quality controls.</p>
       </header>
       <nav>
 <a href="index.html">Overview</a>
@@ -22,23 +22,15 @@
 <a href="contradictions.html">Contradictions</a>
 <a href="recommendations.html">Recommendations</a>
 <a href="roadmap.html">Roadmap</a>
+<a href="baselines.html">Baselines</a>
+<a href="audience-policymakers.html">For Policy Makers</a>
+<a href="audience-lpas.html">For LPAs</a>
+<a href="audience-developers.html">For Developers</a>
+<a href="audience-public.html">For Public</a>
 <a class="active" href="methodology.html">Methodology</a>
 <a href="sources.html">Sources</a>
       </nav>
-
-      <section class="card">
-        <h2>Evidence Standard</h2>
-        <p>Every substantive finding is linked to citation-backed sources and measurable indicators.</p>
-      </section>
-      <section class="card">
-        <h2>Data Model</h2>
-        <p>Core fields include legal status, decision weight, supersession chain, and conflict linkage.</p>
-      </section>
-      <section class="card">
-        <h2>Validation</h2>
-        <p>Dataset schema checks run via <code>scripts/validate_data.py</code>. Internal links are checked via <code>scripts/check_links.py</code>.</p>
-      </section>
-
+<section class="card"><h2>Evidence Standard</h2><p>Every recommendation references at least one official dataset row from GOV.UK planning statistics or PINS casework data.</p></section><section class="card"><h2>Scoring Model</h2><p>Issues scored on five dimensions with explicit weights. See <code>data/schemas/scoring.json</code>.</p></section><section class="card"><h2>Verification States</h2><p>Records carry a verification state: <strong>draft</strong>, <strong>verified</strong>, or <strong>legal-reviewed</strong>.</p></section><section class="card"><h2>Confidence Levels</h2><p>Findings carry confidence labels: <strong>high</strong>, <strong>medium</strong>, or <strong>low</strong>.</p></section><section class="card"><h2>Validation</h2><p>Schema, FK, enum, and unique-ID checks run via <code>scripts/validate_data.py</code>. Internal links checked via <code>scripts/check_links.py</code>.</p></section>
     </div>
   </body>
 </html>
