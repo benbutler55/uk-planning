@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-01
+lpa_name,Manchester City Council
+lpa_type,Metropolitan District
+region,North West
+growth_context,High growth urban
+constraint_profile,Transport capacity and urban form constraints
+data_quality_tier,A
+coverage_score,92
+total_linked_issues,9
+high_severity_issues,4
+primary_risk_stage,Legal Agreements

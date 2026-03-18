@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-13
+lpa_name,Southampton City Council
+lpa_type,Unitary Authority
+region,South East
+growth_context,Regeneration growth
+constraint_profile,Coastal change and port safeguarding
+data_quality_tier,B
+coverage_score,79
+total_linked_issues,7
+high_severity_issues,3
+primary_risk_stage,Legal Agreements

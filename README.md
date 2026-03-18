@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v3.0 Phase 3)
+## Current State (v4.0 Phase 4)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -19,10 +19,12 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Full-text client-side search across all content
 - National Leaflet.js map with decision speed overlay
 - LPA side-by-side comparison page (`compare.html`)
+- LPA benchmark dashboard with ranking, percentile banding, and trend sparklines
+- Downloadable per-LPA report bundles (`reports/*.csv` and `reports/*.json`)
 - Quarterly automated GOV.UK statistics ingest check
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
-- 36 generated site pages including split audience views, map, compare, appeals, search, and CSV/JSON exports
+- 39+ generated site pages including benchmark and reports views
 
 ## Repository Structure
 
@@ -35,12 +37,14 @@ uk-planning/
 ├── data/
 │   ├── evidence/
 │   │   ├── appeal-decisions.csv     # PINS appeal decisions linked to issues
+│   │   ├── lpa-quarterly-trends.csv # Quarterly trend data for benchmark sparklines
 │   │   ├── official_baseline_metrics.csv
 │   │   └── recommendation_evidence_links.csv
 │   ├── issues/
 │   │   ├── bottleneck-heatmap.csv
 │   │   ├── contradiction-register.csv
 │   │   ├── implementation-roadmap.csv
+│   │   ├── lpa-issue-incidence.csv  # LPA-level issue and severity incidence
 │   │   ├── recommendation-status.csv  # Consultation submission tracker
 │   │   └── recommendations.csv
 │   ├── legislation/
@@ -74,6 +78,7 @@ uk-planning/
 ├── site/                            # Generated static website (committed)
 │   ├── assets/styles.css
 │   ├── exports/
+│   ├── reports/                     # Per-LPA downloadable comparison bundles
 │   ├── search-index.json            # Client-side search index
 │   └── *.html                       # 28+ generated pages
 └── .github/workflows/
@@ -139,6 +144,8 @@ See `AGENTS.md` for full agent operating rules.
 | `baselines.html` | Official KPI baselines |
 | `map.html` | National Leaflet.js map with decision speed overlay |
 | `compare.html` | Side-by-side LPA comparison page |
+| `benchmark.html` | Ranked LPA benchmark dashboard with trend sparklines |
+| `reports.html` | Downloadable per-LPA comparison bundles |
 | `consultation.html` | Status tracker, disclaimer, and PDF export |
 | `search.html` | Full-text search across all content |
 | `audience-policymakers.html` | View for policy makers |

@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-10",
+  "lpa_name": "Newcastle City Council",
+  "lpa_type": "Metropolitan District",
+  "region": "North East",
+  "growth_context": "Regeneration growth",
+  "constraint_profile": "Riverside flood risk and heritage city centre",
+  "data_quality": {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "80",
+    "evidence_type_mix": "Official stats + local plans + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-18",
+    "notes": "Consultee response timing drives schedule variance"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-10",
+      "lpa_name": "Newcastle City Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "77",
+      "appeals_overturned_pct": "1.9",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-10",
+      "lpa_name": "Newcastle City Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "78",
+      "appeals_overturned_pct": "1.8",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-10",
+      "lpa_name": "Newcastle City Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "80",
+      "appeals_overturned_pct": "1.7",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-10",
+      "lpa_name": "Newcastle City Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "80",
+      "appeals_overturned_pct": "1.7",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

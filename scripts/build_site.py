@@ -64,6 +64,8 @@ def page(title, subhead, active, body):
         ("appeals.html", "Appeals", "appeals"),
         ("map.html", "Map", "map"),
         ("compare.html", "Compare", "compare"),
+        ("benchmark.html", "Benchmark", "benchmark"),
+        ("reports.html", "Reports", "reports"),
         ("consultation.html", "Consultation", "consultation"),
         ("search.html", "Search", "search"),
         ("audience-policymakers.html", "For Policy Makers", "policymakers"),
@@ -119,6 +121,28 @@ def render_cell(key, value):
         escaped = html.escape(value)
         return f'<td><a href="{escaped}" target="_blank" rel="noopener noreferrer">Link</a></td>'
     return f"<td>{html.escape(value)}</td>"
+
+
+def sparkline_svg(values, width=120, height=28):
+    """Return a tiny inline SVG sparkline for a list of numeric values."""
+    if not values:
+        return ""
+    nums = [float(v) for v in values]
+    vmin = min(nums)
+    vmax = max(nums)
+    span = (vmax - vmin) if vmax != vmin else 1.0
+    points = []
+    for i, n in enumerate(nums):
+        x = (i / (len(nums) - 1)) * (width - 2) + 1 if len(nums) > 1 else width / 2
+        y = height - (((n - vmin) / span) * (height - 6) + 3)
+        points.append(f"{x:.1f},{y:.1f}")
+    pts = " ".join(points)
+    return (
+        f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+        f'xmlns="http://www.w3.org/2000/svg" role="img" aria-label="trend sparkline">'
+        f'<polyline points="{pts}" fill="none" stroke="#00695c" stroke-width="2" />'
+        f'</svg>'
+    )
 
 
 def render_table(rows, columns):
@@ -705,7 +729,8 @@ def build_exports_index():
     body += "<ul>"
     for name in ["contradiction-register", "recommendations", "recommendation_evidence_links",
                   "official_baseline_metrics", "implementation-roadmap", "bottleneck-heatmap",
-                  "appeal-decisions", "lpa-data-quality"]:
+                  "appeal-decisions", "lpa-data-quality", "lpa-quarterly-trends",
+                  "lpa-issue-incidence"]:
         body += f'<li><a href="exports/{name}.csv">{name}.csv</a> | <a href="exports/{name}.json">{name}.json</a></li>'
     body += "</ul></section>"
     write(SITE / "exports.html", page(
@@ -983,6 +1008,171 @@ def build_compare():
         "compare", body))
 
 
+def build_benchmark():
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
+    issue_rows = read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
+    trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
+
+    quality_by_id = {r["pilot_id"]: r for r in quality_rows}
+    issues_by_id = {r["pilot_id"]: r for r in issue_rows}
+
+    trends_by_id = defaultdict(list)
+    for r in trend_rows:
+        trends_by_id[r["pilot_id"]].append(r)
+    for pid in trends_by_id:
+        trends_by_id[pid].sort(key=lambda x: x["quarter"])
+
+    # Ranking by latest quarter major_in_time_pct
+    bench = []
+    for lpa in lpas:
+        pid = lpa["pilot_id"]
+        trows = trends_by_id.get(pid, [])
+        latest_speed = float(trows[-1]["major_in_time_pct"]) if trows else None
+        latest_appeal = float(trows[-1]["appeals_overturned_pct"]) if trows else None
+        speeds = [float(t["major_in_time_pct"]) for t in trows]
+        spark = sparkline_svg(speeds)
+        q = quality_by_id.get(pid, {})
+        i = issues_by_id.get(pid, {})
+        bench.append({
+            "pilot_id": pid,
+            "lpa_name": lpa.get("lpa_name", ""),
+            "region": lpa.get("region", ""),
+            "latest_speed": latest_speed,
+            "latest_appeal": latest_appeal,
+            "trend_spark": spark,
+            "quality_tier": q.get("data_quality_tier", "n/a"),
+            "quality_score": q.get("coverage_score", "n/a"),
+            "total_issues": i.get("total_linked_issues", "n/a"),
+            "high_severity_issues": i.get("high_severity_issues", "n/a"),
+            "risk_stage": i.get("primary_risk_stage", "n/a"),
+        })
+
+    ranked = [r for r in bench if r["latest_speed"] is not None]
+    ranked.sort(key=lambda x: x["latest_speed"], reverse=True)
+    n = len(ranked)
+    for idx, r in enumerate(ranked, start=1):
+        pct = 100.0 * (n - idx) / max(1, (n - 1))
+        if pct >= 66:
+            band = "Top third"
+        elif pct >= 33:
+            band = "Middle third"
+        else:
+            band = "Bottom third"
+        r["rank"] = idx
+        r["percentile"] = round(pct, 1)
+        r["band"] = band
+
+    # Add rank info back
+    rank_by_id = {r["pilot_id"]: r for r in ranked}
+    for r in bench:
+        rr = rank_by_id.get(r["pilot_id"], {})
+        r["rank"] = rr.get("rank", "n/a")
+        r["percentile"] = rr.get("percentile", "n/a")
+        r["band"] = rr.get("band", "n/a")
+
+    body = '<section class="card"><p>Benchmark dashboard compares LPAs on latest decision speed, appeal overturn trend, issue incidence, and evidence quality. Trend lines show 2024-Q4 to 2025-Q3.</p></section>'
+    body += '<section class="grid">'
+    if ranked:
+        body += f'<article class="card"><h3>Top performer</h3><p>{html.escape(ranked[0]["lpa_name"])} ({ranked[0]["latest_speed"]:.1f}%)</p></article>'
+        body += f'<article class="card"><h3>Median speed</h3><p>{ranked[n//2]["latest_speed"]:.1f}%</p></article>'
+        body += f'<article class="card"><h3>Bottom performer</h3><p>{html.escape(ranked[-1]["lpa_name"])} ({ranked[-1]["latest_speed"]:.1f}%)</p></article>'
+    body += '</section>'
+
+    body += '<section class="card"><h2>LPA Benchmark Ranking</h2>'
+    body += '<table><thead><tr><th>Rank</th><th>LPA</th><th>Region</th><th>Speed (%)</th><th>Percentile</th><th>Band</th><th>Trend</th><th>Appeal %</th><th>Issues</th><th>High Sev</th><th>Risk Stage</th><th>Quality</th></tr></thead><tbody>'
+    for r in sorted(bench, key=lambda x: (x["rank"] if isinstance(x["rank"], int) else 9999)):
+        speed = f"{r['latest_speed']:.1f}" if isinstance(r["latest_speed"], float) else "n/a"
+        appeal = f"{r['latest_appeal']:.1f}" if isinstance(r["latest_appeal"], float) else "n/a"
+        body += "<tr>"
+        body += f"<td>{html.escape(str(r['rank']))}</td>"
+        body += f"<td>{html.escape(r['lpa_name'])}</td>"
+        body += f"<td>{html.escape(r['region'])}</td>"
+        body += f"<td>{speed}</td>"
+        body += f"<td>{html.escape(str(r['percentile']))}</td>"
+        body += f"<td>{html.escape(r['band'])}</td>"
+        body += f"<td>{r['trend_spark']}</td>"
+        body += f"<td>{appeal}</td>"
+        body += f"<td>{html.escape(str(r['total_issues']))}</td>"
+        body += f"<td>{html.escape(str(r['high_severity_issues']))}</td>"
+        body += f"<td>{html.escape(str(r['risk_stage']))}</td>"
+        body += f"<td>{html.escape(str(r['quality_tier']))} ({html.escape(str(r['quality_score']))})</td>"
+        body += "</tr>"
+    body += '</tbody></table></section>'
+
+    write(SITE / "benchmark.html", page(
+        "LPA Benchmark Dashboard",
+        "Rankings, percentile bands, and trend sparklines across authorities.",
+        "benchmark", body))
+
+
+def build_reports():
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
+    issue_rows = read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
+    trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
+
+    quality_by_id = {r["pilot_id"]: r for r in quality_rows}
+    issues_by_id = {r["pilot_id"]: r for r in issue_rows}
+    trends_by_id = defaultdict(list)
+    for r in trend_rows:
+        trends_by_id[r["pilot_id"]].append(r)
+    for pid in trends_by_id:
+        trends_by_id[pid].sort(key=lambda x: x["quarter"])
+
+    reports_dir = SITE / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+
+    links = []
+    for lpa in lpas:
+        pid = lpa["pilot_id"]
+        q = quality_by_id.get(pid, {})
+        i = issues_by_id.get(pid, {})
+        t = trends_by_id.get(pid, [])
+        payload = {
+            "pilot_id": pid,
+            "lpa_name": lpa.get("lpa_name", ""),
+            "lpa_type": lpa.get("lpa_type", ""),
+            "region": lpa.get("region", ""),
+            "growth_context": lpa.get("growth_context", ""),
+            "constraint_profile": lpa.get("constraint_profile", ""),
+            "data_quality": q,
+            "issue_incidence": i,
+            "quarterly_trends": t,
+        }
+        json_path = reports_dir / f"{pid.lower()}-report.json"
+        json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        csv_path = reports_dir / f"{pid.lower()}-report.csv"
+        with csv_path.open("w", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["field", "value"])
+            w.writerow(["pilot_id", payload["pilot_id"]])
+            w.writerow(["lpa_name", payload["lpa_name"]])
+            w.writerow(["lpa_type", payload["lpa_type"]])
+            w.writerow(["region", payload["region"]])
+            w.writerow(["growth_context", payload["growth_context"]])
+            w.writerow(["constraint_profile", payload["constraint_profile"]])
+            w.writerow(["data_quality_tier", q.get("data_quality_tier", "")])
+            w.writerow(["coverage_score", q.get("coverage_score", "")])
+            w.writerow(["total_linked_issues", i.get("total_linked_issues", "")])
+            w.writerow(["high_severity_issues", i.get("high_severity_issues", "")])
+            w.writerow(["primary_risk_stage", i.get("primary_risk_stage", "")])
+
+        links.append((pid, lpa.get("lpa_name", ""), f"reports/{pid.lower()}-report.csv", f"reports/{pid.lower()}-report.json"))
+
+    body = '<section class="card"><p>Download per-authority comparison bundles in CSV or JSON format. Each report contains profile, evidence quality, issue incidence, and quarterly trend snapshots.</p></section>'
+    body += '<section class="card"><table><thead><tr><th>ID</th><th>Authority</th><th>CSV</th><th>JSON</th></tr></thead><tbody>'
+    for pid, name, cpath, jpath in links:
+        body += f'<tr><td>{html.escape(pid)}</td><td>{html.escape(name)}</td><td><a href="{html.escape(cpath)}">Download CSV</a></td><td><a href="{html.escape(jpath)}">Download JSON</a></td></tr>'
+    body += '</tbody></table></section>'
+
+    write(SITE / "reports.html", page(
+        "LPA Reports",
+        "Downloadable authority-level comparison bundles.",
+        "reports", body))
+
+
 def build_consultation():
     recs = read_csv(ROOT / "data/issues/recommendations.csv")
     statuses = read_csv(ROOT / "data/issues/recommendation-status.csv")
@@ -1168,6 +1358,8 @@ def main():
     build_appeals()
     build_map()
     build_compare()
+    build_benchmark()
+    build_reports()
     build_consultation()
     build_search_index()
     build_search()
@@ -1189,6 +1381,8 @@ def main():
         "bottleneck-heatmap": read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"),
         "appeal-decisions": read_csv(ROOT / "data/evidence/appeal-decisions.csv"),
         "lpa-data-quality": read_csv(ROOT / "data/plans/lpa-data-quality.csv"),
+        "lpa-quarterly-trends": read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv"),
+        "lpa-issue-incidence": read_csv(ROOT / "data/issues/lpa-issue-incidence.csv"),
     })
 
     print("Built site pages from CSV data.")

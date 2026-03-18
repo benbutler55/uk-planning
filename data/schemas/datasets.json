@@ -157,6 +157,41 @@
       }
     },
     {
+      "path": "data/evidence/lpa-quarterly-trends.csv",
+      "required_columns": [
+        "pilot_id", "lpa_name", "quarter", "major_in_time_pct",
+        "appeals_overturned_pct", "source_table", "source_url", "retrieved_at"
+      ],
+      "date_columns": ["retrieved_at"],
+      "url_columns": ["source_url"],
+      "enum_columns": {
+        "quarter": ["2024-Q4", "2025-Q1", "2025-Q2", "2025-Q3"]
+      },
+      "fk_columns": {
+        "pilot_id": {
+          "target_dataset": "data/plans/pilot-lpas.csv",
+          "target_column": "pilot_id"
+        }
+      }
+    },
+    {
+      "path": "data/issues/lpa-issue-incidence.csv",
+      "required_columns": [
+        "pilot_id", "lpa_name", "total_linked_issues", "high_severity_issues",
+        "process_stage_coverage", "primary_risk_stage", "last_reviewed", "notes"
+      ],
+      "date_columns": ["last_reviewed"],
+      "enum_columns": {
+        "primary_risk_stage": ["Pre-application", "Validation", "Consultation", "Committee", "Legal Agreements", "Condition Discharge"]
+      },
+      "fk_columns": {
+        "pilot_id": {
+          "target_dataset": "data/plans/pilot-lpas.csv",
+          "target_column": "pilot_id"
+        }
+      }
+    },
+    {
       "path": "data/issues/recommendation-status.csv",
       "required_columns": [
         "recommendation_id", "submission_status", "next_action"

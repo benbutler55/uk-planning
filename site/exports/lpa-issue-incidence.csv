@@ -1,0 +1,17 @@
+pilot_id,lpa_name,total_linked_issues,high_severity_issues,process_stage_coverage,primary_risk_stage,last_reviewed,notes
+LPA-01,Manchester City Council,9,4,6,Legal Agreements,2026-03-18,Strong urban pipeline with recurring s106 and condition-discharge delays
+LPA-02,Oxford City Council,10,5,6,Committee,2026-03-18,Housing policy-weight disputes and constrained land supply dominate
+LPA-03,South Cambridgeshire District Council,8,4,6,Pre-application,2026-03-18,Emerging plan transition creates front-end uncertainty
+LPA-04,Cornwall Council,7,3,5,Consultation,2026-03-18,Large geography and environmental consultations are key bottlenecks
+LPA-05,Newham London Borough Council,8,3,5,Legal Agreements,2026-03-18,London Plan/local plan conformity and legal completion delays
+LPA-06,Kent County Council (minerals/waste planning role),6,2,4,Consultation,2026-03-18,County strategic role narrows issue scope but adds consultee complexity
+LPA-07,Leeds City Council,7,3,5,Condition Discharge,2026-03-18,Cohort 2 onboarding indicates post-permission delays emerging
+LPA-08,Bristol City Council,8,3,5,Validation,2026-03-18,Urban design and validation inconsistency major early delays
+LPA-09,Guildford Borough Council,9,4,6,Committee,2026-03-18,Green belt and tilted-balance disputes frequent at decision stage
+LPA-10,Newcastle City Council,6,2,4,Consultation,2026-03-18,Consultee response timing drives schedule variance
+LPA-11,Peak District National Park Authority,5,2,4,Pre-application,2026-03-18,National park policy constraints increase front-end complexity
+LPA-12,Northumberland County Council,6,2,4,Consultation,2026-03-18,Rural scale and infrastructure interfaces prolong consultation cycle
+LPA-13,Southampton City Council,7,3,5,Legal Agreements,2026-03-18,Waterfront regeneration schemes expose legal agreement delays
+LPA-14,Leicester City Council,7,3,5,Committee,2026-03-18,Heritage versus intensification tension appears at committee stage
+LPA-15,Cambridge City Council,9,4,6,Pre-application,2026-03-18,Shared emerging plan and constraints increase pre-app uncertainty
+LPA-16,Medway Council,10,5,6,Committee,2026-03-18,Ageing plan and policy vacuum elevate refusal/appeal volatility

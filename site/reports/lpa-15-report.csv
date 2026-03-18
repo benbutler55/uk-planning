@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-15
+lpa_name,Cambridge City Council
+lpa_type,Non-metropolitan District
+region,East of England
+growth_context,High demand constrained
+constraint_profile,Green Belt and heritage conservation area pressure
+data_quality_tier,B
+coverage_score,83
+total_linked_issues,9
+high_severity_issues,4
+primary_risk_stage,Pre-application

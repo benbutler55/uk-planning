@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-05
+lpa_name,Newham London Borough Council
+lpa_type,London Borough
+region,London
+growth_context,Very high urban growth
+constraint_profile,Density viability and transport node pressure
+data_quality_tier,A
+coverage_score,88
+total_linked_issues,8
+high_severity_issues,3
+primary_risk_stage,Legal Agreements

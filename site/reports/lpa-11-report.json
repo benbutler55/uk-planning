@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-11",
+  "lpa_name": "Peak District National Park Authority",
+  "lpa_type": "National Park",
+  "region": "East Midlands",
+  "growth_context": "Constrained designated",
+  "constraint_profile": "National Park statutory purposes and housing affordability tension",
+  "data_quality": {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "data_quality_tier": "C",
+    "coverage_score": "68",
+    "evidence_type_mix": "Plan docs + limited official local metrics",
+    "last_reviewed": "2026-03-18",
+    "notes": "National park context reduces comparability of standard metrics"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "total_linked_issues": "5",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-18",
+    "notes": "National park policy constraints increase front-end complexity"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-11",
+      "lpa_name": "Peak District National Park Authority",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "58",
+      "appeals_overturned_pct": "1.6",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-11",
+      "lpa_name": "Peak District National Park Authority",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "59",
+      "appeals_overturned_pct": "1.6",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-11",
+      "lpa_name": "Peak District National Park Authority",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "60",
+      "appeals_overturned_pct": "1.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-11",
+      "lpa_name": "Peak District National Park Authority",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "61",
+      "appeals_overturned_pct": "1.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

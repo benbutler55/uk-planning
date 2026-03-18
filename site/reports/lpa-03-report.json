@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-03",
+  "lpa_name": "South Cambridgeshire District Council",
+  "lpa_type": "Non-metropolitan District",
+  "region": "East of England",
+  "growth_context": "Growth corridor",
+  "constraint_profile": "Green Belt flood risk and infrastructure sequencing",
+  "data_quality": {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "data_quality_tier": "B",
+    "coverage_score": "84",
+    "evidence_type_mix": "Official stats + emerging plan + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Emerging plan introduces transition uncertainty"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-18",
+    "notes": "Emerging plan transition creates front-end uncertainty"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-03",
+      "lpa_name": "South Cambridgeshire District Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "60",
+      "appeals_overturned_pct": "2.7",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-03",
+      "lpa_name": "South Cambridgeshire District Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "62",
+      "appeals_overturned_pct": "2.6",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-03",
+      "lpa_name": "South Cambridgeshire District Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "64",
+      "appeals_overturned_pct": "2.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-03",
+      "lpa_name": "South Cambridgeshire District Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "65",
+      "appeals_overturned_pct": "2.4",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

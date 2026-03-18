@@ -77,6 +77,7 @@ def main():
         ("data/plans/pilot-plan-documents.csv", "adoption_or_publication_date", "source_url", False),
         ("data/evidence/recommendation_evidence_links.csv", "retrieved_at", "source_url", True),
         ("data/evidence/official_baseline_metrics.csv", "retrieved_at", "source_url", True),
+        ("data/evidence/lpa-quarterly-trends.csv", "retrieved_at", "source_url", True),
     ]
 
     for path_str, date_col, url_col, check_stale in datasets:

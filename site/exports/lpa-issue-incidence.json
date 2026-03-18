@@ -1,0 +1,162 @@
+[
+  {
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-03-18",
+    "notes": "Strong urban pipeline with recurring s106 and condition-discharge delays"
+  },
+  {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "total_linked_issues": "10",
+    "high_severity_issues": "5",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-18",
+    "notes": "Housing policy-weight disputes and constrained land supply dominate"
+  },
+  {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-18",
+    "notes": "Emerging plan transition creates front-end uncertainty"
+  },
+  {
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-18",
+    "notes": "Large geography and environmental consultations are key bottlenecks"
+  },
+  {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-03-18",
+    "notes": "London Plan/local plan conformity and legal completion delays"
+  },
+  {
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-18",
+    "notes": "County strategic role narrows issue scope but adds consultee complexity"
+  },
+  {
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Condition Discharge",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 onboarding indicates post-permission delays emerging"
+  },
+  {
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Validation",
+    "last_reviewed": "2026-03-18",
+    "notes": "Urban design and validation inconsistency major early delays"
+  },
+  {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-18",
+    "notes": "Green belt and tilted-balance disputes frequent at decision stage"
+  },
+  {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-18",
+    "notes": "Consultee response timing drives schedule variance"
+  },
+  {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "total_linked_issues": "5",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-18",
+    "notes": "National park policy constraints increase front-end complexity"
+  },
+  {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-18",
+    "notes": "Rural scale and infrastructure interfaces prolong consultation cycle"
+  },
+  {
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-03-18",
+    "notes": "Waterfront regeneration schemes expose legal agreement delays"
+  },
+  {
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-18",
+    "notes": "Heritage versus intensification tension appears at committee stage"
+  },
+  {
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-18",
+    "notes": "Shared emerging plan and constraints increase pre-app uncertainty"
+  },
+  {
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "total_linked_issues": "10",
+    "high_severity_issues": "5",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-18",
+    "notes": "Ageing plan and policy vacuum elevate refusal/appeal volatility"
+  }
+]

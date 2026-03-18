@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-02",
+  "lpa_name": "Oxford City Council",
+  "lpa_type": "Non-metropolitan District",
+  "region": "South East",
+  "growth_context": "High demand constrained",
+  "constraint_profile": "Green Belt and heritage sensitivity",
+  "data_quality": {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "data_quality_tier": "A",
+    "coverage_score": "90",
+    "evidence_type_mix": "Official stats + adopted plans + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "High coverage with good policy evidence"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "total_linked_issues": "10",
+    "high_severity_issues": "5",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-18",
+    "notes": "Housing policy-weight disputes and constrained land supply dominate"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-02",
+      "lpa_name": "Oxford City Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "63",
+      "appeals_overturned_pct": "2.8",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-02",
+      "lpa_name": "Oxford City Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "65",
+      "appeals_overturned_pct": "2.6",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-02",
+      "lpa_name": "Oxford City Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "67",
+      "appeals_overturned_pct": "2.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-02",
+      "lpa_name": "Oxford City Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "68",
+      "appeals_overturned_pct": "2.4",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

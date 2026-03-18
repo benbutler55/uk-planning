@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-10
+lpa_name,Newcastle City Council
+lpa_type,Metropolitan District
+region,North East
+growth_context,Regeneration growth
+constraint_profile,Riverside flood risk and heritage city centre
+data_quality_tier,B
+coverage_score,80
+total_linked_issues,6
+high_severity_issues,2
+primary_risk_stage,Consultation

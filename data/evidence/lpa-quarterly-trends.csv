@@ -1,0 +1,65 @@
+pilot_id,lpa_name,quarter,major_in_time_pct,appeals_overturned_pct,source_table,source_url,retrieved_at
+LPA-01,Manchester City Council,2024-Q4,68,2.6,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-01,Manchester City Council,2025-Q1,70,2.4,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-01,Manchester City Council,2025-Q2,72,2.2,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-01,Manchester City Council,2025-Q3,71,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-02,Oxford City Council,2024-Q4,63,2.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-02,Oxford City Council,2025-Q1,65,2.6,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-02,Oxford City Council,2025-Q2,67,2.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-02,Oxford City Council,2025-Q3,68,2.4,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-03,South Cambridgeshire District Council,2024-Q4,60,2.7,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-03,South Cambridgeshire District Council,2025-Q1,62,2.6,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-03,South Cambridgeshire District Council,2025-Q2,64,2.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-03,South Cambridgeshire District Council,2025-Q3,65,2.4,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-04,Cornwall Council,2024-Q4,73,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-04,Cornwall Council,2025-Q1,74,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-04,Cornwall Council,2025-Q2,76,1.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-04,Cornwall Council,2025-Q3,76,1.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-05,Newham London Borough Council,2024-Q4,66,2.3,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-05,Newham London Borough Council,2025-Q1,68,2.2,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-05,Newham London Borough Council,2025-Q2,69,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-05,Newham London Borough Council,2025-Q3,69,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-06,Kent County Council (minerals/waste planning role),2024-Q4,61,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-06,Kent County Council (minerals/waste planning role),2025-Q1,62,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-06,Kent County Council (minerals/waste planning role),2025-Q2,64,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-06,Kent County Council (minerals/waste planning role),2025-Q3,65,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-07,Leeds City Council,2024-Q4,75,1.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-07,Leeds City Council,2025-Q1,76,1.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-07,Leeds City Council,2025-Q2,78,1.7,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-07,Leeds City Council,2025-Q3,78,1.7,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-08,Bristol City Council,2024-Q4,69,2.2,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-08,Bristol City Council,2025-Q1,70,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-08,Bristol City Council,2025-Q2,72,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-08,Bristol City Council,2025-Q3,72,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-09,Guildford Borough Council,2024-Q4,57,2.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-09,Guildford Borough Council,2025-Q1,59,2.4,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-09,Guildford Borough Council,2025-Q2,60,2.3,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-09,Guildford Borough Council,2025-Q3,61,2.3,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-10,Newcastle City Council,2024-Q4,77,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-10,Newcastle City Council,2025-Q1,78,1.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-10,Newcastle City Council,2025-Q2,80,1.7,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-10,Newcastle City Council,2025-Q3,80,1.7,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-11,Peak District National Park Authority,2024-Q4,58,1.6,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-11,Peak District National Park Authority,2025-Q1,59,1.6,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-11,Peak District National Park Authority,2025-Q2,60,1.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-11,Peak District National Park Authority,2025-Q3,61,1.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-12,Northumberland County Council,2024-Q4,74,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-12,Northumberland County Council,2025-Q1,75,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-12,Northumberland County Council,2025-Q2,76,1.9,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-12,Northumberland County Council,2025-Q3,77,1.8,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-13,Southampton City Council,2024-Q4,72,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-13,Southampton City Council,2025-Q1,73,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-13,Southampton City Council,2025-Q2,74,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-13,Southampton City Council,2025-Q3,74,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-14,Leicester City Council,2024-Q4,68,2.2,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-14,Leicester City Council,2025-Q1,69,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-14,Leicester City Council,2025-Q2,70,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-14,Leicester City Council,2025-Q3,70,2.0,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-15,Cambridge City Council,2024-Q4,71,2.3,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-15,Cambridge City Council,2025-Q1,72,2.2,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-15,Cambridge City Council,2025-Q2,73,2.2,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-15,Cambridge City Council,2025-Q3,74,2.1,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-16,Medway Council,2024-Q4,60,2.7,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-16,Medway Council,2025-Q1,61,2.6,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-16,Medway Council,2025-Q2,62,2.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18
+LPA-16,Medway Council,2025-Q3,63,2.5,P151/P152,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics,2026-03-18

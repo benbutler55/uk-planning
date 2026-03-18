@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-02
+lpa_name,Oxford City Council
+lpa_type,Non-metropolitan District
+region,South East
+growth_context,High demand constrained
+constraint_profile,Green Belt and heritage sensitivity
+data_quality_tier,A
+coverage_score,90
+total_linked_issues,10
+high_severity_issues,5
+primary_risk_stage,Committee

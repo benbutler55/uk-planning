@@ -1,0 +1,642 @@
+[
+  {
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "68",
+    "appeals_overturned_pct": "2.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "71",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "63",
+    "appeals_overturned_pct": "2.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "65",
+    "appeals_overturned_pct": "2.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "67",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "68",
+    "appeals_overturned_pct": "2.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "60",
+    "appeals_overturned_pct": "2.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "62",
+    "appeals_overturned_pct": "2.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "64",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "65",
+    "appeals_overturned_pct": "2.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "73",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "76",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "76",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "66",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "68",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "69",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "69",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "61",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "62",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "64",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "65",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "75",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "76",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "78",
+    "appeals_overturned_pct": "1.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "78",
+    "appeals_overturned_pct": "1.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "69",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "57",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "59",
+    "appeals_overturned_pct": "2.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "60",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "61",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "77",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "78",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "80",
+    "appeals_overturned_pct": "1.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "80",
+    "appeals_overturned_pct": "1.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "58",
+    "appeals_overturned_pct": "1.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "59",
+    "appeals_overturned_pct": "1.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "60",
+    "appeals_overturned_pct": "1.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "61",
+    "appeals_overturned_pct": "1.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "75",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "76",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "77",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "73",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "68",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "69",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "71",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "73",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "60",
+    "appeals_overturned_pct": "2.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "61",
+    "appeals_overturned_pct": "2.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "62",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  },
+  {
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "63",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-03-18"
+  }
+]

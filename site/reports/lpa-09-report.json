@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-09",
+  "lpa_name": "Guildford Borough Council",
+  "lpa_type": "Non-metropolitan District",
+  "region": "South East",
+  "growth_context": "High demand constrained",
+  "constraint_profile": "Green Belt and AONB adjacency",
+  "data_quality": {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "data_quality_tier": "B",
+    "coverage_score": "81",
+    "evidence_type_mix": "Official stats + local plans + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-18",
+    "notes": "Green belt and tilted-balance disputes frequent at decision stage"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-09",
+      "lpa_name": "Guildford Borough Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "57",
+      "appeals_overturned_pct": "2.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-09",
+      "lpa_name": "Guildford Borough Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "59",
+      "appeals_overturned_pct": "2.4",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-09",
+      "lpa_name": "Guildford Borough Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "60",
+      "appeals_overturned_pct": "2.3",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-09",
+      "lpa_name": "Guildford Borough Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "61",
+      "appeals_overturned_pct": "2.3",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

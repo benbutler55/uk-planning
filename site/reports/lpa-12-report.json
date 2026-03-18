@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-12",
+  "lpa_name": "Northumberland County Council",
+  "lpa_type": "Unitary Authority",
+  "region": "North East",
+  "growth_context": "Mixed growth dispersed",
+  "constraint_profile": "Minerals safeguarding and offshore wind infrastructure pressure",
+  "data_quality": {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "data_quality_tier": "B",
+    "coverage_score": "77",
+    "evidence_type_mix": "Official stats + plan docs + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-18",
+    "notes": "Rural scale and infrastructure interfaces prolong consultation cycle"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-12",
+      "lpa_name": "Northumberland County Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "74",
+      "appeals_overturned_pct": "2.0",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-12",
+      "lpa_name": "Northumberland County Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "75",
+      "appeals_overturned_pct": "1.9",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-12",
+      "lpa_name": "Northumberland County Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "76",
+      "appeals_overturned_pct": "1.9",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-12",
+      "lpa_name": "Northumberland County Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "77",
+      "appeals_overturned_pct": "1.8",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

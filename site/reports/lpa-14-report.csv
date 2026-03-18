@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-14
+lpa_name,Leicester City Council
+lpa_type,Unitary Authority
+region,East Midlands
+growth_context,Urban renewal
+constraint_profile,Heritage sensitivity and infrastructure capacity
+data_quality_tier,B
+coverage_score,78
+total_linked_issues,7
+high_severity_issues,3
+primary_risk_stage,Committee

@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-16
+lpa_name,Medway Council
+lpa_type,Unitary Authority
+region,South East
+growth_context,Housing delivery zone
+constraint_profile,Flood risk and strategic transport corridor pressure
+data_quality_tier,C
+coverage_score,66
+total_linked_issues,10
+high_severity_issues,5
+primary_risk_stage,Committee

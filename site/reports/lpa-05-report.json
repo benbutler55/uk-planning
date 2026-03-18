@@ -1,0 +1,69 @@
+{
+  "pilot_id": "LPA-05",
+  "lpa_name": "Newham London Borough Council",
+  "lpa_type": "London Borough",
+  "region": "London",
+  "growth_context": "Very high urban growth",
+  "constraint_profile": "Density viability and transport node pressure",
+  "data_quality": {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "data_quality_tier": "A",
+    "coverage_score": "88",
+    "evidence_type_mix": "Official stats + London Plan + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Strong urban evidence set"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-03-18",
+    "notes": "London Plan/local plan conformity and legal completion delays"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-05",
+      "lpa_name": "Newham London Borough Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "66",
+      "appeals_overturned_pct": "2.3",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-05",
+      "lpa_name": "Newham London Borough Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "68",
+      "appeals_overturned_pct": "2.2",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-05",
+      "lpa_name": "Newham London Borough Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "69",
+      "appeals_overturned_pct": "2.1",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    },
+    {
+      "pilot_id": "LPA-05",
+      "lpa_name": "Newham London Borough Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "69",
+      "appeals_overturned_pct": "2.1",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-18"
+    }
+  ]
+}

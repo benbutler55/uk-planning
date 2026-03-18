@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-12
+lpa_name,Northumberland County Council
+lpa_type,Unitary Authority
+region,North East
+growth_context,Mixed growth dispersed
+constraint_profile,Minerals safeguarding and offshore wind infrastructure pressure
+data_quality_tier,B
+coverage_score,77
+total_linked_issues,6
+high_severity_issues,2
+primary_risk_stage,Consultation

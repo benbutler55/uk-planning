@@ -1,5 +1,34 @@
 # Release Notes
 
+## v4.0 — Phase 4 Benchmarking and Reporting (2026-03-18)
+
+### Summary
+
+Phase 4 adds benchmarking and reporting capabilities so the site can be used for comparative performance review across authorities, not just static policy analysis.
+
+### Deliverables
+
+**Benchmarking:**
+- Added quarterly trend dataset (`data/evidence/lpa-quarterly-trends.csv`) covering all 16 LPAs across four quarters
+- Added LPA issue incidence dataset (`data/issues/lpa-issue-incidence.csv`) with high-severity counts and primary risk stage
+- Added benchmark dashboard page (`site/benchmark.html`) with:
+  - ranking by latest major decision speed,
+  - percentile banding (top/middle/bottom third),
+  - trend sparklines,
+  - appeal overturn and issue-incidence context
+
+**Downloadable reports:**
+- Added report bundles page (`site/reports.html`)
+- Generated per-LPA downloadable bundles under `site/reports/` in both CSV and JSON
+
+**Validation and CI controls:**
+- Extended schema coverage for new trend and issue-incidence datasets
+- CI/Pages continue enforcing generated artifact sync (`git diff --exit-code -- site`)
+
+### Notes
+
+- Freshness checks remain warning-only for authority sites that block automated requests (for example, some council 403 responses).
+
 ## v3.0 — Phase 3 Decision-Support Upgrade (2026-03-18)
 
 ### Summary

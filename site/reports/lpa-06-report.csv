@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-06
+lpa_name,Kent County Council (minerals/waste planning role)
+lpa_type,County Council
+region,South East
+growth_context,County strategic layer
+constraint_profile,Strategic waste minerals and transport network constraints
+data_quality_tier,B
+coverage_score,78
+total_linked_issues,6
+high_severity_issues,2
+primary_risk_stage,Consultation

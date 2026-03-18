@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-11
+lpa_name,Peak District National Park Authority
+lpa_type,National Park
+region,East Midlands
+growth_context,Constrained designated
+constraint_profile,National Park statutory purposes and housing affordability tension
+data_quality_tier,C
+coverage_score,68
+total_linked_issues,5
+high_severity_issues,2
+primary_risk_stage,Pre-application

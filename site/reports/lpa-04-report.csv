@@ -1,0 +1,12 @@
+field,value
+pilot_id,LPA-04
+lpa_name,Cornwall Council
+lpa_type,Unitary Authority
+region,South West
+growth_context,Mixed growth dispersed
+constraint_profile,Coastal change AONB and transport coverage constraints
+data_quality_tier,B
+coverage_score,80
+total_linked_issues,7
+high_severity_issues,3
+primary_risk_stage,Consultation
