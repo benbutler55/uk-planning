@@ -250,7 +250,7 @@ def build_index():
     body = """
       <section class="card">
         <h2>Current Phase</h2>
-        <p>MVP build with citation-backed evidence, weighted scoring, and split audience views.</p>
+        <p>Pilot Release — citation-backed evidence, weighted scoring, and split audience views.</p>
       </section>
       <section class="grid">
         <article class="card">
@@ -269,7 +269,7 @@ def build_index():
         </article>
         <article class="card">
           <h3>Delivery Horizon</h3>
-          <p>6-8 week MVP for policy-professional audience. Static website on GitHub Pages.</p>
+          <p>Pilot Release for policy-professional audience. Static website on GitHub Pages.</p>
         </article>
       </section>
       <section class="card">
@@ -287,7 +287,7 @@ def build_index():
       </section>
 """
     write(SITE / "index.html", page(
-        "UK Planning System Analysis (England MVP)",
+        "UK Planning System Analysis — England Pilot Release",
         "Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.",
         "index", body))
 

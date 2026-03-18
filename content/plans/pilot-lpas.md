@@ -1,6 +1,6 @@
-# Pilot LPAs Locked for MVP
+# Pilot LPAs — Pilot Release
 
-The MVP uses six pilot authorities selected for representativeness and scalability. This set intentionally spans governance forms, growth conditions, and constraint profiles.
+The Pilot Release uses six pilot authorities selected for representativeness and scalability. This set intentionally spans governance forms, growth conditions, and constraint profiles.
 
 ## Final Pilot Set
 

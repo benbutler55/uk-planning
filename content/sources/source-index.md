@@ -12,5 +12,5 @@ All entries are stamped with retrieval date in corresponding datasets.
 
 ## Notes
 
-- This is a starter index for MVP ingestion.
+- This is a starter index for Pilot Release ingestion.
 - Full citation formatting will be added in phase 2 once pilot-LPA local plan records are loaded.

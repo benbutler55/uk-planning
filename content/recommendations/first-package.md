@@ -1,4 +1,4 @@
-# First Reform Package (MVP Draft)
+# First Reform Package (Pilot Release Draft)
 
 This first package prioritizes practical measures that can reduce delay quickly while preparing statutory changes for structural issues.
 

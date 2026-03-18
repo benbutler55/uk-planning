@@ -1,4 +1,4 @@
-# Initial Findings (Pilot MVP)
+# Initial Findings (Pilot Release)
 
 ## Highest-Impact Frictions Identified
 

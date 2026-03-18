@@ -1,6 +1,6 @@
 # QA Report and Scenario Testing
 
-**Version:** MVP 1.0
+**Version:** Pilot Release 1.0
 **Date:** 2026-03-17
 **Status:** Draft — awaiting user verification
 
@@ -164,4 +164,4 @@ All six process stages have at least one issue and one bottleneck record:
 2. **Pilot LPA evidence** for REC-005 design compliance baseline is estimated from officer assessment rather than a systematic dataset.
 3. **LURA 2023 commencement** is ongoing; recommendations touching plan-making (REC-003, REC-002) will need review once all provisions are commenced.
 4. **Verification state** of all records is currently `draft`. Advancement to `verified` or `legal-reviewed` requires formal legal review and stakeholder consultation.
-5. **Scotland, Wales, Northern Ireland** are out of scope for this MVP. Cross-border NSIP schemes may require separate treatment.
+5. **Scotland, Wales, Northern Ireland** are out of scope for this Pilot Release. Cross-border NSIP schemes may require separate treatment.

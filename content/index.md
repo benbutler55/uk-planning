@@ -1,4 +1,4 @@
-# UK Planning System Analysis (England MVP)
+# UK Planning System Analysis — England Pilot Release
 
 This project analyses planning legislation, policy, and plan-making layers in England to identify contradictions, delay drivers, and opportunities for reform.
 

@@ -1,4 +1,4 @@
-# UK Planning System Analysis and Reform - Implementation Plan (England MVP)
+# UK Planning System Analysis and Reform - Implementation Plan (England Pilot Release)
 
 ## 1) Purpose and Outcome
 
@@ -17,13 +17,13 @@ Confirmed through clarification:
 - Geography: England first.
 - Depth: Acts and key regulations (plus policy instruments).
 - Include policy corpus: Yes (`NPPF`, `PPG`, `NPS`, local SPDs, etc.).
-- Plan levels in MVP: national, regional/sub-regional, county, district/unitary, neighbourhood, sector overlays.
+- Plan levels in Pilot Release: national, regional/sub-regional, county, district/unitary, neighbourhood, sector overlays.
 - Recommendation style: actionable reforms with model text.
 - Audience: policy professionals.
 - Evidence standard: citation-backed with metrics.
 - Website architecture: static site.
 - Hosting target: GitHub Pages.
-- Delivery target: 6-8 week MVP.
+- Delivery target: 6-8 week Pilot Release.
 - Authority coverage approach: pilot LPAs plus scalable pipeline.
 
 ## 3) Seed Legislative and Policy Inventory (England)
@@ -86,7 +86,7 @@ To maximize quality and avoid rework, the project will follow a strict sequence:
 5. Draft reforms only after contradiction mapping.
    - Test each proposed reform against representative pathways: housing, commercial, infrastructure.
 
-## 5) Delivery Phases (6-8 Week MVP)
+## 5) Delivery Phases (6-8 Week Pilot Release)
 
 ## Phase 0 (Days 1-3): Project Foundations
 - Set repo structure for data, content, methods, and site.
@@ -140,7 +140,7 @@ Deliverables:
 - Reform package with implementation mechanics.
 - Model text and transition notes.
 
-## Phase 5 (Week 5-6): Website MVP (Localhost)
+## Phase 5 (Week 5-6): Website Pilot Release (Localhost)
 - Build static site with core sections:
   - Legislation Library
   - Plan Hierarchy Explorer
@@ -150,7 +150,7 @@ Deliverables:
 - Add filters by authority, issue category, and document type.
 
 Deliverables:
-- Localhost static website MVP.
+- Localhost static website Pilot Release.
 - Structured content pipeline from markdown/data to pages.
 
 ## Phase 6 (Week 6-7): Validation and QA
@@ -233,7 +233,7 @@ Mitigations:
 ## 11) Open Decisions (To Finalize Early)
 
 - Confirm pilot LPAs (final list and rationale).
-- Confirm whether MVP infrastructure scope includes NSIP pathways under `Planning Act 2008` in full or summary mode.
+- Confirm whether Pilot Release infrastructure scope includes NSIP pathways under `Planning Act 2008` in full or summary mode.
 - Confirm whether recommendations should be split into:
   - rapid 12-month administrative changes, and
   - medium/longer-term statutory reform.

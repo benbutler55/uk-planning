@@ -1,6 +1,6 @@
 # Release Notes
 
-## v1.0 — MVP Release (2026-03-17)
+## v1.0 — Pilot Release (2026-03-17)
 
 ### Summary
 

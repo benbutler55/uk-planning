@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v1.0 MVP)
+## Current State (v1.0 Pilot Release)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records (full energy NPS suite included)
