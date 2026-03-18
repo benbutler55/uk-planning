@@ -23,6 +23,7 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Downloadable per-LPA report bundles (`reports/*.csv` and `reports/*.json`)
 - Benchmark preset compare links and compare-page URL deep-linking (`?a=LPA-XX&b=LPA-YY`)
 - Metric provenance badges across benchmark and reports (official stats vs analytical estimates)
+- Context panels on generated pages to explain what each view shows and how to interpret it
 - Quarterly automated GOV.UK statistics ingest check
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync

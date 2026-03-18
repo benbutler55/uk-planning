@@ -60,7 +60,7 @@ def provenance_badge(kind):
 
 # --- Page shell ---
 
-def page(title, subhead, active, body):
+def page(title, subhead, active, body, context=None):
     links = [
         ("index.html", "Overview", "index"),
         ("legislation.html", "Legislation", "legislation"),
@@ -88,6 +88,14 @@ def page(title, subhead, active, body):
         f'<a{" class=\"active\"" if key == active else ""} href="{href}">{label}</a>'
         for href, label, key in links
     )
+    context_html = ""
+    if context:
+        context_html = (
+            '<section class="card">'
+            '<h2>About this page</h2>'
+            f'<p>{html.escape(context)}</p>'
+            '</section>'
+        )
     return f"""<!doctype html>
 <html lang="en">
   <head>
@@ -108,6 +116,7 @@ def page(title, subhead, active, body):
       <nav>
 {nav}
       </nav>
+{context_html}
 {body}
     </div>
   </body>
@@ -327,7 +336,8 @@ def build_index():
     write(SITE / "index.html", page(
         "UK Planning System Analysis — England Pilot Release",
         "Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.",
-        "index", body))
+        "index", body,
+        "Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations."))
 
 
 def build_legislation():
@@ -346,7 +356,8 @@ def build_legislation():
     write(SITE / "legislation.html", page(
         "Legislation and Regulations Library",
         "England-first inventory of acts, regulations, and national policy.",
-        "legislation", body))
+        "legislation", body,
+        "Use this page to trace the legal and policy instruments that shape planning decisions, including status, ownership, and source links."))
 
 
 def build_plans():
@@ -377,7 +388,8 @@ def build_plans():
     write(SITE / "plans.html", page(
         "Plan Hierarchy Explorer",
         "Mapped planning stack from national policy to neighbourhood plans and overlays.",
-        "plans", body))
+        "plans", body,
+        "This page shows which authorities are in scope and how their planning documents align across national, local, and neighbourhood levels."))
 
     for row in rows:
         lpa_docs = docs_by_lpa.get(row["pilot_id"], [])
@@ -396,7 +408,8 @@ def build_plans():
         write(SITE / f"plans-{row['pilot_id'].lower()}.html", page(
             f"{row['lpa_name']} Plan Profile",
             "Pilot authority planning document stack.",
-            "plans", pb))
+            "plans", pb,
+            "This authority profile summarises planning context, evidence quality, and tracked plan documents for the selected LPA."))
 
 
 def build_contradictions(weights):
@@ -445,7 +458,8 @@ def build_contradictions(weights):
     write(SITE / "contradictions.html", page(
         "Contradictions and Bottlenecks",
         "Cross-layer conflicts scored with explicit weighting and confidence levels.",
-        "contradictions", body))
+        "contradictions", body,
+        "Review the highest-friction conflicts in the planning system, with weighted scores and filters to focus on specific pathways or issue types."))
 
 
 def build_recommendations(weights):
@@ -499,7 +513,8 @@ def build_recommendations(weights):
     write(SITE / "recommendations.html", page(
         "Recommendations and Model Text",
         "Actionable reforms with evidence traces, confidence, and verification state.",
-        "recommendations", body))
+        "recommendations", body,
+        "Each recommendation includes delivery details, expected outcomes, and direct links to supporting evidence rows."))
 
 
 def build_roadmap():
@@ -525,7 +540,8 @@ def build_roadmap():
     write(SITE / "roadmap.html", page(
         "Implementation Roadmap",
         "Delivery sequence from quick wins to statutory reform.",
-        "roadmap", body))
+        "roadmap", body,
+        "This timeline shows how reforms can be phased, who leads delivery, and which dependencies affect sequencing."))
 
 
 def build_baselines():
@@ -539,7 +555,8 @@ def build_baselines():
     write(SITE / "baselines.html", page(
         "Official Baseline Metrics",
         "KPI baselines from GOV.UK planning statistics and Planning Inspectorate data.",
-        "baselines", body))
+        "baselines", body,
+        "Use these baseline metrics to understand current performance levels before assessing the impact of proposed reforms."))
 
 
 def build_bottlenecks():
@@ -599,7 +616,8 @@ def build_bottlenecks():
     write(SITE / "bottlenecks.html", page(
         "Bottleneck Heatmap",
         "Process delay analysis across all six planning stages with severity and pathway breakdown.",
-        "bottlenecks", body))
+        "bottlenecks", body,
+        "This heatmap highlights where delays concentrate in the planning process and which pathways are most affected."))
 
 
 # --- Audience views ---
@@ -623,7 +641,8 @@ def build_audience_policymakers():
     write(SITE / "audience-policymakers.html", page(
         "For Policy Makers",
         "Priority reforms, system friction, and implementation pathways.",
-        "policymakers", body))
+        "policymakers", body,
+        "A policy-focused view of priority reforms, core friction points, and delivery routes for national and local action."))
 
 
 def build_audience_lpas():
@@ -646,7 +665,8 @@ def build_audience_lpas():
     write(SITE / "audience-lpas.html", page(
         "For Local Planning Authorities",
         "LPA-specific actions, baselines, and KPI targets.",
-        "lpas", body))
+        "lpas", body,
+        "An operational view for LPAs showing actionable recommendations, local baselines, and measurable KPI targets."))
 
 
 def build_audience_developers():
@@ -666,7 +686,8 @@ def build_audience_developers():
     write(SITE / "audience-developers.html", page(
         "For Developers",
         "How proposed reforms affect submission, timelines, and design certainty.",
-        "developers", body))
+        "developers", body,
+        "A delivery-focused summary of reforms that affect application requirements, decision predictability, and project timelines."))
 
 
 def build_audience_public():
@@ -692,7 +713,8 @@ def build_audience_public():
     write(SITE / "audience-public.html", page(
         "For the Public",
         "Plain-language summary of findings and proposed planning improvements.",
-        "public", body))
+        "public", body,
+        "A plain-language explanation of the problems identified, why they matter, and what changes are being proposed."))
 
 
 def build_methodology():
@@ -710,7 +732,8 @@ def build_methodology():
     write(SITE / "methodology.html", page(
         "Methodology",
         "Taxonomy, scoring model, evidence standards, and quality controls.",
-        "methodology", body))
+        "methodology", body,
+        "This page explains how datasets are scored, validated, and linked to evidence so findings are transparent and reproducible."))
 
 
 def build_sources():
@@ -729,7 +752,8 @@ def build_sources():
     write(SITE / "sources.html", page(
         "Sources and Citations",
         "Official data sources, evidence links, and baseline metrics.",
-        "sources", body))
+        "sources", body,
+        "Use this reference page to verify evidence links, source tables, and citations used throughout the analysis."))
 
 
 def build_exports_index():
@@ -745,7 +769,8 @@ def build_exports_index():
     write(SITE / "exports.html", page(
         "Data Exports",
         "Download datasets in CSV and JSON format.",
-        "index", body))
+        "index", body,
+        "Download the core datasets in machine-readable form for external analysis, QA checks, or reuse in other tools."))
 
 
 def build_appeals():
@@ -787,7 +812,8 @@ def build_appeals():
     write(SITE / "appeals.html", page(
         "Appeal Decision Evidence",
         "Planning Inspectorate decisions cited as evidence for identified contradictions.",
-        "appeals", body))
+        "appeals", body,
+        "This page links appeal outcomes to specific contradiction records so users can inspect real-world decision evidence."))
 
 
 def build_map():
@@ -908,7 +934,8 @@ def build_map():
     write(SITE / "map.html", page(
         "LPA Map",
         "All authorities in scope with major decision speed and profile links.",
-        "map", body))
+        "map", body,
+        "Explore authorities geographically, compare performance at a glance, and open individual LPA profile pages from map markers."))
 
 
 def build_compare():
@@ -1036,7 +1063,8 @@ def build_compare():
     write(SITE / "compare.html", page(
         "LPA Comparison",
         "Side-by-side comparison of authorities, evidence quality, and baseline performance.",
-        "compare", body))
+        "compare", body,
+        "Compare two authorities side by side across profile context, tracked plans, decision speed, and evidence quality."))
 
 
 def build_benchmark():
@@ -1238,7 +1266,8 @@ def build_benchmark():
     write(SITE / "benchmark.html", page(
         "LPA Benchmark Dashboard",
         "Rankings, percentile bands, and trend sparklines across authorities.",
-        "benchmark", body))
+        "benchmark", body,
+        "Use rankings, percentile bands, and trend indicators to see relative performance and jump to preset authority comparisons."))
 
 
 def build_reports():
@@ -1422,7 +1451,8 @@ def build_reports():
     write(SITE / "reports.html", page(
         "LPA Reports",
         "Downloadable authority-level comparison bundles.",
-        "reports", body))
+        "reports", body,
+        "Filter and download per-authority report bundles that combine profile context, issue incidence, quality data, and trend snapshots."))
 
 
 def build_consultation():
@@ -1484,7 +1514,8 @@ def build_consultation():
     write(SITE / "consultation.html", page(
         "Consultation and Status",
         "Submission status tracker, disclaimer, and how to respond to this analysis.",
-        "consultation", body))
+        "consultation", body,
+        "Track recommendation submission progress, review disclaimers, and find routes for feedback or evidence contributions."))
 
 
 def build_search_index():
@@ -1593,7 +1624,8 @@ def build_search():
     write(SITE / "search.html", page(
         "Search",
         "Full-text search across legislation, issues, recommendations, LPAs, appeals, and bottlenecks.",
-        "search", body))
+        "search", body,
+        "Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence."))
 
 
 def main():
