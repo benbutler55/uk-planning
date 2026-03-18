@@ -105,11 +105,22 @@ def write(path, content):
 
 # --- Table helpers ---
 
+URL_COLUMNS = {"source_url", "url"}
+
+
+def render_cell(key, value):
+    """Render a table cell, turning URL columns into clickable links."""
+    if key in URL_COLUMNS and value and (value.startswith("http://") or value.startswith("https://")):
+        escaped = html.escape(value)
+        return f'<td><a href="{escaped}" target="_blank" rel="noopener noreferrer">Link</a></td>'
+    return f"<td>{html.escape(value)}</td>"
+
+
 def render_table(rows, columns):
     head = "".join(f"<th>{html.escape(label)}</th>" for _, label in columns)
     body = []
     for row in rows:
-        cells = "".join(f"<td>{html.escape(row.get(key, ''))}</td>" for key, _ in columns)
+        cells = "".join(render_cell(key, row.get(key, "") or "") for key, _ in columns)
         body.append(f"<tr>{cells}</tr>")
     return (
         '<section class="card"><table><thead><tr>'
@@ -146,7 +157,7 @@ def render_filterable_table(rows, columns, table_id, data_fields):
         attrs = " ".join(
             f'data-{f}="{html.escape((row.get(f, "") or "").strip().lower())}"' for f in data_fields
         )
-        cells = "".join(f"<td>{html.escape(row.get(k, ''))}</td>" for k, _ in columns)
+        cells = "".join(render_cell(k, row.get(k, "") or "") for k, _ in columns)
         body_rows.append(f"<tr {attrs}>{cells}</tr>")
     return (
         f'<section class="card"><table id="{table_id}"><thead><tr>'
