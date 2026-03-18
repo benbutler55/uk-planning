@@ -1,0 +1,146 @@
+[
+  {
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "data_quality_tier": "A",
+    "coverage_score": "92",
+    "evidence_type_mix": "Official stats + adopted plans + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "High coverage and strong source quality"
+  },
+  {
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "data_quality_tier": "A",
+    "coverage_score": "90",
+    "evidence_type_mix": "Official stats + adopted plans + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "High coverage with good policy evidence"
+  },
+  {
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "data_quality_tier": "B",
+    "coverage_score": "84",
+    "evidence_type_mix": "Official stats + emerging plan + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Emerging plan introduces transition uncertainty"
+  },
+  {
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "data_quality_tier": "B",
+    "coverage_score": "80",
+    "evidence_type_mix": "Official stats + adopted plans + partial appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Large geography with mixed granularity"
+  },
+  {
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "data_quality_tier": "A",
+    "coverage_score": "88",
+    "evidence_type_mix": "Official stats + London Plan + appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Strong urban evidence set"
+  },
+  {
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "data_quality_tier": "B",
+    "coverage_score": "78",
+    "evidence_type_mix": "Official stats + county plans + partial evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "County role creates narrower planning scope"
+  },
+  {
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "82",
+    "evidence_type_mix": "Official stats + local plans + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "79",
+    "evidence_type_mix": "Official stats + local plans + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "data_quality_tier": "B",
+    "coverage_score": "81",
+    "evidence_type_mix": "Official stats + local plans + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "80",
+    "evidence_type_mix": "Official stats + local plans + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "data_quality_tier": "C",
+    "coverage_score": "68",
+    "evidence_type_mix": "Plan docs + limited official local metrics",
+    "last_reviewed": "2026-03-18",
+    "notes": "National park context reduces comparability of standard metrics"
+  },
+  {
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "data_quality_tier": "B",
+    "coverage_score": "77",
+    "evidence_type_mix": "Official stats + plan docs + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "79",
+    "evidence_type_mix": "Official stats + plan docs + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "78",
+    "evidence_type_mix": "Official stats + plan docs + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Cohort 2 recently onboarded"
+  },
+  {
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "83",
+    "evidence_type_mix": "Official stats + emerging shared plan + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Shared plan and transition period affect confidence"
+  },
+  {
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "data_quality_tier": "C",
+    "coverage_score": "66",
+    "evidence_type_mix": "Official stats + ageing plan + limited appeal evidence",
+    "last_reviewed": "2026-03-18",
+    "notes": "Outdated adopted plan weakens policy certainty"
+  }
+]

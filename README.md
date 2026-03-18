@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v2.0 Phase 2)
+## Current State (v3.0 Phase 3)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -15,11 +15,14 @@ Citation-backed analysis of England's planning system identifying contradictions
 - 19 official baseline metrics (England aggregate and all LPA breakdowns)
 - 10 appeal decision citations linked to contradiction records
 - 11 recommendation consultation status records
+- LPA data quality tiers (`A/B/C`) with coverage scores for all 16 authorities
 - Full-text client-side search across all content
 - National Leaflet.js map with decision speed overlay
+- LPA side-by-side comparison page (`compare.html`)
 - Quarterly automated GOV.UK statistics ingest check
 - Consultation layer with status tracker, disclaimer, and PDF print export
-- 28+ generated site pages including split audience views, map, appeals, search, and CSV/JSON exports
+- CI and Pages guardrails fail if generated `site/` artifacts are out of sync
+- 36 generated site pages including split audience views, map, compare, appeals, search, and CSV/JSON exports
 
 ## Repository Structure
 
@@ -44,6 +47,7 @@ uk-planning/
 │   │   └── england-core-legislation.csv
 │   ├── plans/
 │   │   ├── lpa-geo.csv              # LPA coordinates for map
+│   │   ├── lpa-data-quality.csv     # LPA evidence quality tiers and coverage scores
 │   │   ├── pilot-lpas.csv           # 16 LPAs across 2 cohorts
 │   │   ├── pilot-plan-documents.csv
 │   │   └── policy-hierarchy.csv
@@ -61,6 +65,7 @@ uk-planning/
 │   └── validate_data.py
 ├── content/
 │   ├── methodology/
+│   │   ├── phase-3-plan.md          # Next-phase implementation plan
 │   │   ├── qa-report.md
 │   │   └── scale-out-backlog.md
 │   ├── recommendations/
@@ -133,6 +138,7 @@ See `AGENTS.md` for full agent operating rules.
 | `roadmap.html` | Delivery milestones |
 | `baselines.html` | Official KPI baselines |
 | `map.html` | National Leaflet.js map with decision speed overlay |
+| `compare.html` | Side-by-side LPA comparison page |
 | `consultation.html` | Status tracker, disclaimer, and PDF export |
 | `search.html` | Full-text search across all content |
 | `audience-policymakers.html` | View for policy makers |

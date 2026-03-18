@@ -1,0 +1,17 @@
+pilot_id,lpa_name,data_quality_tier,coverage_score,evidence_type_mix,last_reviewed,notes
+LPA-01,Manchester City Council,A,92,Official stats + adopted plans + appeal evidence,2026-03-18,High coverage and strong source quality
+LPA-02,Oxford City Council,A,90,Official stats + adopted plans + appeal evidence,2026-03-18,High coverage with good policy evidence
+LPA-03,South Cambridgeshire District Council,B,84,Official stats + emerging plan + appeal evidence,2026-03-18,Emerging plan introduces transition uncertainty
+LPA-04,Cornwall Council,B,80,Official stats + adopted plans + partial appeal evidence,2026-03-18,Large geography with mixed granularity
+LPA-05,Newham London Borough Council,A,88,Official stats + London Plan + appeal evidence,2026-03-18,Strong urban evidence set
+LPA-06,Kent County Council (minerals/waste planning role),B,78,Official stats + county plans + partial evidence,2026-03-18,County role creates narrower planning scope
+LPA-07,Leeds City Council,B,82,Official stats + local plans + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-08,Bristol City Council,B,79,Official stats + local plans + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-09,Guildford Borough Council,B,81,Official stats + local plans + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-10,Newcastle City Council,B,80,Official stats + local plans + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-11,Peak District National Park Authority,C,68,Plan docs + limited official local metrics,2026-03-18,National park context reduces comparability of standard metrics
+LPA-12,Northumberland County Council,B,77,Official stats + plan docs + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-13,Southampton City Council,B,79,Official stats + plan docs + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-14,Leicester City Council,B,78,Official stats + plan docs + limited appeal evidence,2026-03-18,Cohort 2 recently onboarded
+LPA-15,Cambridge City Council,B,83,Official stats + emerging shared plan + limited appeal evidence,2026-03-18,Shared plan and transition period affect confidence
+LPA-16,Medway Council,C,66,Official stats + ageing plan + limited appeal evidence,2026-03-18,Outdated adopted plan weakens policy certainty

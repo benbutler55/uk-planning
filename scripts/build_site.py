@@ -63,6 +63,7 @@ def page(title, subhead, active, body):
         ("bottlenecks.html", "Bottlenecks", "bottlenecks"),
         ("appeals.html", "Appeals", "appeals"),
         ("map.html", "Map", "map"),
+        ("compare.html", "Compare", "compare"),
         ("consultation.html", "Consultation", "consultation"),
         ("search.html", "Search", "search"),
         ("audience-policymakers.html", "For Policy Makers", "policymakers"),
@@ -318,6 +319,8 @@ def build_legislation():
 def build_plans():
     rows = read_csv(ROOT / "data/plans/pilot-lpas.csv")
     docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
+    quality_by_id = {r["pilot_id"]: r for r in quality_rows}
     docs_by_lpa = defaultdict(list)
     for item in docs:
         docs_by_lpa[item["pilot_id"]].append(item)
@@ -327,12 +330,14 @@ def build_plans():
         body += f"<li>{html.escape(level)}</li>"
     body += "</ul></section>"
 
-    body += '<section class="card"><table><thead><tr><th>Authority</th><th>Type</th><th>Region</th><th>Growth</th><th>Constraints</th><th>Profile</th></tr></thead><tbody>'
+    body += '<section class="card"><table><thead><tr><th>Authority</th><th>Type</th><th>Region</th><th>Growth</th><th>Constraints</th><th>Data Quality</th><th>Profile</th></tr></thead><tbody>'
     for row in rows:
         lpa_page = f"plans-{row['pilot_id'].lower()}.html"
+        quality = quality_by_id.get(row["pilot_id"], {})
         body += "<tr>"
         for k in ["lpa_name", "lpa_type", "region", "growth_context", "constraint_profile"]:
             body += f"<td>{html.escape(row.get(k, ''))}</td>"
+        body += f"<td>{html.escape(quality.get('data_quality_tier', ''))}</td>"
         body += f'<td><a href="{lpa_page}">View</a></td></tr>'
     body += "</tbody></table></section>"
 
@@ -349,6 +354,10 @@ def build_plans():
         pb += f"<p><strong>Region:</strong> {html.escape(row.get('region', ''))}</p>"
         pb += f"<p><strong>Rationale:</strong> {html.escape(row.get('selection_rationale', ''))}</p>"
         pb += f"<p><strong>Constraints:</strong> {html.escape(row.get('constraint_profile', ''))}</p>"
+        if row["pilot_id"] in quality_by_id:
+            q = quality_by_id[row["pilot_id"]]
+            pb += f"<p><strong>Data quality tier:</strong> {html.escape(q.get('data_quality_tier', ''))} (coverage score {html.escape(q.get('coverage_score', ''))})</p>"
+            pb += f"<p><strong>Evidence mix:</strong> {html.escape(q.get('evidence_type_mix', ''))}</p>"
         pb += '<p><a href="plans.html">Back to pilot overview</a></p></section>'
         pb += render_plan_docs_table(lpa_docs)
         write(SITE / f"plans-{row['pilot_id'].lower()}.html", page(
@@ -696,7 +705,7 @@ def build_exports_index():
     body += "<ul>"
     for name in ["contradiction-register", "recommendations", "recommendation_evidence_links",
                   "official_baseline_metrics", "implementation-roadmap", "bottleneck-heatmap",
-                  "appeal-decisions"]:
+                  "appeal-decisions", "lpa-data-quality"]:
         body += f'<li><a href="exports/{name}.csv">{name}.csv</a> | <a href="exports/{name}.json">{name}.json</a></li>'
     body += "</ul></section>"
     write(SITE / "exports.html", page(
@@ -751,6 +760,7 @@ def build_map():
     lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
     geo = read_csv(ROOT / "data/plans/lpa-geo.csv")
     baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
 
     # Build speed lookup by pilot_id
     speed_by_lpa = {}
@@ -765,6 +775,7 @@ def build_map():
 
     geo_by_id = {r["pilot_id"]: r for r in geo}
     lpa_by_id = {r["pilot_id"]: r for r in lpas}
+    quality_by_id = {r["pilot_id"]: r for r in quality_rows}
 
     features = []
     for pid, g in geo_by_id.items():
@@ -782,6 +793,8 @@ def build_map():
                 "growth": lpa.get("growth_context", ""),
                 "constraints": lpa.get("constraint_profile", ""),
                 "speed": speed,
+                "quality_tier": quality_by_id.get(pid, {}).get("data_quality_tier", ""),
+                "coverage_score": quality_by_id.get(pid, {}).get("coverage_score", ""),
                 "cohort": cohort,
                 "page": f"plans-{pid.lower()}.html"
             }
@@ -827,11 +840,13 @@ def build_map():
           }}).addTo(map);
 
           var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
+          var qualityText = p.quality_tier ? ('Quality tier ' + p.quality_tier + ' (score ' + p.coverage_score + ')') : 'Quality tier n/a';
           circle.bindPopup(
             '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
             '<br>' + p.type + ' — ' + p.region +
             '<br><em>' + p.cohort + '</em>' +
             '<br>' + speedText +
+            '<br>' + qualityText +
             '<br><small>' + p.constraints + '</small>'
           );
         }});
@@ -859,7 +874,113 @@ def build_map():
     write(SITE / "map.html", page(
         "LPA Map",
         "All authorities in scope with major decision speed and profile links.",
-        "index", body))
+        "map", body))
+
+
+def build_compare():
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
+
+    docs_count = defaultdict(int)
+    for d in docs:
+        docs_count[d["pilot_id"]] += 1
+
+    speed_by_id = {}
+    for b in baselines:
+        geo_field = b.get("geography", "")
+        if geo_field.startswith("LPA-"):
+            pid = geo_field.split(" ")[0]
+            speed_by_id[pid] = b.get("value", "")
+
+    quality_by_id = {r["pilot_id"]: r for r in quality_rows}
+
+    records = []
+    for lpa in lpas:
+        pid = lpa["pilot_id"]
+        q = quality_by_id.get(pid, {})
+        records.append({
+            "id": pid,
+            "name": lpa.get("lpa_name", ""),
+            "type": lpa.get("lpa_type", ""),
+            "region": lpa.get("region", ""),
+            "growth": lpa.get("growth_context", ""),
+            "constraints": lpa.get("constraint_profile", ""),
+            "documents": docs_count.get(pid, 0),
+            "speed": speed_by_id.get(pid, "n/a"),
+            "quality_tier": q.get("data_quality_tier", "n/a"),
+            "quality_score": q.get("coverage_score", "n/a"),
+            "page": f"plans-{pid.lower()}.html",
+        })
+
+    records_json = json.dumps(records, ensure_ascii=False)
+
+    body = """
+      <section class="card">
+        <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics.</p>
+        <div class="filter-row">
+          <label class="filter-item">Authority A<select id="cmp-a"></select></label>
+          <label class="filter-item">Authority B<select id="cmp-b"></select></label>
+        </div>
+      </section>
+      <section class="card" id="compare-output"></section>
+      <script>
+      (function() {
+        var data = __DATA__;
+        var aSel = document.getElementById('cmp-a');
+        var bSel = document.getElementById('cmp-b');
+        var out = document.getElementById('compare-output');
+
+        function mkOption(item) {
+          var o = document.createElement('option');
+          o.value = item.id;
+          o.textContent = item.name + ' (' + item.id + ')';
+          return o;
+        }
+
+        data.forEach(function(item) {
+          aSel.appendChild(mkOption(item));
+          bSel.appendChild(mkOption(item));
+        });
+        if (data.length > 1) {
+          aSel.value = data[0].id;
+          bSel.value = data[1].id;
+        }
+
+        function row(label, a, b) {
+          return '<tr><th>' + label + '</th><td>' + a + '</td><td>' + b + '</td></tr>';
+        }
+
+        function render() {
+          var a = data.find(function(x){ return x.id === aSel.value; });
+          var b = data.find(function(x){ return x.id === bSel.value; });
+          if (!a || !b) return;
+          out.innerHTML =
+            '<h2>Comparison</h2>' +
+            '<table><thead><tr><th>Metric</th><th>' + a.name + '</th><th>' + b.name + '</th></tr></thead><tbody>' +
+            row('Type', a.type, b.type) +
+            row('Region', a.region, b.region) +
+            row('Growth context', a.growth, b.growth) +
+            row('Constraint profile', a.constraints, b.constraints) +
+            row('Plan documents tracked', String(a.documents), String(b.documents)) +
+            row('Major decision speed (%)', String(a.speed), String(b.speed)) +
+            row('Data quality tier', a.quality_tier + ' (' + a.quality_score + ')', b.quality_tier + ' (' + b.quality_score + ')') +
+            row('Profile page', '<a href="' + a.page + '">Open</a>', '<a href="' + b.page + '">Open</a>') +
+            '</tbody></table>';
+        }
+
+        aSel.addEventListener('change', render);
+        bSel.addEventListener('change', render);
+        render();
+      })();
+      </script>
+""".replace("__DATA__", records_json)
+
+    write(SITE / "compare.html", page(
+        "LPA Comparison",
+        "Side-by-side comparison of authorities, evidence quality, and baseline performance.",
+        "compare", body))
 
 
 def build_consultation():
@@ -1046,6 +1167,7 @@ def main():
     build_bottlenecks()
     build_appeals()
     build_map()
+    build_compare()
     build_consultation()
     build_search_index()
     build_search()
@@ -1066,6 +1188,7 @@ def main():
         "implementation-roadmap": read_csv(ROOT / "data/issues/implementation-roadmap.csv"),
         "bottleneck-heatmap": read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"),
         "appeal-decisions": read_csv(ROOT / "data/evidence/appeal-decisions.csv"),
+        "lpa-data-quality": read_csv(ROOT / "data/plans/lpa-data-quality.csv"),
     })
 
     print("Built site pages from CSV data.")

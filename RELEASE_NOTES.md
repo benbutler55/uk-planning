@@ -1,5 +1,30 @@
 # Release Notes
 
+## v3.0 — Phase 3 Decision-Support Upgrade (2026-03-18)
+
+### Summary
+
+Phase 3 upgrades the site from a static policy publication to an operational decision-support tool with authority comparison, evidence-quality signaling, and stricter CI integrity controls.
+
+### Deliverables
+
+**Analysis/product upgrades:**
+- Added LPA data quality tiers (`A/B/C`) and coverage scoring for all 16 authorities (`data/plans/lpa-data-quality.csv`)
+- Added side-by-side LPA comparison page (`site/compare.html`) covering type, region, growth context, constraints, decision speed, tracked plan-document count, and quality tier
+- Integrated data quality metadata into plan profile pages and map popups
+
+**Build/quality controls:**
+- CI and Pages workflows now fail if generated `site/` artifacts are out of sync after `build_site.py`
+- Added `CODEOWNERS` to require explicit review for workflow and core build/schema files
+
+**Planning/documentation:**
+- Added Phase 3 implementation plan (`content/methodology/phase-3-plan.md`)
+- Updated README to reflect current Phase 3 capabilities and structure
+
+### Notes
+
+- Freshness checker may still produce occasional warning-only access-block messages for certain council sites that reject automated requests; this does not block deployment.
+
 ## v1.0 — Pilot Release (2026-03-17)
 
 ### Summary

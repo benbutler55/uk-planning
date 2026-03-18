@@ -1,0 +1,5 @@
+# Require explicit review for workflow/security-sensitive changes
+/.github/workflows/ @benbutler55
+/scripts/validate_data.py @benbutler55
+/scripts/build_site.py @benbutler55
+/data/schemas/ @benbutler55

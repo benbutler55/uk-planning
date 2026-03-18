@@ -16,7 +16,7 @@
         <p class="subhead">All authorities in scope with major decision speed and profile links.</p>
       </header>
       <nav>
-<a class="active" href="index.html">Overview</a>
+<a href="index.html">Overview</a>
 <a href="legislation.html">Legislation</a>
 <a href="plans.html">Plans</a>
 <a href="contradictions.html">Contradictions</a>
@@ -25,7 +25,8 @@
 <a href="baselines.html">Baselines</a>
 <a href="bottlenecks.html">Bottlenecks</a>
 <a href="appeals.html">Appeals</a>
-<a href="map.html">Map</a>
+<a class="active" href="map.html">Map</a>
+<a href="compare.html">Compare</a>
 <a href="consultation.html">Consultation</a>
 <a href="search.html">Search</a>
 <a href="audience-policymakers.html">For Policy Makers</a>
@@ -70,6 +71,8 @@
         "growth": "High growth urban",
         "constraints": "Transport capacity and urban form constraints",
         "speed": 71.0,
+        "quality_tier": "A",
+        "coverage_score": "92",
         "cohort": "Cohort 1",
         "page": "plans-lpa-01.html"
       }
@@ -91,6 +94,8 @@
         "growth": "High demand constrained",
         "constraints": "Green Belt and heritage sensitivity",
         "speed": 68.0,
+        "quality_tier": "A",
+        "coverage_score": "90",
         "cohort": "Cohort 1",
         "page": "plans-lpa-02.html"
       }
@@ -112,6 +117,8 @@
         "growth": "Growth corridor",
         "constraints": "Green Belt flood risk and infrastructure sequencing",
         "speed": 65.0,
+        "quality_tier": "B",
+        "coverage_score": "84",
         "cohort": "Cohort 1",
         "page": "plans-lpa-03.html"
       }
@@ -133,6 +140,8 @@
         "growth": "Mixed growth dispersed",
         "constraints": "Coastal change AONB and transport coverage constraints",
         "speed": 76.0,
+        "quality_tier": "B",
+        "coverage_score": "80",
         "cohort": "Cohort 1",
         "page": "plans-lpa-04.html"
       }
@@ -154,6 +163,8 @@
         "growth": "Very high urban growth",
         "constraints": "Density viability and transport node pressure",
         "speed": 69.0,
+        "quality_tier": "A",
+        "coverage_score": "88",
         "cohort": "Cohort 1",
         "page": "plans-lpa-05.html"
       }
@@ -175,6 +186,8 @@
         "growth": "County strategic layer",
         "constraints": "Strategic waste minerals and transport network constraints",
         "speed": null,
+        "quality_tier": "B",
+        "coverage_score": "78",
         "cohort": "Cohort 1",
         "page": "plans-lpa-06.html"
       }
@@ -196,6 +209,8 @@
         "growth": "High growth urban",
         "constraints": "Transport capacity and cross-boundary housing delivery",
         "speed": 78.0,
+        "quality_tier": "B",
+        "coverage_score": "82",
         "cohort": "Cohort 2",
         "page": "plans-lpa-07.html"
       }
@@ -217,6 +232,8 @@
         "growth": "High growth urban",
         "constraints": "Flood risk and harbour/waterfront regeneration complexity",
         "speed": 72.0,
+        "quality_tier": "B",
+        "coverage_score": "79",
         "cohort": "Cohort 2",
         "page": "plans-lpa-08.html"
       }
@@ -238,6 +255,8 @@
         "growth": "High demand constrained",
         "constraints": "Green Belt and AONB adjacency",
         "speed": 61.0,
+        "quality_tier": "B",
+        "coverage_score": "81",
         "cohort": "Cohort 2",
         "page": "plans-lpa-09.html"
       }
@@ -259,6 +278,8 @@
         "growth": "Regeneration growth",
         "constraints": "Riverside flood risk and heritage city centre",
         "speed": 80.0,
+        "quality_tier": "B",
+        "coverage_score": "80",
         "cohort": "Cohort 2",
         "page": "plans-lpa-10.html"
       }
@@ -280,6 +301,8 @@
         "growth": "Constrained designated",
         "constraints": "National Park statutory purposes and housing affordability tension",
         "speed": null,
+        "quality_tier": "C",
+        "coverage_score": "68",
         "cohort": "Cohort 2",
         "page": "plans-lpa-11.html"
       }
@@ -301,6 +324,8 @@
         "growth": "Mixed growth dispersed",
         "constraints": "Minerals safeguarding and offshore wind infrastructure pressure",
         "speed": null,
+        "quality_tier": "B",
+        "coverage_score": "77",
         "cohort": "Cohort 2",
         "page": "plans-lpa-12.html"
       }
@@ -322,6 +347,8 @@
         "growth": "Regeneration growth",
         "constraints": "Coastal change and port safeguarding",
         "speed": 74.0,
+        "quality_tier": "B",
+        "coverage_score": "79",
         "cohort": "Cohort 2",
         "page": "plans-lpa-13.html"
       }
@@ -343,6 +370,8 @@
         "growth": "Urban renewal",
         "constraints": "Heritage sensitivity and infrastructure capacity",
         "speed": 70.0,
+        "quality_tier": "B",
+        "coverage_score": "78",
         "cohort": "Cohort 2",
         "page": "plans-lpa-14.html"
       }
@@ -364,6 +393,8 @@
         "growth": "High demand constrained",
         "constraints": "Green Belt and heritage conservation area pressure",
         "speed": null,
+        "quality_tier": "B",
+        "coverage_score": "83",
         "cohort": "Cohort 2",
         "page": "plans-lpa-15.html"
       }
@@ -385,6 +416,8 @@
         "growth": "Housing delivery zone",
         "constraints": "Flood risk and strategic transport corridor pressure",
         "speed": 63.0,
+        "quality_tier": "C",
+        "coverage_score": "66",
         "cohort": "Cohort 2",
         "page": "plans-lpa-16.html"
       }
@@ -413,11 +446,13 @@
           }).addTo(map);
 
           var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
+          var qualityText = p.quality_tier ? ('Quality tier ' + p.quality_tier + ' (score ' + p.coverage_score + ')') : 'Quality tier n/a';
           circle.bindPopup(
             '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
             '<br>' + p.type + ' — ' + p.region +
             '<br><em>' + p.cohort + '</em>' +
             '<br>' + speedText +
+            '<br>' + qualityText +
             '<br><small>' + p.constraints + '</small>'
           );
         });

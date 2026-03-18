@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LPA Comparison</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="layout">
+      <header>
+        <h1>LPA Comparison</h1>
+        <p class="subhead">Side-by-side comparison of authorities, evidence quality, and baseline performance.</p>
+      </header>
+      <nav>
+<a href="index.html">Overview</a>
+<a href="legislation.html">Legislation</a>
+<a href="plans.html">Plans</a>
+<a href="contradictions.html">Contradictions</a>
+<a href="recommendations.html">Recommendations</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="baselines.html">Baselines</a>
+<a href="bottlenecks.html">Bottlenecks</a>
+<a href="appeals.html">Appeals</a>
+<a href="map.html">Map</a>
+<a class="active" href="compare.html">Compare</a>
+<a href="consultation.html">Consultation</a>
+<a href="search.html">Search</a>
+<a href="audience-policymakers.html">For Policy Makers</a>
+<a href="audience-lpas.html">For LPAs</a>
+<a href="audience-developers.html">For Developers</a>
+<a href="audience-public.html">For Public</a>
+<a href="methodology.html">Methodology</a>
+<a href="sources.html">Sources</a>
+      </nav>
+
+      <section class="card">
+        <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics.</p>
+        <div class="filter-row">
+          <label class="filter-item">Authority A<select id="cmp-a"></select></label>
+          <label class="filter-item">Authority B<select id="cmp-b"></select></label>
+        </div>
+      </section>
+      <section class="card" id="compare-output"></section>
+      <script>
+      (function() {
+        var data = [{"id": "LPA-01", "name": "Manchester City Council", "type": "Metropolitan District", "region": "North West", "growth": "High growth urban", "constraints": "Transport capacity and urban form constraints", "documents": 3, "speed": "71", "quality_tier": "A", "quality_score": "92", "page": "plans-lpa-01.html"}, {"id": "LPA-02", "name": "Oxford City Council", "type": "Non-metropolitan District", "region": "South East", "growth": "High demand constrained", "constraints": "Green Belt and heritage sensitivity", "documents": 4, "speed": "68", "quality_tier": "A", "quality_score": "90", "page": "plans-lpa-02.html"}, {"id": "LPA-03", "name": "South Cambridgeshire District Council", "type": "Non-metropolitan District", "region": "East of England", "growth": "Growth corridor", "constraints": "Green Belt flood risk and infrastructure sequencing", "documents": 4, "speed": "65", "quality_tier": "B", "quality_score": "84", "page": "plans-lpa-03.html"}, {"id": "LPA-04", "name": "Cornwall Council", "type": "Unitary Authority", "region": "South West", "growth": "Mixed growth dispersed", "constraints": "Coastal change AONB and transport coverage constraints", "documents": 3, "speed": "76", "quality_tier": "B", "quality_score": "80", "page": "plans-lpa-04.html"}, {"id": "LPA-05", "name": "Newham London Borough Council", "type": "London Borough", "region": "London", "growth": "Very high urban growth", "constraints": "Density viability and transport node pressure", "documents": 4, "speed": "69", "quality_tier": "A", "quality_score": "88", "page": "plans-lpa-05.html"}, {"id": "LPA-06", "name": "Kent County Council (minerals/waste planning role)", "type": "County Council", "region": "South East", "growth": "County strategic layer", "constraints": "Strategic waste minerals and transport network constraints", "documents": 3, "speed": "n/a", "quality_tier": "B", "quality_score": "78", "page": "plans-lpa-06.html"}, {"id": "LPA-07", "name": "Leeds City Council", "type": "Metropolitan District", "region": "Yorkshire and The Humber", "growth": "High growth urban", "constraints": "Transport capacity and cross-boundary housing delivery", "documents": 3, "speed": "78", "quality_tier": "B", "quality_score": "82", "page": "plans-lpa-07.html"}, {"id": "LPA-08", "name": "Bristol City Council", "type": "Unitary Authority", "region": "South West", "growth": "High growth urban", "constraints": "Flood risk and harbour/waterfront regeneration complexity", "documents": 2, "speed": "72", "quality_tier": "B", "quality_score": "79", "page": "plans-lpa-08.html"}, {"id": "LPA-09", "name": "Guildford Borough Council", "type": "Non-metropolitan District", "region": "South East", "growth": "High demand constrained", "constraints": "Green Belt and AONB adjacency", "documents": 2, "speed": "61", "quality_tier": "B", "quality_score": "81", "page": "plans-lpa-09.html"}, {"id": "LPA-10", "name": "Newcastle City Council", "type": "Metropolitan District", "region": "North East", "growth": "Regeneration growth", "constraints": "Riverside flood risk and heritage city centre", "documents": 2, "speed": "80", "quality_tier": "B", "quality_score": "80", "page": "plans-lpa-10.html"}, {"id": "LPA-11", "name": "Peak District National Park Authority", "type": "National Park", "region": "East Midlands", "growth": "Constrained designated", "constraints": "National Park statutory purposes and housing affordability tension", "documents": 2, "speed": "n/a", "quality_tier": "C", "quality_score": "68", "page": "plans-lpa-11.html"}, {"id": "LPA-12", "name": "Northumberland County Council", "type": "Unitary Authority", "region": "North East", "growth": "Mixed growth dispersed", "constraints": "Minerals safeguarding and offshore wind infrastructure pressure", "documents": 2, "speed": "n/a", "quality_tier": "B", "quality_score": "77", "page": "plans-lpa-12.html"}, {"id": "LPA-13", "name": "Southampton City Council", "type": "Unitary Authority", "region": "South East", "growth": "Regeneration growth", "constraints": "Coastal change and port safeguarding", "documents": 2, "speed": "74", "quality_tier": "B", "quality_score": "79", "page": "plans-lpa-13.html"}, {"id": "LPA-14", "name": "Leicester City Council", "type": "Unitary Authority", "region": "East Midlands", "growth": "Urban renewal", "constraints": "Heritage sensitivity and infrastructure capacity", "documents": 2, "speed": "70", "quality_tier": "B", "quality_score": "78", "page": "plans-lpa-14.html"}, {"id": "LPA-15", "name": "Cambridge City Council", "type": "Non-metropolitan District", "region": "East of England", "growth": "High demand constrained", "constraints": "Green Belt and heritage conservation area pressure", "documents": 2, "speed": "n/a", "quality_tier": "B", "quality_score": "83", "page": "plans-lpa-15.html"}, {"id": "LPA-16", "name": "Medway Council", "type": "Unitary Authority", "region": "South East", "growth": "Housing delivery zone", "constraints": "Flood risk and strategic transport corridor pressure", "documents": 2, "speed": "63", "quality_tier": "C", "quality_score": "66", "page": "plans-lpa-16.html"}];
+        var aSel = document.getElementById('cmp-a');
+        var bSel = document.getElementById('cmp-b');
+        var out = document.getElementById('compare-output');
+
+        function mkOption(item) {
+          var o = document.createElement('option');
+          o.value = item.id;
+          o.textContent = item.name + ' (' + item.id + ')';
+          return o;
+        }
+
+        data.forEach(function(item) {
+          aSel.appendChild(mkOption(item));
+          bSel.appendChild(mkOption(item));
+        });
+        if (data.length > 1) {
+          aSel.value = data[0].id;
+          bSel.value = data[1].id;
+        }
+
+        function row(label, a, b) {
+          return '<tr><th>' + label + '</th><td>' + a + '</td><td>' + b + '</td></tr>';
+        }
+
+        function render() {
+          var a = data.find(function(x){ return x.id === aSel.value; });
+          var b = data.find(function(x){ return x.id === bSel.value; });
+          if (!a || !b) return;
+          out.innerHTML =
+            '<h2>Comparison</h2>' +
+            '<table><thead><tr><th>Metric</th><th>' + a.name + '</th><th>' + b.name + '</th></tr></thead><tbody>' +
+            row('Type', a.type, b.type) +
+            row('Region', a.region, b.region) +
+            row('Growth context', a.growth, b.growth) +
+            row('Constraint profile', a.constraints, b.constraints) +
+            row('Plan documents tracked', String(a.documents), String(b.documents)) +
+            row('Major decision speed (%)', String(a.speed), String(b.speed)) +
+            row('Data quality tier', a.quality_tier + ' (' + a.quality_score + ')', b.quality_tier + ' (' + b.quality_score + ')') +
+            row('Profile page', '<a href="' + a.page + '">Open</a>', '<a href="' + b.page + '">Open</a>') +
+            '</tbody></table>';
+        }
+
+        aSel.addEventListener('change', render);
+        bSel.addEventListener('change', render);
+        render();
+      })();
+      </script>
+
+    </div>
+  </body>
+</html>
