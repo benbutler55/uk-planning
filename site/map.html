@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LPA Map</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="layout">
+      <header>
+        <h1>LPA Map</h1>
+        <p class="subhead">All authorities in scope with major decision speed and profile links.</p>
+      </header>
+      <nav>
+<a class="active" href="index.html">Overview</a>
+<a href="legislation.html">Legislation</a>
+<a href="plans.html">Plans</a>
+<a href="contradictions.html">Contradictions</a>
+<a href="recommendations.html">Recommendations</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="baselines.html">Baselines</a>
+<a href="bottlenecks.html">Bottlenecks</a>
+<a href="appeals.html">Appeals</a>
+<a href="map.html">Map</a>
+<a href="consultation.html">Consultation</a>
+<a href="search.html">Search</a>
+<a href="audience-policymakers.html">For Policy Makers</a>
+<a href="audience-lpas.html">For LPAs</a>
+<a href="audience-developers.html">For Developers</a>
+<a href="audience-public.html">For Public</a>
+<a href="methodology.html">Methodology</a>
+<a href="sources.html">Sources</a>
+      </nav>
+
+      <section class="card">
+        <p>All 16 LPAs in scope. Circle colour indicates speed of major decisions (green = above England average 74%, amber = 65-74%, red = below 65%). Click a marker for the LPA profile.</p>
+      </section>
+      <div id="map" style="height:560px;border-radius:14px;border:1px solid var(--line);"></div>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <script>
+      (function() {
+        var map = L.map('map').setView([52.5, -1.5], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 13
+        }).addTo(map);
+
+        var data = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.2426,
+          53.4808
+        ]
+      },
+      "properties": {
+        "id": "LPA-01",
+        "name": "Manchester City Council",
+        "type": "Metropolitan District",
+        "region": "North West",
+        "growth": "High growth urban",
+        "constraints": "Transport capacity and urban form constraints",
+        "speed": 71.0,
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-01.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2577,
+          51.752
+        ]
+      },
+      "properties": {
+        "id": "LPA-02",
+        "name": "Oxford City Council",
+        "type": "Non-metropolitan District",
+        "region": "South East",
+        "growth": "High demand constrained",
+        "constraints": "Green Belt and heritage sensitivity",
+        "speed": 68.0,
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-02.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.1218,
+          52.1963
+        ]
+      },
+      "properties": {
+        "id": "LPA-03",
+        "name": "South Cambridgeshire District Council",
+        "type": "Non-metropolitan District",
+        "region": "East of England",
+        "growth": "Growth corridor",
+        "constraints": "Green Belt flood risk and infrastructure sequencing",
+        "speed": 65.0,
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-03.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.0527,
+          50.266
+        ]
+      },
+      "properties": {
+        "id": "LPA-04",
+        "name": "Cornwall Council",
+        "type": "Unitary Authority",
+        "region": "South West",
+        "growth": "Mixed growth dispersed",
+        "constraints": "Coastal change AONB and transport coverage constraints",
+        "speed": 76.0,
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-04.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0469,
+          51.5077
+        ]
+      },
+      "properties": {
+        "id": "LPA-05",
+        "name": "Newham London Borough Council",
+        "type": "London Borough",
+        "region": "London",
+        "growth": "Very high urban growth",
+        "constraints": "Density viability and transport node pressure",
+        "speed": 69.0,
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-05.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.5217,
+          51.2787
+        ]
+      },
+      "properties": {
+        "id": "LPA-06",
+        "name": "Kent County Council (minerals/waste planning role)",
+        "type": "County Council",
+        "region": "South East",
+        "growth": "County strategic layer",
+        "constraints": "Strategic waste minerals and transport network constraints",
+        "speed": null,
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-06.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.5491,
+          53.8008
+        ]
+      },
+      "properties": {
+        "id": "LPA-07",
+        "name": "Leeds City Council",
+        "type": "Metropolitan District",
+        "region": "Yorkshire and The Humber",
+        "growth": "High growth urban",
+        "constraints": "Transport capacity and cross-boundary housing delivery",
+        "speed": 78.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-07.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.5879,
+          51.4545
+        ]
+      },
+      "properties": {
+        "id": "LPA-08",
+        "name": "Bristol City Council",
+        "type": "Unitary Authority",
+        "region": "South West",
+        "growth": "High growth urban",
+        "constraints": "Flood risk and harbour/waterfront regeneration complexity",
+        "speed": 72.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-08.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.5703,
+          51.2365
+        ]
+      },
+      "properties": {
+        "id": "LPA-09",
+        "name": "Guildford Borough Council",
+        "type": "Non-metropolitan District",
+        "region": "South East",
+        "growth": "High demand constrained",
+        "constraints": "Green Belt and AONB adjacency",
+        "speed": 61.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-09.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.6178,
+          54.9783
+        ]
+      },
+      "properties": {
+        "id": "LPA-10",
+        "name": "Newcastle City Council",
+        "type": "Metropolitan District",
+        "region": "North East",
+        "growth": "Regeneration growth",
+        "constraints": "Riverside flood risk and heritage city centre",
+        "speed": 80.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-10.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.74,
+          53.297
+        ]
+      },
+      "properties": {
+        "id": "LPA-11",
+        "name": "Peak District National Park Authority",
+        "type": "National Park",
+        "region": "East Midlands",
+        "growth": "Constrained designated",
+        "constraints": "National Park statutory purposes and housing affordability tension",
+        "speed": null,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-11.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.0784,
+          55.2082
+        ]
+      },
+      "properties": {
+        "id": "LPA-12",
+        "name": "Northumberland County Council",
+        "type": "Unitary Authority",
+        "region": "North East",
+        "growth": "Mixed growth dispersed",
+        "constraints": "Minerals safeguarding and offshore wind infrastructure pressure",
+        "speed": null,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-12.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.4044,
+          50.9097
+        ]
+      },
+      "properties": {
+        "id": "LPA-13",
+        "name": "Southampton City Council",
+        "type": "Unitary Authority",
+        "region": "South East",
+        "growth": "Regeneration growth",
+        "constraints": "Coastal change and port safeguarding",
+        "speed": 74.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-13.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.1398,
+          52.6369
+        ]
+      },
+      "properties": {
+        "id": "LPA-14",
+        "name": "Leicester City Council",
+        "type": "Unitary Authority",
+        "region": "East Midlands",
+        "growth": "Urban renewal",
+        "constraints": "Heritage sensitivity and infrastructure capacity",
+        "speed": 70.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-14.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.1218,
+          52.2053
+        ]
+      },
+      "properties": {
+        "id": "LPA-15",
+        "name": "Cambridge City Council",
+        "type": "Non-metropolitan District",
+        "region": "East of England",
+        "growth": "High demand constrained",
+        "constraints": "Green Belt and heritage conservation area pressure",
+        "speed": null,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-15.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.539,
+          51.3927
+        ]
+      },
+      "properties": {
+        "id": "LPA-16",
+        "name": "Medway Council",
+        "type": "Unitary Authority",
+        "region": "South East",
+        "growth": "Housing delivery zone",
+        "constraints": "Flood risk and strategic transport corridor pressure",
+        "speed": 63.0,
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-16.html"
+      }
+    }
+  ]
+};
+
+        function speedColor(speed) {
+          if (speed == null) return '#aaa';
+          if (speed >= 74) return '#22a355';
+          if (speed >= 65) return '#f59e0b';
+          return '#ef4444';
+        }
+
+        data.features.forEach(function(f) {
+          var p = f.properties;
+          var coords = f.geometry.coordinates;
+          var color = speedColor(p.speed);
+          var circle = L.circleMarker([coords[1], coords[0]], {
+            radius: 10,
+            fillColor: color,
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.85
+          }).addTo(map);
+
+          var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
+          circle.bindPopup(
+            '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
+            '<br>' + p.type + ' — ' + p.region +
+            '<br><em>' + p.cohort + '</em>' +
+            '<br>' + speedText +
+            '<br><small>' + p.constraints + '</small>'
+          );
+        });
+
+        // Legend
+        var legend = L.control({position: 'bottomright'});
+        legend.onAdd = function() {
+          var d = L.DomUtil.create('div', 'info legend');
+          d.style.background = '#fff';
+          d.style.padding = '8px 12px';
+          d.style.borderRadius = '8px';
+          d.style.border = '1px solid #ccc';
+          d.innerHTML =
+            '<strong>Decision speed</strong><br>' +
+            '<span style="color:#22a355">●</span> ≥74% (above average)<br>' +
+            '<span style="color:#f59e0b">●</span> 65–73%<br>' +
+            '<span style="color:#ef4444">●</span> <65% (below average)<br>' +
+            '<span style="color:#aaa">●</span> No data';
+          return d;
+        };
+        legend.addTo(map);
+      })();
+      </script>
+
+    </div>
+  </body>
+</html>

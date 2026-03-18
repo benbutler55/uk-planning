@@ -139,6 +139,42 @@
       }
     },
     {
+      "path": "data/issues/recommendation-status.csv",
+      "required_columns": [
+        "recommendation_id", "submission_status", "next_action"
+      ],
+      "id_column": "recommendation_id",
+      "enum_columns": {
+        "submission_status": ["Not submitted", "Submitted", "Response received", "Under review", "Adopted", "Rejected"]
+      },
+      "fk_columns": {
+        "recommendation_id": {
+          "target_dataset": "data/issues/recommendations.csv",
+          "target_column": "recommendation_id"
+        }
+      }
+    },
+    {
+      "path": "data/evidence/appeal-decisions.csv",
+      "required_columns": [
+        "appeal_id", "pins_reference", "appeal_type", "lpa",
+        "decision_date", "outcome", "linked_issue", "policy_cited",
+        "inspector_finding", "source_url", "retrieved_at", "notes"
+      ],
+      "id_column": "appeal_id",
+      "date_columns": ["decision_date", "retrieved_at"],
+      "url_columns": ["source_url"],
+      "enum_columns": {
+        "outcome": ["Allowed", "Dismissed", "Split decision", "Withdrawn"]
+      },
+      "fk_columns": {
+        "linked_issue": {
+          "target_dataset": "data/issues/contradiction-register.csv",
+          "target_column": "issue_id"
+        }
+      }
+    },
+    {
       "path": "data/evidence/recommendation_evidence_links.csv",
       "required_columns": [
         "link_id", "recommendation_id", "evidence_type",

@@ -61,6 +61,10 @@ def page(title, subhead, active, body):
         ("roadmap.html", "Roadmap", "roadmap"),
         ("baselines.html", "Baselines", "baselines"),
         ("bottlenecks.html", "Bottlenecks", "bottlenecks"),
+        ("appeals.html", "Appeals", "appeals"),
+        ("map.html", "Map", "map"),
+        ("consultation.html", "Consultation", "consultation"),
+        ("search.html", "Search", "search"),
         ("audience-policymakers.html", "For Policy Makers", "policymakers"),
         ("audience-lpas.html", "For LPAs", "lpas"),
         ("audience-developers.html", "For Developers", "developers"),
@@ -691,13 +695,342 @@ def build_exports_index():
     body += "<p>All core datasets are available in CSV and JSON format for external analysis.</p>"
     body += "<ul>"
     for name in ["contradiction-register", "recommendations", "recommendation_evidence_links",
-                  "official_baseline_metrics", "implementation-roadmap", "bottleneck-heatmap"]:
+                  "official_baseline_metrics", "implementation-roadmap", "bottleneck-heatmap",
+                  "appeal-decisions"]:
         body += f'<li><a href="exports/{name}.csv">{name}.csv</a> | <a href="exports/{name}.json">{name}.json</a></li>'
     body += "</ul></section>"
     write(SITE / "exports.html", page(
         "Data Exports",
         "Download datasets in CSV and JSON format.",
         "index", body))
+
+
+def build_appeals():
+    rows = read_csv(ROOT / "data/evidence/appeal-decisions.csv")
+    issues = read_csv(ROOT / "data/issues/contradiction-register.csv")
+    issue_map = {r["issue_id"]: r["summary"] for r in issues}
+
+    body = '<section class="card"><p>Appeal decisions cited as evidence for identified contradictions and bottlenecks. References are illustrative examples drawn from Planning Inspectorate decision records.</p></section>'
+
+    outcomes = sorted({r.get("outcome", "") for r in rows if r.get("outcome")})
+    linked = sorted({r.get("linked_issue", "") for r in rows if r.get("linked_issue")})
+    body += render_filter_controls("appeals-table", "Search appeals", [
+        ("outcome", "Outcome", outcomes),
+        ("linked_issue", "Linked Issue", linked),
+    ])
+
+    columns = [
+        ("appeal_id", "ID"), ("pins_reference", "PINS Reference"), ("appeal_type", "Type"),
+        ("lpa", "LPA"), ("decision_date", "Date"), ("outcome", "Outcome"),
+        ("linked_issue", "Issue"), ("policy_cited", "Policy"), ("inspector_finding", "Inspector Finding"),
+        ("source_url", "Source"),
+    ]
+    body += render_filterable_table(rows, columns, "appeals-table",
+        ["appeal_id", "lpa", "outcome", "linked_issue", "policy_cited", "inspector_finding"])
+    body += render_filter_script("appeals-table",
+        ["appeal_id", "lpa", "outcome", "linked_issue", "policy_cited", "inspector_finding"])
+
+    # Issue linkage panel
+    body += '<section class="card"><h2>Issue to Appeal Cross-Reference</h2><table><thead><tr><th>Issue</th><th>Summary</th><th>Appeals</th></tr></thead><tbody>'
+    linked_by_issue = defaultdict(list)
+    for r in rows:
+        linked_by_issue[r.get("linked_issue", "")].append(r["appeal_id"])
+    for issue_id, appeal_ids in sorted(linked_by_issue.items()):
+        summary = html.escape(issue_map.get(issue_id, ""))
+        apps = html.escape(", ".join(appeal_ids))
+        body += f"<tr><td>{html.escape(issue_id)}</td><td>{summary}</td><td>{apps}</td></tr>"
+    body += "</tbody></table></section>"
+
+    write(SITE / "appeals.html", page(
+        "Appeal Decision Evidence",
+        "Planning Inspectorate decisions cited as evidence for identified contradictions.",
+        "appeals", body))
+
+
+def build_map():
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    geo = read_csv(ROOT / "data/plans/lpa-geo.csv")
+    baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
+
+    # Build speed lookup by pilot_id
+    speed_by_lpa = {}
+    for b in baselines:
+        geo_field = b.get("geography", "")
+        if geo_field.startswith("LPA-"):
+            pid = geo_field.split(" ")[0]
+            try:
+                speed_by_lpa[pid] = float(b.get("value", 0) or 0)
+            except ValueError:
+                pass
+
+    geo_by_id = {r["pilot_id"]: r for r in geo}
+    lpa_by_id = {r["pilot_id"]: r for r in lpas}
+
+    features = []
+    for pid, g in geo_by_id.items():
+        lpa = lpa_by_id.get(pid, {})
+        speed = speed_by_lpa.get(pid)
+        cohort = "Cohort 1" if pid in ["LPA-01","LPA-02","LPA-03","LPA-04","LPA-05","LPA-06"] else "Cohort 2"
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [float(g["lng"]), float(g["lat"])]},
+            "properties": {
+                "id": pid,
+                "name": lpa.get("lpa_name", ""),
+                "type": lpa.get("lpa_type", ""),
+                "region": lpa.get("region", ""),
+                "growth": lpa.get("growth_context", ""),
+                "constraints": lpa.get("constraint_profile", ""),
+                "speed": speed,
+                "cohort": cohort,
+                "page": f"plans-{pid.lower()}.html"
+            }
+        })
+
+    geojson = json.dumps({"type": "FeatureCollection", "features": features}, indent=2)
+
+    body = f"""
+      <section class="card">
+        <p>All {len(features)} LPAs in scope. Circle colour indicates speed of major decisions (green = above England average 74%, amber = 65-74%, red = below 65%). Click a marker for the LPA profile.</p>
+      </section>
+      <div id="map" style="height:560px;border-radius:14px;border:1px solid var(--line);"></div>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <script>
+      (function() {{
+        var map = L.map('map').setView([52.5, -1.5], 6);
+        L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 13
+        }}).addTo(map);
+
+        var data = {geojson};
+
+        function speedColor(speed) {{
+          if (speed == null) return '#aaa';
+          if (speed >= 74) return '#22a355';
+          if (speed >= 65) return '#f59e0b';
+          return '#ef4444';
+        }}
+
+        data.features.forEach(function(f) {{
+          var p = f.properties;
+          var coords = f.geometry.coordinates;
+          var color = speedColor(p.speed);
+          var circle = L.circleMarker([coords[1], coords[0]], {{
+            radius: 10,
+            fillColor: color,
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.85
+          }}).addTo(map);
+
+          var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
+          circle.bindPopup(
+            '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
+            '<br>' + p.type + ' — ' + p.region +
+            '<br><em>' + p.cohort + '</em>' +
+            '<br>' + speedText +
+            '<br><small>' + p.constraints + '</small>'
+          );
+        }});
+
+        // Legend
+        var legend = L.control({{position: 'bottomright'}});
+        legend.onAdd = function() {{
+          var d = L.DomUtil.create('div', 'info legend');
+          d.style.background = '#fff';
+          d.style.padding = '8px 12px';
+          d.style.borderRadius = '8px';
+          d.style.border = '1px solid #ccc';
+          d.innerHTML =
+            '<strong>Decision speed</strong><br>' +
+            '<span style="color:#22a355">●</span> ≥74% (above average)<br>' +
+            '<span style="color:#f59e0b">●</span> 65–73%<br>' +
+            '<span style="color:#ef4444">●</span> <65% (below average)<br>' +
+            '<span style="color:#aaa">●</span> No data';
+          return d;
+        }};
+        legend.addTo(map);
+      }})();
+      </script>
+"""
+    write(SITE / "map.html", page(
+        "LPA Map",
+        "All authorities in scope with major decision speed and profile links.",
+        "index", body))
+
+
+def build_consultation():
+    recs = read_csv(ROOT / "data/issues/recommendations.csv")
+    statuses = read_csv(ROOT / "data/issues/recommendation-status.csv")
+    status_map = {r["recommendation_id"]: r for r in statuses}
+
+    # Status summary counts
+    counts = defaultdict(int)
+    for r in statuses:
+        counts[r.get("submission_status", "Unknown")] += 1
+
+    body = '<section class="card">'
+    body += '<h2>Disclaimer</h2>'
+    body += '<p>This analysis is <strong>advisory only</strong>. It does not constitute legal advice. '
+    body += 'All recommendations are at <em>draft</em> verification state and have not been legally reviewed. '
+    body += 'Model drafting text is provided for discussion purposes and is not intended to be used as statutory language without independent legal review. '
+    body += 'The analysis covers England only. The authors have no affiliation with MHCLG, PINS, or any local planning authority.</p>'
+    body += '</section>'
+
+    body += '<section class="grid">'
+    for status, count in sorted(counts.items()):
+        css = {"Adopted": "green", "Submitted": "blue", "Response received": "blue",
+               "Rejected": "red", "Not submitted": "grey"}.get(status, "grey")
+        body += f'<article class="card"><h3>{html.escape(status)}</h3><p>{count} recommendation(s)</p></article>'
+    body += '</section>'
+
+    body += '<section class="card"><h2>Submission Status Tracker</h2>'
+    body += '<table><thead><tr><th>Recommendation</th><th>Title</th><th>Status</th><th>Submitted To</th><th>Next Action</th></tr></thead><tbody>'
+    for rec in recs:
+        rid = rec["recommendation_id"]
+        s = status_map.get(rid, {})
+        status_val = s.get("submission_status", "Not submitted")
+        css = {"Adopted": "badge-green", "Submitted": "badge-blue", "Response received": "badge-blue",
+               "Rejected": "badge-red", "Not submitted": "badge-grey", "Under review": "badge-amber"}.get(status_val, "badge-grey")
+        body += f'<tr><td>{html.escape(rid)}</td>'
+        body += f'<td>{html.escape(rec.get("title", ""))}</td>'
+        body += f'<td><span class="badge {css}">{html.escape(status_val)}</span></td>'
+        body += f'<td>{html.escape(s.get("submitted_to", "—"))}</td>'
+        body += f'<td>{html.escape(s.get("next_action", ""))}</td></tr>'
+    body += '</tbody></table></section>'
+
+    body += '<section class="card"><h2>Download Recommendations Pack</h2>'
+    body += '<p>Download the full recommendations as a machine-readable dataset for consultation purposes.</p>'
+    body += '<ul>'
+    body += '<li><a href="exports/recommendations.csv">recommendations.csv</a></li>'
+    body += '<li><a href="exports/recommendations.json">recommendations.json</a></li>'
+    body += '</ul>'
+    body += '<button onclick="window.print()" style="margin-top:12px;padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1rem;">Print / Save as PDF</button>'
+    body += '</section>'
+
+    body += '<section class="card"><h2>How to Respond</h2>'
+    body += '<p>This analysis is published as open data. To contribute evidence, corrections, or policy responses:</p><ul>'
+    body += '<li>Open an issue on the <a href="https://github.com/benbutler55/uk-planning/issues" target="_blank" rel="noopener">GitHub repository</a>.</li>'
+    body += '<li>Download the datasets from the <a href="exports.html">Exports</a> page and submit a pull request with updated data.</li>'
+    body += '<li>Cite this analysis using the repository URL and the version tag.</li>'
+    body += '</ul></section>'
+
+    write(SITE / "consultation.html", page(
+        "Consultation and Status",
+        "Submission status tracker, disclaimer, and how to respond to this analysis.",
+        "consultation", body))
+
+
+def build_search_index():
+    """Build a JSON search index from all key datasets for client-side search."""
+    index = []
+
+    def add(doc_id, page, title, category, text):
+        index.append({
+            "id": doc_id, "page": page, "title": title,
+            "category": category,
+            "text": " ".join(str(v) for v in [title, text] if v).lower()
+        })
+
+    for r in read_csv(ROOT / "data/issues/contradiction-register.csv"):
+        add(r["issue_id"], "contradictions.html", r["issue_id"] + ": " + r["summary"],
+            "Contradiction", r.get("summary", "") + " " + r.get("issue_type", "") + " " + r.get("process_stage", ""))
+
+    for r in read_csv(ROOT / "data/issues/recommendations.csv"):
+        add(r["recommendation_id"], "recommendations.html", r["recommendation_id"] + ": " + r["title"],
+            "Recommendation", r.get("title", "") + " " + r.get("policy_goal", "") + " " + r.get("kpi_primary", ""))
+
+    for r in read_csv(ROOT / "data/legislation/england-core-legislation.csv"):
+        add(r["id"], "legislation.html", r["title"],
+            "Legislation", r.get("type", "") + " " + r.get("status", "") + " " + r.get("citation", ""))
+
+    for r in read_csv(ROOT / "data/policy/england-national-policy.csv"):
+        add(r["id"], "legislation.html", r["title"],
+            "Policy", r.get("type", "") + " " + r.get("scope", "") + " " + r.get("authority", ""))
+
+    for r in read_csv(ROOT / "data/plans/pilot-lpas.csv"):
+        add(r["pilot_id"], f"plans-{r['pilot_id'].lower()}.html", r["lpa_name"],
+            "LPA", r.get("region", "") + " " + r.get("constraint_profile", "") + " " + r.get("growth_context", ""))
+
+    for r in read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"):
+        add(r["stage_id"], "bottlenecks.html", r["process_stage"] + " — " + r["pathway"],
+            "Bottleneck", r.get("delay_driver", "") + " " + r.get("process_stage", ""))
+
+    for r in read_csv(ROOT / "data/evidence/appeal-decisions.csv"):
+        add(r["appeal_id"], "appeals.html", r["pins_reference"] + " (" + r["lpa"] + ")",
+            "Appeal", r.get("inspector_finding", "") + " " + r.get("policy_cited", ""))
+
+    idx_path = SITE / "search-index.json"
+    idx_path.write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
+    return len(index)
+
+
+def build_search():
+    body = """
+      <section class="card">
+        <input type="search" id="search-input" placeholder="Search legislation, issues, recommendations, LPAs, appeals..." style="width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;" />
+        <p class="small" id="search-count" style="margin-top:8px;"></p>
+      </section>
+      <section class="card" id="search-results">
+        <p class="small">Start typing to search across all content.</p>
+      </section>
+      <script>
+      (function() {
+        var input = document.getElementById('search-input');
+        var results = document.getElementById('search-results');
+        var countEl = document.getElementById('search-count');
+        var index = null;
+
+        fetch('search-index.json')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            index = data;
+            countEl.textContent = data.length + ' items indexed.';
+          });
+
+        input.addEventListener('input', function() {
+          var q = input.value.toLowerCase().trim();
+          if (!index || q.length < 2) {
+            results.innerHTML = '<p class="small">Type at least 2 characters to search.</p>';
+            return;
+          }
+          var matches = index.filter(function(item) {
+            return item.text.indexOf(q) !== -1;
+          }).slice(0, 50);
+
+          if (matches.length === 0) {
+            results.innerHTML = '<p class="small">No results found.</p>';
+            countEl.textContent = '0 results.';
+            return;
+          }
+
+          countEl.textContent = matches.length + ' result(s).';
+          var cats = {};
+          matches.forEach(function(m) {
+            if (!cats[m.category]) cats[m.category] = [];
+            cats[m.category].push(m);
+          });
+
+          var html = '';
+          Object.keys(cats).sort().forEach(function(cat) {
+            html += '<h3>' + cat + '</h3><ul>';
+            cats[cat].forEach(function(m) {
+              html += '<li><a href="' + m.page + '">' + m.title + '</a></li>';
+            });
+            html += '</ul>';
+          });
+          results.innerHTML = html;
+        });
+      })();
+      </script>
+"""
+    write(SITE / "search.html", page(
+        "Search",
+        "Full-text search across legislation, issues, recommendations, LPAs, appeals, and bottlenecks.",
+        "search", body))
 
 
 def main():
@@ -711,6 +1044,11 @@ def main():
     build_roadmap()
     build_baselines()
     build_bottlenecks()
+    build_appeals()
+    build_map()
+    build_consultation()
+    build_search_index()
+    build_search()
     build_audience_policymakers()
     build_audience_lpas()
     build_audience_developers()
@@ -727,6 +1065,7 @@ def main():
         "official_baseline_metrics": read_csv(ROOT / "data/evidence/official_baseline_metrics.csv"),
         "implementation-roadmap": read_csv(ROOT / "data/issues/implementation-roadmap.csv"),
         "bottleneck-heatmap": read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"),
+        "appeal-decisions": read_csv(ROOT / "data/evidence/appeal-decisions.csv"),
     })
 
     print("Built site pages from CSV data.")

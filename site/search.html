@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="layout">
+      <header>
+        <h1>Search</h1>
+        <p class="subhead">Full-text search across legislation, issues, recommendations, LPAs, appeals, and bottlenecks.</p>
+      </header>
+      <nav>
+<a href="index.html">Overview</a>
+<a href="legislation.html">Legislation</a>
+<a href="plans.html">Plans</a>
+<a href="contradictions.html">Contradictions</a>
+<a href="recommendations.html">Recommendations</a>
+<a href="roadmap.html">Roadmap</a>
+<a href="baselines.html">Baselines</a>
+<a href="bottlenecks.html">Bottlenecks</a>
+<a href="appeals.html">Appeals</a>
+<a href="map.html">Map</a>
+<a href="consultation.html">Consultation</a>
+<a class="active" href="search.html">Search</a>
+<a href="audience-policymakers.html">For Policy Makers</a>
+<a href="audience-lpas.html">For LPAs</a>
+<a href="audience-developers.html">For Developers</a>
+<a href="audience-public.html">For Public</a>
+<a href="methodology.html">Methodology</a>
+<a href="sources.html">Sources</a>
+      </nav>
+
+      <section class="card">
+        <input type="search" id="search-input" placeholder="Search legislation, issues, recommendations, LPAs, appeals..." style="width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;" />
+        <p class="small" id="search-count" style="margin-top:8px;"></p>
+      </section>
+      <section class="card" id="search-results">
+        <p class="small">Start typing to search across all content.</p>
+      </section>
+      <script>
+      (function() {
+        var input = document.getElementById('search-input');
+        var results = document.getElementById('search-results');
+        var countEl = document.getElementById('search-count');
+        var index = null;
+
+        fetch('search-index.json')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            index = data;
+            countEl.textContent = data.length + ' items indexed.';
+          });
+
+        input.addEventListener('input', function() {
+          var q = input.value.toLowerCase().trim();
+          if (!index || q.length < 2) {
+            results.innerHTML = '<p class="small">Type at least 2 characters to search.</p>';
+            return;
+          }
+          var matches = index.filter(function(item) {
+            return item.text.indexOf(q) !== -1;
+          }).slice(0, 50);
+
+          if (matches.length === 0) {
+            results.innerHTML = '<p class="small">No results found.</p>';
+            countEl.textContent = '0 results.';
+            return;
+          }
+
+          countEl.textContent = matches.length + ' result(s).';
+          var cats = {};
+          matches.forEach(function(m) {
+            if (!cats[m.category]) cats[m.category] = [];
+            cats[m.category].push(m);
+          });
+
+          var html = '';
+          Object.keys(cats).sort().forEach(function(cat) {
+            html += '<h3>' + cat + '</h3><ul>';
+            cats[cat].forEach(function(m) {
+              html += '<li><a href="' + m.page + '">' + m.title + '</a></li>';
+            });
+            html += '</ul>';
+          });
+          results.innerHTML = html;
+        });
+      })();
+      </script>
+
+    </div>
+  </body>
+</html>
