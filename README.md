@@ -19,8 +19,10 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Full-text client-side search across all content
 - National Leaflet.js map with decision speed overlay
 - LPA side-by-side comparison page (`compare.html`)
-- LPA benchmark dashboard with ranking, percentile banding, and trend sparklines
+- LPA benchmark dashboard with ranking, percentile banding, trend sparklines, and region/type filters
 - Downloadable per-LPA report bundles (`reports/*.csv` and `reports/*.json`)
+- Benchmark preset compare links and compare-page URL deep-linking (`?a=LPA-XX&b=LPA-YY`)
+- Metric provenance badges across benchmark and reports (official stats vs analytical estimates)
 - Quarterly automated GOV.UK statistics ingest check
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
@@ -143,9 +145,9 @@ See `AGENTS.md` for full agent operating rules.
 | `roadmap.html` | Delivery milestones |
 | `baselines.html` | Official KPI baselines |
 | `map.html` | National Leaflet.js map with decision speed overlay |
-| `compare.html` | Side-by-side LPA comparison page |
-| `benchmark.html` | Ranked LPA benchmark dashboard with trend sparklines |
-| `reports.html` | Downloadable per-LPA comparison bundles |
+| `compare.html` | Side-by-side LPA comparison page with URL presets |
+| `benchmark.html` | Ranked LPA benchmark dashboard with trend sparklines, filters, provenance badges, and preset compare links |
+| `reports.html` | Downloadable per-LPA comparison bundles with region/type filters and provenance tags |
 | `consultation.html` | Status tracker, disclaimer, and PDF export |
 | `search.html` | Full-text search across all content |
 | `audience-policymakers.html` | View for policy makers |

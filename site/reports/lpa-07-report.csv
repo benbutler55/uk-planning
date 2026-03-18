@@ -10,3 +10,9 @@ coverage_score,82
 total_linked_issues,7
 high_severity_issues,3
 primary_risk_stage,Condition Discharge
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

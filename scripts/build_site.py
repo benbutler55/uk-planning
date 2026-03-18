@@ -49,6 +49,15 @@ def verification_badge(state):
     return badge(state, colors.get(state, "grey"))
 
 
+def provenance_badge(kind):
+    labels = {
+        "official": ("Official stats", "blue"),
+        "estimated": ("Analytical estimate", "amber"),
+    }
+    label, css = labels.get(kind, ("Unknown provenance", "grey"))
+    return badge(label, css)
+
+
 # --- Page shell ---
 
 def page(title, subhead, active, body):
@@ -943,7 +952,7 @@ def build_compare():
 
     body = """
       <section class="card">
-        <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics.</p>
+        <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics. You can also open this page with URL presets such as <code>?a=LPA-01&b=LPA-07</code>.</p>
         <div class="filter-row">
           <label class="filter-item">Authority A<select id="cmp-a"></select></label>
           <label class="filter-item">Authority B<select id="cmp-b"></select></label>
@@ -968,9 +977,25 @@ def build_compare():
           aSel.appendChild(mkOption(item));
           bSel.appendChild(mkOption(item));
         });
+
+        var byId = {};
+        data.forEach(function(item) { byId[item.id] = true; });
+        var params = new URLSearchParams(window.location.search);
+        if (!params.get('a') && !params.get('b') && window.location.hash) {
+          params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        }
+        var presetA = (params.get('a') || '').toUpperCase();
+        var presetB = (params.get('b') || '').toUpperCase();
+
         if (data.length > 1) {
           aSel.value = data[0].id;
           bSel.value = data[1].id;
+        }
+        if (presetA && byId[presetA]) aSel.value = presetA;
+        if (presetB && byId[presetB]) bSel.value = presetB;
+        if (aSel.value === bSel.value && data.length > 1) {
+          var fallback = data.find(function(item) { return item.id !== aSel.value; });
+          if (fallback) bSel.value = fallback.id;
         }
 
         function row(label, a, b) {
@@ -981,6 +1006,12 @@ def build_compare():
           var a = data.find(function(x){ return x.id === aSel.value; });
           var b = data.find(function(x){ return x.id === bSel.value; });
           if (!a || !b) return;
+
+          var next = new URL(window.location.href);
+          next.searchParams.set('a', a.id);
+          next.searchParams.set('b', b.id);
+          history.replaceState(null, '', next.pathname + '?' + next.searchParams.toString());
+
           out.innerHTML =
             '<h2>Comparison</h2>' +
             '<table><thead><tr><th>Metric</th><th>' + a.name + '</th><th>' + b.name + '</th></tr></thead><tbody>' +
@@ -1037,6 +1068,7 @@ def build_benchmark():
         bench.append({
             "pilot_id": pid,
             "lpa_name": lpa.get("lpa_name", ""),
+            "lpa_type": lpa.get("lpa_type", ""),
             "region": lpa.get("region", ""),
             "latest_speed": latest_speed,
             "latest_appeal": latest_appeal,
@@ -1071,6 +1103,10 @@ def build_benchmark():
         r["percentile"] = rr.get("percentile", "n/a")
         r["band"] = rr.get("band", "n/a")
 
+    regions = sorted({r["region"] for r in bench if r.get("region")})
+    lpa_types = sorted({r["lpa_type"] for r in bench if r.get("lpa_type")})
+    bands = ["Top third", "Middle third", "Bottom third"]
+
     body = '<section class="card"><p>Benchmark dashboard compares LPAs on latest decision speed, appeal overturn trend, issue incidence, and evidence quality. Trend lines show 2024-Q4 to 2025-Q3.</p></section>'
     body += '<section class="grid">'
     if ranked:
@@ -1079,26 +1115,125 @@ def build_benchmark():
         body += f'<article class="card"><h3>Bottom performer</h3><p>{html.escape(ranked[-1]["lpa_name"])} ({ranked[-1]["latest_speed"]:.1f}%)</p></article>'
     body += '</section>'
 
+    body += '<section class="card"><h2>Metric provenance</h2><p>'
+    body += provenance_badge("official") + ' from GOV.UK planning statistics (P151/P152); '
+    body += provenance_badge("estimated") + ' from analytical issue-incidence and evidence-quality scoring layers.'
+    body += '</p></section>'
+
+    top_pid = ranked[0]["pilot_id"] if ranked else ""
+    median_pid = ranked[n // 2]["pilot_id"] if ranked else ""
+    if top_pid == median_pid and n > 1:
+        median_pid = ranked[1]["pilot_id"]
+
+    body += '<section class="card"><div class="filter-row">'
+    body += '<label class="filter-item">Search benchmark<input type="search" data-table="benchmark-table" data-filter="search" placeholder="Type authority or stage..." /></label>'
+    body += '<label class="filter-item">Region<select data-table="benchmark-table" data-filter="region"><option value="">All</option>'
+    for region in regions:
+        body += f'<option value="{html.escape(region.lower())}">{html.escape(region)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">LPA type<select data-table="benchmark-table" data-filter="lpa_type"><option value="">All</option>'
+    for lpa_type in lpa_types:
+        body += f'<option value="{html.escape(lpa_type.lower())}">{html.escape(lpa_type)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Percentile band<select data-table="benchmark-table" data-filter="band"><option value="">All</option>'
+    for band in bands:
+        body += f'<option value="{html.escape(band.lower())}">{html.escape(band)}</option>'
+    body += '</select></label>'
+    body += '</div><p class="small" data-filter-count-for="benchmark-table"></p></section>'
+
     body += '<section class="card"><h2>LPA Benchmark Ranking</h2>'
-    body += '<table><thead><tr><th>Rank</th><th>LPA</th><th>Region</th><th>Speed (%)</th><th>Percentile</th><th>Band</th><th>Trend</th><th>Appeal %</th><th>Issues</th><th>High Sev</th><th>Risk Stage</th><th>Quality</th></tr></thead><tbody>'
+    body += '<table id="benchmark-table"><thead><tr><th>Rank</th><th>LPA</th><th>Type</th><th>Region</th><th>Speed (%)</th><th>Percentile</th><th>Band</th><th>Trend</th><th>Appeal %</th><th>Issues</th><th>High Sev</th><th>Risk Stage</th><th>Quality</th><th>Compare</th></tr></thead><tbody>'
     for r in sorted(bench, key=lambda x: (x["rank"] if isinstance(x["rank"], int) else 9999)):
         speed = f"{r['latest_speed']:.1f}" if isinstance(r["latest_speed"], float) else "n/a"
         appeal = f"{r['latest_appeal']:.1f}" if isinstance(r["latest_appeal"], float) else "n/a"
-        body += "<tr>"
+        compare_target = top_pid if r["pilot_id"] != top_pid else median_pid
+        compare_link = "—"
+        if compare_target and compare_target != r["pilot_id"]:
+            href = f"compare.html#a={r['pilot_id']}&b={compare_target}"
+            compare_link = f'<a href="{html.escape(href)}">Preset pair</a>'
+        search_blob = " ".join([
+            str(r.get("lpa_name", "")),
+            str(r.get("lpa_type", "")),
+            str(r.get("region", "")),
+            str(r.get("risk_stage", "")),
+            str(r.get("quality_tier", "")),
+            str(r.get("band", "")),
+        ]).strip().lower()
+        attrs = (
+            f'data-search="{html.escape(search_blob)}" '
+            f'data-region="{html.escape(r.get("region", "").strip().lower())}" '
+            f'data-lpa_type="{html.escape(r.get("lpa_type", "").strip().lower())}" '
+            f'data-band="{html.escape(r.get("band", "").strip().lower())}"'
+        )
+        body += f"<tr {attrs}>"
         body += f"<td>{html.escape(str(r['rank']))}</td>"
         body += f"<td>{html.escape(r['lpa_name'])}</td>"
+        body += f"<td>{html.escape(r['lpa_type'])}</td>"
         body += f"<td>{html.escape(r['region'])}</td>"
-        body += f"<td>{speed}</td>"
+        body += f"<td>{speed} {provenance_badge('official')}</td>"
         body += f"<td>{html.escape(str(r['percentile']))}</td>"
         body += f"<td>{html.escape(r['band'])}</td>"
         body += f"<td>{r['trend_spark']}</td>"
-        body += f"<td>{appeal}</td>"
-        body += f"<td>{html.escape(str(r['total_issues']))}</td>"
+        body += f"<td>{appeal} {provenance_badge('official')}</td>"
+        body += f"<td>{html.escape(str(r['total_issues']))} {provenance_badge('estimated')}</td>"
         body += f"<td>{html.escape(str(r['high_severity_issues']))}</td>"
         body += f"<td>{html.escape(str(r['risk_stage']))}</td>"
-        body += f"<td>{html.escape(str(r['quality_tier']))} ({html.escape(str(r['quality_score']))})</td>"
+        body += f"<td>{html.escape(str(r['quality_tier']))} ({html.escape(str(r['quality_score']))}) {provenance_badge('estimated')}</td>"
+        body += f"<td>{compare_link}</td>"
         body += "</tr>"
     body += '</tbody></table></section>'
+
+    body += """
+<script>
+(function() {
+  var table = document.getElementById('benchmark-table');
+  if (!table) return;
+  var rows = Array.from(table.querySelectorAll('tbody tr'));
+  var controls = Array.from(document.querySelectorAll('[data-table="benchmark-table"]'));
+  var countEl = document.querySelector('[data-filter-count-for="benchmark-table"]');
+
+  function update() {
+    var visible = 0;
+    var search = '';
+    var selected = {};
+
+    controls.forEach(function(control) {
+      var key = control.dataset.filter;
+      var value = (control.value || '').toLowerCase().trim();
+      if (key === 'search') {
+        search = value;
+      } else if (value) {
+        selected[key] = value;
+      }
+    });
+
+    rows.forEach(function(row) {
+      var show = true;
+      for (var key in selected) {
+        if ((row.dataset[key] || '') !== selected[key]) {
+          show = false;
+          break;
+        }
+      }
+      if (show && search) {
+        var blob = row.dataset.search || '';
+        if (blob.indexOf(search) === -1) show = false;
+      }
+      row.classList.toggle('hidden-row', !show);
+      if (show) visible++;
+    });
+
+    if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
+  }
+
+  controls.forEach(function(control) {
+    control.addEventListener('input', update);
+    control.addEventListener('change', update);
+  });
+  update();
+})();
+</script>
+"""
 
     write(SITE / "benchmark.html", page(
         "LPA Benchmark Dashboard",
@@ -1129,6 +1264,9 @@ def build_reports():
         q = quality_by_id.get(pid, {})
         i = issues_by_id.get(pid, {})
         t = trends_by_id.get(pid, [])
+        latest_trend = t[-1] if t else {}
+        trend_source = latest_trend.get("source_table", "")
+        trend_source_url = latest_trend.get("source_url", "")
         payload = {
             "pilot_id": pid,
             "lpa_name": lpa.get("lpa_name", ""),
@@ -1139,6 +1277,16 @@ def build_reports():
             "data_quality": q,
             "issue_incidence": i,
             "quarterly_trends": t,
+            "metric_provenance": {
+                "major_in_time_pct": "official",
+                "appeals_overturned_pct": "official",
+                "issue_incidence": "estimated",
+                "data_quality": "estimated",
+            },
+            "latest_trend_source": {
+                "source_table": trend_source,
+                "source_url": trend_source_url,
+            },
         }
         json_path = reports_dir / f"{pid.lower()}-report.json"
         json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -1158,14 +1306,118 @@ def build_reports():
             w.writerow(["total_linked_issues", i.get("total_linked_issues", "")])
             w.writerow(["high_severity_issues", i.get("high_severity_issues", "")])
             w.writerow(["primary_risk_stage", i.get("primary_risk_stage", "")])
+            w.writerow(["major_in_time_pct_provenance", "official"])
+            w.writerow(["appeals_overturned_pct_provenance", "official"])
+            w.writerow(["issue_incidence_provenance", "estimated"])
+            w.writerow(["data_quality_provenance", "estimated"])
+            w.writerow(["latest_trend_source_table", trend_source])
+            w.writerow(["latest_trend_source_url", trend_source_url])
 
-        links.append((pid, lpa.get("lpa_name", ""), f"reports/{pid.lower()}-report.csv", f"reports/{pid.lower()}-report.json"))
+        links.append({
+            "pid": pid,
+            "name": lpa.get("lpa_name", ""),
+            "lpa_type": lpa.get("lpa_type", ""),
+            "region": lpa.get("region", ""),
+            "csv": f"reports/{pid.lower()}-report.csv",
+            "json": f"reports/{pid.lower()}-report.json",
+            "trend_source": trend_source,
+            "trend_source_url": trend_source_url,
+        })
 
     body = '<section class="card"><p>Download per-authority comparison bundles in CSV or JSON format. Each report contains profile, evidence quality, issue incidence, and quarterly trend snapshots.</p></section>'
-    body += '<section class="card"><table><thead><tr><th>ID</th><th>Authority</th><th>CSV</th><th>JSON</th></tr></thead><tbody>'
-    for pid, name, cpath, jpath in links:
-        body += f'<tr><td>{html.escape(pid)}</td><td>{html.escape(name)}</td><td><a href="{html.escape(cpath)}">Download CSV</a></td><td><a href="{html.escape(jpath)}">Download JSON</a></td></tr>'
+    body += '<section class="card"><h2>Metric provenance</h2><p>'
+    body += provenance_badge("official") + ' quarterly trend metrics from GOV.UK planning statistics; '
+    body += provenance_badge("estimated") + ' issue-incidence and evidence-quality analytical layers.'
+    body += '</p></section>'
+
+    regions = sorted({r["region"] for r in links if r.get("region")})
+    lpa_types = sorted({r["lpa_type"] for r in links if r.get("lpa_type")})
+
+    body += '<section class="card"><div class="filter-row">'
+    body += '<label class="filter-item">Search reports<input type="search" data-table="reports-table" data-filter="search" placeholder="Type authority..." /></label>'
+    body += '<label class="filter-item">Region<select data-table="reports-table" data-filter="region"><option value="">All</option>'
+    for region in regions:
+        body += f'<option value="{html.escape(region.lower())}">{html.escape(region)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">LPA type<select data-table="reports-table" data-filter="lpa_type"><option value="">All</option>'
+    for lpa_type in lpa_types:
+        body += f'<option value="{html.escape(lpa_type.lower())}">{html.escape(lpa_type)}</option>'
+    body += '</select></label>'
+    body += '</div><p class="small" data-filter-count-for="reports-table"></p></section>'
+
+    body += '<section class="card"><table id="reports-table"><thead><tr><th>ID</th><th>Authority</th><th>Type</th><th>Region</th><th>Metric provenance</th><th>Trend source</th><th>CSV</th><th>JSON</th></tr></thead><tbody>'
+    for row in links:
+        attrs = (
+            f'data-search="{html.escape((row["name"] + " " + row["pid"]).strip().lower())}" '
+            f'data-region="{html.escape(row["region"].strip().lower())}" '
+            f'data-lpa_type="{html.escape(row["lpa_type"].strip().lower())}"'
+        )
+        source_cell = html.escape(row["trend_source"]) if row["trend_source"] else "—"
+        if row["trend_source_url"]:
+            source_cell = f'<a href="{html.escape(row["trend_source_url"])}" target="_blank" rel="noopener noreferrer">{html.escape(row["trend_source"] or "Source")}</a>'
+        body += f'<tr {attrs}>'
+        body += f'<td>{html.escape(row["pid"])}</td>'
+        body += f'<td>{html.escape(row["name"])}</td>'
+        body += f'<td>{html.escape(row["lpa_type"])}</td>'
+        body += f'<td>{html.escape(row["region"])}</td>'
+        body += f'<td>{provenance_badge("official")} {provenance_badge("estimated")}</td>'
+        body += f'<td>{source_cell}</td>'
+        body += f'<td><a href="{html.escape(row["csv"])}">Download CSV</a></td>'
+        body += f'<td><a href="{html.escape(row["json"])}">Download JSON</a></td>'
+        body += '</tr>'
     body += '</tbody></table></section>'
+
+    body += """
+<script>
+(function() {
+  var table = document.getElementById('reports-table');
+  if (!table) return;
+  var rows = Array.from(table.querySelectorAll('tbody tr'));
+  var controls = Array.from(document.querySelectorAll('[data-table="reports-table"]'));
+  var countEl = document.querySelector('[data-filter-count-for="reports-table"]');
+
+  function update() {
+    var visible = 0;
+    var search = '';
+    var selected = {};
+
+    controls.forEach(function(control) {
+      var key = control.dataset.filter;
+      var value = (control.value || '').toLowerCase().trim();
+      if (key === 'search') {
+        search = value;
+      } else if (value) {
+        selected[key] = value;
+      }
+    });
+
+    rows.forEach(function(row) {
+      var show = true;
+      for (var key in selected) {
+        if ((row.dataset[key] || '') !== selected[key]) {
+          show = false;
+          break;
+        }
+      }
+      if (show && search) {
+        var blob = row.dataset.search || '';
+        if (blob.indexOf(search) === -1) show = false;
+      }
+      row.classList.toggle('hidden-row', !show);
+      if (show) visible++;
+    });
+
+    if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
+  }
+
+  controls.forEach(function(control) {
+    control.addEventListener('input', update);
+    control.addEventListener('change', update);
+  });
+  update();
+})();
+</script>
+"""
 
     write(SITE / "reports.html", page(
         "LPA Reports",

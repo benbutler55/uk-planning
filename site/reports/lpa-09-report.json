@@ -65,5 +65,15 @@
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
       "retrieved_at": "2026-03-18"
     }
-  ]
+  ],
+  "metric_provenance": {
+    "major_in_time_pct": "official",
+    "appeals_overturned_pct": "official",
+    "issue_incidence": "estimated",
+    "data_quality": "estimated"
+  },
+  "latest_trend_source": {
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics"
+  }
 }

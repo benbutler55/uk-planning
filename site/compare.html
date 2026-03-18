@@ -40,7 +40,7 @@
       </nav>
 
       <section class="card">
-        <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics.</p>
+        <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics. You can also open this page with URL presets such as <code>?a=LPA-01&b=LPA-07</code>.</p>
         <div class="filter-row">
           <label class="filter-item">Authority A<select id="cmp-a"></select></label>
           <label class="filter-item">Authority B<select id="cmp-b"></select></label>
@@ -65,9 +65,25 @@
           aSel.appendChild(mkOption(item));
           bSel.appendChild(mkOption(item));
         });
+
+        var byId = {};
+        data.forEach(function(item) { byId[item.id] = true; });
+        var params = new URLSearchParams(window.location.search);
+        if (!params.get('a') && !params.get('b') && window.location.hash) {
+          params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        }
+        var presetA = (params.get('a') || '').toUpperCase();
+        var presetB = (params.get('b') || '').toUpperCase();
+
         if (data.length > 1) {
           aSel.value = data[0].id;
           bSel.value = data[1].id;
+        }
+        if (presetA && byId[presetA]) aSel.value = presetA;
+        if (presetB && byId[presetB]) bSel.value = presetB;
+        if (aSel.value === bSel.value && data.length > 1) {
+          var fallback = data.find(function(item) { return item.id !== aSel.value; });
+          if (fallback) bSel.value = fallback.id;
         }
 
         function row(label, a, b) {
@@ -78,6 +94,12 @@
           var a = data.find(function(x){ return x.id === aSel.value; });
           var b = data.find(function(x){ return x.id === bSel.value; });
           if (!a || !b) return;
+
+          var next = new URL(window.location.href);
+          next.searchParams.set('a', a.id);
+          next.searchParams.set('b', b.id);
+          history.replaceState(null, '', next.pathname + '?' + next.searchParams.toString());
+
           out.innerHTML =
             '<h2>Comparison</h2>' +
             '<table><thead><tr><th>Metric</th><th>' + a.name + '</th><th>' + b.name + '</th></tr></thead><tbody>' +
