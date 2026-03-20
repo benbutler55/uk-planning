@@ -7,7 +7,7 @@ import html
 import json
 import shutil
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import date, datetime
 from pathlib import Path
 
 
@@ -382,7 +382,22 @@ def write_exports(datasets):
 
 def write_exports_manifest(datasets):
     EXPORTS.mkdir(parents=True, exist_ok=True)
-    generated = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    latest = None
+    for rows in datasets.values():
+        for row in rows:
+            for value in row.values():
+                if not value:
+                    continue
+                candidate = None
+                try:
+                    candidate = date.fromisoformat(str(value)[:10])
+                except ValueError:
+                    candidate = None
+                if candidate and (latest is None or candidate > latest):
+                    latest = candidate
+    if latest is None:
+        latest = date.today()
+    generated = datetime(latest.year, latest.month, latest.day, 0, 0, 0).isoformat() + "Z"
     items = []
     for name, rows in datasets.items():
         encoded = json.dumps(rows, sort_keys=True, ensure_ascii=False).encode("utf-8")
