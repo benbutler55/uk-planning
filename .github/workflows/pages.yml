@@ -42,6 +42,12 @@ jobs:
       - name: Check internal links
         run: python3 scripts/check_links.py
 
+      - name: Check metric drift thresholds
+        run: python3 scripts/check_metric_drift.py
+
+      - name: Check accessibility basics
+        run: python3 scripts/check_accessibility.py
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b  # v5.0.0
 

@@ -1,5 +1,30 @@
 # Release Notes
 
+## v6.0 — Phase 6 Trust, Monitoring, and Decision Readiness (2026-03-20)
+
+### Summary
+
+Phase 6 strengthens trust and operational readiness with dataset health monitoring, drift guardrails, accessibility checks, and versioned export manifests/snapshots.
+
+### Deliverables
+
+**Data trust and monitoring:**
+- Added data health page (`site/data-health.html`) with freshness status, age, and monitored source paths for core operational datasets
+- Added benchmark/report data-health status cards linking to the full health report
+
+**Drift and QA guardrails:**
+- Added metric drift checker (`scripts/check_metric_drift.py`) with fail/warn thresholds for quarter-on-quarter changes
+- Added accessibility checker (`scripts/check_accessibility.py`) for generated HTML semantics and control labeling
+- CI and Pages workflows now run drift and accessibility checks after build/link checks
+
+**Decision packs and provenance:**
+- Added monthly snapshot bundle generation under `site/reports/` (`monthly-snapshot.csv` and `monthly-snapshot.json`)
+- Added export manifest generation (`site/exports/manifest.json`) with build version, generation time, row counts, fields, and content SHA-256 hashes
+
+**UX and accessibility polish:**
+- Added screen-reader label support (`sr-only`) for search input labeling
+- Maintained keyboard-visible focus styling and mobile table overflow support
+
 ## v5.0 — Phase 5 Analytics, Automation, and UX Polish (2026-03-20)
 
 ### Summary

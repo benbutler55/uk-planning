@@ -1,0 +1,199 @@
+{
+  "version": "v6.0",
+  "generated_at": "2026-03-20T16:24:42Z",
+  "dataset_count": 10,
+  "datasets": [
+    {
+      "dataset": "appeal-decisions",
+      "row_count": 10,
+      "fields": [
+        "appeal_id",
+        "pins_reference",
+        "appeal_type",
+        "lpa",
+        "decision_date",
+        "outcome",
+        "linked_issue",
+        "policy_cited",
+        "inspector_finding",
+        "source_url",
+        "retrieved_at",
+        "notes"
+      ],
+      "content_sha256": "5cc33a1ae59d70f28a95c08ada6f329c55268643a3d168687420b018d35dcee7",
+      "csv_path": "exports/appeal-decisions.csv",
+      "json_path": "exports/appeal-decisions.json"
+    },
+    {
+      "dataset": "bottleneck-heatmap",
+      "row_count": 12,
+      "fields": [
+        "stage_id",
+        "process_stage",
+        "pathway",
+        "median_delay_weeks",
+        "delay_driver",
+        "frequency",
+        "severity",
+        "linked_issues",
+        "source_evidence",
+        "notes"
+      ],
+      "content_sha256": "14eef5729b30a946a41f84f57ddc5a7334800f841883742b33e862979ebfe8c6",
+      "csv_path": "exports/bottleneck-heatmap.csv",
+      "json_path": "exports/bottleneck-heatmap.json"
+    },
+    {
+      "dataset": "contradiction-register",
+      "row_count": 22,
+      "fields": [
+        "issue_id",
+        "status",
+        "scope",
+        "issue_type",
+        "affected_pathway",
+        "process_stage",
+        "linked_instruments",
+        "severity_score",
+        "frequency_score",
+        "legal_risk_score",
+        "delay_impact_score",
+        "fixability_score",
+        "summary",
+        "verification_state",
+        "confidence"
+      ],
+      "content_sha256": "b0eaddc9b799d1ddf03428c0e03e31b1aafc3b3426fcb53a3b2da36942f6e311",
+      "csv_path": "exports/contradiction-register.csv",
+      "json_path": "exports/contradiction-register.json"
+    },
+    {
+      "dataset": "implementation-roadmap",
+      "row_count": 6,
+      "fields": [
+        "milestone_id",
+        "phase",
+        "window",
+        "action",
+        "owner",
+        "dependencies",
+        "linked_recommendations",
+        "status_metric"
+      ],
+      "content_sha256": "98666c0081ba7e115d0f2d6ab2e4a4c457503679a3e1249196f27392848e3f2a",
+      "csv_path": "exports/implementation-roadmap.csv",
+      "json_path": "exports/implementation-roadmap.json"
+    },
+    {
+      "dataset": "lpa-data-quality",
+      "row_count": 16,
+      "fields": [
+        "pilot_id",
+        "lpa_name",
+        "data_quality_tier",
+        "coverage_score",
+        "evidence_type_mix",
+        "last_reviewed",
+        "notes"
+      ],
+      "content_sha256": "ed96e9e7077fc91bff179e116b5a33b9e8074676be97828dec302aac1d64d649",
+      "csv_path": "exports/lpa-data-quality.csv",
+      "json_path": "exports/lpa-data-quality.json"
+    },
+    {
+      "dataset": "lpa-issue-incidence",
+      "row_count": 16,
+      "fields": [
+        "pilot_id",
+        "lpa_name",
+        "total_linked_issues",
+        "high_severity_issues",
+        "process_stage_coverage",
+        "primary_risk_stage",
+        "last_reviewed",
+        "notes"
+      ],
+      "content_sha256": "793df1c08424cb13034f657989734cfc8ce7de6e87c814b0ed3428d7f8586c0a",
+      "csv_path": "exports/lpa-issue-incidence.csv",
+      "json_path": "exports/lpa-issue-incidence.json"
+    },
+    {
+      "dataset": "lpa-quarterly-trends",
+      "row_count": 64,
+      "fields": [
+        "pilot_id",
+        "lpa_name",
+        "quarter",
+        "major_in_time_pct",
+        "appeals_overturned_pct",
+        "source_table",
+        "source_url",
+        "retrieved_at"
+      ],
+      "content_sha256": "408d4dfa1085db75dad037f77868c05cc3963d6abfe1f818bfcdfecbad60f224",
+      "csv_path": "exports/lpa-quarterly-trends.csv",
+      "json_path": "exports/lpa-quarterly-trends.json"
+    },
+    {
+      "dataset": "official_baseline_metrics",
+      "row_count": 19,
+      "fields": [
+        "metric_id",
+        "metric_name",
+        "source_table",
+        "geography",
+        "pathway",
+        "value",
+        "unit",
+        "period",
+        "source_url",
+        "retrieved_at",
+        "notes"
+      ],
+      "content_sha256": "75a5b1bac2177c654dac83c440c74b5e3226d678ab6f311368c9a624b587e5a2",
+      "csv_path": "exports/official_baseline_metrics.csv",
+      "json_path": "exports/official_baseline_metrics.json"
+    },
+    {
+      "dataset": "recommendation_evidence_links",
+      "row_count": 12,
+      "fields": [
+        "link_id",
+        "recommendation_id",
+        "evidence_type",
+        "source_dataset",
+        "source_row_ref",
+        "metric_name",
+        "baseline_value",
+        "baseline_window",
+        "source_url",
+        "retrieved_at",
+        "notes"
+      ],
+      "content_sha256": "b099451899961c1f03b322710351e9840fa00f0606ef26049c11c79efe8f96b1",
+      "csv_path": "exports/recommendation_evidence_links.csv",
+      "json_path": "exports/recommendation_evidence_links.json"
+    },
+    {
+      "dataset": "recommendations",
+      "row_count": 11,
+      "fields": [
+        "recommendation_id",
+        "priority",
+        "time_horizon",
+        "policy_goal",
+        "delivery_owner",
+        "implementation_vehicle",
+        "linked_issues",
+        "title",
+        "kpi_primary",
+        "target",
+        "verification_state",
+        "confidence"
+      ],
+      "content_sha256": "0c6cbf79b2f5c1dfcd0a2bfb226055f6e952b80f10784da99d42e3e8d9dd8466",
+      "csv_path": "exports/recommendations.csv",
+      "json_path": "exports/recommendations.json"
+    }
+  ]
+}

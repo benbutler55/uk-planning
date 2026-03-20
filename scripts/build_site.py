@@ -2,11 +2,12 @@
 """Build static site from CSV datasets. Generates HTML pages with filtering,
 weighted scoring, confidence badges, evidence traces, and split audience views."""
 import csv
+import hashlib
 import html
 import json
 import shutil
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 
@@ -14,6 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 EXPORTS = SITE / "exports"
 SCORING_PATH = ROOT / "data/schemas/scoring.json"
+BUILD_VERSION = "v6.0"
 
 
 def read_csv(path: Path):
@@ -64,6 +66,86 @@ def cohort_for_pid(pid):
     return "Cohort 1" if pid in cohort_1 else "Cohort 2"
 
 
+def parse_iso_date(raw):
+    if not raw:
+        return None
+    try:
+        return date.fromisoformat(raw)
+    except ValueError:
+        return None
+
+
+def compute_data_health():
+    specs = [
+        {
+            "dataset": "Official baseline metrics",
+            "path": ROOT / "data/evidence/official_baseline_metrics.csv",
+            "date_field": "retrieved_at",
+            "stale_after_days": 100,
+            "critical_after_days": 140,
+        },
+        {
+            "dataset": "LPA quarterly trends",
+            "path": ROOT / "data/evidence/lpa-quarterly-trends.csv",
+            "date_field": "retrieved_at",
+            "stale_after_days": 100,
+            "critical_after_days": 140,
+        },
+        {
+            "dataset": "Recommendation evidence links",
+            "path": ROOT / "data/evidence/recommendation_evidence_links.csv",
+            "date_field": "retrieved_at",
+            "stale_after_days": 100,
+            "critical_after_days": 140,
+        },
+        {
+            "dataset": "Appeal decision evidence",
+            "path": ROOT / "data/evidence/appeal-decisions.csv",
+            "date_field": "retrieved_at",
+            "stale_after_days": 120,
+            "critical_after_days": 180,
+        },
+        {
+            "dataset": "LPA issue incidence",
+            "path": ROOT / "data/issues/lpa-issue-incidence.csv",
+            "date_field": "last_reviewed",
+            "stale_after_days": 45,
+            "critical_after_days": 75,
+        },
+    ]
+
+    rows = []
+    for spec in specs:
+        data = read_csv(spec["path"])
+        values = [parse_iso_date(r.get(spec["date_field"], "")) for r in data]
+        valid_dates = [d for d in values if d is not None]
+        most_recent = max(valid_dates) if valid_dates else None
+        age_days = (date.today() - most_recent).days if most_recent else 9999
+        if age_days > spec["critical_after_days"]:
+            status = "critical"
+            css = "red"
+        elif age_days > spec["stale_after_days"]:
+            status = "stale"
+            css = "amber"
+        else:
+            status = "fresh"
+            css = "green"
+        rows.append({
+            "dataset": spec["dataset"],
+            "row_count": len(data),
+            "last_updated": most_recent.isoformat() if most_recent else "n/a",
+            "age_days": age_days if most_recent else "n/a",
+            "status": status,
+            "status_badge": badge(status, css),
+            "source_path": str(spec["path"].relative_to(ROOT)),
+        })
+
+    counts = defaultdict(int)
+    for row in rows:
+        counts[row["status"]] += 1
+    return rows, dict(counts)
+
+
 # --- Page shell ---
 
 def page(title, subhead, active, body, context=None):
@@ -81,6 +163,7 @@ def page(title, subhead, active, body, context=None):
         ("compare.html", "Compare", "compare"),
         ("benchmark.html", "Benchmark", "benchmark"),
         ("reports.html", "Reports", "reports"),
+        ("data-health.html", "Data Health", "data-health"),
         ("consultation.html", "Consultation", "consultation"),
         ("search.html", "Search", "search"),
         ("audience-policymakers.html", "For Policy Makers", "policymakers"),
@@ -297,13 +380,39 @@ def write_exports(datasets):
             json_path.write_text(json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+def write_exports_manifest(datasets):
+    EXPORTS.mkdir(parents=True, exist_ok=True)
+    generated = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    items = []
+    for name, rows in datasets.items():
+        encoded = json.dumps(rows, sort_keys=True, ensure_ascii=False).encode("utf-8")
+        digest = hashlib.sha256(encoded).hexdigest()
+        fields = list(rows[0].keys()) if rows else []
+        items.append({
+            "dataset": name,
+            "row_count": len(rows),
+            "fields": fields,
+            "content_sha256": digest,
+            "csv_path": f"exports/{name}.csv",
+            "json_path": f"exports/{name}.json",
+        })
+    manifest = {
+        "version": BUILD_VERSION,
+        "generated_at": generated,
+        "dataset_count": len(items),
+        "datasets": sorted(items, key=lambda x: x["dataset"]),
+    }
+    (EXPORTS / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+
 # --- Page builders ---
 
 def build_index():
+    health_rows, health_counts = compute_data_health()
     body = """
       <section class="card">
         <h2>Current Phase</h2>
-        <p>Pilot Release — citation-backed evidence, weighted scoring, and split audience views.</p>
+        <p>Phase 6 — trust, monitoring, and decision readiness with drift checks and data health reporting.</p>
       </section>
       <section class="grid">
         <article class="card">
@@ -338,7 +447,17 @@ def build_index():
         <h2>Data Exports</h2>
         <p>Download machine-readable datasets: <a href="exports/">CSV and JSON exports</a>.</p>
       </section>
-"""
+    """
+    body += '<section class="card"><h2>Data Health Snapshot</h2>'
+    body += '<p>'
+    body += f'{badge("fresh", "green")} {health_counts.get("fresh", 0)} '
+    body += f'{badge("stale", "amber")} {health_counts.get("stale", 0)} '
+    body += f'{badge("critical", "red")} {health_counts.get("critical", 0)} '
+    body += '</p>'
+    if health_rows:
+        top = sorted(health_rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True)[0]
+        body += f'<p class="small">Oldest monitored dataset: {html.escape(top["dataset"])} ({html.escape(str(top["age_days"]))} days).</p>'
+    body += '<p><a href="data-health.html">Open full data health report</a></p></section>'
     write(SITE / "index.html", page(
         "UK Planning System Analysis — England Pilot Release",
         "Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.",
@@ -772,6 +891,9 @@ def build_exports_index():
                   "lpa-issue-incidence"]:
         body += f'<li><a href="exports/{name}.csv">{name}.csv</a> | <a href="exports/{name}.json">{name}.json</a></li>'
     body += "</ul></section>"
+    body += '<section class="card"><h2>Version Manifest</h2>'
+    body += '<p>Build manifest includes dataset hashes, row counts, and generation timestamp.</p>'
+    body += '<p><a href="exports/manifest.json">manifest.json</a></p></section>'
     write(SITE / "exports.html", page(
         "Data Exports",
         "Download datasets in CSV and JSON format.",
@@ -1226,8 +1348,14 @@ def build_benchmark():
     for row in ranked:
         by_region[row["region"]].append(row["latest_speed"])
         by_cohort[row["cohort"]].append(row["latest_speed"])
+    _, health_counts = compute_data_health()
 
     body = '<section class="card"><p>Benchmark dashboard compares LPAs on latest decision speed, appeal overturn trend, issue incidence, and evidence quality. Trend lines show 2024-Q4 to 2025-Q3.</p></section>'
+    body += '<section class="card"><p>'
+    body += f'Data health: {badge("fresh", "green")} {health_counts.get("fresh", 0)} '
+    body += f'{badge("stale", "amber")} {health_counts.get("stale", 0)} '
+    body += f'{badge("critical", "red")} {health_counts.get("critical", 0)} '
+    body += ' — <a href="data-health.html">view details</a>.</p></section>'
     body += '<section class="grid">'
     if ranked:
         body += f'<article class="card"><h3>Top performer</h3><p>{html.escape(ranked[0]["lpa_name"])} ({ranked[0]["latest_speed"]:.1f}%)</p></article>'
@@ -1408,15 +1536,26 @@ def build_reports():
     reports_dir = SITE / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
     generated_on = date.today().isoformat()
-    data_version = "v5.0"
+    data_version = BUILD_VERSION
+    _, health_counts = compute_data_health()
 
     links = []
+    latest_speed_rows = []
     for lpa in lpas:
         pid = lpa["pilot_id"]
         q = quality_by_id.get(pid, {})
         i = issues_by_id.get(pid, {})
         t = trends_by_id.get(pid, [])
         latest_trend = t[-1] if t else {}
+        if latest_trend:
+            try:
+                latest_speed_rows.append({
+                    "pilot_id": pid,
+                    "lpa_name": lpa.get("lpa_name", ""),
+                    "major_in_time_pct": float(latest_trend.get("major_in_time_pct", "")),
+                })
+            except ValueError:
+                pass
         trend_source = latest_trend.get("source_table", "")
         trend_source_url = latest_trend.get("source_url", "")
         payload = {
@@ -1484,6 +1623,11 @@ def build_reports():
         })
 
     body = '<section class="card"><p>Download per-authority comparison bundles in CSV or JSON format. Each report contains profile, evidence quality, issue incidence, and quarterly trend snapshots.</p></section>'
+    body += '<section class="card"><p>'
+    body += f'Data health: {badge("fresh", "green")} {health_counts.get("fresh", 0)} '
+    body += f'{badge("stale", "amber")} {health_counts.get("stale", 0)} '
+    body += f'{badge("critical", "red")} {health_counts.get("critical", 0)} '
+    body += ' — <a href="data-health.html">view details</a>.</p></section>'
     body += f'<section class="card"><p class="small">Report bundle version {data_version}; generated on {generated_on}.</p></section>'
     body += '<section class="card"><h2>Metric provenance</h2><p>'
     body += provenance_badge("official") + ' quarterly trend metrics from GOV.UK planning statistics; '
@@ -1533,6 +1677,30 @@ def build_reports():
         body += f'<td><a href="{html.escape(row["json"])}">Download JSON</a></td>'
         body += '</tr>'
     body += '</tbody></table></section>'
+
+    if latest_speed_rows:
+        latest_speed_rows.sort(key=lambda x: x["major_in_time_pct"], reverse=True)
+        snapshot = {
+            "snapshot_period": generated_on[:7],
+            "generated_on": generated_on,
+            "data_version": data_version,
+            "top_lpa": latest_speed_rows[0],
+            "bottom_lpa": latest_speed_rows[-1],
+            "average_major_in_time_pct": round(sum(r["major_in_time_pct"] for r in latest_speed_rows) / len(latest_speed_rows), 2),
+            "authority_count": len(latest_speed_rows),
+        }
+        (reports_dir / "monthly-snapshot.json").write_text(json.dumps(snapshot, indent=2), encoding="utf-8")
+        with (reports_dir / "monthly-snapshot.csv").open("w", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["field", "value"])
+            for k, v in snapshot.items():
+                if isinstance(v, dict):
+                    w.writerow([k, json.dumps(v, ensure_ascii=False)])
+                else:
+                    w.writerow([k, v])
+        body += '<section class="card"><h2>Monthly snapshot bundle</h2>'
+        body += '<p><a href="reports/monthly-snapshot.csv">monthly-snapshot.csv</a> | '
+        body += '<a href="reports/monthly-snapshot.json">monthly-snapshot.json</a></p></section>'
 
     body += """
 <script>
@@ -1591,6 +1759,34 @@ def build_reports():
         "Downloadable authority-level comparison bundles.",
         "reports", body,
         "Filter and download per-authority report bundles that combine profile context, issue incidence, quality data, and trend snapshots."))
+
+
+def build_data_health():
+    rows, counts = compute_data_health()
+    body = '<section class="card"><p>Monitors freshness of core operational datasets and highlights stale or critical update risk windows.</p></section>'
+    body += '<section class="grid">'
+    body += f'<article class="card"><h3>Fresh datasets</h3><p>{counts.get("fresh", 0)}</p></article>'
+    body += f'<article class="card"><h3>Stale datasets</h3><p>{counts.get("stale", 0)}</p></article>'
+    body += f'<article class="card"><h3>Critical datasets</h3><p>{counts.get("critical", 0)}</p></article>'
+    body += '</section>'
+
+    body += '<section class="card"><table><thead><tr><th>Dataset</th><th>Status</th><th>Rows</th><th>Last updated</th><th>Age (days)</th><th>Path</th></tr></thead><tbody>'
+    for row in sorted(rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True):
+        body += '<tr>'
+        body += f'<td>{html.escape(row["dataset"])}</td>'
+        body += f'<td>{row["status_badge"]}</td>'
+        body += f'<td>{html.escape(str(row["row_count"]))}</td>'
+        body += f'<td>{html.escape(str(row["last_updated"]))}</td>'
+        body += f'<td>{html.escape(str(row["age_days"]))}</td>'
+        body += f'<td><code>{html.escape(row["source_path"])}</code></td>'
+        body += '</tr>'
+    body += '</tbody></table></section>'
+
+    write(SITE / "data-health.html", page(
+        "Data Health",
+        "Freshness and reliability monitoring for core operational datasets.",
+        "data-health", body,
+        "Use this page to assess whether evidence datasets are up to date before relying on benchmark outputs or recommendations."))
 
 
 def build_consultation():
@@ -1703,6 +1899,7 @@ def build_search_index():
 def build_search():
     body = """
       <section class="card">
+        <label for="search-input" class="sr-only">Search across all content</label>
         <input type="search" id="search-input" placeholder="Search legislation, issues, recommendations, LPAs, appeals..." style="width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;" />
         <p class="small" id="search-count" style="margin-top:8px;"></p>
       </section>
@@ -1782,6 +1979,7 @@ def main():
     build_compare()
     build_benchmark()
     build_reports()
+    build_data_health()
     build_consultation()
     build_search_index()
     build_search()
@@ -1794,7 +1992,7 @@ def main():
     build_exports_index()
 
     # Write exports
-    write_exports({
+    exports_data = {
         "contradiction-register": read_csv(ROOT / "data/issues/contradiction-register.csv"),
         "recommendations": read_csv(ROOT / "data/issues/recommendations.csv"),
         "recommendation_evidence_links": read_csv(ROOT / "data/evidence/recommendation_evidence_links.csv"),
@@ -1805,7 +2003,9 @@ def main():
         "lpa-data-quality": read_csv(ROOT / "data/plans/lpa-data-quality.csv"),
         "lpa-quarterly-trends": read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv"),
         "lpa-issue-incidence": read_csv(ROOT / "data/issues/lpa-issue-incidence.csv"),
-    })
+    }
+    write_exports(exports_data)
+    write_exports_manifest(exports_data)
 
     print("Built site pages from CSV data.")
 

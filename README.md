@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v5.0 Phase 5)
+## Current State (v6.0 Phase 6)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -29,6 +29,10 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Context panels on generated pages to explain what each view shows and how to interpret it
 - Quarterly automated GOV.UK statistics ingest check
 - Ingest workflow now publishes both text and JSON freshness reports as build artifacts
+- Data health dashboard page (`data-health.html`) with freshness status for core datasets
+- Export manifest (`site/exports/manifest.json`) includes dataset hashes, row counts, and build timestamp
+- Monthly decision snapshot bundles generated under `site/reports/monthly-snapshot.*`
+- CI/Pages now include metric-drift and accessibility checks
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
 - 39+ generated site pages including benchmark and reports views
@@ -69,6 +73,8 @@ uk-planning/
 │       └── scoring.json
 ├── scripts/
 │   ├── build_site.py
+│   ├── check_accessibility.py      # Accessibility guardrails for generated HTML
+│   ├── check_metric_drift.py       # Quarter-on-quarter drift threshold checks
 │   ├── check_freshness.py           # Monthly URL/staleness checker (warn-only)
 │   ├── check_links.py
 │   ├── ingest_govuk_stats.py        # Quarterly GOV.UK statistics ingest check

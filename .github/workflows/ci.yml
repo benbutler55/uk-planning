@@ -32,3 +32,9 @@ jobs:
 
       - name: Check internal links
         run: python3 scripts/check_links.py
+
+      - name: Check metric drift thresholds
+        run: python3 scripts/check_metric_drift.py
+
+      - name: Check accessibility basics
+        run: python3 scripts/check_accessibility.py

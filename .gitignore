@@ -4,3 +4,5 @@ __pycache__/
 freshness-report.txt
 stats-ingest-report.txt
 stats-ingest-report.json
+metric-drift-report.txt
+metric-drift-report.json
