@@ -1,5 +1,28 @@
 # Release Notes
 
+## v5.0 — Phase 5 Analytics, Automation, and UX Polish (2026-03-20)
+
+### Summary
+
+Phase 5 adds deeper comparative analytics, richer filtering and saved comparison presets, and stronger provenance/version signalling for exported reporting assets.
+
+### Deliverables
+
+**Advanced analytics:**
+- Extended benchmark dashboard with cohort and regional drilldowns
+- Added 4-quarter decision-speed delta and outlier flags to benchmark ranking
+- Added cohort filtering to benchmark and reports tables
+
+**Data pipeline automation and provenance:**
+- Enhanced stats ingest automation to emit both text and machine-readable JSON reports (`stats-ingest-report.txt` and `stats-ingest-report.json`)
+- Updated ingest workflow artifact upload to include both report formats
+- Added report-bundle version and generation-date stamps in per-LPA CSV/JSON report outputs
+
+**UX and accessibility polish:**
+- Added compare-page saved preset pairs (browser local storage) for recurring side-by-side authority checks
+- Added focus-visible outlines for links, inputs, selects, and buttons
+- Improved table usability on smaller screens with horizontal overflow handling
+
 ## v4.0 — Phase 4 Benchmarking and Reporting (2026-03-18)
 
 ### Summary

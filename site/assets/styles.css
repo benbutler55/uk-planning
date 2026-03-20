@@ -133,6 +133,29 @@ select {
   background: #fff;
 }
 
+button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+button:hover,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid #0d8b7a;
+  outline-offset: 2px;
+}
+
+.card {
+  overflow-x: auto;
+}
+
 .hidden-row {
   display: none;
 }

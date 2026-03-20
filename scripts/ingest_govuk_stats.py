@@ -9,6 +9,7 @@ Run quarterly after each GOV.UK statistics release:
   python3 scripts/ingest_govuk_stats.py [--warn-only]
 """
 import csv
+import json
 import sys
 import urllib.request
 import urllib.error
@@ -19,6 +20,7 @@ from html.parser import HTMLParser
 ROOT = Path(__file__).resolve().parent.parent
 METRICS_PATH = ROOT / "data/evidence/official_baseline_metrics.csv"
 REPORT_PATH = ROOT / "stats-ingest-report.txt"
+REPORT_JSON_PATH = ROOT / "stats-ingest-report.json"
 
 STATS_TABLES = {
     "P151": {
@@ -158,6 +160,13 @@ def main():
 
     report_text = "\n".join(report_lines)
     REPORT_PATH.write_text(report_text, encoding="utf-8")
+    REPORT_JSON_PATH.write_text(json.dumps({
+        "generated_at": date.today().isoformat(),
+        "stale_table_count": len(updates_needed),
+        "error_count": len(errors),
+        "stale_tables": updates_needed,
+        "errors": errors,
+    }, indent=2), encoding="utf-8")
     print(report_text)
 
     if errors and not warn_only:

@@ -1,7 +1,10 @@
 field,value
+report_generated_at,2026-03-20
+data_version,v5.0
 pilot_id,LPA-08
 lpa_name,Bristol City Council
 lpa_type,Unitary Authority
+cohort,Cohort 2
 region,South West
 growth_context,High growth urban
 constraint_profile,Flood risk and harbour/waterfront regeneration complexity

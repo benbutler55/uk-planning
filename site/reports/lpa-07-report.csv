@@ -1,7 +1,10 @@
 field,value
+report_generated_at,2026-03-20
+data_version,v5.0
 pilot_id,LPA-07
 lpa_name,Leeds City Council
 lpa_type,Metropolitan District
+cohort,Cohort 2
 region,Yorkshire and The Humber
 growth_context,High growth urban
 constraint_profile,Transport capacity and cross-boundary housing delivery

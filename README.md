@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v4.0 Phase 4)
+## Current State (v5.0 Phase 5)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -20,11 +20,15 @@ Citation-backed analysis of England's planning system identifying contradictions
 - National Leaflet.js map with decision speed overlay
 - LPA side-by-side comparison page (`compare.html`)
 - LPA benchmark dashboard with ranking, percentile banding, trend sparklines, and region/type filters
+- Benchmark analytics include cohort and regional drilldowns, 4-quarter change, and outlier flags
 - Downloadable per-LPA report bundles (`reports/*.csv` and `reports/*.json`)
+- Report bundles now include version and generation-date stamps
 - Benchmark preset compare links and compare-page URL deep-linking (`?a=LPA-XX&b=LPA-YY`)
+- Compare page supports saved preset pairs in-browser for repeat use
 - Metric provenance badges across benchmark and reports (official stats vs analytical estimates)
 - Context panels on generated pages to explain what each view shows and how to interpret it
 - Quarterly automated GOV.UK statistics ingest check
+- Ingest workflow now publishes both text and JSON freshness reports as build artifacts
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
 - 39+ generated site pages including benchmark and reports views

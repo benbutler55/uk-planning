@@ -1,7 +1,10 @@
 field,value
+report_generated_at,2026-03-20
+data_version,v5.0
 pilot_id,LPA-13
 lpa_name,Southampton City Council
 lpa_type,Unitary Authority
+cohort,Cohort 2
 region,South East
 growth_context,Regeneration growth
 constraint_profile,Coastal change and port safeguarding

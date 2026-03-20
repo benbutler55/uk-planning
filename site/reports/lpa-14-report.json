@@ -1,7 +1,10 @@
 {
+  "report_generated_at": "2026-03-20",
+  "data_version": "v5.0",
   "pilot_id": "LPA-14",
   "lpa_name": "Leicester City Council",
   "lpa_type": "Unitary Authority",
+  "cohort": "Cohort 2",
   "region": "East Midlands",
   "growth_context": "Urban renewal",
   "constraint_profile": "Heritage sensitivity and infrastructure capacity",

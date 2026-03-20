@@ -46,6 +46,12 @@
           <label class="filter-item">Authority A<select id="cmp-a"></select></label>
           <label class="filter-item">Authority B<select id="cmp-b"></select></label>
         </div>
+        <div class="filter-row" style="margin-top:10px;">
+          <button id="cmp-save" type="button">Save preset pair</button>
+          <button id="cmp-clear" type="button">Clear saved presets</button>
+        </div>
+        <p class="small" id="cmp-status"></p>
+        <div id="cmp-presets" class="small"></div>
       </section>
       <section class="card" id="compare-output"></section>
       <script>
@@ -54,6 +60,11 @@
         var aSel = document.getElementById('cmp-a');
         var bSel = document.getElementById('cmp-b');
         var out = document.getElementById('compare-output');
+        var saveBtn = document.getElementById('cmp-save');
+        var clearBtn = document.getElementById('cmp-clear');
+        var presetWrap = document.getElementById('cmp-presets');
+        var statusEl = document.getElementById('cmp-status');
+        var presetKey = 'uk-planning-compare-presets';
 
         function mkOption(item) {
           var o = document.createElement('option');
@@ -115,8 +126,62 @@
             '</tbody></table>';
         }
 
+        function loadPresets() {
+          try {
+            return JSON.parse(localStorage.getItem(presetKey) || '[]');
+          } catch (e) {
+            return [];
+          }
+        }
+
+        function savePresets(items) {
+          localStorage.setItem(presetKey, JSON.stringify(items.slice(0, 8)));
+        }
+
+        function renderPresets() {
+          var presets = loadPresets();
+          if (!presets.length) {
+            presetWrap.innerHTML = '<p>No saved presets yet.</p>';
+            return;
+          }
+          var html = '<p>Saved preset pairs:</p><ul>';
+          presets.forEach(function(p, idx) {
+            html += '<li><a href="#" data-preset-index="' + idx + '">' + p.a + ' vs ' + p.b + '</a></li>';
+          });
+          html += '</ul>';
+          presetWrap.innerHTML = html;
+          Array.from(presetWrap.querySelectorAll('[data-preset-index]')).forEach(function(link) {
+            link.addEventListener('click', function(evt) {
+              evt.preventDefault();
+              var preset = presets[Number(link.dataset.presetIndex)];
+              if (!preset) return;
+              aSel.value = preset.a;
+              bSel.value = preset.b;
+              render();
+            });
+          });
+        }
+
+        saveBtn.addEventListener('click', function() {
+          var a = aSel.value;
+          var b = bSel.value;
+          if (!a || !b || a === b) return;
+          var presets = loadPresets().filter(function(p) { return !(p.a === a && p.b === b); });
+          presets.unshift({ a: a, b: b });
+          savePresets(presets);
+          statusEl.textContent = 'Saved preset: ' + a + ' vs ' + b;
+          renderPresets();
+        });
+
+        clearBtn.addEventListener('click', function() {
+          localStorage.removeItem(presetKey);
+          statusEl.textContent = 'Saved presets cleared.';
+          renderPresets();
+        });
+
         aSel.addEventListener('change', render);
         bSel.addEventListener('change', render);
+        renderPresets();
         render();
       })();
       </script>

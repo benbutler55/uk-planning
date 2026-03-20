@@ -1,7 +1,10 @@
 {
+  "report_generated_at": "2026-03-20",
+  "data_version": "v5.0",
   "pilot_id": "LPA-01",
   "lpa_name": "Manchester City Council",
   "lpa_type": "Metropolitan District",
+  "cohort": "Cohort 1",
   "region": "North West",
   "growth_context": "High growth urban",
   "constraint_profile": "Transport capacity and urban form constraints",

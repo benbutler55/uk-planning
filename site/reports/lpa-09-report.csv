@@ -1,7 +1,10 @@
 field,value
+report_generated_at,2026-03-20
+data_version,v5.0
 pilot_id,LPA-09
 lpa_name,Guildford Borough Council
 lpa_type,Non-metropolitan District
+cohort,Cohort 2
 region,South East
 growth_context,High demand constrained
 constraint_profile,Green Belt and AONB adjacency

@@ -1,7 +1,10 @@
 field,value
+report_generated_at,2026-03-20
+data_version,v5.0
 pilot_id,LPA-05
 lpa_name,Newham London Borough Council
 lpa_type,London Borough
+cohort,Cohort 1
 region,London
 growth_context,Very high urban growth
 constraint_profile,Density viability and transport node pressure

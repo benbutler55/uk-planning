@@ -1,7 +1,10 @@
 field,value
+report_generated_at,2026-03-20
+data_version,v5.0
 pilot_id,LPA-03
 lpa_name,South Cambridgeshire District Council
 lpa_type,Non-metropolitan District
+cohort,Cohort 1
 region,East of England
 growth_context,Growth corridor
 constraint_profile,Green Belt flood risk and infrastructure sequencing

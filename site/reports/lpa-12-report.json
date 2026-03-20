@@ -1,7 +1,10 @@
 {
+  "report_generated_at": "2026-03-20",
+  "data_version": "v5.0",
   "pilot_id": "LPA-12",
   "lpa_name": "Northumberland County Council",
   "lpa_type": "Unitary Authority",
+  "cohort": "Cohort 2",
   "region": "North East",
   "growth_context": "Mixed growth dispersed",
   "constraint_profile": "Minerals safeguarding and offshore wind infrastructure pressure",

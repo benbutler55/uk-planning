@@ -1,7 +1,10 @@
 {
+  "report_generated_at": "2026-03-20",
+  "data_version": "v5.0",
   "pilot_id": "LPA-15",
   "lpa_name": "Cambridge City Council",
   "lpa_type": "Non-metropolitan District",
+  "cohort": "Cohort 2",
   "region": "East of England",
   "growth_context": "High demand constrained",
   "constraint_profile": "Green Belt and heritage conservation area pressure",
