@@ -14,32 +14,26 @@
       <header>
         <h1>LPA Comparison</h1>
         <p class="subhead">Side-by-side comparison of authorities, evidence quality, and baseline performance.</p>
+        <a class="header-search" href="search.html">Search</a>
       </header>
-      <nav>
-<a href="index.html">Overview</a>
-<a href="legislation.html">Legislation</a>
+      <nav class="top-nav">
+<a class="top-tab" href="index.html">Overview</a>
+<a class="top-tab" href="contradictions.html">System Analysis</a>
+<a class="top-tab active" href="plans.html">Authority Insights</a>
+<a class="top-tab" href="recommendations.html">Recommendations</a>
+<a class="top-tab" href="methodology.html">Data & Methods</a>
+<a class="top-tab" href="audience-policymakers.html">For Audiences</a>
+      </nav>
+      <nav class="sub-nav">
 <a href="plans.html">Plans</a>
-<a href="contradictions.html">Contradictions</a>
-<a href="recommendations.html">Recommendations</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="baselines.html">Baselines</a>
-<a href="bottlenecks.html">Bottlenecks</a>
-<a href="appeals.html">Appeals</a>
 <a href="map.html">Map</a>
 <a class="active" href="compare.html">Compare</a>
 <a href="benchmark.html">Benchmark</a>
 <a href="reports.html">Reports</a>
-<a href="data-health.html">Data Health</a>
-<a href="consultation.html">Consultation</a>
-<a href="search.html">Search</a>
-<a href="audience-policymakers.html">For Policy Makers</a>
-<a href="audience-lpas.html">For LPAs</a>
-<a href="audience-developers.html">For Developers</a>
-<a href="audience-public.html">For Public</a>
-<a href="methodology.html">Methodology</a>
-<a href="sources.html">Sources</a>
       </nav>
-<section class="card"><h2>About this page</h2><p>Compare two authorities side by side across profile context, tracked plans, decision speed, and evidence quality.</p></section>
+<div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="plans.html">Authority Insights</a> &gt; <a href="compare.html">Compare</a></div>
+<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A side-by-side authority comparison across profile, performance, and quality indicators.</dd><dt>Who this is for</dt><dd>Decision-makers comparing two LPAs for similarity, risk, or performance gaps.</dd><dt>How to use it</dt><dd>Select two authorities or use presets, then scan differences metric by metric.</dd><dt>Data source and freshness</dt><dd>Comparison values come from trends, issue incidence, and data-quality datasets.</dd></dl></section>
+<section class="card"><p>Compare two authorities side by side across profile context, tracked plans, decision speed, and evidence quality.</p></section>
 
       <section class="card">
         <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics. You can also open this page with URL presets such as <code>?a=LPA-01&b=LPA-07</code>.</p>
@@ -54,6 +48,12 @@
         <p class="small" id="cmp-status"></p>
         <div id="cmp-presets" class="small"></div>
       </section>
+      <section class="card"><h3>How to read this table</h3><ul>
+        <li>Rows compare a single metric across Authority A and Authority B.</li>
+        <li>Use growth and constraint rows for contextual interpretation.</li>
+        <li>Use speed and quality rows for headline performance contrast.</li>
+        <li>Differences are directional signals, not causal proof.</li>
+      </ul></section>
       <section class="card" id="compare-output"></section>
       <script>
       (function() {
@@ -187,6 +187,7 @@
       })();
       </script>
 
+<section class="card"><h2>Where to go next</h2><ul><li><a href="benchmark.html">Open benchmark ranking</a></li><li><a href="reports.html">Download authority report bundles</a></li><li><a href="plans.html">Open authority profiles</a></li></ul></section>
     </div>
   </body>
 </html>

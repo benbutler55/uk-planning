@@ -33,6 +33,19 @@ header {
   box-shadow: 0 6px 18px rgba(30, 43, 57, 0.07);
 }
 
+header {
+  position: relative;
+}
+
+.header-search {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 h1 {
   margin: 0;
   font-size: 1.7rem;
@@ -43,14 +56,16 @@ h1 {
   color: var(--muted);
 }
 
-nav {
+.top-nav,
+.sub-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin: 18px 0;
 }
 
-nav a {
+.top-nav a,
+.sub-nav a {
   text-decoration: none;
   color: var(--ink);
   background: var(--surface);
@@ -59,10 +74,36 @@ nav a {
   padding: 8px 14px;
 }
 
-nav a.active,
-nav a:hover {
+.top-nav a.active,
+.sub-nav a.active,
+.top-nav a:hover,
+.sub-nav a:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+.top-tab {
+  font-weight: 700;
+}
+
+.sub-nav {
+  margin-top: 0;
+}
+
+.breadcrumbs {
+  margin: 10px 0 4px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.breadcrumbs a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: var(--ink);
+  text-decoration: underline;
 }
 
 .card {
@@ -71,6 +112,21 @@ nav a:hover {
   border-radius: 14px;
   padding: 18px;
   margin: 14px 0;
+}
+
+.purpose-grid {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 8px 14px;
+  margin: 0;
+}
+
+.purpose-grid dt {
+  font-weight: 700;
+}
+
+.purpose-grid dd {
+  margin: 0;
 }
 
 .grid {
@@ -120,6 +176,9 @@ td {
 
 th {
   background: #f0f4f8;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .filter-row {
@@ -214,5 +273,15 @@ a:focus-visible {
 
   .layout {
     padding: 16px 12px 30px;
+  }
+
+  .purpose-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-search {
+    position: static;
+    display: inline-block;
+    margin-top: 10px;
   }
 }

@@ -1,5 +1,32 @@
 # Release Notes
 
+## v7.0 — Phase 7 Information Architecture and UX Clarity (2026-03-20)
+
+### Summary
+
+Phase 7 restructures the interface for intuitive top-down navigation, adds plain-language page and table guidance, and standardizes reusable UI components across the generated site.
+
+### Deliverables
+
+**Navigation and layout:**
+- Replaced flat page list with six-section navigation model and section sub-navigation
+- Added breadcrumbs for orientation and drill-down context
+- Added consistent "Where to go next" links across generated pages
+
+**Content clarity:**
+- Added standard page-guide blocks (what, who, how, data freshness) across pages
+- Added plain-language "How to read this table" explainers for major analytical tables
+- Added role-specific quick-action blocks on audience pages
+
+**Blueprint and maintainability:**
+- Added reusable UI blueprint at `content/methodology/ui-blueprint.md`
+- Implemented reusable component helpers in site build pipeline for page guides, table guides, breadcrumbs, and next-step panels
+
+**Styling and usability:**
+- Added top-level tab and sub-nav styling
+- Added breadcrumb, page-guide, and sticky-header table styles
+- Preserved keyboard focus visibility and mobile fallbacks for header/search layout
+
 ## v6.0 — Phase 6 Trust, Monitoring, and Decision Readiness (2026-03-20)
 
 ### Summary

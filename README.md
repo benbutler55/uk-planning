@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v6.0 Phase 6)
+## Current State (v7.0 Phase 7)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -33,6 +33,12 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Export manifest (`site/exports/manifest.json`) includes dataset hashes, row counts, and build timestamp
 - Monthly decision snapshot bundles generated under `site/reports/monthly-snapshot.*`
 - CI/Pages now include metric-drift and accessibility checks
+- IA refresh: 6-section navigation model with section sub-navigation and breadcrumbs
+- Progressive drill-down from overview to analysis to authority-level detail pages
+- Standard page guide blocks on generated pages (what, who, how, data freshness)
+- “How to read this table” explainers for major analytical tables
+- “Where to go next” step cards across pages for intuitive cross-navigation
+- UI blueprint document for reusable layout/copy components (`content/methodology/ui-blueprint.md`)
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
 - 39+ generated site pages including benchmark and reports views
@@ -84,6 +90,7 @@ uk-planning/
 │   ├── methodology/
 │   │   ├── phase-3-plan.md          # Next-phase implementation plan
 │   │   ├── qa-report.md
+│   │   └── ui-blueprint.md          # Reusable IA/UI component blueprint
 │   │   └── scale-out-backlog.md
 │   ├── recommendations/
 │   │   └── model-text/              # Model drafting text for all 11 recommendations

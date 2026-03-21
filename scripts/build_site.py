@@ -17,6 +17,94 @@ EXPORTS = SITE / "exports"
 SCORING_PATH = ROOT / "data/schemas/scoring.json"
 BUILD_VERSION = "v6.0"
 
+SECTION_CONFIG = {
+    "overview": {
+        "label": "Overview",
+        "href": "index.html",
+        "children": [
+            ("index", "Overview", "index.html"),
+            ("search", "Search", "search.html"),
+        ],
+    },
+    "system-analysis": {
+        "label": "System Analysis",
+        "href": "contradictions.html",
+        "children": [
+            ("legislation", "Legislation", "legislation.html"),
+            ("contradictions", "Contradictions", "contradictions.html"),
+            ("bottlenecks", "Bottlenecks", "bottlenecks.html"),
+            ("appeals", "Appeals", "appeals.html"),
+            ("baselines", "Baselines", "baselines.html"),
+        ],
+    },
+    "authority-insights": {
+        "label": "Authority Insights",
+        "href": "plans.html",
+        "children": [
+            ("plans", "Plans", "plans.html"),
+            ("map", "Map", "map.html"),
+            ("compare", "Compare", "compare.html"),
+            ("benchmark", "Benchmark", "benchmark.html"),
+            ("reports", "Reports", "reports.html"),
+        ],
+    },
+    "recommendations": {
+        "label": "Recommendations",
+        "href": "recommendations.html",
+        "children": [
+            ("recommendations", "Recommendations", "recommendations.html"),
+            ("roadmap", "Roadmap", "roadmap.html"),
+            ("consultation", "Consultation", "consultation.html"),
+        ],
+    },
+    "data-methods": {
+        "label": "Data & Methods",
+        "href": "methodology.html",
+        "children": [
+            ("methodology", "Methodology", "methodology.html"),
+            ("sources", "Sources", "sources.html"),
+            ("exports", "Exports", "exports.html"),
+            ("data-health", "Data Health", "data-health.html"),
+        ],
+    },
+    "audiences": {
+        "label": "For Audiences",
+        "href": "audience-policymakers.html",
+        "children": [
+            ("policymakers", "Policy Makers", "audience-policymakers.html"),
+            ("lpas", "LPAs", "audience-lpas.html"),
+            ("developers", "Developers", "audience-developers.html"),
+            ("public", "Public", "audience-public.html"),
+        ],
+    },
+}
+
+PAGE_TO_SECTION = {
+    "index": "overview",
+    "search": "overview",
+    "legislation": "system-analysis",
+    "contradictions": "system-analysis",
+    "bottlenecks": "system-analysis",
+    "appeals": "system-analysis",
+    "baselines": "system-analysis",
+    "plans": "authority-insights",
+    "map": "authority-insights",
+    "compare": "authority-insights",
+    "benchmark": "authority-insights",
+    "reports": "authority-insights",
+    "recommendations": "recommendations",
+    "roadmap": "recommendations",
+    "consultation": "recommendations",
+    "methodology": "data-methods",
+    "sources": "data-methods",
+    "exports": "data-methods",
+    "data-health": "data-methods",
+    "policymakers": "audiences",
+    "lpas": "audiences",
+    "developers": "audiences",
+    "public": "audiences",
+}
+
 
 def read_csv(path: Path):
     with path.open(newline="", encoding="utf-8") as f:
@@ -146,45 +234,213 @@ def compute_data_health():
     return rows, dict(counts)
 
 
+def render_page_purpose(purpose):
+    return (
+        '<section class="card"><h2>Page guide</h2><dl class="purpose-grid">'
+        f'<dt>What this page shows</dt><dd>{html.escape(purpose["what"])}</dd>'
+        f'<dt>Who this is for</dt><dd>{html.escape(purpose["who"])}</dd>'
+        f'<dt>How to use it</dt><dd>{html.escape(purpose["how"])}</dd>'
+        f'<dt>Data source and freshness</dt><dd>{html.escape(purpose["data"])}</dd>'
+        '</dl></section>'
+    )
+
+
+def render_table_guide(title, bullets):
+    body = f'<section class="card"><h3>{html.escape(title)}</h3><ul>'
+    for item in bullets:
+        body += f"<li>{html.escape(item)}</li>"
+    body += "</ul></section>"
+    return body
+
+
+def render_next_steps(steps):
+    body = '<section class="card"><h2>Where to go next</h2><ul>'
+    for href, label in steps:
+        body += f'<li><a href="{html.escape(href)}">{html.escape(label)}</a></li>'
+    body += '</ul></section>'
+    return body
+
+
+def default_breadcrumbs(active):
+    section = PAGE_TO_SECTION.get(active, "overview")
+    crumbs = [("index.html", "Overview")]
+    if active == "index":
+        return crumbs
+    crumbs.append((SECTION_CONFIG[section]["href"], SECTION_CONFIG[section]["label"]))
+    for key, label, href in SECTION_CONFIG[section]["children"]:
+        if key == active:
+            crumbs.append((href, label))
+            break
+    return crumbs
+
+
+def default_purpose(active):
+    return {
+        "index": {
+            "what": "A high-level summary of the England planning analysis, key findings, and where to go next.",
+            "who": "First-time visitors, policy teams, local authority officers, and public readers.",
+            "how": "Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.",
+            "data": "Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency.",
+        },
+        "legislation": {
+            "what": "The legislation and policy library that underpins planning decisions in scope.",
+            "who": "Policy professionals, legal reviewers, and users tracing legal context.",
+            "how": "Filter by instrument type and status to find the relevant law or policy, then follow source links.",
+            "data": "Official legal and policy references are linked to source URLs and retrieval dates.",
+        },
+        "plans": {
+            "what": "The plan hierarchy across authorities, from national policy down to local and neighbourhood layers.",
+            "who": "Users comparing policy stacks across LPAs.",
+            "how": "Start with the authority list, then open a specific LPA profile for detailed document context.",
+            "data": "Plan records are sourced from authority documents and tracked with status/date fields.",
+        },
+        "contradictions": {
+            "what": "System contradictions and friction points scored by impact, risk, and frequency.",
+            "who": "Policy leads, analysts, and non-specialists who need a ranked issue view.",
+            "how": "Filter by pathway, stage, and type, then review high-scoring issues first.",
+            "data": "Scores are derived from the published methodology and linked evidence records.",
+        },
+        "recommendations": {
+            "what": "Reform recommendations with owners, vehicles, KPIs, and evidence links.",
+            "who": "Policy and delivery teams prioritizing actionable changes.",
+            "how": "Start with priority and confidence, then review implementation details and evidence traceability.",
+            "data": "Every recommendation is linked to at least one evidence record in the evidence links dataset.",
+        },
+        "roadmap": {
+            "what": "A sequenced implementation plan from near-term actions to longer reforms.",
+            "who": "Program owners and stakeholders managing delivery order and dependencies.",
+            "how": "Read milestones in order and use dependencies and owners to plan delivery cadence.",
+            "data": "Roadmap records are maintained in the implementation dataset and updated as statuses evolve.",
+        },
+        "baselines": {
+            "what": "Baseline performance metrics used to measure current planning outcomes.",
+            "who": "Users benchmarking current performance before evaluating reforms.",
+            "how": "Compare England-level and LPA-level values, then connect metrics to recommendations.",
+            "data": "Baselines are sourced from GOV.UK and PINS tables with source table IDs and retrieval dates.",
+        },
+        "bottlenecks": {
+            "what": "Delay hotspots across the six planning stages, with severity and pathway context.",
+            "who": "Process improvement teams and users diagnosing where time is lost.",
+            "how": "Use the heatmap to identify high-friction stages, then review detailed rows for causes.",
+            "data": "Bottleneck records are maintained in the issues datasets with review dates and linked issue IDs.",
+        },
+        "appeals": {
+            "what": "Appeal decisions used as practical evidence for contradiction patterns.",
+            "who": "Users validating whether identified issues appear in real decisions.",
+            "how": "Filter by issue, outcome, or LPA, then read inspector findings and linked policy citations.",
+            "data": "Appeal examples are sourced from Planning Inspectorate references and tagged with retrieval dates.",
+        },
+        "map": {
+            "what": "A geographic view of authorities in scope with headline performance overlays.",
+            "who": "Users who prefer spatial exploration of authority performance.",
+            "how": "Select markers for summary context, then drill to profile and compare pages.",
+            "data": "Geo and performance overlays come from project authority and trend datasets.",
+        },
+        "compare": {
+            "what": "A side-by-side authority comparison across profile, performance, and quality indicators.",
+            "who": "Decision-makers comparing two LPAs for similarity, risk, or performance gaps.",
+            "how": "Select two authorities or use presets, then scan differences metric by metric.",
+            "data": "Comparison values come from trends, issue incidence, and data-quality datasets.",
+        },
+        "benchmark": {
+            "what": "A ranked authority benchmark with percentile bands, trend deltas, and outlier signals.",
+            "who": "Users needing a quick comparative performance view across all LPAs.",
+            "how": "Filter by region, type, cohort, or band, then drill into report or compare links.",
+            "data": "Uses quarterly trends plus analytical layers; provenance badges distinguish official vs estimated inputs.",
+        },
+        "reports": {
+            "what": "Downloadable per-authority report bundles and monthly snapshot outputs.",
+            "who": "Analysts, policy teams, and stakeholders needing offline evidence packs.",
+            "how": "Filter by authority type, region, or cohort, then download CSV or JSON bundles.",
+            "data": "Reports include version stamps, generation dates, provenance tags, and source references.",
+        },
+        "data-health": {
+            "what": "Freshness status for core datasets and update age in days.",
+            "who": "Anyone assessing confidence before relying on metrics or rankings.",
+            "how": "Check status badges and age values, then prioritize stale or critical datasets for refresh.",
+            "data": "Health is computed from date fields in monitored datasets against configured thresholds.",
+        },
+        "consultation": {
+            "what": "Submission status and consultation tracking for recommendations.",
+            "who": "Stakeholders monitoring where recommendations have been sent and responses received.",
+            "how": "Check status by recommendation ID, then review next actions.",
+            "data": "Statuses are drawn from the recommendation-status dataset with current workflow fields.",
+        },
+        "search": {
+            "what": "Cross-site search for legislation, issues, recommendations, LPAs, and evidence.",
+            "who": "Users with a specific term or topic who need a fast entry point.",
+            "how": "Enter plain-language terms and open matching pages by category.",
+            "data": "Search index is generated from current site datasets at build time.",
+        },
+        "methodology": {
+            "what": "How scoring, evidence standards, and quality controls are applied.",
+            "who": "Users who need to validate analytical rigor and assumptions.",
+            "how": "Read scoring dimensions first, then review quality checks and limitations.",
+            "data": "Method definitions are versioned in schema and scoring files and reflected in generated outputs.",
+        },
+        "sources": {
+            "what": "Source index and citations used across the site.",
+            "who": "Users verifying data origin and citation reliability.",
+            "how": "Use source categories and links to verify a metric, issue, or recommendation claim.",
+            "data": "Entries include source URLs and retrieval timestamps where available.",
+        },
+        "exports": {
+            "what": "Machine-readable dataset downloads plus manifest metadata.",
+            "who": "Analysts and technical users reusing the data externally.",
+            "how": "Download CSV or JSON datasets, then check manifest.json for hashes and version metadata.",
+            "data": "Export artifacts are generated during site build and tied to versioned source datasets.",
+        },
+        "policymakers": {
+            "what": "A role-specific view of findings, actions, and relevant evidence for policy teams.",
+            "who": "National and local policy makers.",
+            "how": "Start with priority actions, then follow links to detailed pages and supporting evidence.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+        "lpas": {
+            "what": "A role-specific view of findings, actions, and relevant evidence for LPAs.",
+            "who": "Local planning authority officers and service managers.",
+            "how": "Start with LPA actions, then drill into authority insights and recommendation details.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+        "developers": {
+            "what": "A role-specific view of findings, actions, and relevant evidence for developers.",
+            "who": "Developers and planning consultants.",
+            "how": "Review key impacts first, then open recommendations and authority pages for detail.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+        "public": {
+            "what": "A role-specific plain-language view of findings and proposed improvements.",
+            "who": "Residents, community groups, and lay readers.",
+            "how": "Read the plain-language summary first, then open recommendations and methodology pages for detail.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+    }.get(active)
+
+
 # --- Page shell ---
 
-def page(title, subhead, active, body, context=None):
-    links = [
-        ("index.html", "Overview", "index"),
-        ("legislation.html", "Legislation", "legislation"),
-        ("plans.html", "Plans", "plans"),
-        ("contradictions.html", "Contradictions", "contradictions"),
-        ("recommendations.html", "Recommendations", "recommendations"),
-        ("roadmap.html", "Roadmap", "roadmap"),
-        ("baselines.html", "Baselines", "baselines"),
-        ("bottlenecks.html", "Bottlenecks", "bottlenecks"),
-        ("appeals.html", "Appeals", "appeals"),
-        ("map.html", "Map", "map"),
-        ("compare.html", "Compare", "compare"),
-        ("benchmark.html", "Benchmark", "benchmark"),
-        ("reports.html", "Reports", "reports"),
-        ("data-health.html", "Data Health", "data-health"),
-        ("consultation.html", "Consultation", "consultation"),
-        ("search.html", "Search", "search"),
-        ("audience-policymakers.html", "For Policy Makers", "policymakers"),
-        ("audience-lpas.html", "For LPAs", "lpas"),
-        ("audience-developers.html", "For Developers", "developers"),
-        ("audience-public.html", "For Public", "public"),
-        ("methodology.html", "Methodology", "methodology"),
-        ("sources.html", "Sources", "sources"),
-    ]
-    nav = "\n".join(
-        f'<a{" class=\"active\"" if key == active else ""} href="{href}">{label}</a>'
-        for href, label, key in links
+def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=None, next_steps=None):
+    section = PAGE_TO_SECTION.get(active, "overview")
+    top_nav = "\n".join(
+        f'<a class="top-tab{(" active" if key == section else "")}" href="{cfg["href"]}">{cfg["label"]}</a>'
+        for key, cfg in SECTION_CONFIG.items()
     )
+    sub_nav = "\n".join(
+        f'<a{" class=\"active\"" if key == active else ""} href="{href}">{label}</a>'
+        for key, label, href in SECTION_CONFIG[section]["children"]
+    )
+    breadcrumb_data = breadcrumbs if breadcrumbs is not None else default_breadcrumbs(active)
+    breadcrumb_html = '<div class="breadcrumbs">' + " &gt; ".join(
+        f'<a href="{html.escape(href)}">{html.escape(label)}</a>'
+        for href, label in breadcrumb_data
+    ) + "</div>"
+    if purpose is None:
+        purpose = default_purpose(active)
+    purpose_html = render_page_purpose(purpose) if purpose else ""
     context_html = ""
     if context:
-        context_html = (
-            '<section class="card">'
-            '<h2>About this page</h2>'
-            f'<p>{html.escape(context)}</p>'
-            '</section>'
-        )
+        context_html = f'<section class="card"><p>{html.escape(context)}</p></section>'
+    next_html = render_next_steps(next_steps) if next_steps else ""
     return f"""<!doctype html>
 <html lang="en">
   <head>
@@ -201,12 +457,19 @@ def page(title, subhead, active, body, context=None):
       <header>
         <h1>{html.escape(title)}</h1>
         <p class="subhead">{html.escape(subhead)}</p>
+        <a class="header-search" href="search.html">Search</a>
       </header>
-      <nav>
-{nav}
+      <nav class="top-nav">
+{top_nav}
       </nav>
+      <nav class="sub-nav">
+{sub_nav}
+      </nav>
+{breadcrumb_html}
+{purpose_html}
 {context_html}
 {body}
+{next_html}
     </div>
   </body>
 </html>
@@ -450,6 +713,15 @@ def build_index():
         </article>
       </section>
       <section class="card">
+        <h2>Start by goal</h2>
+        <div class="grid">
+          <article class="card"><h3>Understand the system</h3><p>Review core contradictions and bottlenecks across the full pathway.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
+          <article class="card"><h3>Compare authorities</h3><p>Use benchmark and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
+          <article class="card"><h3>Review reforms</h3><p>Read actionable recommendations and implementation pathways.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
+          <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods</a></p></article>
+        </div>
+      </section>
+      <section class="card">
         <h2>Audience Views</h2>
         <ul>
           <li><a href="audience-policymakers.html">For Policy Makers</a></li>
@@ -477,16 +749,33 @@ def build_index():
         "UK Planning System Analysis — England Pilot Release",
         "Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.",
         "index", body,
-        "Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations."))
+        "Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations.",
+        next_steps=[
+            ("contradictions.html", "Go to contradictions dashboard"),
+            ("benchmark.html", "Go to benchmark dashboard"),
+            ("recommendations.html", "Go to recommendations"),
+            ("data-health.html", "Go to data health"),
+        ]))
 
 
 def build_legislation():
     rows = read_csv(ROOT / "data/legislation/england-core-legislation.csv")
     policy_rows = read_csv(ROOT / "data/policy/england-national-policy.csv")
-    body = render_table(rows, [
+    body = render_table_guide("How to read this table", [
+        "Each row is one legal or policy instrument used in planning decisions.",
+        "Decision weight indicates practical influence in decision making.",
+        "Use status and type together to separate in-force law from guidance.",
+        "Source links open the originating official publication.",
+    ])
+    body += render_table(rows, [
         ("title", "Instrument"), ("type", "Type"), ("status", "Status"),
         ("decision_weight", "Decision Weight"), ("citation", "Citation"),
         ("source_url", "Source"),
+    ])
+    body += render_table_guide("How to read the policy index", [
+        "This table complements legislation with national policy and guidance records.",
+        "Scope helps identify whether a record applies to housing, infrastructure, or mixed pathways.",
+        "Owner identifies the responsible body for updates.",
     ])
     body += '\n<section class="card"><h2>National Policy and Guidance Index</h2></section>'
     body += render_table(policy_rows, [
@@ -497,7 +786,12 @@ def build_legislation():
         "Legislation and Regulations Library",
         "England-first inventory of acts, regulations, and national policy.",
         "legislation", body,
-        "Use this page to trace the legal and policy instruments that shape planning decisions, including status, ownership, and source links."))
+        "Use this page to trace the legal and policy instruments that shape planning decisions, including status, ownership, and source links.",
+        next_steps=[
+            ("plans.html", "Open plan hierarchy explorer"),
+            ("contradictions.html", "Open contradictions dashboard"),
+            ("sources.html", "Open source reference page"),
+        ]))
 
 
 def build_plans():
@@ -514,6 +808,12 @@ def build_plans():
         body += f"<li>{html.escape(level)}</li>"
     body += "</ul></section>"
 
+    body += render_table_guide("How to read this table", [
+        "Each row is one authority in scope.",
+        "Growth and constraints summarise local context affecting planning decisions.",
+        "Data quality tier indicates evidence coverage confidence.",
+        "Use the profile link to drill down into detailed authority documents.",
+    ])
     body += '<section class="card"><table><thead><tr><th>Authority</th><th>Type</th><th>Region</th><th>Growth</th><th>Constraints</th><th>Data Quality</th><th>Profile</th></tr></thead><tbody>'
     for row in rows:
         lpa_page = f"plans-{row['pilot_id'].lower()}.html"
@@ -529,7 +829,12 @@ def build_plans():
         "Plan Hierarchy Explorer",
         "Mapped planning stack from national policy to neighbourhood plans and overlays.",
         "plans", body,
-        "This page shows which authorities are in scope and how their planning documents align across national, local, and neighbourhood levels."))
+        "This page shows which authorities are in scope and how their planning documents align across national, local, and neighbourhood levels.",
+        next_steps=[
+            ("map.html", "Open authority map"),
+            ("compare.html", "Open side-by-side compare"),
+            ("reports.html", "Open downloadable reports"),
+        ]))
 
     for row in rows:
         lpa_docs = docs_by_lpa.get(row["pilot_id"], [])
@@ -544,12 +849,35 @@ def build_plans():
             pb += f"<p><strong>Data quality tier:</strong> {html.escape(q.get('data_quality_tier', ''))} (coverage score {html.escape(q.get('coverage_score', ''))})</p>"
             pb += f"<p><strong>Evidence mix:</strong> {html.escape(q.get('evidence_type_mix', ''))}</p>"
         pb += '<p><a href="plans.html">Back to pilot overview</a></p></section>'
+        pb += render_table_guide("How to read this table", [
+            "Each row is one tracked plan document for this authority.",
+            "Status and date together indicate whether policy is current or transitional.",
+            "Notes capture caveats that affect interpretation.",
+            "Source links open the original authority publication where available.",
+        ])
         pb += render_plan_docs_table(lpa_docs)
         write(SITE / f"plans-{row['pilot_id'].lower()}.html", page(
             f"{row['lpa_name']} Plan Profile",
             "Pilot authority planning document stack.",
             "plans", pb,
-            "This authority profile summarises planning context, evidence quality, and tracked plan documents for the selected LPA."))
+            "This authority profile summarises planning context, evidence quality, and tracked plan documents for the selected LPA.",
+            purpose={
+                "what": "A single authority planning profile with document stack and contextual evidence.",
+                "who": "LPA teams, developers, and reviewers assessing authority-specific context.",
+                "how": "Read the authority summary first, then review tracked documents and linked evidence.",
+                "data": "Document and evidence records include source links, retrieval and review dates, and quality indicators.",
+            },
+            breadcrumbs=[
+                ("index.html", "Overview"),
+                ("plans.html", "Authority Insights"),
+                ("plans.html", "Plans"),
+                (f"plans-{row['pilot_id'].lower()}.html", row["lpa_name"]),
+            ],
+            next_steps=[
+                ("compare.html", "Compare this authority with another"),
+                ("benchmark.html", "View ranking context"),
+                ("reports.html", "Download authority report bundle"),
+            ]))
 
 
 def build_contradictions(weights):
@@ -590,6 +918,12 @@ def build_contradictions(weights):
     scopes = sorted({r.get("scope", "") for r in rows if r.get("scope")})
     body += render_filter_controls("issues-table", "Search issues", [
         ("issue_type", "Type", issue_types), ("affected_pathway", "Pathway", pathways), ("scope", "Scope", scopes)])
+    body += render_table_guide("How to read this table", [
+        "Each row is one contradiction record.",
+        "Weighted score combines severity, frequency, legal risk, delay impact, and fixability.",
+        "Higher scores indicate higher operational priority.",
+        "Confidence and verification badges show evidence maturity.",
+    ])
     body += render_filterable_table(rows, columns, "issues-table",
         ["issue_id", "scope", "issue_type", "affected_pathway", "summary", "confidence", "verification_state"])
     body += render_filter_script("issues-table",
@@ -599,7 +933,12 @@ def build_contradictions(weights):
         "Contradictions and Bottlenecks",
         "Cross-layer conflicts scored with explicit weighting and confidence levels.",
         "contradictions", body,
-        "Review the highest-friction conflicts in the planning system, with weighted scores and filters to focus on specific pathways or issue types."))
+        "Review the highest-friction conflicts in the planning system, with weighted scores and filters to focus on specific pathways or issue types.",
+        next_steps=[
+            ("bottlenecks.html", "Open bottleneck heatmap"),
+            ("appeals.html", "Review appeal evidence"),
+            ("recommendations.html", "Open linked recommendations"),
+        ]))
 
 
 def build_recommendations(weights):
@@ -620,6 +959,12 @@ def build_recommendations(weights):
 
     body = render_filter_controls("recs-table", "Search recommendations", [
         ("priority", "Priority", priorities), ("time_horizon", "Horizon", horizons)])
+    body += render_table_guide("How to read this table", [
+        "Each row is one actionable recommendation.",
+        "Priority and confidence support triage and sequencing.",
+        "Implementation vehicle identifies whether delivery is guidance, SI, or statutory change.",
+        "KPI and target define the measurable intended impact.",
+    ])
     body += render_filterable_table(rows, columns, "recs-table",
         ["recommendation_id", "priority", "time_horizon", "policy_goal", "title",
          "implementation_vehicle", "confidence", "verification_state"])
@@ -630,6 +975,12 @@ def build_recommendations(weights):
     # Evidence traces
     body += '<section class="card"><h2>Evidence Traces</h2>'
     body += "<p>Each recommendation is linked to at least one official dataset row.</p></section>"
+    body += render_table_guide("How to read the evidence tables", [
+        "Source identifies the dataset or guidance used.",
+        "Metric and baseline value explain the current-state evidence point.",
+        "Baseline window shows the measurement period.",
+        "Open source links to verify references directly.",
+    ])
     for row in rows:
         rid = row["recommendation_id"]
         evs = ev_by_rec.get(rid, [])
@@ -654,7 +1005,12 @@ def build_recommendations(weights):
         "Recommendations and Model Text",
         "Actionable reforms with evidence traces, confidence, and verification state.",
         "recommendations", body,
-        "Each recommendation includes delivery details, expected outcomes, and direct links to supporting evidence rows."))
+        "Each recommendation includes delivery details, expected outcomes, and direct links to supporting evidence rows.",
+        next_steps=[
+            ("roadmap.html", "Open implementation roadmap"),
+            ("consultation.html", "Open consultation tracker"),
+            ("sources.html", "Review source evidence index"),
+        ]))
 
 
 def build_roadmap():
@@ -668,6 +1024,12 @@ def build_roadmap():
     body += '<article class="card"><h3>Statutory and Structural (12-24+ months)</h3><p>SI/legislative pathways.</p></article>'
     body += "</section>"
     body += '<section class="card"><h2>Quick Wins</h2></section>'
+    body += render_table_guide("How to read roadmap tables", [
+        "Each row is a milestone or action in the implementation sequence.",
+        "Read top-to-bottom to follow intended delivery order.",
+        "Dependencies identify prerequisites for later milestones.",
+        "Use owner and metric columns to assign accountability.",
+    ])
     body += render_table(quick, [("window", "Window"), ("action", "Action"), ("owner", "Owner"),
         ("linked_recommendations", "Recs"), ("status_metric", "Metric")])
     body += '<section class="card"><h2>Statutory and Structural</h2></section>'
@@ -681,12 +1043,23 @@ def build_roadmap():
         "Implementation Roadmap",
         "Delivery sequence from quick wins to statutory reform.",
         "roadmap", body,
-        "This timeline shows how reforms can be phased, who leads delivery, and which dependencies affect sequencing."))
+        "This timeline shows how reforms can be phased, who leads delivery, and which dependencies affect sequencing.",
+        next_steps=[
+            ("consultation.html", "Open consultation and status"),
+            ("recommendations.html", "Return to recommendations"),
+            ("reports.html", "Open authority report bundles"),
+        ]))
 
 
 def build_baselines():
     rows = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
     body = '<section class="card"><p>Official baseline metrics from GOV.UK planning statistics and PINS casework data. Window: latest 4 quarters.</p></section>'
+    body += render_table_guide("How to read this table", [
+        "Each row is one baseline metric with source and period context.",
+        "Compare geography and pathway before drawing conclusions.",
+        "Period and retrieved_at dates help assess recency.",
+        "Use these values as current-state benchmarks for reform impact.",
+    ])
     body += render_table(rows, [
         ("metric_id", "ID"), ("metric_name", "Metric"), ("source_table", "Source"),
         ("geography", "Geography"), ("pathway", "Pathway"), ("value", "Value"),
@@ -696,7 +1069,12 @@ def build_baselines():
         "Official Baseline Metrics",
         "KPI baselines from GOV.UK planning statistics and Planning Inspectorate data.",
         "baselines", body,
-        "Use these baseline metrics to understand current performance levels before assessing the impact of proposed reforms."))
+        "Use these baseline metrics to understand current performance levels before assessing the impact of proposed reforms.",
+        next_steps=[
+            ("benchmark.html", "Open benchmark dashboard"),
+            ("reports.html", "Open authority reports"),
+            ("recommendations.html", "Open recommendations"),
+        ]))
 
 
 def build_bottlenecks():
@@ -720,6 +1098,7 @@ def build_bottlenecks():
 
     # Heatmap table: stages as rows, pathways as columns
     body += '<section class="card"><h2>Delay Heatmap (median weeks by stage and pathway)</h2>'
+    body += '<p class="small">Stages are listed in pathway order from pre-application to condition discharge.</p>'
     body += "<table><thead><tr><th>Stage</th>"
     for pw in pathways:
         body += f"<th>{html.escape(pw)}</th>"
@@ -751,13 +1130,24 @@ def build_bottlenecks():
         ("severity", "Severity"), ("delay_driver", "Driver"), ("linked_issues", "Issues"),
     ]
     body += '<section class="card"><h2>Bottleneck Detail</h2></section>'
+    body += render_table_guide("How to read this table", [
+        "Each row is one process-stage bottleneck with pathway context.",
+        "Median delay shows central delay impact for that bottleneck pattern.",
+        "Frequency indicates how often the issue appears in tracked records.",
+        "Use linked issues to cross-reference contradiction evidence.",
+    ])
     body += render_table(rows, columns)
 
     write(SITE / "bottlenecks.html", page(
         "Bottleneck Heatmap",
         "Process delay analysis across all six planning stages with severity and pathway breakdown.",
         "bottlenecks", body,
-        "This heatmap highlights where delays concentrate in the planning process and which pathways are most affected."))
+        "This heatmap highlights where delays concentrate in the planning process and which pathways are most affected.",
+        next_steps=[
+            ("contradictions.html", "Open contradiction register"),
+            ("appeals.html", "Review appeals evidence"),
+            ("recommendations.html", "Open reform recommendations"),
+        ]))
 
 
 # --- Audience views ---
@@ -767,6 +1157,12 @@ def build_audience_policymakers():
     issues = read_csv(ROOT / "data/issues/contradiction-register.csv")
     body = '<section class="card"><h2>Priority Reform Actions</h2>'
     body += "<p>Recommendations ranked by priority with delivery ownership and implementation vehicle.</p></section>"
+    body += '<section class="card"><h3>If you only do 3 things</h3><ol><li>Prioritise high-confidence recommendations with statutory blockers.</li><li>Use roadmap dependencies to sequence delivery commitments.</li><li>Track submission and response status via consultation page.</li></ol></section>'
+    body += render_table_guide("How to read this table", [
+        "Priority and horizon show sequencing urgency.",
+        "Owner and vehicle indicate delivery accountability and route.",
+        "Confidence signals strength of supporting evidence.",
+    ])
     body += render_table(recs, [
         ("recommendation_id", "ID"), ("priority", "Priority"), ("title", "Recommendation"),
         ("delivery_owner", "Owner"), ("implementation_vehicle", "Vehicle"),
@@ -774,6 +1170,11 @@ def build_audience_policymakers():
     ])
     body += '<section class="card"><h2>System Friction Summary</h2>'
     body += "<p>Top contradictions requiring policy intervention.</p></section>"
+    body += render_table_guide("How to read this table", [
+        "Issue type and scope show where intervention is needed.",
+        "Summary gives the practical policy conflict in plain language.",
+        "Use confidence as a guide to evidence maturity.",
+    ])
     body += render_table(issues, [
         ("issue_id", "Issue"), ("issue_type", "Type"), ("scope", "Scope"),
         ("summary", "Summary"), ("confidence", "Confidence"),
@@ -782,7 +1183,12 @@ def build_audience_policymakers():
         "For Policy Makers",
         "Priority reforms, system friction, and implementation pathways.",
         "policymakers", body,
-        "A policy-focused view of priority reforms, core friction points, and delivery routes for national and local action."))
+        "A policy-focused view of priority reforms, core friction points, and delivery routes for national and local action.",
+        next_steps=[
+            ("recommendations.html", "Open full recommendations"),
+            ("roadmap.html", "Open implementation roadmap"),
+            ("consultation.html", "Open consultation tracker"),
+        ]))
 
 
 def build_audience_lpas():
@@ -790,6 +1196,12 @@ def build_audience_lpas():
     lpa_recs = [r for r in recs if "LPA" in r.get("delivery_owner", "")]
     body = '<section class="card"><h2>Actions for Local Planning Authorities</h2>'
     body += "<p>Recommendations where LPAs are lead or co-delivery owners.</p></section>"
+    body += '<section class="card"><h3>If you only do 3 things</h3><ol><li>Prioritise validation and pre-application consistency actions.</li><li>Use benchmark and reports to compare peers.</li><li>Track data quality and update stale local records.</li></ol></section>'
+    body += render_table_guide("How to read this table", [
+        "Each row is one LPA-relevant recommendation.",
+        "KPI and target describe measurable outcomes.",
+        "Use horizon to phase internal workplans.",
+    ])
     body += render_table(lpa_recs if lpa_recs else recs, [
         ("recommendation_id", "ID"), ("title", "Recommendation"),
         ("time_horizon", "Horizon"), ("kpi_primary", "KPI"), ("target", "Target"),
@@ -798,6 +1210,11 @@ def build_audience_lpas():
     pilot_baselines = [b for b in baselines if b.get("geography", "").startswith("LPA")]
     if pilot_baselines:
         body += '<section class="card"><h2>Pilot LPA Baselines</h2></section>'
+        body += render_table_guide("How to read this table", [
+            "Each metric shows a baseline for pilot authorities.",
+            "Compare values by geography and unit only where equivalent.",
+            "Use as starting point before assessing interventions.",
+        ])
         body += render_table(pilot_baselines, [
             ("metric_id", "ID"), ("metric_name", "Metric"), ("geography", "Authority"),
             ("value", "Value"), ("unit", "Unit"),
@@ -806,13 +1223,19 @@ def build_audience_lpas():
         "For Local Planning Authorities",
         "LPA-specific actions, baselines, and KPI targets.",
         "lpas", body,
-        "An operational view for LPAs showing actionable recommendations, local baselines, and measurable KPI targets."))
+        "An operational view for LPAs showing actionable recommendations, local baselines, and measurable KPI targets.",
+        next_steps=[
+            ("benchmark.html", "Open benchmark dashboard"),
+            ("reports.html", "Download LPA report bundles"),
+            ("data-health.html", "Check data freshness"),
+        ]))
 
 
 def build_audience_developers():
     recs = read_csv(ROOT / "data/issues/recommendations.csv")
     body = '<section class="card"><h2>What This Means for Developers</h2>'
     body += "<p>Reforms that affect submission requirements, determination timelines, and design baseline certainty.</p></section>"
+    body += '<section class="card"><h3>If you only do 3 things</h3><ol><li>Use compare and benchmark pages to understand authority variation.</li><li>Track recommendations affecting validation and design certainty.</li><li>Use plan profile pages before preparing major submissions.</li></ol></section>'
     body += '<section class="card"><h3>Key Impacts</h3><ul>'
     body += "<li><strong>Validation standardisation</strong> reduces rework and front-end delay.</li>"
     body += "<li><strong>Precedence clarification</strong> increases decision predictability for housing schemes.</li>"
@@ -827,7 +1250,12 @@ def build_audience_developers():
         "For Developers",
         "How proposed reforms affect submission, timelines, and design certainty.",
         "developers", body,
-        "A delivery-focused summary of reforms that affect application requirements, decision predictability, and project timelines."))
+        "A delivery-focused summary of reforms that affect application requirements, decision predictability, and project timelines.",
+        next_steps=[
+            ("plans.html", "Open authority plan profiles"),
+            ("compare.html", "Open authority compare"),
+            ("recommendations.html", "Open recommendation details"),
+        ]))
 
 
 def build_audience_public():
@@ -850,11 +1278,17 @@ def build_audience_public():
     body += "<li>Introduce measurable design checklists so communities know what to expect.</li>"
     body += "</ul></section>"
     body += '<section class="card"><p>For full details, see the <a href="recommendations.html">Recommendations</a> and <a href="methodology.html">Methodology</a> pages.</p></section>'
+    body += '<section class="card"><h3>If you only do 3 things</h3><ol><li>Read the contradiction summary to understand core system issues.</li><li>Review recommendations to see proposed fixes.</li><li>Use consultation page to track submission progress.</li></ol></section>'
     write(SITE / "audience-public.html", page(
         "For the Public",
         "Plain-language summary of findings and proposed planning improvements.",
         "public", body,
-        "A plain-language explanation of the problems identified, why they matter, and what changes are being proposed."))
+        "A plain-language explanation of the problems identified, why they matter, and what changes are being proposed.",
+        next_steps=[
+            ("contradictions.html", "Open contradiction summary"),
+            ("recommendations.html", "Open recommendations"),
+            ("consultation.html", "Open consultation status"),
+        ]))
 
 
 def build_methodology():
@@ -869,22 +1303,39 @@ def build_methodology():
     body += '<section class="card"><h2>Validation</h2>'
     body += "<p>Schema, FK, enum, and unique-ID checks run via <code>scripts/validate_data.py</code>. "
     body += "Internal links checked via <code>scripts/check_links.py</code>.</p></section>"
+    body += '<section class="card"><h2>How scoring works in 3 steps</h2><ol><li>Collect issue-level values for severity, frequency, legal risk, delay impact, and fixability.</li><li>Apply explicit weighting from scoring.json.</li><li>Rank and review with confidence and verification labels.</li></ol></section>'
     write(SITE / "methodology.html", page(
         "Methodology",
         "Taxonomy, scoring model, evidence standards, and quality controls.",
         "methodology", body,
-        "This page explains how datasets are scored, validated, and linked to evidence so findings are transparent and reproducible."))
+        "This page explains how datasets are scored, validated, and linked to evidence so findings are transparent and reproducible.",
+        next_steps=[
+            ("sources.html", "Open sources and citations"),
+            ("exports.html", "Open data exports"),
+            ("data-health.html", "Open data health monitoring"),
+        ]))
 
 
 def build_sources():
     evidence = read_csv(ROOT / "data/evidence/recommendation_evidence_links.csv")
     baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
     body = '<section class="card"><h2>Evidence Links</h2></section>'
+    body += '<section class="card"><h3>Source reliability tiers</h3><ul><li><strong>Tier 1:</strong> Official statistics and statutory publications.</li><li><strong>Tier 2:</strong> Formal policy guidance and ministerial publications.</li><li><strong>Tier 3:</strong> Analytical estimates and inferred operational evidence.</li></ul></section>'
+    body += render_table_guide("How to read this table", [
+        "Each row links a recommendation to a source record.",
+        "Baseline values and windows describe current evidence levels.",
+        "Use source URLs to verify references directly.",
+    ])
     body += render_table(evidence, [
         ("link_id", "ID"), ("recommendation_id", "Rec"), ("source_dataset", "Source"),
         ("metric_name", "Metric"), ("baseline_value", "Baseline"), ("source_url", "URL"),
     ])
     body += '<section class="card"><h2>Official Baseline Metrics</h2></section>'
+    body += render_table_guide("How to read this table", [
+        "Each row is a baseline metric with source table and geography.",
+        "Use values with period and source context for valid comparisons.",
+        "Official source links provide direct verification.",
+    ])
     body += render_table(baselines, [
         ("metric_id", "ID"), ("metric_name", "Metric"), ("source_table", "Table"),
         ("geography", "Geography"), ("value", "Value"), ("source_url", "URL"),
@@ -893,7 +1344,12 @@ def build_sources():
         "Sources and Citations",
         "Official data sources, evidence links, and baseline metrics.",
         "sources", body,
-        "Use this reference page to verify evidence links, source tables, and citations used throughout the analysis."))
+        "Use this reference page to verify evidence links, source tables, and citations used throughout the analysis.",
+        next_steps=[
+            ("methodology.html", "Open methodology"),
+            ("recommendations.html", "Open recommendations"),
+            ("exports.html", "Open data exports"),
+        ]))
 
 
 def build_exports_index():
@@ -912,8 +1368,13 @@ def build_exports_index():
     write(SITE / "exports.html", page(
         "Data Exports",
         "Download datasets in CSV and JSON format.",
-        "index", body,
-        "Download the core datasets in machine-readable form for external analysis, QA checks, or reuse in other tools."))
+        "exports", body,
+        "Download the core datasets in machine-readable form for external analysis, QA checks, or reuse in other tools.",
+        next_steps=[
+            ("data-health.html", "Open data health"),
+            ("reports.html", "Open report bundles"),
+            ("methodology.html", "Open methodology"),
+        ]))
 
 
 def build_appeals():
@@ -928,6 +1389,12 @@ def build_appeals():
     body += render_filter_controls("appeals-table", "Search appeals", [
         ("outcome", "Outcome", outcomes),
         ("linked_issue", "Linked Issue", linked),
+    ])
+    body += render_table_guide("How to read this table", [
+        "Each row is one appeal decision linked to a tracked issue.",
+        "Outcome and inspector finding show how issues appear in practice.",
+        "Linked issue connects this evidence to the contradiction register.",
+        "These entries are illustrative evidence, not a full census of appeals.",
     ])
 
     columns = [
@@ -956,7 +1423,12 @@ def build_appeals():
         "Appeal Decision Evidence",
         "Planning Inspectorate decisions cited as evidence for identified contradictions.",
         "appeals", body,
-        "This page links appeal outcomes to specific contradiction records so users can inspect real-world decision evidence."))
+        "This page links appeal outcomes to specific contradiction records so users can inspect real-world decision evidence.",
+        next_steps=[
+            ("contradictions.html", "Open contradiction register"),
+            ("bottlenecks.html", "Open bottleneck analysis"),
+            ("recommendations.html", "Open recommendations"),
+        ]))
 
 
 def build_map():
@@ -1078,7 +1550,12 @@ def build_map():
         "LPA Map",
         "All authorities in scope with major decision speed and profile links.",
         "map", body,
-        "Explore authorities geographically, compare performance at a glance, and open individual LPA profile pages from map markers."))
+        "Explore authorities geographically, compare performance at a glance, and open individual LPA profile pages from map markers.",
+        next_steps=[
+            ("plans.html", "Open plan hierarchy and profiles"),
+            ("compare.html", "Open side-by-side compare"),
+            ("benchmark.html", "Open benchmark rankings"),
+        ]))
 
 
 def build_compare():
@@ -1134,6 +1611,12 @@ def build_compare():
         <p class="small" id="cmp-status"></p>
         <div id="cmp-presets" class="small"></div>
       </section>
+      <section class="card"><h3>How to read this table</h3><ul>
+        <li>Rows compare a single metric across Authority A and Authority B.</li>
+        <li>Use growth and constraint rows for contextual interpretation.</li>
+        <li>Use speed and quality rows for headline performance contrast.</li>
+        <li>Differences are directional signals, not causal proof.</li>
+      </ul></section>
       <section class="card" id="compare-output"></section>
       <script>
       (function() {
@@ -1272,7 +1755,12 @@ def build_compare():
         "LPA Comparison",
         "Side-by-side comparison of authorities, evidence quality, and baseline performance.",
         "compare", body,
-        "Compare two authorities side by side across profile context, tracked plans, decision speed, and evidence quality."))
+        "Compare two authorities side by side across profile context, tracked plans, decision speed, and evidence quality.",
+        next_steps=[
+            ("benchmark.html", "Open benchmark ranking"),
+            ("reports.html", "Download authority report bundles"),
+            ("plans.html", "Open authority profiles"),
+        ]))
 
 
 def build_benchmark():
@@ -1424,6 +1912,12 @@ def build_benchmark():
     body += '</div><p class="small" data-filter-count-for="benchmark-table"></p></section>'
 
     body += f'<section class="card"><p class="small">Generated on {date.today().isoformat()} from quarterly trends and issue incidence datasets.</p></section>'
+    body += render_table_guide("How to read this table", [
+        "Each row is one authority ranked by latest major decision speed.",
+        "4Q delta shows direction of change across the latest trend window.",
+        "Outlier flags indicate unusual relative performance in the current cohort.",
+        "Use preset pair links to drill into side-by-side comparisons.",
+    ])
     body += '<section class="card"><h2>LPA Benchmark Ranking</h2>'
     body += '<table id="benchmark-table"><thead><tr><th>Rank</th><th>LPA</th><th>Cohort</th><th>Type</th><th>Region</th><th>Speed (%)</th><th>4Q Delta (pp)</th><th>Outlier</th><th>Percentile</th><th>Band</th><th>Trend</th><th>Appeal %</th><th>Issues</th><th>High Sev</th><th>Risk Stage</th><th>Quality</th><th>Compare</th></tr></thead><tbody>'
     for r in sorted(bench, key=lambda x: (x["rank"] if isinstance(x["rank"], int) else 9999)):
@@ -1531,7 +2025,12 @@ def build_benchmark():
         "LPA Benchmark Dashboard",
         "Rankings, percentile bands, and trend sparklines across authorities.",
         "benchmark", body,
-        "Use rankings, percentile bands, and trend indicators to see relative performance and jump to preset authority comparisons."))
+        "Use rankings, percentile bands, and trend indicators to see relative performance and jump to preset authority comparisons.",
+        next_steps=[
+            ("compare.html", "Open side-by-side compare"),
+            ("reports.html", "Download report bundles"),
+            ("data-health.html", "Review data health status"),
+        ]))
 
 
 def build_reports():
@@ -1669,6 +2168,12 @@ def build_reports():
     body += '</select></label>'
     body += '</div><p class="small" data-filter-count-for="reports-table"></p></section>'
 
+    body += render_table_guide("How to read this table", [
+        "Each row provides downloadable report files for one authority.",
+        "CSV is suited for spreadsheets; JSON is suited for automation.",
+        "Provenance badges show official versus analytical estimate inputs.",
+        "Trend source links identify the originating statistics table.",
+    ])
     body += '<section class="card"><table id="reports-table"><thead><tr><th>ID</th><th>Authority</th><th>Cohort</th><th>Type</th><th>Region</th><th>Metric provenance</th><th>Trend source</th><th>CSV</th><th>JSON</th></tr></thead><tbody>'
     for row in links:
         attrs = (
@@ -1773,7 +2278,12 @@ def build_reports():
         "LPA Reports",
         "Downloadable authority-level comparison bundles.",
         "reports", body,
-        "Filter and download per-authority report bundles that combine profile context, issue incidence, quality data, and trend snapshots."))
+        "Filter and download per-authority report bundles that combine profile context, issue incidence, quality data, and trend snapshots.",
+        next_steps=[
+            ("benchmark.html", "Open benchmark dashboard"),
+            ("exports.html", "Open machine-readable exports"),
+            ("data-health.html", "Check data freshness"),
+        ]))
 
 
 def build_data_health():
@@ -1785,6 +2295,12 @@ def build_data_health():
     body += f'<article class="card"><h3>Critical datasets</h3><p>{counts.get("critical", 0)}</p></article>'
     body += '</section>'
 
+    body += render_table_guide("How to read this table", [
+        "Each row is one monitored dataset.",
+        "Age in days is measured from the most recent tracked date field.",
+        "Fresh, stale, and critical statuses are threshold-based.",
+        "Prioritise stale and critical datasets for update before high-stakes use.",
+    ])
     body += '<section class="card"><table><thead><tr><th>Dataset</th><th>Status</th><th>Rows</th><th>Last updated</th><th>Age (days)</th><th>Path</th></tr></thead><tbody>'
     for row in sorted(rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True):
         body += '<tr>'
@@ -1801,7 +2317,12 @@ def build_data_health():
         "Data Health",
         "Freshness and reliability monitoring for core operational datasets.",
         "data-health", body,
-        "Use this page to assess whether evidence datasets are up to date before relying on benchmark outputs or recommendations."))
+        "Use this page to assess whether evidence datasets are up to date before relying on benchmark outputs or recommendations.",
+        next_steps=[
+            ("benchmark.html", "Return to benchmark"),
+            ("reports.html", "Return to reports"),
+            ("sources.html", "Review source index"),
+        ]))
 
 
 def build_consultation():
@@ -1830,6 +2351,13 @@ def build_consultation():
     body += '</section>'
 
     body += '<section class="card"><h2>Submission Status Tracker</h2>'
+    body += '<p class="small">Status terms: Not submitted, Submitted, Response received, Under review, Rejected, Adopted.</p>'
+    body += render_table_guide("How to read this table", [
+        "Each row tracks consultation progress for one recommendation.",
+        "Status indicates workflow stage for external submission.",
+        "Submitted to and next action capture operational follow-up.",
+        "Use recommendation ID to cross-reference recommendation details.",
+    ])
     body += '<table><thead><tr><th>Recommendation</th><th>Title</th><th>Status</th><th>Submitted To</th><th>Next Action</th></tr></thead><tbody>'
     for rec in recs:
         rid = rec["recommendation_id"]
@@ -1864,7 +2392,12 @@ def build_consultation():
         "Consultation and Status",
         "Submission status tracker, disclaimer, and how to respond to this analysis.",
         "consultation", body,
-        "Track recommendation submission progress, review disclaimers, and find routes for feedback or evidence contributions."))
+        "Track recommendation submission progress, review disclaimers, and find routes for feedback or evidence contributions.",
+        next_steps=[
+            ("recommendations.html", "Open recommendation details"),
+            ("roadmap.html", "Open implementation roadmap"),
+            ("sources.html", "Open source evidence"),
+        ]))
 
 
 def build_search_index():
@@ -1975,7 +2508,12 @@ def build_search():
         "Search",
         "Full-text search across legislation, issues, recommendations, LPAs, appeals, and bottlenecks.",
         "search", body,
-        "Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence."))
+        "Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence.",
+        next_steps=[
+            ("index.html", "Return to overview"),
+            ("benchmark.html", "Open authority benchmark"),
+            ("recommendations.html", "Open recommendations"),
+        ]))
 
 
 def main():

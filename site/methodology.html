@@ -14,33 +14,27 @@
       <header>
         <h1>Methodology</h1>
         <p class="subhead">Taxonomy, scoring model, evidence standards, and quality controls.</p>
+        <a class="header-search" href="search.html">Search</a>
       </header>
-      <nav>
-<a href="index.html">Overview</a>
-<a href="legislation.html">Legislation</a>
-<a href="plans.html">Plans</a>
-<a href="contradictions.html">Contradictions</a>
-<a href="recommendations.html">Recommendations</a>
-<a href="roadmap.html">Roadmap</a>
-<a href="baselines.html">Baselines</a>
-<a href="bottlenecks.html">Bottlenecks</a>
-<a href="appeals.html">Appeals</a>
-<a href="map.html">Map</a>
-<a href="compare.html">Compare</a>
-<a href="benchmark.html">Benchmark</a>
-<a href="reports.html">Reports</a>
-<a href="data-health.html">Data Health</a>
-<a href="consultation.html">Consultation</a>
-<a href="search.html">Search</a>
-<a href="audience-policymakers.html">For Policy Makers</a>
-<a href="audience-lpas.html">For LPAs</a>
-<a href="audience-developers.html">For Developers</a>
-<a href="audience-public.html">For Public</a>
+      <nav class="top-nav">
+<a class="top-tab" href="index.html">Overview</a>
+<a class="top-tab" href="contradictions.html">System Analysis</a>
+<a class="top-tab" href="plans.html">Authority Insights</a>
+<a class="top-tab" href="recommendations.html">Recommendations</a>
+<a class="top-tab active" href="methodology.html">Data & Methods</a>
+<a class="top-tab" href="audience-policymakers.html">For Audiences</a>
+      </nav>
+      <nav class="sub-nav">
 <a class="active" href="methodology.html">Methodology</a>
 <a href="sources.html">Sources</a>
+<a href="exports.html">Exports</a>
+<a href="data-health.html">Data Health</a>
       </nav>
-<section class="card"><h2>About this page</h2><p>This page explains how datasets are scored, validated, and linked to evidence so findings are transparent and reproducible.</p></section>
-<section class="card"><h2>Evidence Standard</h2><p>Every recommendation references at least one official dataset row from GOV.UK planning statistics or PINS casework data.</p></section><section class="card"><h2>Scoring Model</h2><p>Issues scored on five dimensions with explicit weights. See <code>data/schemas/scoring.json</code>.</p></section><section class="card"><h2>Verification States</h2><p>Records carry a verification state: <strong>draft</strong>, <strong>verified</strong>, or <strong>legal-reviewed</strong>.</p></section><section class="card"><h2>Confidence Levels</h2><p>Findings carry confidence labels: <strong>high</strong>, <strong>medium</strong>, or <strong>low</strong>.</p></section><section class="card"><h2>Validation</h2><p>Schema, FK, enum, and unique-ID checks run via <code>scripts/validate_data.py</code>. Internal links checked via <code>scripts/check_links.py</code>.</p></section>
+<div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="methodology.html">Data &amp; Methods</a> &gt; <a href="methodology.html">Methodology</a></div>
+<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>How scoring, evidence standards, and quality controls are applied.</dd><dt>Who this is for</dt><dd>Users who need to validate analytical rigor and assumptions.</dd><dt>How to use it</dt><dd>Read scoring dimensions first, then review quality checks and limitations.</dd><dt>Data source and freshness</dt><dd>Method definitions are versioned in schema and scoring files and reflected in generated outputs.</dd></dl></section>
+<section class="card"><p>This page explains how datasets are scored, validated, and linked to evidence so findings are transparent and reproducible.</p></section>
+<section class="card"><h2>Evidence Standard</h2><p>Every recommendation references at least one official dataset row from GOV.UK planning statistics or PINS casework data.</p></section><section class="card"><h2>Scoring Model</h2><p>Issues scored on five dimensions with explicit weights. See <code>data/schemas/scoring.json</code>.</p></section><section class="card"><h2>Verification States</h2><p>Records carry a verification state: <strong>draft</strong>, <strong>verified</strong>, or <strong>legal-reviewed</strong>.</p></section><section class="card"><h2>Confidence Levels</h2><p>Findings carry confidence labels: <strong>high</strong>, <strong>medium</strong>, or <strong>low</strong>.</p></section><section class="card"><h2>Validation</h2><p>Schema, FK, enum, and unique-ID checks run via <code>scripts/validate_data.py</code>. Internal links checked via <code>scripts/check_links.py</code>.</p></section><section class="card"><h2>How scoring works in 3 steps</h2><ol><li>Collect issue-level values for severity, frequency, legal risk, delay impact, and fixability.</li><li>Apply explicit weighting from scoring.json.</li><li>Rank and review with confidence and verification labels.</li></ol></section>
+<section class="card"><h2>Where to go next</h2><ul><li><a href="sources.html">Open sources and citations</a></li><li><a href="exports.html">Open data exports</a></li><li><a href="data-health.html">Open data health monitoring</a></li></ul></section>
     </div>
   </body>
 </html>
