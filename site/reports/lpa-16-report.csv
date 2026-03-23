@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-16
 lpa_name,Medway Council
 lpa_type,Unitary Authority
 cohort,Cohort 2
+peer_group,Mixed and dispersed authorities
 region,South East
 growth_context,Housing delivery zone
 constraint_profile,Flood risk and strategic transport corridor pressure
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,15.9
+delegated_ratio_proxy,85.3
+plan_age_years,22.9
+consultation_lag_proxy,5.8
+backlog_pressure,100.0
+analytical_confidence,low
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

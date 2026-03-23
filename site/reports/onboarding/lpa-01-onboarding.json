@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-03-23T03:44:39Z",
+  "pilot_id": "LPA-01",
+  "lpa_name": "Manchester City Council",
+  "coverage_status": "complete",
+  "quality_tier": "A",
+  "cohort": "Cohort 1",
+  "region": "North West",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 3,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-01.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

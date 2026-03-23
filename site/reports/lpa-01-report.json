@@ -1,10 +1,11 @@
 {
-  "report_generated_at": "2026-03-21",
+  "report_generated_at": "2026-03-23",
   "data_version": "v6.0",
   "pilot_id": "LPA-01",
   "lpa_name": "Manchester City Council",
   "lpa_type": "Metropolitan District",
   "cohort": "Cohort 1",
+  "peer_group": "High-growth urban authorities",
   "region": "North West",
   "growth_context": "High growth urban",
   "constraint_profile": "Transport capacity and urban form constraints",
@@ -26,6 +27,14 @@
     "primary_risk_stage": "Legal Agreements",
     "last_reviewed": "2026-03-18",
     "notes": "Strong urban pipeline with recurring s106 and condition-discharge delays"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 12.5,
+    "delegated_ratio_proxy": 83.4,
+    "plan_age_years": 13.7,
+    "consultation_lag_proxy": 3.6,
+    "backlog_pressure": 83.3,
+    "analytical_confidence": "high"
   },
   "quarterly_trends": [
     {
@@ -73,7 +82,12 @@
     "major_in_time_pct": "official",
     "appeals_overturned_pct": "official",
     "issue_incidence": "estimated",
-    "data_quality": "estimated"
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
   },
   "latest_trend_source": {
     "source_table": "P151/P152",

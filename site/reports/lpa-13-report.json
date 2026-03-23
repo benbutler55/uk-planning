@@ -1,10 +1,11 @@
 {
-  "report_generated_at": "2026-03-21",
+  "report_generated_at": "2026-03-23",
   "data_version": "v6.0",
   "pilot_id": "LPA-13",
   "lpa_name": "Southampton City Council",
   "lpa_type": "Unitary Authority",
   "cohort": "Cohort 2",
+  "peer_group": "Regeneration-focused authorities",
   "region": "South East",
   "growth_context": "Regeneration growth",
   "constraint_profile": "Coastal change and port safeguarding",
@@ -26,6 +27,14 @@
     "primary_risk_stage": "Legal Agreements",
     "last_reviewed": "2026-03-18",
     "notes": "Waterfront regeneration schemes expose legal agreement delays"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 13.3,
+    "delegated_ratio_proxy": 88.4,
+    "plan_age_years": 11.2,
+    "consultation_lag_proxy": 4.0,
+    "backlog_pressure": 58.1,
+    "analytical_confidence": "medium"
   },
   "quarterly_trends": [
     {
@@ -73,7 +82,12 @@
     "major_in_time_pct": "official",
     "appeals_overturned_pct": "official",
     "issue_incidence": "estimated",
-    "data_quality": "estimated"
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
   },
   "latest_trend_source": {
     "source_table": "P151/P152",

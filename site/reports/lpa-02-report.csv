@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-02
 lpa_name,Oxford City Council
 lpa_type,Non-metropolitan District
 cohort,Cohort 1
+peer_group,High-growth urban authorities
 region,South East
 growth_context,High demand constrained
 constraint_profile,Green Belt and heritage sensitivity
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,12.9
+delegated_ratio_proxy,82.1
+plan_age_years,5.2
+consultation_lag_proxy,4.2
+backlog_pressure,77.5
+analytical_confidence,high
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

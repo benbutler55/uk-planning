@@ -30,6 +30,7 @@
 <a class="active" href="compare.html">Compare</a>
 <a href="benchmark.html">Benchmark</a>
 <a href="reports.html">Reports</a>
+<a href="coverage.html">Coverage</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="plans.html">Authority Insights</a> &gt; <a href="compare.html">Compare</a></div>
 <section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A side-by-side authority comparison across profile, performance, and quality indicators.</dd><dt>Who this is for</dt><dd>Decision-makers comparing two LPAs for similarity, risk, or performance gaps.</dd><dt>How to use it</dt><dd>Select two authorities or use presets, then scan differences metric by metric.</dd><dt>Data source and freshness</dt><dd>Comparison values come from trends, issue incidence, and data-quality datasets.</dd></dl></section>
@@ -38,6 +39,12 @@
       <section class="card">
         <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics. You can also open this page with URL presets such as <code>?a=LPA-01&b=LPA-07</code>.</p>
         <div class="filter-row">
+          <label class="filter-item">Region<select id="cmp-region"><option value="">All</option></select></label>
+          <label class="filter-item">LPA type<select id="cmp-type"><option value="">All</option></select></label>
+          <label class="filter-item">Cohort<select id="cmp-cohort"><option value="">All</option></select></label>
+          <label class="filter-item">Quality tier<select id="cmp-quality"><option value="">All</option></select></label>
+        </div>
+        <div class="filter-row" style="margin-top:10px;">
           <label class="filter-item">Authority A<select id="cmp-a"></select></label>
           <label class="filter-item">Authority B<select id="cmp-b"></select></label>
         </div>
@@ -45,6 +52,7 @@
           <button id="cmp-save" type="button">Save preset pair</button>
           <button id="cmp-clear" type="button">Clear saved presets</button>
         </div>
+        <p class="small" id="cmp-filter-count"></p>
         <p class="small" id="cmp-status"></p>
         <div id="cmp-presets" class="small"></div>
       </section>
@@ -57,7 +65,7 @@
       <section class="card" id="compare-output"></section>
       <script>
       (function() {
-        var data = [{"id": "LPA-01", "name": "Manchester City Council", "type": "Metropolitan District", "region": "North West", "growth": "High growth urban", "constraints": "Transport capacity and urban form constraints", "documents": 3, "speed": "71", "quality_tier": "A", "quality_score": "92", "page": "plans-lpa-01.html"}, {"id": "LPA-02", "name": "Oxford City Council", "type": "Non-metropolitan District", "region": "South East", "growth": "High demand constrained", "constraints": "Green Belt and heritage sensitivity", "documents": 4, "speed": "68", "quality_tier": "A", "quality_score": "90", "page": "plans-lpa-02.html"}, {"id": "LPA-03", "name": "South Cambridgeshire District Council", "type": "Non-metropolitan District", "region": "East of England", "growth": "Growth corridor", "constraints": "Green Belt flood risk and infrastructure sequencing", "documents": 4, "speed": "65", "quality_tier": "B", "quality_score": "84", "page": "plans-lpa-03.html"}, {"id": "LPA-04", "name": "Cornwall Council", "type": "Unitary Authority", "region": "South West", "growth": "Mixed growth dispersed", "constraints": "Coastal change AONB and transport coverage constraints", "documents": 3, "speed": "76", "quality_tier": "B", "quality_score": "80", "page": "plans-lpa-04.html"}, {"id": "LPA-05", "name": "Newham London Borough Council", "type": "London Borough", "region": "London", "growth": "Very high urban growth", "constraints": "Density viability and transport node pressure", "documents": 4, "speed": "69", "quality_tier": "A", "quality_score": "88", "page": "plans-lpa-05.html"}, {"id": "LPA-06", "name": "Kent County Council (minerals/waste planning role)", "type": "County Council", "region": "South East", "growth": "County strategic layer", "constraints": "Strategic waste minerals and transport network constraints", "documents": 3, "speed": "n/a", "quality_tier": "B", "quality_score": "78", "page": "plans-lpa-06.html"}, {"id": "LPA-07", "name": "Leeds City Council", "type": "Metropolitan District", "region": "Yorkshire and The Humber", "growth": "High growth urban", "constraints": "Transport capacity and cross-boundary housing delivery", "documents": 3, "speed": "78", "quality_tier": "B", "quality_score": "82", "page": "plans-lpa-07.html"}, {"id": "LPA-08", "name": "Bristol City Council", "type": "Unitary Authority", "region": "South West", "growth": "High growth urban", "constraints": "Flood risk and harbour/waterfront regeneration complexity", "documents": 2, "speed": "72", "quality_tier": "B", "quality_score": "79", "page": "plans-lpa-08.html"}, {"id": "LPA-09", "name": "Guildford Borough Council", "type": "Non-metropolitan District", "region": "South East", "growth": "High demand constrained", "constraints": "Green Belt and AONB adjacency", "documents": 2, "speed": "61", "quality_tier": "B", "quality_score": "81", "page": "plans-lpa-09.html"}, {"id": "LPA-10", "name": "Newcastle City Council", "type": "Metropolitan District", "region": "North East", "growth": "Regeneration growth", "constraints": "Riverside flood risk and heritage city centre", "documents": 2, "speed": "80", "quality_tier": "B", "quality_score": "80", "page": "plans-lpa-10.html"}, {"id": "LPA-11", "name": "Peak District National Park Authority", "type": "National Park", "region": "East Midlands", "growth": "Constrained designated", "constraints": "National Park statutory purposes and housing affordability tension", "documents": 2, "speed": "n/a", "quality_tier": "C", "quality_score": "68", "page": "plans-lpa-11.html"}, {"id": "LPA-12", "name": "Northumberland County Council", "type": "Unitary Authority", "region": "North East", "growth": "Mixed growth dispersed", "constraints": "Minerals safeguarding and offshore wind infrastructure pressure", "documents": 2, "speed": "n/a", "quality_tier": "B", "quality_score": "77", "page": "plans-lpa-12.html"}, {"id": "LPA-13", "name": "Southampton City Council", "type": "Unitary Authority", "region": "South East", "growth": "Regeneration growth", "constraints": "Coastal change and port safeguarding", "documents": 2, "speed": "74", "quality_tier": "B", "quality_score": "79", "page": "plans-lpa-13.html"}, {"id": "LPA-14", "name": "Leicester City Council", "type": "Unitary Authority", "region": "East Midlands", "growth": "Urban renewal", "constraints": "Heritage sensitivity and infrastructure capacity", "documents": 2, "speed": "70", "quality_tier": "B", "quality_score": "78", "page": "plans-lpa-14.html"}, {"id": "LPA-15", "name": "Cambridge City Council", "type": "Non-metropolitan District", "region": "East of England", "growth": "High demand constrained", "constraints": "Green Belt and heritage conservation area pressure", "documents": 2, "speed": "n/a", "quality_tier": "B", "quality_score": "83", "page": "plans-lpa-15.html"}, {"id": "LPA-16", "name": "Medway Council", "type": "Unitary Authority", "region": "South East", "growth": "Housing delivery zone", "constraints": "Flood risk and strategic transport corridor pressure", "documents": 2, "speed": "63", "quality_tier": "C", "quality_score": "66", "page": "plans-lpa-16.html"}];
+        var data = [{"id": "LPA-01", "name": "Manchester City Council", "type": "Metropolitan District", "cohort": "Cohort 1", "region": "North West", "growth": "High growth urban", "constraints": "Transport capacity and urban form constraints", "documents": 3, "speed": "71", "quality_tier": "A", "quality_score": "92", "page": "plans-lpa-01.html"}, {"id": "LPA-02", "name": "Oxford City Council", "type": "Non-metropolitan District", "cohort": "Cohort 1", "region": "South East", "growth": "High demand constrained", "constraints": "Green Belt and heritage sensitivity", "documents": 4, "speed": "68", "quality_tier": "A", "quality_score": "90", "page": "plans-lpa-02.html"}, {"id": "LPA-03", "name": "South Cambridgeshire District Council", "type": "Non-metropolitan District", "cohort": "Cohort 1", "region": "East of England", "growth": "Growth corridor", "constraints": "Green Belt flood risk and infrastructure sequencing", "documents": 4, "speed": "65", "quality_tier": "B", "quality_score": "84", "page": "plans-lpa-03.html"}, {"id": "LPA-04", "name": "Cornwall Council", "type": "Unitary Authority", "cohort": "Cohort 1", "region": "South West", "growth": "Mixed growth dispersed", "constraints": "Coastal change AONB and transport coverage constraints", "documents": 3, "speed": "76", "quality_tier": "B", "quality_score": "80", "page": "plans-lpa-04.html"}, {"id": "LPA-05", "name": "Newham London Borough Council", "type": "London Borough", "cohort": "Cohort 1", "region": "London", "growth": "Very high urban growth", "constraints": "Density viability and transport node pressure", "documents": 4, "speed": "69", "quality_tier": "A", "quality_score": "88", "page": "plans-lpa-05.html"}, {"id": "LPA-06", "name": "Kent County Council (minerals/waste planning role)", "type": "County Council", "cohort": "Cohort 1", "region": "South East", "growth": "County strategic layer", "constraints": "Strategic waste minerals and transport network constraints", "documents": 3, "speed": "n/a", "quality_tier": "B", "quality_score": "78", "page": "plans-lpa-06.html"}, {"id": "LPA-07", "name": "Leeds City Council", "type": "Metropolitan District", "cohort": "Cohort 2", "region": "Yorkshire and The Humber", "growth": "High growth urban", "constraints": "Transport capacity and cross-boundary housing delivery", "documents": 3, "speed": "78", "quality_tier": "B", "quality_score": "82", "page": "plans-lpa-07.html"}, {"id": "LPA-08", "name": "Bristol City Council", "type": "Unitary Authority", "cohort": "Cohort 2", "region": "South West", "growth": "High growth urban", "constraints": "Flood risk and harbour/waterfront regeneration complexity", "documents": 2, "speed": "72", "quality_tier": "B", "quality_score": "79", "page": "plans-lpa-08.html"}, {"id": "LPA-09", "name": "Guildford Borough Council", "type": "Non-metropolitan District", "cohort": "Cohort 2", "region": "South East", "growth": "High demand constrained", "constraints": "Green Belt and AONB adjacency", "documents": 2, "speed": "61", "quality_tier": "B", "quality_score": "81", "page": "plans-lpa-09.html"}, {"id": "LPA-10", "name": "Newcastle City Council", "type": "Metropolitan District", "cohort": "Cohort 2", "region": "North East", "growth": "Regeneration growth", "constraints": "Riverside flood risk and heritage city centre", "documents": 2, "speed": "80", "quality_tier": "B", "quality_score": "80", "page": "plans-lpa-10.html"}, {"id": "LPA-11", "name": "Peak District National Park Authority", "type": "National Park", "cohort": "Cohort 2", "region": "East Midlands", "growth": "Constrained designated", "constraints": "National Park statutory purposes and housing affordability tension", "documents": 2, "speed": "n/a", "quality_tier": "C", "quality_score": "68", "page": "plans-lpa-11.html"}, {"id": "LPA-12", "name": "Northumberland County Council", "type": "Unitary Authority", "cohort": "Cohort 2", "region": "North East", "growth": "Mixed growth dispersed", "constraints": "Minerals safeguarding and offshore wind infrastructure pressure", "documents": 2, "speed": "n/a", "quality_tier": "B", "quality_score": "77", "page": "plans-lpa-12.html"}, {"id": "LPA-13", "name": "Southampton City Council", "type": "Unitary Authority", "cohort": "Cohort 2", "region": "South East", "growth": "Regeneration growth", "constraints": "Coastal change and port safeguarding", "documents": 2, "speed": "74", "quality_tier": "B", "quality_score": "79", "page": "plans-lpa-13.html"}, {"id": "LPA-14", "name": "Leicester City Council", "type": "Unitary Authority", "cohort": "Cohort 2", "region": "East Midlands", "growth": "Urban renewal", "constraints": "Heritage sensitivity and infrastructure capacity", "documents": 2, "speed": "70", "quality_tier": "B", "quality_score": "78", "page": "plans-lpa-14.html"}, {"id": "LPA-15", "name": "Cambridge City Council", "type": "Non-metropolitan District", "cohort": "Cohort 2", "region": "East of England", "growth": "High demand constrained", "constraints": "Green Belt and heritage conservation area pressure", "documents": 2, "speed": "n/a", "quality_tier": "B", "quality_score": "83", "page": "plans-lpa-15.html"}, {"id": "LPA-16", "name": "Medway Council", "type": "Unitary Authority", "cohort": "Cohort 2", "region": "South East", "growth": "Housing delivery zone", "constraints": "Flood risk and strategic transport corridor pressure", "documents": 2, "speed": "63", "quality_tier": "C", "quality_score": "66", "page": "plans-lpa-16.html"}];
         var aSel = document.getElementById('cmp-a');
         var bSel = document.getElementById('cmp-b');
         var out = document.getElementById('compare-output');
@@ -65,19 +73,31 @@
         var clearBtn = document.getElementById('cmp-clear');
         var presetWrap = document.getElementById('cmp-presets');
         var statusEl = document.getElementById('cmp-status');
+        var countEl = document.getElementById('cmp-filter-count');
+        var regionSel = document.getElementById('cmp-region');
+        var typeSel = document.getElementById('cmp-type');
+        var cohortSel = document.getElementById('cmp-cohort');
+        var qualitySel = document.getElementById('cmp-quality');
         var presetKey = 'uk-planning-compare-presets';
+        var sharedKey = 'uk-planning-shared-filters-v1';
 
-        function mkOption(item) {
+        function norm(v) { return (v || '').toLowerCase().trim(); }
+
+        function mkOption(value, label) {
           var o = document.createElement('option');
-          o.value = item.id;
-          o.textContent = item.name + ' (' + item.id + ')';
+          o.value = value;
+          o.textContent = label;
           return o;
         }
 
-        data.forEach(function(item) {
-          aSel.appendChild(mkOption(item));
-          bSel.appendChild(mkOption(item));
-        });
+        function appendUniqueOptions(select, values) {
+          values.forEach(function(v) { select.appendChild(mkOption(v, v)); });
+        }
+
+        appendUniqueOptions(regionSel, Array.from(new Set(data.map(function(r) { return r.region; }).filter(Boolean))).sort());
+        appendUniqueOptions(typeSel, Array.from(new Set(data.map(function(r) { return r.type; }).filter(Boolean))).sort());
+        appendUniqueOptions(cohortSel, Array.from(new Set(data.map(function(r) { return r.cohort; }).filter(Boolean))).sort());
+        appendUniqueOptions(qualitySel, Array.from(new Set(data.map(function(r) { return r.quality_tier; }).filter(Boolean))).sort());
 
         var byId = {};
         data.forEach(function(item) { byId[item.id] = true; });
@@ -88,15 +108,83 @@
         var presetA = (params.get('a') || '').toUpperCase();
         var presetB = (params.get('b') || '').toUpperCase();
 
-        if (data.length > 1) {
-          aSel.value = data[0].id;
-          bSel.value = data[1].id;
+        function loadSharedState() {
+          try {
+            return JSON.parse(localStorage.getItem(sharedKey) || '{}');
+          } catch (e) {
+            return {};
+          }
         }
-        if (presetA && byId[presetA]) aSel.value = presetA;
-        if (presetB && byId[presetB]) bSel.value = presetB;
-        if (aSel.value === bSel.value && data.length > 1) {
-          var fallback = data.find(function(item) { return item.id !== aSel.value; });
-          if (fallback) bSel.value = fallback.id;
+
+        function applySharedFilters() {
+          var stored = loadSharedState();
+          var byControl = {
+            region: regionSel,
+            lpa_type: typeSel,
+            cohort: cohortSel,
+            quality: qualitySel,
+          };
+          Object.keys(byControl).forEach(function(key) {
+            var control = byControl[key];
+            var value = norm(params.get(key)) || norm(stored[key]);
+            if (!value) return;
+            var option = Array.from(control.options).find(function(opt) { return norm(opt.value) === value; });
+            if (option) control.value = option.value;
+          });
+        }
+
+        function persistSharedFilters(aId, bId) {
+          var next = new URLSearchParams(window.location.search);
+          var shared = loadSharedState();
+          var values = {
+            region: norm(regionSel.value),
+            lpa_type: norm(typeSel.value),
+            cohort: norm(cohortSel.value),
+            quality: norm(qualitySel.value),
+          };
+          Object.keys(values).forEach(function(key) {
+            if (values[key]) {
+              next.set(key, values[key]);
+              shared[key] = values[key];
+            } else {
+              next.delete(key);
+              delete shared[key];
+            }
+          });
+          if (aId) next.set('a', aId);
+          if (bId) next.set('b', bId);
+          localStorage.setItem(sharedKey, JSON.stringify(shared));
+          var query = next.toString();
+          history.replaceState(null, '', window.location.pathname + (query ? ('?' + query) : ''));
+        }
+
+        function matchesSharedFilters(item) {
+          if (norm(regionSel.value) && norm(item.region) !== norm(regionSel.value)) return false;
+          if (norm(typeSel.value) && norm(item.type) !== norm(typeSel.value)) return false;
+          if (norm(cohortSel.value) && norm(item.cohort) !== norm(cohortSel.value)) return false;
+          if (norm(qualitySel.value) && norm(item.quality_tier) !== norm(qualitySel.value)) return false;
+          return true;
+        }
+
+        function filteredData() {
+          return data.filter(matchesSharedFilters);
+        }
+
+        function refillAuthoritySelect(select, rows, preferredValue, fallbackValue) {
+          select.innerHTML = '';
+          rows.forEach(function(item) {
+            select.appendChild(mkOption(item.id, item.name + ' (' + item.id + ')'));
+          });
+          if (!rows.length) return;
+          if (preferredValue && rows.some(function(item) { return item.id === preferredValue; })) {
+            select.value = preferredValue;
+            return;
+          }
+          if (fallbackValue && rows.some(function(item) { return item.id === fallbackValue; })) {
+            select.value = fallbackValue;
+            return;
+          }
+          select.value = rows[0].id;
         }
 
         function row(label, a, b) {
@@ -104,20 +192,33 @@
         }
 
         function render() {
-          var a = data.find(function(x){ return x.id === aSel.value; });
-          var b = data.find(function(x){ return x.id === bSel.value; });
+          var visible = filteredData();
+          countEl.textContent = visible.length + ' of ' + data.length + ' authorities match current filters';
+          if (visible.length < 2) {
+            out.innerHTML = '<h2>Comparison</h2><p>Select filters with at least two matching authorities.</p>';
+            persistSharedFilters('', '');
+            return;
+          }
+
+          refillAuthoritySelect(aSel, visible, aSel.value, presetA && byId[presetA] ? presetA : '');
+          refillAuthoritySelect(bSel, visible, bSel.value, presetB && byId[presetB] ? presetB : '');
+          if (aSel.value === bSel.value) {
+            var alt = visible.find(function(item) { return item.id !== aSel.value; });
+            if (alt) bSel.value = alt.id;
+          }
+
+          var a = visible.find(function(x){ return x.id === aSel.value; });
+          var b = visible.find(function(x){ return x.id === bSel.value; });
           if (!a || !b) return;
 
-          var next = new URL(window.location.href);
-          next.searchParams.set('a', a.id);
-          next.searchParams.set('b', b.id);
-          history.replaceState(null, '', next.pathname + '?' + next.searchParams.toString());
+          persistSharedFilters(a.id, b.id);
 
           out.innerHTML =
             '<h2>Comparison</h2>' +
             '<table><thead><tr><th>Metric</th><th>' + a.name + '</th><th>' + b.name + '</th></tr></thead><tbody>' +
             row('Type', a.type, b.type) +
             row('Region', a.region, b.region) +
+            row('Cohort', a.cohort, b.cohort) +
             row('Growth context', a.growth, b.growth) +
             row('Constraint profile', a.constraints, b.constraints) +
             row('Plan documents tracked', String(a.documents), String(b.documents)) +
@@ -180,8 +281,11 @@
           renderPresets();
         });
 
-        aSel.addEventListener('change', render);
-        bSel.addEventListener('change', render);
+        [regionSel, typeSel, cohortSel, qualitySel, aSel, bSel].forEach(function(control) {
+          control.addEventListener('change', render);
+        });
+
+        applySharedFilters();
         renderPresets();
         render();
       })();

@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-03-23T03:44:39Z",
+  "pilot_id": "LPA-16",
+  "lpa_name": "Medway Council",
+  "coverage_status": "partial",
+  "quality_tier": "C",
+  "cohort": "Cohort 2",
+  "region": "South East",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-16.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

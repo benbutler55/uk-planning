@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-06
 lpa_name,Kent County Council (minerals/waste planning role)
 lpa_type,County Council
 cohort,Cohort 1
+peer_group,County strategic authorities
 region,South East
 growth_context,County strategic layer
 constraint_profile,Strategic waste minerals and transport network constraints
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,13.7
+delegated_ratio_proxy,79.9
+plan_age_years,2.2
+consultation_lag_proxy,4.5
+backlog_pressure,51.2
+analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

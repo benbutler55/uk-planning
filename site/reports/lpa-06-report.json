@@ -1,10 +1,11 @@
 {
-  "report_generated_at": "2026-03-21",
+  "report_generated_at": "2026-03-23",
   "data_version": "v6.0",
   "pilot_id": "LPA-06",
   "lpa_name": "Kent County Council (minerals/waste planning role)",
   "lpa_type": "County Council",
   "cohort": "Cohort 1",
+  "peer_group": "County strategic authorities",
   "region": "South East",
   "growth_context": "County strategic layer",
   "constraint_profile": "Strategic waste minerals and transport network constraints",
@@ -26,6 +27,14 @@
     "primary_risk_stage": "Consultation",
     "last_reviewed": "2026-03-18",
     "notes": "County strategic role narrows issue scope but adds consultee complexity"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 13.7,
+    "delegated_ratio_proxy": 79.9,
+    "plan_age_years": 2.2,
+    "consultation_lag_proxy": 4.5,
+    "backlog_pressure": 51.2,
+    "analytical_confidence": "medium"
   },
   "quarterly_trends": [
     {
@@ -73,7 +82,12 @@
     "major_in_time_pct": "official",
     "appeals_overturned_pct": "official",
     "issue_incidence": "estimated",
-    "data_quality": "estimated"
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
   },
   "latest_trend_source": {
     "source_table": "P151/P152",

@@ -25,19 +25,34 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Report bundles now include version and generation-date stamps
 - Benchmark preset compare links and compare-page URL deep-linking (`?a=LPA-XX&b=LPA-YY`)
 - Compare page supports saved preset pairs in-browser for repeat use
+- Shared authority filter state (`region`, `type`, `cohort`, `quality`) persists across plans, benchmark, compare, and reports views
 - Metric provenance badges across benchmark and reports (official stats vs analytical estimates)
+- Inline metric definition/provenance help markers on benchmark and reports tables
+- Tooltip method links from benchmark/reports to a dedicated metric-methods appendix
 - Context panels on generated pages to explain what each view shows and how to interpret it
+- Homepage "England at a glance" KPI strip with source-linked baseline indicators and trend movement card
+- Peer-group benchmark mode for like-for-like authority comparisons, with anchor-authority toggle on benchmark view
+- Expanded authority metrics on benchmark/reports: validation rework proxy, delegated share proxy, plan age, consultation lag proxy, backlog pressure index
+- Analytical confidence badges (high/medium/low) on estimated authority metrics and report bundles
+- Boundary-led choropleth map layer with marker overlay toggle on `map.html`
+- Coverage tracker page (`coverage.html`) with complete/partial/estimated authority status
+- Onboarding pipeline outputs under `site/reports/onboarding/*.json` with ingest->validate->profile->QA gate status
+- Mobile table detail drawer on dense benchmark/reports/contradictions tables
 - Quarterly automated GOV.UK statistics ingest check
 - Ingest workflow now publishes both text and JSON freshness reports as build artifacts
+- Statistics ingest can append quarterly run history (`stats-ingest-history.json`) and source-level freshness details
 - Data health dashboard page (`data-health.html`) with freshness status for core datasets
 - Export manifest (`site/exports/manifest.json`) includes dataset hashes, row counts, and build timestamp
 - Monthly decision snapshot bundles generated under `site/reports/monthly-snapshot.*`
 - CI/Pages now include metric-drift and accessibility checks
+- CI now includes derived metric stability checks (`scripts/check_metric_stability.py`)
 - IA refresh: 6-section navigation model with section sub-navigation and breadcrumbs
 - Progressive drill-down from overview to analysis to authority-level detail pages
 - Standard page guide blocks on generated pages (what, who, how, data freshness)
 - “How to read this table” explainers for major analytical tables
 - “Where to go next” step cards across pages for intuitive cross-navigation
+- Methodology page now includes monthly/quarterly/annual governance cadence and owner responsibilities
+- Metric methods appendix page (`metric-methods.html`) documents formulas, provenance, and confidence mapping for authority metrics
 - UI blueprint document for reusable layout/copy components (`content/methodology/ui-blueprint.md`)
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
@@ -81,13 +96,16 @@ uk-planning/
 │   ├── build_site.py
 │   ├── check_accessibility.py      # Accessibility guardrails for generated HTML
 │   ├── check_metric_drift.py       # Quarter-on-quarter drift threshold checks
+│   ├── check_metric_stability.py   # Stability checks for derived authority metrics
 │   ├── check_freshness.py           # Monthly URL/staleness checker (warn-only)
 │   ├── check_links.py
 │   ├── ingest_govuk_stats.py        # Quarterly GOV.UK statistics ingest check
+│   ├── onboard_council.py           # Onboarding gate checks and report writer
 │   ├── serve_local.sh
 │   └── validate_data.py
 ├── content/
 │   ├── methodology/
+│   │   ├── next-wave-roadmap.md      # Ranked delivery roadmap with effort and owners
 │   │   ├── phase-3-plan.md          # Next-phase implementation plan
 │   │   ├── qa-report.md
 │   │   └── ui-blueprint.md          # Reusable IA/UI component blueprint
@@ -99,6 +117,7 @@ uk-planning/
 │   ├── assets/styles.css
 │   ├── exports/
 │   ├── reports/                     # Per-LPA downloadable comparison bundles
+│   │   └── onboarding/              # Per-authority onboarding gate outputs
 │   ├── search-index.json            # Client-side search index
 │   └── *.html                       # 28+ generated pages
 └── .github/workflows/
@@ -129,6 +148,7 @@ Required before every commit (see `AGENTS.md`):
 python3 scripts/validate_data.py
 python3 scripts/build_site.py
 python3 scripts/check_links.py
+python3 scripts/check_metric_stability.py
 ```
 
 Optional checks:
@@ -163,6 +183,7 @@ See `AGENTS.md` for full agent operating rules.
 | `roadmap.html` | Delivery milestones |
 | `baselines.html` | Official KPI baselines |
 | `map.html` | National Leaflet.js map with decision speed overlay |
+| `coverage.html` | Coverage tracker with onboarding gate status per authority |
 | `compare.html` | Side-by-side LPA comparison page with URL presets |
 | `benchmark.html` | Ranked LPA benchmark dashboard with trend sparklines, filters, provenance badges, and preset compare links |
 | `reports.html` | Downloadable per-LPA comparison bundles with region/type filters and provenance tags |
@@ -173,6 +194,7 @@ See `AGENTS.md` for full agent operating rules.
 | `audience-developers.html` | View for developers |
 | `audience-public.html` | Plain-language public summary |
 | `methodology.html` | Scoring model, evidence standards, and QA |
+| `metric-methods.html` | Per-metric formula appendix for benchmark and report indicators |
 | `sources.html` | Full evidence and citation index |
 | `exports.html` | CSV and JSON dataset download index |
 

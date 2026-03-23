@@ -1,6 +1,6 @@
 field,value
 snapshot_period,2026-03
-generated_on,2026-03-21
+generated_on,2026-03-23
 data_version,v6.0
 top_lpa,"{""pilot_id"": ""LPA-10"", ""lpa_name"": ""Newcastle City Council"", ""major_in_time_pct"": 80.0}"
 bottom_lpa,"{""pilot_id"": ""LPA-11"", ""lpa_name"": ""Peak District National Park Authority"", ""major_in_time_pct"": 61.0}"

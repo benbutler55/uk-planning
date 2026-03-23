@@ -5,6 +5,7 @@ import csv
 import hashlib
 import html
 import json
+import math
 import shutil
 from collections import defaultdict
 from datetime import date, datetime
@@ -46,6 +47,7 @@ SECTION_CONFIG = {
             ("compare", "Compare", "compare.html"),
             ("benchmark", "Benchmark", "benchmark.html"),
             ("reports", "Reports", "reports.html"),
+            ("coverage", "Coverage", "coverage.html"),
         ],
     },
     "recommendations": {
@@ -62,6 +64,7 @@ SECTION_CONFIG = {
         "href": "methodology.html",
         "children": [
             ("methodology", "Methodology", "methodology.html"),
+            ("metric-methods", "Metric Methods", "metric-methods.html"),
             ("sources", "Sources", "sources.html"),
             ("exports", "Exports", "exports.html"),
             ("data-health", "Data Health", "data-health.html"),
@@ -92,10 +95,12 @@ PAGE_TO_SECTION = {
     "compare": "authority-insights",
     "benchmark": "authority-insights",
     "reports": "authority-insights",
+    "coverage": "authority-insights",
     "recommendations": "recommendations",
     "roadmap": "recommendations",
     "consultation": "recommendations",
     "methodology": "data-methods",
+    "metric-methods": "data-methods",
     "sources": "data-methods",
     "exports": "data-methods",
     "data-health": "data-methods",
@@ -149,9 +154,141 @@ def provenance_badge(kind):
     return badge(label, css)
 
 
+def metric_help(label, description, method_anchor=None):
+    escaped_desc = html.escape(description)
+    method_link = ""
+    if method_anchor:
+        method_link = f' <a class="inline-help-link" href="metric-methods.html#{html.escape(method_anchor)}">method</a>'
+    return (
+        f'{html.escape(label)} '
+        f'<span class="inline-help" tabindex="0" role="note" '
+        f'aria-label="{escaped_desc}" title="{escaped_desc}">?</span>'
+        f'{method_link}'
+    )
+
+
 def cohort_for_pid(pid):
     cohort_1 = {"LPA-01", "LPA-02", "LPA-03", "LPA-04", "LPA-05", "LPA-06"}
     return "Cohort 1" if pid in cohort_1 else "Cohort 2"
+
+
+def analytical_confidence_for_tier(tier):
+    mapping = {
+        "A": "high",
+        "B": "medium",
+        "C": "low",
+    }
+    return mapping.get((tier or "").strip().upper(), "low")
+
+
+def peer_group_for_lpa(lpa):
+    lpa_type = (lpa.get("lpa_type", "") or "").strip().lower()
+    growth = (lpa.get("growth_context", "") or "").strip().lower()
+    if "national park" in lpa_type:
+        return "National park authorities"
+    if "county" in lpa_type:
+        return "County strategic authorities"
+    if "london borough" in lpa_type:
+        return "London urban authorities"
+    if "metropolitan" in lpa_type or "high growth urban" in growth or "very high urban growth" in growth:
+        return "High-growth urban authorities"
+    if "high demand constrained" in growth or "green belt" in (lpa.get("constraint_profile", "") or "").lower():
+        return "Constrained housing-pressure authorities"
+    if "regeneration" in growth or "urban renewal" in growth:
+        return "Regeneration-focused authorities"
+    return "Mixed and dispersed authorities"
+
+
+def derive_plan_age_years(pid, docs_by_lpa):
+    records = docs_by_lpa.get(pid, [])
+    adopted_dates = []
+    for rec in records:
+        if (rec.get("status", "") or "").lower() not in {"adopted", "in force"}:
+            continue
+        dt = parse_iso_date(rec.get("adoption_or_publication_date", ""))
+        if dt:
+            adopted_dates.append(dt)
+    if not adopted_dates:
+        return None
+    latest = max(adopted_dates)
+    return round((date.today() - latest).days / 365.25, 1)
+
+
+def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, national_validation_proxy):
+    pid = lpa.get("pilot_id", "")
+    quality_tier = quality_row.get("data_quality_tier", "")
+    issue_count = int(issue_row.get("total_linked_issues", 0) or 0)
+    high_sev = int(issue_row.get("high_severity_issues", 0) or 0)
+    risk_stage = (issue_row.get("primary_risk_stage", "") or "").strip().lower()
+    speed = None
+    latest_appeal = None
+    if trend_rows:
+        try:
+            speed = float(trend_rows[-1].get("major_in_time_pct", 0) or 0)
+        except ValueError:
+            speed = None
+        try:
+            latest_appeal = float(trend_rows[-1].get("appeals_overturned_pct", 0) or 0)
+        except ValueError:
+            latest_appeal = None
+
+    speeds = []
+    for row in trend_rows:
+        try:
+            speeds.append(float(row.get("major_in_time_pct", 0) or 0))
+        except ValueError:
+            continue
+    volatility = 0.0
+    if len(speeds) > 1:
+        mean_speed = sum(speeds) / len(speeds)
+        volatility = (sum((v - mean_speed) ** 2 for v in speeds) / len(speeds)) ** 0.5
+
+    # 1) validation rework proxy
+    tier_adjust = {"A": -1.5, "B": 0.0, "C": 2.0}.get(quality_tier, 0.0)
+    issue_adjust = min(4.0, issue_count * 0.12)
+    volatility_adjust = min(1.8, volatility * 0.6)
+    validation_rework_proxy = round(max(5.0, national_validation_proxy + tier_adjust + issue_adjust + volatility_adjust), 1)
+
+    # 2) delegated decision proxy
+    lpa_type = (lpa.get("lpa_type", "") or "").lower()
+    delegated_base = 90.0
+    if "metropolitan" in lpa_type or "london borough" in lpa_type:
+        delegated_base = 86.0
+    elif "county" in lpa_type:
+        delegated_base = 82.0
+    elif "national park" in lpa_type:
+        delegated_base = 84.0
+    speed_adjust = 0.0 if speed is None else max(-3.0, min(2.0, (speed - 74.0) * 0.12))
+    appeal_adjust = 0.0 if latest_appeal is None else max(-2.5, min(1.0, (1.9 - latest_appeal) * 1.4))
+    delegated_ratio_proxy = round(max(70.0, min(95.0, delegated_base - (high_sev * 0.5) + speed_adjust + appeal_adjust)), 1)
+
+    # 3) plan age metric
+    plan_age_years = derive_plan_age_years(pid, docs_by_lpa)
+
+    # 4) consultation lag proxy
+    stage_adjust = {
+        "consultation": 1.8,
+        "committee": 1.2,
+        "pre-application": 0.8,
+        "validation": 0.6,
+        "legal agreements": 1.0,
+        "condition discharge": 1.1,
+    }.get(risk_stage, 0.4)
+    consultation_lag_proxy = round(min(10.0, 1.2 + (high_sev * 0.35) + stage_adjust + (0 if quality_tier == "A" else 0.8 if quality_tier == "B" else 1.6)), 1)
+
+    # 5) backlog pressure index
+    speed_gap = max(0.0, 74.0 - (speed if isinstance(speed, float) else 74.0))
+    plan_age_factor = 0.0 if plan_age_years is None else max(0.0, (plan_age_years - 5.0) * 2.5)
+    backlog_pressure = round(min(100.0, issue_count * 3.6 + high_sev * 5.8 + speed_gap * 2.0 + plan_age_factor), 1)
+
+    return {
+        "validation_rework_proxy": validation_rework_proxy,
+        "delegated_ratio_proxy": delegated_ratio_proxy,
+        "plan_age_years": plan_age_years,
+        "consultation_lag_proxy": consultation_lag_proxy,
+        "backlog_pressure": backlog_pressure,
+        "analytical_confidence": analytical_confidence_for_tier(quality_tier),
+    }
 
 
 def parse_iso_date(raw):
@@ -231,6 +368,61 @@ def compute_data_health():
     counts = defaultdict(int)
     for row in rows:
         counts[row["status"]] += 1
+    return rows, dict(counts)
+
+
+def compute_onboarding_status_rows(profile_page_check=True):
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
+    issue_rows = read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
+    trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
+
+    docs_by_id = defaultdict(list)
+    for row in docs:
+        docs_by_id[row.get("pilot_id", "")].append(row)
+    trends_by_id = defaultdict(list)
+    for row in trend_rows:
+        trends_by_id[row.get("pilot_id", "")].append(row)
+    quality_by_id = {row.get("pilot_id", ""): row for row in quality_rows}
+    issues_by_id = {row.get("pilot_id", ""): row for row in issue_rows}
+
+    rows = []
+    counts = defaultdict(int)
+    for lpa in lpas:
+        pid = lpa.get("pilot_id", "")
+        profile_page = SITE / f"plans-{pid.lower()}.html"
+        checks = {
+            "ingest": bool(lpa.get("lpa_name")),
+            "validate": bool(quality_by_id.get(pid)) and bool(trends_by_id.get(pid)),
+            "profile": (profile_page.exists() if profile_page_check else True),
+            "qa": bool(issues_by_id.get(pid)) and bool(docs_by_id.get(pid)),
+        }
+        passed = sum(1 for value in checks.values() if value)
+        quality_tier = quality_by_id.get(pid, {}).get("data_quality_tier", "")
+        if passed == 4 and quality_tier in {"A", "B"}:
+            coverage = "complete"
+        elif passed >= 2:
+            coverage = "partial"
+        else:
+            coverage = "estimated"
+        counts[coverage] += 1
+        failed = [name for name, ok in checks.items() if not ok]
+        rows.append({
+            "pilot_id": pid,
+            "lpa_name": lpa.get("lpa_name", ""),
+            "region": lpa.get("region", ""),
+            "lpa_type": lpa.get("lpa_type", ""),
+            "cohort": cohort_for_pid(pid),
+            "quality_tier": quality_tier or "n/a",
+            "coverage_status": coverage,
+            "checks": checks,
+            "failed_checks": failed,
+            "documents_count": len(docs_by_id.get(pid, [])),
+            "trend_points": len(trends_by_id.get(pid, [])),
+            "issue_rows": 1 if pid in issues_by_id else 0,
+            "profile_page": f"plans-{pid.lower()}.html",
+        })
     return rows, dict(counts)
 
 
@@ -353,6 +545,12 @@ def default_purpose(active):
             "who": "Analysts, policy teams, and stakeholders needing offline evidence packs.",
             "how": "Filter by authority type, region, or cohort, then download CSV or JSON bundles.",
             "data": "Reports include version stamps, generation dates, provenance tags, and source references.",
+        },
+        "coverage": {
+            "what": "Authority coverage status with onboarding gates and evidence completeness.",
+            "who": "Program teams and users checking which authorities are complete, partial, or estimate-led.",
+            "how": "Review status counts first, then inspect authority rows and failed onboarding gates.",
+            "data": "Coverage is derived from plan, trend, issue, and quality datasets plus generated authority profile pages.",
         },
         "data-health": {
             "what": "Freshness status for core datasets and update age in days.",
@@ -567,8 +765,10 @@ def render_filterable_table(rows, columns, table_id, data_fields):
     )
 
 
-def render_filter_script(table_id, fields):
+def render_filter_script(table_id, fields, shared_filters=None):
     fjs = ",".join(f'"{f}"' for f in fields)
+    shared = shared_filters or []
+    sjs = ",".join(f'"{f}"' for f in shared)
     return f"""
 <script>
 (function() {{
@@ -578,6 +778,58 @@ def render_filter_script(table_id, fields):
   var controls = Array.from(document.querySelectorAll('[data-table="{table_id}"]'));
   var countEl = document.querySelector('[data-filter-count-for="{table_id}"]');
   var fields = [{fjs}];
+  var sharedFilters = [{sjs}];
+  var sharedKey = 'uk-planning-shared-filters-v1';
+
+  function loadSharedState() {{
+    try {{
+      return JSON.parse(localStorage.getItem(sharedKey) || '{{}}');
+    }} catch (e) {{
+      return {{}};
+    }}
+  }}
+
+  function applyInitialSharedFilters() {{
+    if (!sharedFilters.length) return;
+    var params = new URLSearchParams(window.location.search);
+    var stored = loadSharedState();
+    controls.forEach(function(control) {{
+      var key = control.dataset.filter;
+      if (sharedFilters.indexOf(key) === -1) return;
+      var fromUrl = (params.get(key) || '').toLowerCase().trim();
+      var fromStore = (stored[key] || '').toLowerCase().trim();
+      var next = fromUrl || fromStore;
+      if (!next) return;
+      var hasOption = Array.from(control.options || []).some(function(opt) {{
+        return (opt.value || '').toLowerCase() === next;
+      }});
+      if (hasOption) control.value = next;
+    }});
+  }}
+
+  function persistSharedFilters() {{
+    if (!sharedFilters.length) return;
+    var params = new URLSearchParams(window.location.search);
+    var stored = loadSharedState();
+    controls.forEach(function(control) {{
+      var key = control.dataset.filter;
+      if (sharedFilters.indexOf(key) === -1) return;
+      var value = (control.value || '').toLowerCase().trim();
+      if (value) {{
+        stored[key] = value;
+        params.set(key, value);
+      }} else {{
+        delete stored[key];
+        params.delete(key);
+      }}
+    }});
+    localStorage.setItem(sharedKey, JSON.stringify(stored));
+    var query = params.toString();
+    history.replaceState(null, '', window.location.pathname + (query ? ('?' + query) : ''));
+  }}
+
+  applyInitialSharedFilters();
+
   function update() {{
     var visible = 0;
     var sc = controls.find(function(c) {{ return c.dataset.filter === 'search'; }});
@@ -597,9 +849,58 @@ def render_filter_script(table_id, fields):
       if (show) visible++;
     }});
     if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
+    persistSharedFilters();
   }}
   controls.forEach(function(c) {{ c.addEventListener('input', update); c.addEventListener('change', update); }});
   update();
+}})();
+</script>
+"""
+
+
+def render_mobile_drawer_script(table_id, labels, max_width=900):
+    ljs = json.dumps(labels)
+    return f"""
+<script>
+(function() {{
+  var table = document.getElementById('{table_id}');
+  if (!table) return;
+  var labels = {ljs};
+  var media = window.matchMedia('(max-width: {max_width}px)');
+
+  var drawer = document.createElement('div');
+  drawer.className = 'mobile-drawer';
+  drawer.innerHTML = '<div class="mobile-drawer-backdrop"></div><div class="mobile-drawer-panel"><button type="button" class="mobile-drawer-close" aria-label="Close details">Close</button><div class="mobile-drawer-body"></div></div>';
+  document.body.appendChild(drawer);
+
+  function closeDrawer() {{
+    drawer.classList.remove('open');
+  }}
+
+  drawer.querySelector('.mobile-drawer-backdrop').addEventListener('click', closeDrawer);
+  drawer.querySelector('.mobile-drawer-close').addEventListener('click', closeDrawer);
+
+  function openRow(row) {{
+    var cells = Array.from(row.children);
+    var parts = [];
+    cells.forEach(function(cell, idx) {{
+      var label = labels[idx] || ('Column ' + (idx + 1));
+      var value = (cell.innerText || '').trim();
+      if (!value) return;
+      parts.push('<div class="mobile-drawer-item"><h4>' + label + '</h4><p>' + value + '</p></div>');
+    }});
+    drawer.querySelector('.mobile-drawer-body').innerHTML = parts.join('');
+    drawer.classList.add('open');
+  }}
+
+  table.addEventListener('click', function(evt) {{
+    if (!media.matches) return;
+    if (evt.target.closest('a')) return;
+    var row = evt.target.closest('tbody tr');
+    if (!row) return;
+    if (row.classList.contains('hidden-row') || row.classList.contains('hidden-peer')) return;
+    openRow(row);
+  }});
 }})();
 </script>
 """
@@ -687,10 +988,73 @@ def write_exports_manifest(datasets):
 
 def build_index():
     health_rows, health_counts = compute_data_health()
+    baseline_rows = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
+    trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
+    baseline_by_id = {r.get("metric_id", ""): r for r in baseline_rows}
+
+    def metric_card(metric_id, label, unit_suffix=""):
+        row = baseline_by_id.get(metric_id, {})
+        value = row.get("value", "n/a")
+        source_url = html.escape(row.get("source_url", ""))
+        source_table = html.escape(row.get("source_table", ""))
+        source_ref = html.escape(metric_id)
+        value_label = html.escape(str(value)) + unit_suffix
+        source_line = f'{source_ref} ({source_table})'
+        if source_url:
+            source_line = f'<a href="{source_url}" target="_blank" rel="noopener noreferrer">{source_line}</a>'
+        return (
+            '<article class="card">'
+            f'<h3>{html.escape(label)}</h3>'
+            f'<p class="kpi-value">{value_label}</p>'
+            f'<p class="small">Source: {source_line}</p>'
+            '</article>'
+        )
+
+    # Trend delta card: average major speed movement from first to latest quarter across LPAs
+    trend_by_lpa = defaultdict(list)
+    for row in trend_rows:
+        trend_by_lpa[row.get("pilot_id", "")].append(row)
+    deltas = []
+    for pid, series in trend_by_lpa.items():
+        ordered = sorted(series, key=lambda x: x.get("quarter", ""))
+        if len(ordered) < 2:
+            continue
+        try:
+            delta = float(ordered[-1].get("major_in_time_pct", 0) or 0) - float(ordered[0].get("major_in_time_pct", 0) or 0)
+        except ValueError:
+            continue
+        deltas.append(delta)
+    avg_delta = round(sum(deltas) / len(deltas), 1) if deltas else 0.0
+    if avg_delta > 0:
+        delta_arrow = "up"
+    elif avg_delta < 0:
+        delta_arrow = "down"
+    else:
+        delta_arrow = "flat"
+
     body = """
       <section class="card">
         <h2>Current Phase</h2>
         <p>Phase 6 — trust, monitoring, and decision readiness with drift checks and data health reporting.</p>
+      </section>
+      <section class="card">
+        <h2>England at a glance</h2>
+        <p class="small">Headline indicators with direct source references for rapid triage.</p>
+        <div class="grid">
+    """
+    body += metric_card("BAS-001", "Major decisions in time", "%")
+    body += metric_card("BAS-002", "Non-major decisions in time", "%")
+    body += metric_card("BAS-003", "Major appeals overturned", "%")
+    body += metric_card("BAS-005", "NSIP examination median", " months")
+    body += (
+        '<article class="card">'
+        '<h3>LPA average 4Q movement</h3>'
+        f'<p class="kpi-value">{html.escape(str(avg_delta))} pp ({delta_arrow})</p>'
+        '<p class="small">Source: <a href="exports/lpa-quarterly-trends.csv">lpa-quarterly-trends.csv</a></p>'
+        '</article>'
+    )
+    body += """
+        </div>
       </section>
       <section class="grid">
         <article class="card">
@@ -814,16 +1178,67 @@ def build_plans():
         "Data quality tier indicates evidence coverage confidence.",
         "Use the profile link to drill down into detailed authority documents.",
     ])
-    body += '<section class="card"><table><thead><tr><th>Authority</th><th>Type</th><th>Region</th><th>Growth</th><th>Constraints</th><th>Data Quality</th><th>Profile</th></tr></thead><tbody>'
+    regions = sorted({r.get("region", "") for r in rows if r.get("region")})
+    lpa_types = sorted({r.get("lpa_type", "") for r in rows if r.get("lpa_type")})
+    cohorts = ["Cohort 1", "Cohort 2"]
+    qualities = sorted({(quality_by_id.get(r["pilot_id"], {}).get("data_quality_tier", "") or "") for r in rows if quality_by_id.get(r["pilot_id"], {}).get("data_quality_tier", "")})
+
+    body += '<section class="card"><div class="filter-row">'
+    body += '<label class="filter-item">Search authorities<input type="search" data-table="plans-table" data-filter="search" placeholder="Type authority or context..." /></label>'
+    body += '<label class="filter-item">Region<select data-table="plans-table" data-filter="region"><option value="">All</option>'
+    for region in regions:
+        body += f'<option value="{html.escape(region.lower())}">{html.escape(region)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">LPA type<select data-table="plans-table" data-filter="lpa_type"><option value="">All</option>'
+    for lpa_type in lpa_types:
+        body += f'<option value="{html.escape(lpa_type.lower())}">{html.escape(lpa_type)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Cohort<select data-table="plans-table" data-filter="cohort"><option value="">All</option>'
+    for cohort in cohorts:
+        body += f'<option value="{html.escape(cohort.lower())}">{html.escape(cohort)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Quality tier<select data-table="plans-table" data-filter="quality"><option value="">All</option>'
+    for quality_tier in qualities:
+        body += f'<option value="{html.escape(quality_tier.lower())}">{html.escape(quality_tier)}</option>'
+    body += '</select></label>'
+    body += '</div><p class="small" data-filter-count-for="plans-table"></p></section>'
+
+    body += '<section class="card"><table id="plans-table"><thead><tr><th>Authority</th><th>Type</th><th>Region</th><th>Cohort</th><th>Growth</th><th>Constraints</th><th>Data Quality</th><th>Profile</th></tr></thead><tbody>'
     for row in rows:
         lpa_page = f"plans-{row['pilot_id'].lower()}.html"
         quality = quality_by_id.get(row["pilot_id"], {})
-        body += "<tr>"
-        for k in ["lpa_name", "lpa_type", "region", "growth_context", "constraint_profile"]:
-            body += f"<td>{html.escape(row.get(k, ''))}</td>"
+        cohort = cohort_for_pid(row["pilot_id"])
+        search_blob = " ".join([
+            row.get("lpa_name", ""),
+            row.get("lpa_type", ""),
+            row.get("region", ""),
+            cohort,
+            row.get("growth_context", ""),
+            row.get("constraint_profile", ""),
+            quality.get("data_quality_tier", ""),
+        ]).strip().lower()
+        attrs = (
+            f'data-search="{html.escape(search_blob)}" '
+            f'data-region="{html.escape(row.get("region", "").strip().lower())}" '
+            f'data-cohort="{html.escape(cohort.strip().lower())}" '
+            f'data-lpa_type="{html.escape(row.get("lpa_type", "").strip().lower())}" '
+            f'data-quality="{html.escape((quality.get("data_quality_tier", "") or "").strip().lower())}"'
+        )
+        body += f"<tr {attrs}>"
+        body += f"<td>{html.escape(row.get('lpa_name', ''))}</td>"
+        body += f"<td>{html.escape(row.get('lpa_type', ''))}</td>"
+        body += f"<td>{html.escape(row.get('region', ''))}</td>"
+        body += f"<td>{html.escape(cohort)}</td>"
+        body += f"<td>{html.escape(row.get('growth_context', ''))}</td>"
+        body += f"<td>{html.escape(row.get('constraint_profile', ''))}</td>"
         body += f"<td>{html.escape(quality.get('data_quality_tier', ''))}</td>"
         body += f'<td><a href="{lpa_page}">View</a></td></tr>'
     body += "</tbody></table></section>"
+    body += render_filter_script(
+        "plans-table",
+        ["search", "region", "cohort", "lpa_type", "quality"],
+        shared_filters=["region", "lpa_type", "cohort", "quality"],
+    )
 
     write(SITE / "plans.html", page(
         "Plan Hierarchy Explorer",
@@ -928,6 +1343,9 @@ def build_contradictions(weights):
         ["issue_id", "scope", "issue_type", "affected_pathway", "summary", "confidence", "verification_state"])
     body += render_filter_script("issues-table",
         ["issue_id", "scope", "issue_type", "affected_pathway", "summary", "confidence", "verification_state"])
+    body += render_mobile_drawer_script("issues-table", [
+        "Issue", "Scope", "Type", "Pathway", "Weighted Score", "Severity", "Delay", "Status", "Confidence", "Summary",
+    ])
 
     write(SITE / "contradictions.html", page(
         "Contradictions and Bottlenecks",
@@ -1300,9 +1718,25 @@ def build_methodology():
     body += "<p>Records carry a verification state: <strong>draft</strong>, <strong>verified</strong>, or <strong>legal-reviewed</strong>.</p></section>"
     body += '<section class="card"><h2>Confidence Levels</h2>'
     body += "<p>Findings carry confidence labels: <strong>high</strong>, <strong>medium</strong>, or <strong>low</strong>.</p></section>"
+    body += '<section class="card"><h2>Derived authority metrics</h2>'
+    body += '<p>Benchmark and report pages include derived indicators for validation rework, delegated share, plan age, consultation lag, and backlog pressure. These are analytical estimates and are shown with confidence labels tied to authority data-quality tier.</p></section>'
+    body += '<section class="card"><p>See <a href="metric-methods.html">metric methods appendix</a> for formula notes and interpretation guidance.</p></section>'
     body += '<section class="card"><h2>Validation</h2>'
     body += "<p>Schema, FK, enum, and unique-ID checks run via <code>scripts/validate_data.py</code>. "
     body += "Internal links checked via <code>scripts/check_links.py</code>.</p></section>"
+    body += '<section class="card"><h2>Governance cadence</h2>'
+    body += '<ul>'
+    body += '<li><strong>Monthly:</strong> refresh datasets, regenerate site, and review data health warnings.</li>'
+    body += '<li><strong>Quarterly:</strong> publish methodology and metric provenance update notes with each GOV.UK statistics cycle.</li>'
+    body += '<li><strong>Annually:</strong> reconcile legal and policy references against current in-force instruments and guidance.</li>'
+    body += '</ul></section>'
+    body += '<section class="card"><h2>Owner responsibilities</h2>'
+    body += '<ul>'
+    body += '<li><strong>Data lead:</strong> schema updates, quality thresholds, and freshness triage.</li>'
+    body += '<li><strong>Data engineer:</strong> ingestion reliability and build automation.</li>'
+    body += '<li><strong>Methodology lead:</strong> confidence rules, provenance policy, and publication notes.</li>'
+    body += '<li><strong>Product/editorial lead:</strong> release notes, audience guidance, and change communication.</li>'
+    body += '</ul></section>'
     body += '<section class="card"><h2>How scoring works in 3 steps</h2><ol><li>Collect issue-level values for severity, frequency, legal risk, delay impact, and fixability.</li><li>Apply explicit weighting from scoring.json.</li><li>Rank and review with confidence and verification labels.</li></ol></section>'
     write(SITE / "methodology.html", page(
         "Methodology",
@@ -1310,9 +1744,94 @@ def build_methodology():
         "methodology", body,
         "This page explains how datasets are scored, validated, and linked to evidence so findings are transparent and reproducible.",
         next_steps=[
+            ("metric-methods.html", "Open metric methods appendix"),
             ("sources.html", "Open sources and citations"),
             ("exports.html", "Open data exports"),
             ("data-health.html", "Open data health monitoring"),
+        ]))
+
+
+def build_metric_methods():
+    body = '<section class="card"><h2>Purpose</h2>'
+    body += '<p>This appendix defines how benchmark and report metrics are calculated, what each metric signals, and which inputs are official versus analytical estimates.</p></section>'
+
+    body += render_table_guide("How to use this appendix", [
+        "Use metric definitions before comparing authorities.",
+        "Check the provenance and confidence line for each metric.",
+        "Treat analytical estimates as directional indicators, not statutory facts.",
+        "Re-check formulas after major methodology releases.",
+    ])
+
+    body += '<section class="card" id="major-speed"><h2>Speed (%)</h2>'
+    body += '<p><strong>Definition:</strong> Latest major applications determined in time for each authority.</p>'
+    body += '<p><strong>Formula:</strong> value from latest quarter in <code>lpa-quarterly-trends.csv</code> (<code>major_in_time_pct</code>).</p>'
+    body += '<p><strong>Provenance:</strong> official statistics (GOV.UK P151).</p></section>'
+
+    body += '<section class="card" id="speed-delta"><h2>4Q Delta (pp)</h2>'
+    body += '<p><strong>Definition:</strong> Change in major decision speed over the tracked window.</p>'
+    body += '<p><strong>Formula:</strong> latest <code>major_in_time_pct</code> minus first available <code>major_in_time_pct</code> for each authority.</p>'
+    body += '<p><strong>Provenance:</strong> official statistics (derived from GOV.UK P151 trend series).</p></section>'
+
+    body += '<section class="card" id="appeal-rate"><h2>Appeal %</h2>'
+    body += '<p><strong>Definition:</strong> Latest appeals overturned percentage.</p>'
+    body += '<p><strong>Formula:</strong> value from latest quarter in <code>lpa-quarterly-trends.csv</code> (<code>appeals_overturned_pct</code>).</p>'
+    body += '<p><strong>Provenance:</strong> official statistics (GOV.UK P152).</p></section>'
+
+    body += '<section class="card" id="issues"><h2>Issues and High Severity</h2>'
+    body += '<p><strong>Definition:</strong> Count of linked issues and high-severity subset for each authority.</p>'
+    body += '<p><strong>Formula:</strong> direct values from <code>lpa-issue-incidence.csv</code> fields <code>total_linked_issues</code> and <code>high_severity_issues</code>.</p>'
+    body += '<p><strong>Provenance:</strong> analytical estimate layer.</p></section>'
+
+    body += '<section class="card" id="quality-tier"><h2>Quality tier and coverage score</h2>'
+    body += '<p><strong>Definition:</strong> Evidence completeness and quality indicator for each authority.</p>'
+    body += '<p><strong>Formula:</strong> values from <code>lpa-data-quality.csv</code> (<code>data_quality_tier</code>, <code>coverage_score</code>).</p>'
+    body += '<p><strong>Provenance:</strong> analytical estimate layer.</p></section>'
+
+    body += '<section class="card" id="validation-rework"><h2>Validation rework proxy (%)</h2>'
+    body += '<p><strong>Definition:</strong> Estimated share of submissions requiring rework at validation stage.</p>'
+    body += '<p><strong>Formula:</strong> <code>BAS-007 baseline + quality-tier adjustment + issue-pressure adjustment + trend-volatility adjustment</code>, lower-bounded at 5.0.</p>'
+    body += '<p><strong>Provenance:</strong> analytical estimate seeded by official baseline metric.</p></section>'
+
+    body += '<section class="card" id="delegated-share"><h2>Delegated decision share proxy (%)</h2>'
+    body += '<p><strong>Definition:</strong> Estimated proportion of decisions made under delegated powers.</p>'
+    body += '<p><strong>Formula:</strong> authority-type baseline adjusted by high-severity issue load, latest speed, and latest appeal rate; bounded to 70-95.</p>'
+    body += '<p><strong>Provenance:</strong> analytical estimate.</p></section>'
+
+    body += '<section class="card" id="plan-age"><h2>Plan age (years)</h2>'
+    body += '<p><strong>Definition:</strong> Years since latest adopted or in-force tracked plan document.</p>'
+    body += '<p><strong>Formula:</strong> <code>(today - max(adoption_or_publication_date of adopted/in-force docs)) / 365.25</code>.</p>'
+    body += '<p><strong>Provenance:</strong> analytical derivation from authority plan-document records.</p></section>'
+
+    body += '<section class="card" id="consult-lag"><h2>Consultation lag proxy (weeks)</h2>'
+    body += '<p><strong>Definition:</strong> Estimated consultation-stage delay pressure.</p>'
+    body += '<p><strong>Formula:</strong> baseline constant + high-severity adjustment + stage-risk adjustment + quality-tier adjustment; capped at 10.0 weeks.</p>'
+    body += '<p><strong>Provenance:</strong> analytical estimate.</p></section>'
+
+    body += '<section class="card" id="backlog-pressure"><h2>Backlog pressure index (0-100)</h2>'
+    body += '<p><strong>Definition:</strong> Composite pressure indicator for authority planning throughput risk.</p>'
+    body += '<p><strong>Formula:</strong> weighted sum of issue count, high-severity count, speed gap vs England average, and plan-age factor; capped at 100.</p>'
+    body += '<p><strong>Provenance:</strong> analytical estimate.</p></section>'
+
+    body += '<section class="card" id="analytical-confidence"><h2>Analytical confidence</h2>'
+    body += '<p><strong>Definition:</strong> Confidence label for estimated metrics.</p>'
+    body += '<p><strong>Formula:</strong> quality tier A -> high, B -> medium, C/other -> low.</p>'
+    body += '<p><strong>Usage:</strong> confidence applies to analytical estimates only, not official series.</p></section>'
+
+    write(SITE / "metric-methods.html", page(
+        "Metric Methods Appendix",
+        "Definitions, formulas, provenance, and confidence logic for benchmark and report metrics.",
+        "metric-methods", body,
+        "Use this appendix to interpret benchmark/report indicators correctly and to understand which values are official statistics versus analytical estimates.",
+        purpose={
+            "what": "Per-metric definitions, formulas, provenance, and confidence rules used in benchmark and report outputs.",
+            "who": "Analysts, policy teams, and reviewers validating interpretation and comparability.",
+            "how": "Open a metric section from tooltip method links, then verify formula scope and provenance before comparing LPAs.",
+            "data": "Formulas are implemented in scripts/build_site.py and draw from trend, issue, quality, and plan-document datasets.",
+        },
+        next_steps=[
+            ("benchmark.html", "Return to benchmark"),
+            ("reports.html", "Return to reports"),
+            ("methodology.html", "Return to methodology"),
         ]))
 
 
@@ -1452,34 +1971,63 @@ def build_map():
     lpa_by_id = {r["pilot_id"]: r for r in lpas}
     quality_by_id = {r["pilot_id"]: r for r in quality_rows}
 
-    features = []
+    marker_features = []
+    boundary_features = []
+
+    def approx_boundary(lat, lng, radius_deg):
+        points = []
+        for i in range(6):
+            ang = math.radians(60 * i)
+            p_lat = lat + (radius_deg * math.sin(ang))
+            p_lng = lng + (radius_deg * math.cos(ang))
+            points.append([round(p_lng, 6), round(p_lat, 6)])
+        points.append(points[0])
+        return [points]
+
     for pid, g in geo_by_id.items():
         lpa = lpa_by_id.get(pid, {})
         speed = speed_by_lpa.get(pid)
         cohort = cohort_for_pid(pid)
-        features.append({
+        lat = float(g["lat"])
+        lng = float(g["lng"])
+        region = lpa.get("region", "")
+        radius = 0.42
+        if region == "London":
+            radius = 0.24
+        elif region in {"South East", "East of England"}:
+            radius = 0.36
+        elif region in {"North East", "North West", "Yorkshire and The Humber"}:
+            radius = 0.48
+        props = {
+            "id": pid,
+            "name": lpa.get("lpa_name", ""),
+            "type": lpa.get("lpa_type", ""),
+            "region": region,
+            "growth": lpa.get("growth_context", ""),
+            "constraints": lpa.get("constraint_profile", ""),
+            "speed": speed,
+            "quality_tier": quality_by_id.get(pid, {}).get("data_quality_tier", ""),
+            "coverage_score": quality_by_id.get(pid, {}).get("coverage_score", ""),
+            "cohort": cohort,
+            "page": f"plans-{pid.lower()}.html",
+        }
+        marker_features.append({
             "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [float(g["lng"]), float(g["lat"])]},
-            "properties": {
-                "id": pid,
-                "name": lpa.get("lpa_name", ""),
-                "type": lpa.get("lpa_type", ""),
-                "region": lpa.get("region", ""),
-                "growth": lpa.get("growth_context", ""),
-                "constraints": lpa.get("constraint_profile", ""),
-                "speed": speed,
-                "quality_tier": quality_by_id.get(pid, {}).get("data_quality_tier", ""),
-                "coverage_score": quality_by_id.get(pid, {}).get("coverage_score", ""),
-                "cohort": cohort,
-                "page": f"plans-{pid.lower()}.html"
-            }
+            "geometry": {"type": "Point", "coordinates": [lng, lat]},
+            "properties": props,
+        })
+        boundary_features.append({
+            "type": "Feature",
+            "geometry": {"type": "Polygon", "coordinates": approx_boundary(lat, lng, radius)},
+            "properties": props,
         })
 
-    geojson = json.dumps({"type": "FeatureCollection", "features": features}, indent=2)
+    marker_geojson = json.dumps({"type": "FeatureCollection", "features": marker_features}, indent=2)
+    boundary_geojson = json.dumps({"type": "FeatureCollection", "features": boundary_features}, indent=2)
 
     body = f"""
       <section class="card">
-        <p>All {len(features)} LPAs in scope. Circle colour indicates speed of major decisions (green = above England average 74%, amber = 65-74%, red = below 65%). Click a marker for the LPA profile.</p>
+        <p>All {len(marker_features)} LPAs in scope. The default view uses boundary-led choropleth cells (proxy geometry) coloured by major decision speed (green = above England average 74%, amber = 65-74%, red = below 65%). Use layer controls to toggle boundary fill and markers.</p>
       </section>
       <div id="map" style="height:560px;border-radius:14px;border:1px solid var(--line);"></div>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -1492,7 +2040,8 @@ def build_map():
           maxZoom: 13
         }}).addTo(map);
 
-        var data = {geojson};
+        var markerData = {marker_geojson};
+        var boundaryData = {boundary_geojson};
 
         function speedColor(speed) {{
           if (speed == null) return '#aaa';
@@ -1501,7 +2050,21 @@ def build_map():
           return '#ef4444';
         }}
 
-        data.features.forEach(function(f) {{
+        function popupHtml(p) {{
+          var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
+          var qualityText = p.quality_tier ? ('Quality tier ' + p.quality_tier + ' (score ' + p.coverage_score + ')') : 'Quality tier n/a';
+          return (
+            '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
+            '<br>' + p.type + ' — ' + p.region +
+            '<br><em>' + p.cohort + '</em>' +
+            '<br>' + speedText +
+            '<br>' + qualityText +
+            '<br><small>' + p.constraints + '</small>'
+          );
+        }}
+
+        var markerLayer = L.layerGroup();
+        markerData.features.forEach(function(f) {{
           var p = f.properties;
           var coords = f.geometry.coordinates;
           var color = speedColor(p.speed);
@@ -1512,19 +2075,33 @@ def build_map():
             weight: 2,
             opacity: 1,
             fillOpacity: 0.85
-          }}).addTo(map);
-
-          var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
-          var qualityText = p.quality_tier ? ('Quality tier ' + p.quality_tier + ' (score ' + p.coverage_score + ')') : 'Quality tier n/a';
-          circle.bindPopup(
-            '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
-            '<br>' + p.type + ' — ' + p.region +
-            '<br><em>' + p.cohort + '</em>' +
-            '<br>' + speedText +
-            '<br>' + qualityText +
-            '<br><small>' + p.constraints + '</small>'
-          );
+          }});
+          circle.bindPopup(popupHtml(p));
+          markerLayer.addLayer(circle);
         }});
+
+        function boundaryStyle(feature) {{
+          return {{
+            color: '#1f2937',
+            weight: 1,
+            fillColor: speedColor(feature.properties.speed),
+            fillOpacity: 0.45,
+          }};
+        }}
+
+        var boundaryLayer = L.geoJSON(boundaryData, {{
+          style: boundaryStyle,
+          onEachFeature: function(feature, layer) {{
+            layer.bindPopup(popupHtml(feature.properties));
+          }}
+        }}).addTo(map);
+        markerLayer.addTo(map);
+
+        var overlays = {{
+          'Boundary choropleth': boundaryLayer,
+          'Point markers': markerLayer,
+        }};
+        L.control.layers(null, overlays, {{ collapsed: false }}).addTo(map);
 
         // Legend
         var legend = L.control({{position: 'bottomright'}});
@@ -1585,6 +2162,7 @@ def build_compare():
             "id": pid,
             "name": lpa.get("lpa_name", ""),
             "type": lpa.get("lpa_type", ""),
+            "cohort": cohort_for_pid(pid),
             "region": lpa.get("region", ""),
             "growth": lpa.get("growth_context", ""),
             "constraints": lpa.get("constraint_profile", ""),
@@ -1601,6 +2179,12 @@ def build_compare():
       <section class="card">
         <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics. You can also open this page with URL presets such as <code>?a=LPA-01&b=LPA-07</code>.</p>
         <div class="filter-row">
+          <label class="filter-item">Region<select id="cmp-region"><option value="">All</option></select></label>
+          <label class="filter-item">LPA type<select id="cmp-type"><option value="">All</option></select></label>
+          <label class="filter-item">Cohort<select id="cmp-cohort"><option value="">All</option></select></label>
+          <label class="filter-item">Quality tier<select id="cmp-quality"><option value="">All</option></select></label>
+        </div>
+        <div class="filter-row" style="margin-top:10px;">
           <label class="filter-item">Authority A<select id="cmp-a"></select></label>
           <label class="filter-item">Authority B<select id="cmp-b"></select></label>
         </div>
@@ -1608,6 +2192,7 @@ def build_compare():
           <button id="cmp-save" type="button">Save preset pair</button>
           <button id="cmp-clear" type="button">Clear saved presets</button>
         </div>
+        <p class="small" id="cmp-filter-count"></p>
         <p class="small" id="cmp-status"></p>
         <div id="cmp-presets" class="small"></div>
       </section>
@@ -1628,19 +2213,31 @@ def build_compare():
         var clearBtn = document.getElementById('cmp-clear');
         var presetWrap = document.getElementById('cmp-presets');
         var statusEl = document.getElementById('cmp-status');
+        var countEl = document.getElementById('cmp-filter-count');
+        var regionSel = document.getElementById('cmp-region');
+        var typeSel = document.getElementById('cmp-type');
+        var cohortSel = document.getElementById('cmp-cohort');
+        var qualitySel = document.getElementById('cmp-quality');
         var presetKey = 'uk-planning-compare-presets';
+        var sharedKey = 'uk-planning-shared-filters-v1';
 
-        function mkOption(item) {
+        function norm(v) { return (v || '').toLowerCase().trim(); }
+
+        function mkOption(value, label) {
           var o = document.createElement('option');
-          o.value = item.id;
-          o.textContent = item.name + ' (' + item.id + ')';
+          o.value = value;
+          o.textContent = label;
           return o;
         }
 
-        data.forEach(function(item) {
-          aSel.appendChild(mkOption(item));
-          bSel.appendChild(mkOption(item));
-        });
+        function appendUniqueOptions(select, values) {
+          values.forEach(function(v) { select.appendChild(mkOption(v, v)); });
+        }
+
+        appendUniqueOptions(regionSel, Array.from(new Set(data.map(function(r) { return r.region; }).filter(Boolean))).sort());
+        appendUniqueOptions(typeSel, Array.from(new Set(data.map(function(r) { return r.type; }).filter(Boolean))).sort());
+        appendUniqueOptions(cohortSel, Array.from(new Set(data.map(function(r) { return r.cohort; }).filter(Boolean))).sort());
+        appendUniqueOptions(qualitySel, Array.from(new Set(data.map(function(r) { return r.quality_tier; }).filter(Boolean))).sort());
 
         var byId = {};
         data.forEach(function(item) { byId[item.id] = true; });
@@ -1651,15 +2248,83 @@ def build_compare():
         var presetA = (params.get('a') || '').toUpperCase();
         var presetB = (params.get('b') || '').toUpperCase();
 
-        if (data.length > 1) {
-          aSel.value = data[0].id;
-          bSel.value = data[1].id;
+        function loadSharedState() {
+          try {
+            return JSON.parse(localStorage.getItem(sharedKey) || '{}');
+          } catch (e) {
+            return {};
+          }
         }
-        if (presetA && byId[presetA]) aSel.value = presetA;
-        if (presetB && byId[presetB]) bSel.value = presetB;
-        if (aSel.value === bSel.value && data.length > 1) {
-          var fallback = data.find(function(item) { return item.id !== aSel.value; });
-          if (fallback) bSel.value = fallback.id;
+
+        function applySharedFilters() {
+          var stored = loadSharedState();
+          var byControl = {
+            region: regionSel,
+            lpa_type: typeSel,
+            cohort: cohortSel,
+            quality: qualitySel,
+          };
+          Object.keys(byControl).forEach(function(key) {
+            var control = byControl[key];
+            var value = norm(params.get(key)) || norm(stored[key]);
+            if (!value) return;
+            var option = Array.from(control.options).find(function(opt) { return norm(opt.value) === value; });
+            if (option) control.value = option.value;
+          });
+        }
+
+        function persistSharedFilters(aId, bId) {
+          var next = new URLSearchParams(window.location.search);
+          var shared = loadSharedState();
+          var values = {
+            region: norm(regionSel.value),
+            lpa_type: norm(typeSel.value),
+            cohort: norm(cohortSel.value),
+            quality: norm(qualitySel.value),
+          };
+          Object.keys(values).forEach(function(key) {
+            if (values[key]) {
+              next.set(key, values[key]);
+              shared[key] = values[key];
+            } else {
+              next.delete(key);
+              delete shared[key];
+            }
+          });
+          if (aId) next.set('a', aId);
+          if (bId) next.set('b', bId);
+          localStorage.setItem(sharedKey, JSON.stringify(shared));
+          var query = next.toString();
+          history.replaceState(null, '', window.location.pathname + (query ? ('?' + query) : ''));
+        }
+
+        function matchesSharedFilters(item) {
+          if (norm(regionSel.value) && norm(item.region) !== norm(regionSel.value)) return false;
+          if (norm(typeSel.value) && norm(item.type) !== norm(typeSel.value)) return false;
+          if (norm(cohortSel.value) && norm(item.cohort) !== norm(cohortSel.value)) return false;
+          if (norm(qualitySel.value) && norm(item.quality_tier) !== norm(qualitySel.value)) return false;
+          return true;
+        }
+
+        function filteredData() {
+          return data.filter(matchesSharedFilters);
+        }
+
+        function refillAuthoritySelect(select, rows, preferredValue, fallbackValue) {
+          select.innerHTML = '';
+          rows.forEach(function(item) {
+            select.appendChild(mkOption(item.id, item.name + ' (' + item.id + ')'));
+          });
+          if (!rows.length) return;
+          if (preferredValue && rows.some(function(item) { return item.id === preferredValue; })) {
+            select.value = preferredValue;
+            return;
+          }
+          if (fallbackValue && rows.some(function(item) { return item.id === fallbackValue; })) {
+            select.value = fallbackValue;
+            return;
+          }
+          select.value = rows[0].id;
         }
 
         function row(label, a, b) {
@@ -1667,20 +2332,33 @@ def build_compare():
         }
 
         function render() {
-          var a = data.find(function(x){ return x.id === aSel.value; });
-          var b = data.find(function(x){ return x.id === bSel.value; });
+          var visible = filteredData();
+          countEl.textContent = visible.length + ' of ' + data.length + ' authorities match current filters';
+          if (visible.length < 2) {
+            out.innerHTML = '<h2>Comparison</h2><p>Select filters with at least two matching authorities.</p>';
+            persistSharedFilters('', '');
+            return;
+          }
+
+          refillAuthoritySelect(aSel, visible, aSel.value, presetA && byId[presetA] ? presetA : '');
+          refillAuthoritySelect(bSel, visible, bSel.value, presetB && byId[presetB] ? presetB : '');
+          if (aSel.value === bSel.value) {
+            var alt = visible.find(function(item) { return item.id !== aSel.value; });
+            if (alt) bSel.value = alt.id;
+          }
+
+          var a = visible.find(function(x){ return x.id === aSel.value; });
+          var b = visible.find(function(x){ return x.id === bSel.value; });
           if (!a || !b) return;
 
-          var next = new URL(window.location.href);
-          next.searchParams.set('a', a.id);
-          next.searchParams.set('b', b.id);
-          history.replaceState(null, '', next.pathname + '?' + next.searchParams.toString());
+          persistSharedFilters(a.id, b.id);
 
           out.innerHTML =
             '<h2>Comparison</h2>' +
             '<table><thead><tr><th>Metric</th><th>' + a.name + '</th><th>' + b.name + '</th></tr></thead><tbody>' +
             row('Type', a.type, b.type) +
             row('Region', a.region, b.region) +
+            row('Cohort', a.cohort, b.cohort) +
             row('Growth context', a.growth, b.growth) +
             row('Constraint profile', a.constraints, b.constraints) +
             row('Plan documents tracked', String(a.documents), String(b.documents)) +
@@ -1743,8 +2421,11 @@ def build_compare():
           renderPresets();
         });
 
-        aSel.addEventListener('change', render);
-        bSel.addEventListener('change', render);
+        [regionSel, typeSel, cohortSel, qualitySel, aSel, bSel].forEach(function(control) {
+          control.addEventListener('change', render);
+        });
+
+        applySharedFilters();
         renderPresets();
         render();
       })();
@@ -1765,12 +2446,26 @@ def build_compare():
 
 def build_benchmark():
     lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
     quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
     issue_rows = read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
     trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
 
     quality_by_id = {r["pilot_id"]: r for r in quality_rows}
     issues_by_id = {r["pilot_id"]: r for r in issue_rows}
+    docs_by_lpa = defaultdict(list)
+    for d in docs:
+        docs_by_lpa[d["pilot_id"]].append(d)
+
+    national_validation_proxy = 12.0
+    for b in baselines:
+        if b.get("metric_id") == "BAS-007":
+            try:
+                national_validation_proxy = float(b.get("value", "") or 12.0)
+            except ValueError:
+                national_validation_proxy = 12.0
+            break
 
     trends_by_id = defaultdict(list)
     for r in trend_rows:
@@ -1794,6 +2489,7 @@ def build_benchmark():
             "lpa_name": lpa.get("lpa_name", ""),
             "lpa_type": lpa.get("lpa_type", ""),
             "cohort": cohort_for_pid(pid),
+            "peer_group": peer_group_for_lpa(lpa),
             "region": lpa.get("region", ""),
             "latest_speed": latest_speed,
             "latest_appeal": latest_appeal,
@@ -1805,6 +2501,7 @@ def build_benchmark():
             "risk_stage": i.get("primary_risk_stage", "n/a"),
             "speed_delta": (float(trows[-1]["major_in_time_pct"]) - float(trows[0]["major_in_time_pct"])) if len(trows) > 1 else None,
         })
+        bench[-1].update(derive_metric_bundle(lpa, i, q, trows, docs_by_lpa, national_validation_proxy))
 
     ranked = [r for r in bench if r["latest_speed"] is not None]
     ranked.sort(key=lambda x: x["latest_speed"], reverse=True)
@@ -1845,6 +2542,8 @@ def build_benchmark():
     regions = sorted({r["region"] for r in bench if r.get("region")})
     lpa_types = sorted({r["lpa_type"] for r in bench if r.get("lpa_type")})
     cohorts = sorted({r["cohort"] for r in bench if r.get("cohort")})
+    quality_tiers = sorted({r.get("quality_tier", "") for r in bench if r.get("quality_tier") and r.get("quality_tier") != "n/a"})
+    peer_groups = sorted({r.get("peer_group", "") for r in bench if r.get("peer_group")})
     bands = ["Top third", "Middle third", "Bottom third"]
     by_region = defaultdict(list)
     by_cohort = defaultdict(list)
@@ -1905,11 +2604,23 @@ def build_benchmark():
     for cohort in cohorts:
         body += f'<option value="{html.escape(cohort.lower())}">{html.escape(cohort)}</option>'
     body += '</select></label>'
+    body += '<label class="filter-item">Quality tier<select data-table="benchmark-table" data-filter="quality"><option value="">All</option>'
+    for quality_tier in quality_tiers:
+        body += f'<option value="{html.escape(quality_tier.lower())}">{html.escape(quality_tier)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Peer group<select data-table="benchmark-table" data-filter="peer_group"><option value="">All</option>'
+    for group in peer_groups:
+        body += f'<option value="{html.escape(group.lower())}">{html.escape(group)}</option>'
+    body += '</select></label>'
     body += '<label class="filter-item">Percentile band<select data-table="benchmark-table" data-filter="band"><option value="">All</option>'
     for band in bands:
         body += f'<option value="{html.escape(band.lower())}">{html.escape(band)}</option>'
     body += '</select></label>'
     body += '</div><p class="small" data-filter-count-for="benchmark-table"></p></section>'
+    body += '<section class="card"><div class="filter-row">'
+    body += '<label class="filter-item">Benchmark mode<select id="benchmark-mode"><option value="all">All authorities</option><option value="peer">Peer group only</option></select></label>'
+    body += '<label class="filter-item">Peer anchor authority<select id="benchmark-anchor"></select></label>'
+    body += '</div><p class="small" id="benchmark-mode-status"></p></section>'
 
     body += f'<section class="card"><p class="small">Generated on {date.today().isoformat()} from quarterly trends and issue incidence datasets.</p></section>'
     body += render_table_guide("How to read this table", [
@@ -1918,8 +2629,36 @@ def build_benchmark():
         "Outlier flags indicate unusual relative performance in the current cohort.",
         "Use preset pair links to drill into side-by-side comparisons.",
     ])
+    body += '<section class="card"><p class="small"><strong>Metric definitions:</strong> '
+    body += metric_help("Speed (%)", "Latest major decisions in time from GOV.UK P151 for each authority.", "major-speed") + ' '
+    body += metric_help("4Q Delta", "Change in major decisions in time between first and latest quarter in the trend window.", "speed-delta") + ' '
+    body += metric_help("Appeal %", "Latest appeals overturned percentage from GOV.UK P152 trend layer.", "appeal-rate") + ' '
+    body += metric_help("Issues", "Linked issue count from analytical issue-incidence dataset.", "issues") + ' '
+    body += metric_help("Quality", "Data quality tier and coverage score from analytical evidence-quality layer.", "quality-tier") + ' '
+    body += metric_help("Val. rework", "Proxy validation rework rate combining BAS-007 baseline with local evidence-quality and issue-pressure adjustments.", "validation-rework") + ' '
+    body += metric_help("Plan age", "Years since latest adopted or in-force tracked plan document for the authority.", "plan-age") + ' '
+    body += metric_help("Consult lag", "Estimated consultation lag in weeks derived from severity and quality signals.", "consult-lag") + ' '
+    body += metric_help("Backlog idx", "0-100 proxy index combining issue load, severity, and speed gap to England average.", "backlog-pressure") + ' '
+    body += metric_help("Conf.", "Analytical confidence level derived from authority data-quality tier.", "analytical-confidence")
+    body += '</p></section>'
     body += '<section class="card"><h2>LPA Benchmark Ranking</h2>'
-    body += '<table id="benchmark-table"><thead><tr><th>Rank</th><th>LPA</th><th>Cohort</th><th>Type</th><th>Region</th><th>Speed (%)</th><th>4Q Delta (pp)</th><th>Outlier</th><th>Percentile</th><th>Band</th><th>Trend</th><th>Appeal %</th><th>Issues</th><th>High Sev</th><th>Risk Stage</th><th>Quality</th><th>Compare</th></tr></thead><tbody>'
+    body += '<table id="benchmark-table"><thead><tr>'
+    body += '<th>Rank</th><th>LPA</th><th>Cohort</th><th>Peer group</th><th>Type</th><th>Region</th>'
+    body += f'<th>{metric_help("Speed (%)", "Latest major decisions in time from official P151 data.", "major-speed")}</th>'
+    body += f'<th>{metric_help("4Q Delta (pp)", "Change from first to latest quarter in the tracked trend window.", "speed-delta")}</th>'
+    body += '<th>Outlier</th><th>Percentile</th><th>Band</th><th>Trend</th>'
+    body += f'<th>{metric_help("Appeal %", "Latest appeals overturned percentage from official P152 data.", "appeal-rate")}</th>'
+    body += f'<th>{metric_help("Issues", "Total linked issues from analytical issue-incidence layer.", "issues")}</th>'
+    body += f'<th>{metric_help("High Sev", "Count of high-severity issues from analytical issue-incidence layer.", "issues")}</th>'
+    body += '<th>Risk Stage</th>'
+    body += f'<th>{metric_help("Quality", "Data quality tier and coverage score from analytical evidence-quality layer.", "quality-tier")}</th>'
+    body += f'<th>{metric_help("Val. rework", "Estimated validation rework proxy percentage.", "validation-rework")}</th>'
+    body += f'<th>{metric_help("Delegated", "Estimated delegated decision share percentage.", "delegated-share")}</th>'
+    body += f'<th>{metric_help("Plan age", "Years since latest adopted tracked plan document.", "plan-age")}</th>'
+    body += f'<th>{metric_help("Consult lag", "Estimated consultation lag in weeks.", "consult-lag")}</th>'
+    body += f'<th>{metric_help("Backlog idx", "Backlog pressure index (0-100).", "backlog-pressure")}</th>'
+    body += f'<th>{metric_help("Conf.", "Analytical confidence based on data-quality tier.", "analytical-confidence")}</th>'
+    body += '<th>Compare</th></tr></thead><tbody>'
     for r in sorted(bench, key=lambda x: (x["rank"] if isinstance(x["rank"], int) else 9999)):
         speed = f"{r['latest_speed']:.1f}" if isinstance(r["latest_speed"], float) else "n/a"
         appeal = f"{r['latest_appeal']:.1f}" if isinstance(r["latest_appeal"], float) else "n/a"
@@ -1933,15 +2672,19 @@ def build_benchmark():
             str(r.get("cohort", "")),
             str(r.get("lpa_type", "")),
             str(r.get("region", "")),
+            str(r.get("peer_group", "")),
             str(r.get("risk_stage", "")),
             str(r.get("quality_tier", "")),
             str(r.get("band", "")),
         ]).strip().lower()
         attrs = (
+            f'data-pilot-id="{html.escape(str(r.get("pilot_id", "")))}" '
             f'data-search="{html.escape(search_blob)}" '
             f'data-region="{html.escape(r.get("region", "").strip().lower())}" '
             f'data-cohort="{html.escape(r.get("cohort", "").strip().lower())}" '
             f'data-lpa_type="{html.escape(r.get("lpa_type", "").strip().lower())}" '
+            f'data-quality="{html.escape(str(r.get("quality_tier", "")).strip().lower())}" '
+            f'data-peer_group="{html.escape(str(r.get("peer_group", "")).strip().lower())}" '
             f'data-band="{html.escape(r.get("band", "").strip().lower())}"'
         )
         delta = "n/a"
@@ -1952,6 +2695,7 @@ def build_benchmark():
         body += f"<td>{html.escape(str(r['rank']))}</td>"
         body += f"<td>{html.escape(r['lpa_name'])}</td>"
         body += f"<td>{html.escape(r['cohort'])}</td>"
+        body += f"<td>{html.escape(r['peer_group'])}</td>"
         body += f"<td>{html.escape(r['lpa_type'])}</td>"
         body += f"<td>{html.escape(r['region'])}</td>"
         body += f"<td>{speed} {provenance_badge('official')}</td>"
@@ -1965,58 +2709,123 @@ def build_benchmark():
         body += f"<td>{html.escape(str(r['high_severity_issues']))}</td>"
         body += f"<td>{html.escape(str(r['risk_stage']))}</td>"
         body += f"<td>{html.escape(str(r['quality_tier']))} ({html.escape(str(r['quality_score']))}) {provenance_badge('estimated')}</td>"
+        body += f"<td>{html.escape(str(r['validation_rework_proxy']))}% {provenance_badge('estimated')}</td>"
+        body += f"<td>{html.escape(str(r['delegated_ratio_proxy']))}% {provenance_badge('estimated')}</td>"
+        plan_age = "n/a" if r.get("plan_age_years") is None else f"{r['plan_age_years']}y"
+        body += f"<td>{html.escape(plan_age)} {provenance_badge('estimated')}</td>"
+        body += f"<td>{html.escape(str(r['consultation_lag_proxy']))}w {provenance_badge('estimated')}</td>"
+        body += f"<td>{html.escape(str(r['backlog_pressure']))} {provenance_badge('estimated')}</td>"
+        body += f"<td>{confidence_badge(r.get('analytical_confidence', 'low'))}</td>"
         body += f"<td>{compare_link}</td>"
         body += "</tr>"
     body += '</tbody></table></section>'
 
+    body += render_filter_script(
+        "benchmark-table",
+        ["search", "region", "cohort", "lpa_type", "quality", "peer_group", "band"],
+        shared_filters=["region", "lpa_type", "cohort", "quality"],
+    )
+    body += render_mobile_drawer_script("benchmark-table", [
+        "Rank", "LPA", "Cohort", "Peer group", "Type", "Region", "Speed", "4Q Delta", "Outlier", "Percentile", "Band", "Trend", "Appeal", "Issues", "High Severity", "Risk Stage", "Quality", "Validation rework", "Delegated", "Plan age", "Consult lag", "Backlog index", "Confidence", "Compare",
+    ])
     body += """
 <script>
 (function() {
   var table = document.getElementById('benchmark-table');
-  if (!table) return;
+  var modeEl = document.getElementById('benchmark-mode');
+  var anchorEl = document.getElementById('benchmark-anchor');
+  var statusEl = document.getElementById('benchmark-mode-status');
+  if (!table || !modeEl || !anchorEl || !statusEl) return;
   var rows = Array.from(table.querySelectorAll('tbody tr'));
-  var controls = Array.from(document.querySelectorAll('[data-table="benchmark-table"]'));
-  var countEl = document.querySelector('[data-filter-count-for="benchmark-table"]');
+  var modeKey = 'uk-planning-benchmark-mode-v1';
 
-  function update() {
-    var visible = 0;
-    var search = '';
-    var selected = {};
-
-    controls.forEach(function(control) {
-      var key = control.dataset.filter;
-      var value = (control.value || '').toLowerCase().trim();
-      if (key === 'search') {
-        search = value;
-      } else if (value) {
-        selected[key] = value;
-      }
-    });
-
-    rows.forEach(function(row) {
-      var show = true;
-      for (var key in selected) {
-        if ((row.dataset[key] || '') !== selected[key]) {
-          show = false;
-          break;
-        }
-      }
-      if (show && search) {
-        var blob = row.dataset.search || '';
-        if (blob.indexOf(search) === -1) show = false;
-      }
-      row.classList.toggle('hidden-row', !show);
-      if (show) visible++;
-    });
-
-    if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
+  function visibleByBaseFilters(row) {
+    return !row.classList.contains('hidden-row');
   }
 
-  controls.forEach(function(control) {
-    control.addEventListener('input', update);
-    control.addEventListener('change', update);
+  function getVisibleRows() {
+    return rows.filter(visibleByBaseFilters);
+  }
+
+  function repopulateAnchor() {
+    var visible = getVisibleRows();
+    var prev = anchorEl.value;
+    anchorEl.innerHTML = '';
+    visible.forEach(function(row) {
+      var id = row.dataset.pilotId || '';
+      var nameCell = row.cells[1];
+      var name = nameCell ? nameCell.textContent.trim() : id;
+      var option = document.createElement('option');
+      option.value = id;
+      option.textContent = name + ' (' + id + ')';
+      anchorEl.appendChild(option);
+    });
+    if (!visible.length) return;
+    var keep = visible.some(function(row) { return (row.dataset.pilotId || '') === prev; });
+    if (keep) {
+      anchorEl.value = prev;
+    }
+  }
+
+  function saveState() {
+    var next = {
+      mode: modeEl.value,
+      anchor: anchorEl.value,
+    };
+    localStorage.setItem(modeKey, JSON.stringify(next));
+  }
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(modeKey) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function applyMode() {
+    var visible = getVisibleRows();
+    var anchor = visible.find(function(row) { return (row.dataset.pilotId || '') === anchorEl.value; });
+    var peerGroup = anchor ? (anchor.dataset.peerGroup || '') : '';
+    var shown = 0;
+    rows.forEach(function(row) {
+      row.classList.remove('hidden-peer');
+      if (!visibleByBaseFilters(row)) return;
+      if (modeEl.value === 'peer' && peerGroup && (row.dataset.peerGroup || '') !== peerGroup) {
+        row.classList.add('hidden-peer');
+      }
+      if (!row.classList.contains('hidden-peer') && !row.classList.contains('hidden-row')) shown++;
+    });
+    if (modeEl.value === 'peer' && peerGroup) {
+      statusEl.textContent = shown + ' authorities shown in peer group: ' + peerGroup + '.';
+    } else {
+      statusEl.textContent = shown + ' authorities shown across all peer groups.';
+    }
+    saveState();
+  }
+
+  var state = loadState();
+  if (state.mode === 'peer' || state.mode === 'all') {
+    modeEl.value = state.mode;
+  }
+
+  function refresh() {
+    repopulateAnchor();
+    if (state.anchor && Array.from(anchorEl.options).some(function(o) { return o.value === state.anchor; })) {
+      anchorEl.value = state.anchor;
+      state.anchor = '';
+    }
+    applyMode();
+  }
+
+  modeEl.addEventListener('change', applyMode);
+  anchorEl.addEventListener('change', applyMode);
+
+  var observer = new MutationObserver(function() {
+    refresh();
   });
-  update();
+  observer.observe(table.tBodies[0], { subtree: true, attributes: true, attributeFilter: ['class'] });
+  refresh();
 })();
 </script>
 """
@@ -2029,18 +2838,34 @@ def build_benchmark():
         next_steps=[
             ("compare.html", "Open side-by-side compare"),
             ("reports.html", "Download report bundles"),
+            ("metric-methods.html", "Review metric formulas"),
             ("data-health.html", "Review data health status"),
         ]))
 
 
 def build_reports():
     lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
     quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
     issue_rows = read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
     trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
 
     quality_by_id = {r["pilot_id"]: r for r in quality_rows}
     issues_by_id = {r["pilot_id"]: r for r in issue_rows}
+    docs_by_lpa = defaultdict(list)
+    for d in docs:
+        docs_by_lpa[d["pilot_id"]].append(d)
+
+    national_validation_proxy = 12.0
+    for b in baselines:
+        if b.get("metric_id") == "BAS-007":
+            try:
+                national_validation_proxy = float(b.get("value", "") or 12.0)
+            except ValueError:
+                national_validation_proxy = 12.0
+            break
+
     trends_by_id = defaultdict(list)
     for r in trend_rows:
         trends_by_id[r["pilot_id"]].append(r)
@@ -2060,6 +2885,8 @@ def build_reports():
         q = quality_by_id.get(pid, {})
         i = issues_by_id.get(pid, {})
         t = trends_by_id.get(pid, [])
+        derived = derive_metric_bundle(lpa, i, q, t, docs_by_lpa, national_validation_proxy)
+        peer_group = peer_group_for_lpa(lpa)
         latest_trend = t[-1] if t else {}
         if latest_trend:
             try:
@@ -2079,17 +2906,24 @@ def build_reports():
             "lpa_name": lpa.get("lpa_name", ""),
             "lpa_type": lpa.get("lpa_type", ""),
             "cohort": cohort_for_pid(pid),
+            "peer_group": peer_group,
             "region": lpa.get("region", ""),
             "growth_context": lpa.get("growth_context", ""),
             "constraint_profile": lpa.get("constraint_profile", ""),
             "data_quality": q,
             "issue_incidence": i,
+            "derived_metrics": derived,
             "quarterly_trends": t,
             "metric_provenance": {
                 "major_in_time_pct": "official",
                 "appeals_overturned_pct": "official",
                 "issue_incidence": "estimated",
                 "data_quality": "estimated",
+                "validation_rework_proxy": "estimated",
+                "delegated_ratio_proxy": "estimated",
+                "plan_age_years": "estimated",
+                "consultation_lag_proxy": "estimated",
+                "backlog_pressure": "estimated",
             },
             "latest_trend_source": {
                 "source_table": trend_source,
@@ -2109,6 +2943,7 @@ def build_reports():
             w.writerow(["lpa_name", payload["lpa_name"]])
             w.writerow(["lpa_type", payload["lpa_type"]])
             w.writerow(["cohort", payload["cohort"]])
+            w.writerow(["peer_group", payload["peer_group"]])
             w.writerow(["region", payload["region"]])
             w.writerow(["growth_context", payload["growth_context"]])
             w.writerow(["constraint_profile", payload["constraint_profile"]])
@@ -2121,6 +2956,12 @@ def build_reports():
             w.writerow(["appeals_overturned_pct_provenance", "official"])
             w.writerow(["issue_incidence_provenance", "estimated"])
             w.writerow(["data_quality_provenance", "estimated"])
+            w.writerow(["validation_rework_proxy", derived.get("validation_rework_proxy", "")])
+            w.writerow(["delegated_ratio_proxy", derived.get("delegated_ratio_proxy", "")])
+            w.writerow(["plan_age_years", derived.get("plan_age_years", "")])
+            w.writerow(["consultation_lag_proxy", derived.get("consultation_lag_proxy", "")])
+            w.writerow(["backlog_pressure", derived.get("backlog_pressure", "")])
+            w.writerow(["analytical_confidence", derived.get("analytical_confidence", "")])
             w.writerow(["latest_trend_source_table", trend_source])
             w.writerow(["latest_trend_source_url", trend_source_url])
 
@@ -2130,6 +2971,9 @@ def build_reports():
             "lpa_type": lpa.get("lpa_type", ""),
             "cohort": cohort_for_pid(pid),
             "region": lpa.get("region", ""),
+            "peer_group": peer_group,
+            "quality_tier": q.get("data_quality_tier", ""),
+            "analytical_confidence": derived.get("analytical_confidence", "low"),
             "csv": f"reports/{pid.lower()}-report.csv",
             "json": f"reports/{pid.lower()}-report.json",
             "trend_source": trend_source,
@@ -2151,6 +2995,8 @@ def build_reports():
     regions = sorted({r["region"] for r in links if r.get("region")})
     lpa_types = sorted({r["lpa_type"] for r in links if r.get("lpa_type")})
     cohorts = sorted({r["cohort"] for r in links if r.get("cohort")})
+    quality_tiers = sorted({r["quality_tier"] for r in links if r.get("quality_tier")})
+    peer_groups = sorted({r["peer_group"] for r in links if r.get("peer_group")})
 
     body += '<section class="card"><div class="filter-row">'
     body += '<label class="filter-item">Search reports<input type="search" data-table="reports-table" data-filter="search" placeholder="Type authority..." /></label>'
@@ -2166,6 +3012,14 @@ def build_reports():
     for cohort in cohorts:
         body += f'<option value="{html.escape(cohort.lower())}">{html.escape(cohort)}</option>'
     body += '</select></label>'
+    body += '<label class="filter-item">Quality tier<select data-table="reports-table" data-filter="quality"><option value="">All</option>'
+    for quality_tier in quality_tiers:
+        body += f'<option value="{html.escape(quality_tier.lower())}">{html.escape(quality_tier)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Peer group<select data-table="reports-table" data-filter="peer_group"><option value="">All</option>'
+    for group in peer_groups:
+        body += f'<option value="{html.escape(group.lower())}">{html.escape(group)}</option>'
+    body += '</select></label>'
     body += '</div><p class="small" data-filter-count-for="reports-table"></p></section>'
 
     body += render_table_guide("How to read this table", [
@@ -2174,13 +3028,25 @@ def build_reports():
         "Provenance badges show official versus analytical estimate inputs.",
         "Trend source links identify the originating statistics table.",
     ])
-    body += '<section class="card"><table id="reports-table"><thead><tr><th>ID</th><th>Authority</th><th>Cohort</th><th>Type</th><th>Region</th><th>Metric provenance</th><th>Trend source</th><th>CSV</th><th>JSON</th></tr></thead><tbody>'
+    body += '<section class="card"><p class="small"><strong>Metric definitions:</strong> '
+    body += metric_help("Metric provenance", "Shows whether included report metrics come from official statistics or analytical estimates.", "major-speed") + ' '
+    body += metric_help("Trend source", "Originating statistical table for the latest trend snapshot in each report.", "speed-delta") + ' '
+    body += metric_help("Analytical confidence", "Confidence level for estimated metrics derived from authority data-quality tier.", "analytical-confidence")
+    body += '</p></section>'
+    body += '<section class="card"><table id="reports-table"><thead><tr>'
+    body += '<th>ID</th><th>Authority</th><th>Cohort</th><th>Peer group</th><th>Type</th><th>Region</th>'
+    body += f'<th>{metric_help("Metric provenance", "Official stats are from GOV.UK trend tables; estimates are analytical layers.", "major-speed")}</th>'
+    body += f'<th>{metric_help("Analytical confidence", "Confidence level assigned to estimated metrics for this authority.", "analytical-confidence")}</th>'
+    body += f'<th>{metric_help("Trend source", "Source table and URL used for the latest trend datapoint.", "speed-delta")}</th>'
+    body += '<th>CSV</th><th>JSON</th></tr></thead><tbody>'
     for row in links:
         attrs = (
             f'data-search="{html.escape((row["name"] + " " + row["pid"]).strip().lower())}" '
             f'data-region="{html.escape(row["region"].strip().lower())}" '
             f'data-cohort="{html.escape(row["cohort"].strip().lower())}" '
-            f'data-lpa_type="{html.escape(row["lpa_type"].strip().lower())}"'
+            f'data-lpa_type="{html.escape(row["lpa_type"].strip().lower())}" '
+            f'data-quality="{html.escape(row["quality_tier"].strip().lower())}" '
+            f'data-peer_group="{html.escape(row["peer_group"].strip().lower())}"'
         )
         source_cell = html.escape(row["trend_source"]) if row["trend_source"] else "—"
         if row["trend_source_url"]:
@@ -2189,9 +3055,11 @@ def build_reports():
         body += f'<td>{html.escape(row["pid"])}</td>'
         body += f'<td>{html.escape(row["name"])}</td>'
         body += f'<td>{html.escape(row["cohort"])}</td>'
+        body += f'<td>{html.escape(row["peer_group"])}</td>'
         body += f'<td>{html.escape(row["lpa_type"])}</td>'
         body += f'<td>{html.escape(row["region"])}</td>'
         body += f'<td>{provenance_badge("official")} {provenance_badge("estimated")}</td>'
+        body += f'<td>{confidence_badge(row.get("analytical_confidence", "low"))}</td>'
         body += f'<td>{source_cell}</td>'
         body += f'<td><a href="{html.escape(row["csv"])}">Download CSV</a></td>'
         body += f'<td><a href="{html.escape(row["json"])}">Download JSON</a></td>'
@@ -2222,57 +3090,14 @@ def build_reports():
         body += '<p><a href="reports/monthly-snapshot.csv">monthly-snapshot.csv</a> | '
         body += '<a href="reports/monthly-snapshot.json">monthly-snapshot.json</a></p></section>'
 
-    body += """
-<script>
-(function() {
-  var table = document.getElementById('reports-table');
-  if (!table) return;
-  var rows = Array.from(table.querySelectorAll('tbody tr'));
-  var controls = Array.from(document.querySelectorAll('[data-table="reports-table"]'));
-  var countEl = document.querySelector('[data-filter-count-for="reports-table"]');
-
-  function update() {
-    var visible = 0;
-    var search = '';
-    var selected = {};
-
-    controls.forEach(function(control) {
-      var key = control.dataset.filter;
-      var value = (control.value || '').toLowerCase().trim();
-      if (key === 'search') {
-        search = value;
-      } else if (value) {
-        selected[key] = value;
-      }
-    });
-
-    rows.forEach(function(row) {
-      var show = true;
-      for (var key in selected) {
-        if ((row.dataset[key] || '') !== selected[key]) {
-          show = false;
-          break;
-        }
-      }
-      if (show && search) {
-        var blob = row.dataset.search || '';
-        if (blob.indexOf(search) === -1) show = false;
-      }
-      row.classList.toggle('hidden-row', !show);
-      if (show) visible++;
-    });
-
-    if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
-  }
-
-  controls.forEach(function(control) {
-    control.addEventListener('input', update);
-    control.addEventListener('change', update);
-  });
-  update();
-})();
-</script>
-"""
+    body += render_filter_script(
+        "reports-table",
+        ["search", "region", "cohort", "lpa_type", "quality", "peer_group"],
+        shared_filters=["region", "lpa_type", "cohort", "quality"],
+    )
+    body += render_mobile_drawer_script("reports-table", [
+        "ID", "Authority", "Cohort", "Peer group", "Type", "Region", "Metric provenance", "Analytical confidence", "Trend source", "CSV", "JSON",
+    ])
 
     write(SITE / "reports.html", page(
         "LPA Reports",
@@ -2281,6 +3106,7 @@ def build_reports():
         "Filter and download per-authority report bundles that combine profile context, issue incidence, quality data, and trend snapshots.",
         next_steps=[
             ("benchmark.html", "Open benchmark dashboard"),
+            ("metric-methods.html", "Review metric formulas"),
             ("exports.html", "Open machine-readable exports"),
             ("data-health.html", "Check data freshness"),
         ]))
@@ -2322,6 +3148,105 @@ def build_data_health():
             ("benchmark.html", "Return to benchmark"),
             ("reports.html", "Return to reports"),
             ("sources.html", "Review source index"),
+        ]))
+
+
+def build_coverage():
+    rows, counts = compute_onboarding_status_rows(profile_page_check=True)
+    onboarding_dir = SITE / "reports" / "onboarding"
+    onboarding_dir.mkdir(parents=True, exist_ok=True)
+    summary_payload = []
+    for row in rows:
+        payload = {
+            "pilot_id": row["pilot_id"],
+            "lpa_name": row["lpa_name"],
+            "region": row["region"],
+            "cohort": row["cohort"],
+            "quality_tier": row["quality_tier"],
+            "coverage_status": row["coverage_status"],
+            "checks": row["checks"],
+            "failed_checks": row["failed_checks"],
+            "documents_count": row["documents_count"],
+            "trend_points": row["trend_points"],
+            "profile_page": row["profile_page"],
+        }
+        summary_payload.append(payload)
+        (onboarding_dir / f"{row['pilot_id'].lower()}-onboarding.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    (onboarding_dir / "onboarding-summary.json").write_text(json.dumps(summary_payload, indent=2), encoding="utf-8")
+
+    regions = sorted({r["region"] for r in rows if r.get("region")})
+    cohorts = sorted({r["cohort"] for r in rows if r.get("cohort")})
+    statuses = ["complete", "partial", "estimated"]
+
+    body = '<section class="card"><p>Coverage tracker shows onboarding gate status per authority. Statuses: complete (all gates passed and quality tier A/B), partial (some gates passed), estimated (limited onboarding evidence).</p></section>'
+    body += '<section class="grid">'
+    body += f'<article class="card"><h3>Complete</h3><p>{counts.get("complete", 0)}</p></article>'
+    body += f'<article class="card"><h3>Partial</h3><p>{counts.get("partial", 0)}</p></article>'
+    body += f'<article class="card"><h3>Estimated</h3><p>{counts.get("estimated", 0)}</p></article>'
+    body += '</section>'
+
+    body += '<section class="card"><div class="filter-row">'
+    body += '<label class="filter-item">Search coverage<input type="search" data-table="coverage-table" data-filter="search" placeholder="Type authority..." /></label>'
+    body += '<label class="filter-item">Region<select data-table="coverage-table" data-filter="region"><option value="">All</option>'
+    for region in regions:
+        body += f'<option value="{html.escape(region.lower())}">{html.escape(region)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Cohort<select data-table="coverage-table" data-filter="cohort"><option value="">All</option>'
+    for cohort in cohorts:
+        body += f'<option value="{html.escape(cohort.lower())}">{html.escape(cohort)}</option>'
+    body += '</select></label>'
+    body += '<label class="filter-item">Status<select data-table="coverage-table" data-filter="status"><option value="">All</option>'
+    for status in statuses:
+        body += f'<option value="{status}">{status.title()}</option>'
+    body += '</select></label>'
+    body += '</div><p class="small" data-filter-count-for="coverage-table"></p></section>'
+
+    body += render_table_guide("How to read this table", [
+        "Coverage status combines onboarding gates and quality tier.",
+        "Failed gates identify where onboarding work is required.",
+        "Use profile links to inspect authority pages directly.",
+        "Status should be reviewed after each monthly refresh cycle.",
+    ])
+    body += '<section class="card"><table id="coverage-table"><thead><tr><th>ID</th><th>Authority</th><th>Cohort</th><th>Type</th><th>Region</th><th>Quality</th><th>Status</th><th>Failed gates</th><th>Docs</th><th>Trend pts</th><th>Profile</th></tr></thead><tbody>'
+    for row in rows:
+        search_blob = " ".join([row["pilot_id"], row["lpa_name"], row["region"], row["cohort"], row["coverage_status"]]).strip().lower()
+        attrs = (
+            f'data-search="{html.escape(search_blob)}" '
+            f'data-region="{html.escape(row["region"].strip().lower())}" '
+            f'data-cohort="{html.escape(row["cohort"].strip().lower())}" '
+            f'data-status="{html.escape(row["coverage_status"])}"'
+        )
+        status_css = "green" if row["coverage_status"] == "complete" else "amber" if row["coverage_status"] == "partial" else "red"
+        failed = ", ".join(row["failed_checks"]) if row["failed_checks"] else "none"
+        body += f'<tr {attrs}>'
+        body += f'<td>{html.escape(row["pilot_id"])}</td>'
+        body += f'<td>{html.escape(row["lpa_name"])}</td>'
+        body += f'<td>{html.escape(row["cohort"])}</td>'
+        body += f'<td>{html.escape(row["lpa_type"])}</td>'
+        body += f'<td>{html.escape(row["region"])}</td>'
+        body += f'<td>{html.escape(row["quality_tier"])}</td>'
+        body += f'<td>{badge(row["coverage_status"], status_css)}</td>'
+        body += f'<td>{html.escape(failed)}</td>'
+        body += f'<td>{html.escape(str(row["documents_count"]))}</td>'
+        body += f'<td>{html.escape(str(row["trend_points"]))}</td>'
+        body += f'<td><a href="{html.escape(row["profile_page"])}">Open</a></td>'
+        body += '</tr>'
+    body += '</tbody></table></section>'
+    body += render_filter_script(
+        "coverage-table",
+        ["search", "region", "cohort", "status"],
+        shared_filters=["region", "cohort"],
+    )
+
+    write(SITE / "coverage.html", page(
+        "Coverage Tracker",
+        "Authority coverage and onboarding gate status across the current cohort.",
+        "coverage", body,
+        "Use this page to see which authorities are complete, partial, or estimate-led and which onboarding gates still need work.",
+        next_steps=[
+            ("plans.html", "Open authority profiles"),
+            ("reports.html", "Open report bundles"),
+            ("benchmark.html", "Open benchmark"),
         ]))
 
 
@@ -2532,6 +3457,7 @@ def main():
     build_compare()
     build_benchmark()
     build_reports()
+    build_coverage()
     build_data_health()
     build_consultation()
     build_search_index()
@@ -2541,6 +3467,7 @@ def main():
     build_audience_developers()
     build_audience_public()
     build_methodology()
+    build_metric_methods()
     build_sources()
     build_exports_index()
 

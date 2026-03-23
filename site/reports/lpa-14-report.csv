@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-14
 lpa_name,Leicester City Council
 lpa_type,Unitary Authority
 cohort,Cohort 2
+peer_group,Regeneration-focused authorities
 region,East Midlands
 growth_context,Urban renewal
 constraint_profile,Heritage sensitivity and infrastructure capacity
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,13.3
+delegated_ratio_proxy,87.9
+plan_age_years,12.0
+consultation_lag_proxy,4.2
+backlog_pressure,68.1
+analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

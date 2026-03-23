@@ -1,10 +1,11 @@
 {
-  "report_generated_at": "2026-03-21",
+  "report_generated_at": "2026-03-23",
   "data_version": "v6.0",
   "pilot_id": "LPA-12",
   "lpa_name": "Northumberland County Council",
   "lpa_type": "Unitary Authority",
   "cohort": "Cohort 2",
+  "peer_group": "Mixed and dispersed authorities",
   "region": "North East",
   "growth_context": "Mixed growth dispersed",
   "constraint_profile": "Minerals safeguarding and offshore wind infrastructure pressure",
@@ -26,6 +27,14 @@
     "primary_risk_stage": "Consultation",
     "last_reviewed": "2026-03-18",
     "notes": "Rural scale and infrastructure interfaces prolong consultation cycle"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 13.4,
+    "delegated_ratio_proxy": 89.5,
+    "plan_age_years": 6.6,
+    "consultation_lag_proxy": 4.5,
+    "backlog_pressure": 37.2,
+    "analytical_confidence": "medium"
   },
   "quarterly_trends": [
     {
@@ -73,7 +82,12 @@
     "major_in_time_pct": "official",
     "appeals_overturned_pct": "official",
     "issue_incidence": "estimated",
-    "data_quality": "estimated"
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
   },
   "latest_trend_source": {
     "source_table": "P151/P152",

@@ -149,6 +149,87 @@ li + li {
   font-size: 0.92rem;
 }
 
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.inline-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  margin-left: 4px;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--muted);
+  background: #f8fafc;
+  cursor: help;
+}
+
+.inline-help-link {
+  font-size: 0.72rem;
+  margin-left: 4px;
+}
+
+.mobile-drawer {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 50;
+}
+
+.mobile-drawer.open {
+  display: block;
+}
+
+.mobile-drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+}
+
+.mobile-drawer-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 72vh;
+  overflow-y: auto;
+  background: #fff;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-drawer-close {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+}
+
+.mobile-drawer-item {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+}
+
+.mobile-drawer-item h4 {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.mobile-drawer-item p {
+  margin: 4px 0 0;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -228,6 +309,10 @@ a:focus-visible {
 }
 
 .hidden-row {
+  display: none;
+}
+
+.hidden-peer {
   display: none;
 }
 

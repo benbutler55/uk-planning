@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-03-23T03:44:39Z",
+  "pilot_id": "LPA-05",
+  "lpa_name": "Newham London Borough Council",
+  "coverage_status": "complete",
+  "quality_tier": "A",
+  "cohort": "Cohort 1",
+  "region": "London",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 4,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-05.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

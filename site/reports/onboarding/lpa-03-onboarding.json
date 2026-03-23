@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-03-23T03:44:39Z",
+  "pilot_id": "LPA-03",
+  "lpa_name": "South Cambridgeshire District Council",
+  "coverage_status": "complete",
+  "quality_tier": "B",
+  "cohort": "Cohort 1",
+  "region": "East of England",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 4,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-03.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

@@ -1,10 +1,11 @@
 {
-  "report_generated_at": "2026-03-21",
+  "report_generated_at": "2026-03-23",
   "data_version": "v6.0",
   "pilot_id": "LPA-15",
   "lpa_name": "Cambridge City Council",
   "lpa_type": "Non-metropolitan District",
   "cohort": "Cohort 2",
+  "peer_group": "High-growth urban authorities",
   "region": "East of England",
   "growth_context": "High demand constrained",
   "constraint_profile": "Green Belt and heritage conservation area pressure",
@@ -26,6 +27,14 @@
     "primary_risk_stage": "Pre-application",
     "last_reviewed": "2026-03-18",
     "notes": "Shared emerging plan and constraints increase pre-app uncertainty"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 13.8,
+    "delegated_ratio_proxy": 83.7,
+    "plan_age_years": 6.2,
+    "consultation_lag_proxy": 4.2,
+    "backlog_pressure": 58.6,
+    "analytical_confidence": "medium"
   },
   "quarterly_trends": [
     {
@@ -73,7 +82,12 @@
     "major_in_time_pct": "official",
     "appeals_overturned_pct": "official",
     "issue_incidence": "estimated",
-    "data_quality": "estimated"
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
   },
   "latest_trend_source": {
     "source_table": "P151/P152",

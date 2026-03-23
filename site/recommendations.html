@@ -41,6 +41,58 @@
   var controls = Array.from(document.querySelectorAll('[data-table="recs-table"]'));
   var countEl = document.querySelector('[data-filter-count-for="recs-table"]');
   var fields = ["recommendation_id","priority","time_horizon","policy_goal","title","implementation_vehicle","confidence","verification_state"];
+  var sharedFilters = [];
+  var sharedKey = 'uk-planning-shared-filters-v1';
+
+  function loadSharedState() {
+    try {
+      return JSON.parse(localStorage.getItem(sharedKey) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function applyInitialSharedFilters() {
+    if (!sharedFilters.length) return;
+    var params = new URLSearchParams(window.location.search);
+    var stored = loadSharedState();
+    controls.forEach(function(control) {
+      var key = control.dataset.filter;
+      if (sharedFilters.indexOf(key) === -1) return;
+      var fromUrl = (params.get(key) || '').toLowerCase().trim();
+      var fromStore = (stored[key] || '').toLowerCase().trim();
+      var next = fromUrl || fromStore;
+      if (!next) return;
+      var hasOption = Array.from(control.options || []).some(function(opt) {
+        return (opt.value || '').toLowerCase() === next;
+      });
+      if (hasOption) control.value = next;
+    });
+  }
+
+  function persistSharedFilters() {
+    if (!sharedFilters.length) return;
+    var params = new URLSearchParams(window.location.search);
+    var stored = loadSharedState();
+    controls.forEach(function(control) {
+      var key = control.dataset.filter;
+      if (sharedFilters.indexOf(key) === -1) return;
+      var value = (control.value || '').toLowerCase().trim();
+      if (value) {
+        stored[key] = value;
+        params.set(key, value);
+      } else {
+        delete stored[key];
+        params.delete(key);
+      }
+    });
+    localStorage.setItem(sharedKey, JSON.stringify(stored));
+    var query = params.toString();
+    history.replaceState(null, '', window.location.pathname + (query ? ('?' + query) : ''));
+  }
+
+  applyInitialSharedFilters();
+
   function update() {
     var visible = 0;
     var sc = controls.find(function(c) { return c.dataset.filter === 'search'; });
@@ -60,6 +112,7 @@
       if (show) visible++;
     });
     if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
+    persistSharedFilters();
   }
   controls.forEach(function(c) { c.addEventListener('input', update); c.addEventListener('change', update); });
   update();

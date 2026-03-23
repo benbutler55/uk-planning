@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-05
 lpa_name,Newham London Borough Council
 lpa_type,London Borough
 cohort,Cohort 1
+peer_group,London urban authorities
 region,London
 growth_context,Very high urban growth
 constraint_profile,Density viability and transport node pressure
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,12.2
+delegated_ratio_proxy,83.6
+plan_age_years,4.2
+consultation_lag_proxy,3.2
+backlog_pressure,56.2
+analytical_confidence,high
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

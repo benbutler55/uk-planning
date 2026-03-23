@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-09
 lpa_name,Guildford Borough Council
 lpa_type,Non-metropolitan District
 cohort,Cohort 2
+peer_group,High-growth urban authorities
 region,South East
 growth_context,High demand constrained
 constraint_profile,Green Belt and AONB adjacency
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,14.0
+delegated_ratio_proxy,81.9
+plan_age_years,5.8
+consultation_lag_proxy,4.6
+backlog_pressure,83.6
+analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

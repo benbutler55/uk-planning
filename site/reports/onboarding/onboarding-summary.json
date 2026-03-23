@@ -1,0 +1,402 @@
+[
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-01",
+    "lpa_name": "Manchester City Council",
+    "coverage_status": "complete",
+    "quality_tier": "A",
+    "cohort": "Cohort 1",
+    "region": "North West",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 3,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-01.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-02",
+    "lpa_name": "Oxford City Council",
+    "coverage_status": "complete",
+    "quality_tier": "A",
+    "cohort": "Cohort 1",
+    "region": "South East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 4,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-02.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-03",
+    "lpa_name": "South Cambridgeshire District Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 1",
+    "region": "East of England",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 4,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-03.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-04",
+    "lpa_name": "Cornwall Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 1",
+    "region": "South West",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 3,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-04.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-05",
+    "lpa_name": "Newham London Borough Council",
+    "coverage_status": "complete",
+    "quality_tier": "A",
+    "cohort": "Cohort 1",
+    "region": "London",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 4,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-05.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-06",
+    "lpa_name": "Kent County Council (minerals/waste planning role)",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 1",
+    "region": "South East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 3,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-06.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-07",
+    "lpa_name": "Leeds City Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "Yorkshire and The Humber",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 3,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-07.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-08",
+    "lpa_name": "Bristol City Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "South West",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-08.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-09",
+    "lpa_name": "Guildford Borough Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "South East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-09.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-10",
+    "lpa_name": "Newcastle City Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "North East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-10.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-11",
+    "lpa_name": "Peak District National Park Authority",
+    "coverage_status": "partial",
+    "quality_tier": "C",
+    "cohort": "Cohort 2",
+    "region": "East Midlands",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-11.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-12",
+    "lpa_name": "Northumberland County Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "North East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-12.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-13",
+    "lpa_name": "Southampton City Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "South East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-13.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-14",
+    "lpa_name": "Leicester City Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "East Midlands",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-14.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-15",
+    "lpa_name": "Cambridge City Council",
+    "coverage_status": "complete",
+    "quality_tier": "B",
+    "cohort": "Cohort 2",
+    "region": "East of England",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-15.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  },
+  {
+    "generated_at": "2026-03-23T03:44:39Z",
+    "pilot_id": "LPA-16",
+    "lpa_name": "Medway Council",
+    "coverage_status": "partial",
+    "quality_tier": "C",
+    "cohort": "Cohort 2",
+    "region": "South East",
+    "gate_status": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-16.html",
+    "pipeline": [
+      "ingest",
+      "validate",
+      "profile",
+      "qa"
+    ]
+  }
+]

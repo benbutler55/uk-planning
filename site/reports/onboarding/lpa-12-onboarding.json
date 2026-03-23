@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-03-23T03:44:39Z",
+  "pilot_id": "LPA-12",
+  "lpa_name": "Northumberland County Council",
+  "coverage_status": "complete",
+  "quality_tier": "B",
+  "cohort": "Cohort 2",
+  "region": "North East",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-12.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

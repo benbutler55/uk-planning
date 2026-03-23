@@ -1,10 +1,11 @@
 field,value
-report_generated_at,2026-03-21
+report_generated_at,2026-03-23
 data_version,v6.0
 pilot_id,LPA-11
 lpa_name,Peak District National Park Authority
 lpa_type,National Park
 cohort,Cohort 2
+peer_group,National park authorities
 region,East Midlands
 growth_context,Constrained designated
 constraint_profile,National Park statutory purposes and housing affordability tension
@@ -17,5 +18,11 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
+validation_rework_proxy,15.3
+delegated_ratio_proxy,82.0
+plan_age_years,6.4
+consultation_lag_proxy,4.3
+backlog_pressure,59.1
+analytical_confidence,low
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

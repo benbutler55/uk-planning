@@ -30,13 +30,14 @@
 <a href="compare.html">Compare</a>
 <a href="benchmark.html">Benchmark</a>
 <a href="reports.html">Reports</a>
+<a href="coverage.html">Coverage</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="plans.html">Authority Insights</a> &gt; <a href="map.html">Map</a></div>
 <section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A geographic view of authorities in scope with headline performance overlays.</dd><dt>Who this is for</dt><dd>Users who prefer spatial exploration of authority performance.</dd><dt>How to use it</dt><dd>Select markers for summary context, then drill to profile and compare pages.</dd><dt>Data source and freshness</dt><dd>Geo and performance overlays come from project authority and trend datasets.</dd></dl></section>
 <section class="card"><p>Explore authorities geographically, compare performance at a glance, and open individual LPA profile pages from map markers.</p></section>
 
       <section class="card">
-        <p>All 16 LPAs in scope. Circle colour indicates speed of major decisions (green = above England average 74%, amber = 65-74%, red = below 65%). Click a marker for the LPA profile.</p>
+        <p>All 16 LPAs in scope. The default view uses boundary-led choropleth cells (proxy geometry) coloured by major decision speed (green = above England average 74%, amber = 65-74%, red = below 65%). Use layer controls to toggle boundary fill and markers.</p>
       </section>
       <div id="map" style="height:560px;border-radius:14px;border:1px solid var(--line);"></div>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -49,7 +50,7 @@
           maxZoom: 13
         }).addTo(map);
 
-        var data = {
+        var markerData = {
   "type": "FeatureCollection",
   "features": [
     {
@@ -422,6 +423,827 @@
     }
   ]
 };
+        var boundaryData = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -1.7626,
+              53.4808
+            ],
+            [
+              -2.0026,
+              53.896492
+            ],
+            [
+              -2.4826,
+              53.896492
+            ],
+            [
+              -2.7226,
+              53.4808
+            ],
+            [
+              -2.4826,
+              53.065108
+            ],
+            [
+              -2.0026,
+              53.065108
+            ],
+            [
+              -1.7626,
+              53.4808
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-01",
+        "name": "Manchester City Council",
+        "type": "Metropolitan District",
+        "region": "North West",
+        "growth": "High growth urban",
+        "constraints": "Transport capacity and urban form constraints",
+        "speed": 71.0,
+        "quality_tier": "A",
+        "coverage_score": "92",
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-01.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.8977,
+              51.752
+            ],
+            [
+              -1.0777,
+              52.063769
+            ],
+            [
+              -1.4377,
+              52.063769
+            ],
+            [
+              -1.6177,
+              51.752
+            ],
+            [
+              -1.4377,
+              51.440231
+            ],
+            [
+              -1.0777,
+              51.440231
+            ],
+            [
+              -0.8977,
+              51.752
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-02",
+        "name": "Oxford City Council",
+        "type": "Non-metropolitan District",
+        "region": "South East",
+        "growth": "High demand constrained",
+        "constraints": "Green Belt and heritage sensitivity",
+        "speed": 68.0,
+        "quality_tier": "A",
+        "coverage_score": "90",
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-02.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.4818,
+              52.1963
+            ],
+            [
+              0.3018,
+              52.508069
+            ],
+            [
+              -0.0582,
+              52.508069
+            ],
+            [
+              -0.2382,
+              52.1963
+            ],
+            [
+              -0.0582,
+              51.884531
+            ],
+            [
+              0.3018,
+              51.884531
+            ],
+            [
+              0.4818,
+              52.1963
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-03",
+        "name": "South Cambridgeshire District Council",
+        "type": "Non-metropolitan District",
+        "region": "East of England",
+        "growth": "Growth corridor",
+        "constraints": "Green Belt flood risk and infrastructure sequencing",
+        "speed": 65.0,
+        "quality_tier": "B",
+        "coverage_score": "84",
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-03.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -4.6327,
+              50.266
+            ],
+            [
+              -4.8427,
+              50.629731
+            ],
+            [
+              -5.2627,
+              50.629731
+            ],
+            [
+              -5.4727,
+              50.266
+            ],
+            [
+              -5.2627,
+              49.902269
+            ],
+            [
+              -4.8427,
+              49.902269
+            ],
+            [
+              -4.6327,
+              50.266
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-04",
+        "name": "Cornwall Council",
+        "type": "Unitary Authority",
+        "region": "South West",
+        "growth": "Mixed growth dispersed",
+        "constraints": "Coastal change AONB and transport coverage constraints",
+        "speed": 76.0,
+        "quality_tier": "B",
+        "coverage_score": "80",
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-04.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.2869,
+              51.5077
+            ],
+            [
+              0.1669,
+              51.715546
+            ],
+            [
+              -0.0731,
+              51.715546
+            ],
+            [
+              -0.1931,
+              51.5077
+            ],
+            [
+              -0.0731,
+              51.299854
+            ],
+            [
+              0.1669,
+              51.299854
+            ],
+            [
+              0.2869,
+              51.5077
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-05",
+        "name": "Newham London Borough Council",
+        "type": "London Borough",
+        "region": "London",
+        "growth": "Very high urban growth",
+        "constraints": "Density viability and transport node pressure",
+        "speed": 69.0,
+        "quality_tier": "A",
+        "coverage_score": "88",
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-05.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.8817,
+              51.2787
+            ],
+            [
+              0.7017,
+              51.590469
+            ],
+            [
+              0.3417,
+              51.590469
+            ],
+            [
+              0.1617,
+              51.2787
+            ],
+            [
+              0.3417,
+              50.966931
+            ],
+            [
+              0.7017,
+              50.966931
+            ],
+            [
+              0.8817,
+              51.2787
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-06",
+        "name": "Kent County Council (minerals/waste planning role)",
+        "type": "County Council",
+        "region": "South East",
+        "growth": "County strategic layer",
+        "constraints": "Strategic waste minerals and transport network constraints",
+        "speed": null,
+        "quality_tier": "B",
+        "coverage_score": "78",
+        "cohort": "Cohort 1",
+        "page": "plans-lpa-06.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -1.0691,
+              53.8008
+            ],
+            [
+              -1.3091,
+              54.216492
+            ],
+            [
+              -1.7891,
+              54.216492
+            ],
+            [
+              -2.0291,
+              53.8008
+            ],
+            [
+              -1.7891,
+              53.385108
+            ],
+            [
+              -1.3091,
+              53.385108
+            ],
+            [
+              -1.0691,
+              53.8008
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-07",
+        "name": "Leeds City Council",
+        "type": "Metropolitan District",
+        "region": "Yorkshire and The Humber",
+        "growth": "High growth urban",
+        "constraints": "Transport capacity and cross-boundary housing delivery",
+        "speed": 78.0,
+        "quality_tier": "B",
+        "coverage_score": "82",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-07.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -2.1679,
+              51.4545
+            ],
+            [
+              -2.3779,
+              51.818231
+            ],
+            [
+              -2.7979,
+              51.818231
+            ],
+            [
+              -3.0079,
+              51.4545
+            ],
+            [
+              -2.7979,
+              51.090769
+            ],
+            [
+              -2.3779,
+              51.090769
+            ],
+            [
+              -2.1679,
+              51.4545
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-08",
+        "name": "Bristol City Council",
+        "type": "Unitary Authority",
+        "region": "South West",
+        "growth": "High growth urban",
+        "constraints": "Flood risk and harbour/waterfront regeneration complexity",
+        "speed": 72.0,
+        "quality_tier": "B",
+        "coverage_score": "79",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-08.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.2103,
+              51.2365
+            ],
+            [
+              -0.3903,
+              51.548269
+            ],
+            [
+              -0.7503,
+              51.548269
+            ],
+            [
+              -0.9303,
+              51.2365
+            ],
+            [
+              -0.7503,
+              50.924731
+            ],
+            [
+              -0.3903,
+              50.924731
+            ],
+            [
+              -0.2103,
+              51.2365
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-09",
+        "name": "Guildford Borough Council",
+        "type": "Non-metropolitan District",
+        "region": "South East",
+        "growth": "High demand constrained",
+        "constraints": "Green Belt and AONB adjacency",
+        "speed": 61.0,
+        "quality_tier": "B",
+        "coverage_score": "81",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-09.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -1.1378,
+              54.9783
+            ],
+            [
+              -1.3778,
+              55.393992
+            ],
+            [
+              -1.8578,
+              55.393992
+            ],
+            [
+              -2.0978,
+              54.9783
+            ],
+            [
+              -1.8578,
+              54.562608
+            ],
+            [
+              -1.3778,
+              54.562608
+            ],
+            [
+              -1.1378,
+              54.9783
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-10",
+        "name": "Newcastle City Council",
+        "type": "Metropolitan District",
+        "region": "North East",
+        "growth": "Regeneration growth",
+        "constraints": "Riverside flood risk and heritage city centre",
+        "speed": 80.0,
+        "quality_tier": "B",
+        "coverage_score": "80",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-10.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -1.32,
+              53.297
+            ],
+            [
+              -1.53,
+              53.660731
+            ],
+            [
+              -1.95,
+              53.660731
+            ],
+            [
+              -2.16,
+              53.297
+            ],
+            [
+              -1.95,
+              52.933269
+            ],
+            [
+              -1.53,
+              52.933269
+            ],
+            [
+              -1.32,
+              53.297
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-11",
+        "name": "Peak District National Park Authority",
+        "type": "National Park",
+        "region": "East Midlands",
+        "growth": "Constrained designated",
+        "constraints": "National Park statutory purposes and housing affordability tension",
+        "speed": null,
+        "quality_tier": "C",
+        "coverage_score": "68",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-11.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -1.5984,
+              55.2082
+            ],
+            [
+              -1.8384,
+              55.623892
+            ],
+            [
+              -2.3184,
+              55.623892
+            ],
+            [
+              -2.5584,
+              55.2082
+            ],
+            [
+              -2.3184,
+              54.792508
+            ],
+            [
+              -1.8384,
+              54.792508
+            ],
+            [
+              -1.5984,
+              55.2082
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-12",
+        "name": "Northumberland County Council",
+        "type": "Unitary Authority",
+        "region": "North East",
+        "growth": "Mixed growth dispersed",
+        "constraints": "Minerals safeguarding and offshore wind infrastructure pressure",
+        "speed": null,
+        "quality_tier": "B",
+        "coverage_score": "77",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-12.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -1.0444,
+              50.9097
+            ],
+            [
+              -1.2244,
+              51.221469
+            ],
+            [
+              -1.5844,
+              51.221469
+            ],
+            [
+              -1.7644,
+              50.9097
+            ],
+            [
+              -1.5844,
+              50.597931
+            ],
+            [
+              -1.2244,
+              50.597931
+            ],
+            [
+              -1.0444,
+              50.9097
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-13",
+        "name": "Southampton City Council",
+        "type": "Unitary Authority",
+        "region": "South East",
+        "growth": "Regeneration growth",
+        "constraints": "Coastal change and port safeguarding",
+        "speed": 74.0,
+        "quality_tier": "B",
+        "coverage_score": "79",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-13.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.7198,
+              52.6369
+            ],
+            [
+              -0.9298,
+              53.000631
+            ],
+            [
+              -1.3498,
+              53.000631
+            ],
+            [
+              -1.5598,
+              52.6369
+            ],
+            [
+              -1.3498,
+              52.273169
+            ],
+            [
+              -0.9298,
+              52.273169
+            ],
+            [
+              -0.7198,
+              52.6369
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-14",
+        "name": "Leicester City Council",
+        "type": "Unitary Authority",
+        "region": "East Midlands",
+        "growth": "Urban renewal",
+        "constraints": "Heritage sensitivity and infrastructure capacity",
+        "speed": 70.0,
+        "quality_tier": "B",
+        "coverage_score": "78",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-14.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.4818,
+              52.2053
+            ],
+            [
+              0.3018,
+              52.517069
+            ],
+            [
+              -0.0582,
+              52.517069
+            ],
+            [
+              -0.2382,
+              52.2053
+            ],
+            [
+              -0.0582,
+              51.893531
+            ],
+            [
+              0.3018,
+              51.893531
+            ],
+            [
+              0.4818,
+              52.2053
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-15",
+        "name": "Cambridge City Council",
+        "type": "Non-metropolitan District",
+        "region": "East of England",
+        "growth": "High demand constrained",
+        "constraints": "Green Belt and heritage conservation area pressure",
+        "speed": null,
+        "quality_tier": "B",
+        "coverage_score": "83",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-15.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.899,
+              51.3927
+            ],
+            [
+              0.719,
+              51.704469
+            ],
+            [
+              0.359,
+              51.704469
+            ],
+            [
+              0.179,
+              51.3927
+            ],
+            [
+              0.359,
+              51.080931
+            ],
+            [
+              0.719,
+              51.080931
+            ],
+            [
+              0.899,
+              51.3927
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "LPA-16",
+        "name": "Medway Council",
+        "type": "Unitary Authority",
+        "region": "South East",
+        "growth": "Housing delivery zone",
+        "constraints": "Flood risk and strategic transport corridor pressure",
+        "speed": 63.0,
+        "quality_tier": "C",
+        "coverage_score": "66",
+        "cohort": "Cohort 2",
+        "page": "plans-lpa-16.html"
+      }
+    }
+  ]
+};
 
         function speedColor(speed) {
           if (speed == null) return '#aaa';
@@ -430,7 +1252,21 @@
           return '#ef4444';
         }
 
-        data.features.forEach(function(f) {
+        function popupHtml(p) {
+          var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
+          var qualityText = p.quality_tier ? ('Quality tier ' + p.quality_tier + ' (score ' + p.coverage_score + ')') : 'Quality tier n/a';
+          return (
+            '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
+            '<br>' + p.type + ' — ' + p.region +
+            '<br><em>' + p.cohort + '</em>' +
+            '<br>' + speedText +
+            '<br>' + qualityText +
+            '<br><small>' + p.constraints + '</small>'
+          );
+        }
+
+        var markerLayer = L.layerGroup();
+        markerData.features.forEach(function(f) {
           var p = f.properties;
           var coords = f.geometry.coordinates;
           var color = speedColor(p.speed);
@@ -441,19 +1277,33 @@
             weight: 2,
             opacity: 1,
             fillOpacity: 0.85
-          }).addTo(map);
-
-          var speedText = p.speed != null ? p.speed + '% major decisions in time' : 'No data';
-          var qualityText = p.quality_tier ? ('Quality tier ' + p.quality_tier + ' (score ' + p.coverage_score + ')') : 'Quality tier n/a';
-          circle.bindPopup(
-            '<strong><a href="' + p.page + '">' + p.name + '</a></strong>' +
-            '<br>' + p.type + ' — ' + p.region +
-            '<br><em>' + p.cohort + '</em>' +
-            '<br>' + speedText +
-            '<br>' + qualityText +
-            '<br><small>' + p.constraints + '</small>'
-          );
+          });
+          circle.bindPopup(popupHtml(p));
+          markerLayer.addLayer(circle);
         });
+
+        function boundaryStyle(feature) {
+          return {
+            color: '#1f2937',
+            weight: 1,
+            fillColor: speedColor(feature.properties.speed),
+            fillOpacity: 0.45,
+          };
+        }
+
+        var boundaryLayer = L.geoJSON(boundaryData, {
+          style: boundaryStyle,
+          onEachFeature: function(feature, layer) {
+            layer.bindPopup(popupHtml(feature.properties));
+          }
+        }).addTo(map);
+        markerLayer.addTo(map);
+
+        var overlays = {
+          'Boundary choropleth': boundaryLayer,
+          'Point markers': markerLayer,
+        };
+        L.control.layers(null, overlays, { collapsed: false }).addTo(map);
 
         // Legend
         var legend = L.control({position: 'bottomright'});

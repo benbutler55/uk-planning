@@ -43,6 +43,58 @@
   var controls = Array.from(document.querySelectorAll('[data-table="issues-table"]'));
   var countEl = document.querySelector('[data-filter-count-for="issues-table"]');
   var fields = ["issue_id","scope","issue_type","affected_pathway","summary","confidence","verification_state"];
+  var sharedFilters = [];
+  var sharedKey = 'uk-planning-shared-filters-v1';
+
+  function loadSharedState() {
+    try {
+      return JSON.parse(localStorage.getItem(sharedKey) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function applyInitialSharedFilters() {
+    if (!sharedFilters.length) return;
+    var params = new URLSearchParams(window.location.search);
+    var stored = loadSharedState();
+    controls.forEach(function(control) {
+      var key = control.dataset.filter;
+      if (sharedFilters.indexOf(key) === -1) return;
+      var fromUrl = (params.get(key) || '').toLowerCase().trim();
+      var fromStore = (stored[key] || '').toLowerCase().trim();
+      var next = fromUrl || fromStore;
+      if (!next) return;
+      var hasOption = Array.from(control.options || []).some(function(opt) {
+        return (opt.value || '').toLowerCase() === next;
+      });
+      if (hasOption) control.value = next;
+    });
+  }
+
+  function persistSharedFilters() {
+    if (!sharedFilters.length) return;
+    var params = new URLSearchParams(window.location.search);
+    var stored = loadSharedState();
+    controls.forEach(function(control) {
+      var key = control.dataset.filter;
+      if (sharedFilters.indexOf(key) === -1) return;
+      var value = (control.value || '').toLowerCase().trim();
+      if (value) {
+        stored[key] = value;
+        params.set(key, value);
+      } else {
+        delete stored[key];
+        params.delete(key);
+      }
+    });
+    localStorage.setItem(sharedKey, JSON.stringify(stored));
+    var query = params.toString();
+    history.replaceState(null, '', window.location.pathname + (query ? ('?' + query) : ''));
+  }
+
+  applyInitialSharedFilters();
+
   function update() {
     var visible = 0;
     var sc = controls.find(function(c) { return c.dataset.filter === 'search'; });
@@ -62,9 +114,53 @@
       if (show) visible++;
     });
     if (countEl) countEl.textContent = visible + ' of ' + rows.length + ' rows shown';
+    persistSharedFilters();
   }
   controls.forEach(function(c) { c.addEventListener('input', update); c.addEventListener('change', update); });
   update();
+})();
+</script>
+
+<script>
+(function() {
+  var table = document.getElementById('issues-table');
+  if (!table) return;
+  var labels = ["Issue", "Scope", "Type", "Pathway", "Weighted Score", "Severity", "Delay", "Status", "Confidence", "Summary"];
+  var media = window.matchMedia('(max-width: 900px)');
+
+  var drawer = document.createElement('div');
+  drawer.className = 'mobile-drawer';
+  drawer.innerHTML = '<div class="mobile-drawer-backdrop"></div><div class="mobile-drawer-panel"><button type="button" class="mobile-drawer-close" aria-label="Close details">Close</button><div class="mobile-drawer-body"></div></div>';
+  document.body.appendChild(drawer);
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+  }
+
+  drawer.querySelector('.mobile-drawer-backdrop').addEventListener('click', closeDrawer);
+  drawer.querySelector('.mobile-drawer-close').addEventListener('click', closeDrawer);
+
+  function openRow(row) {
+    var cells = Array.from(row.children);
+    var parts = [];
+    cells.forEach(function(cell, idx) {
+      var label = labels[idx] || ('Column ' + (idx + 1));
+      var value = (cell.innerText || '').trim();
+      if (!value) return;
+      parts.push('<div class="mobile-drawer-item"><h4>' + label + '</h4><p>' + value + '</p></div>');
+    });
+    drawer.querySelector('.mobile-drawer-body').innerHTML = parts.join('');
+    drawer.classList.add('open');
+  }
+
+  table.addEventListener('click', function(evt) {
+    if (!media.matches) return;
+    if (evt.target.closest('a')) return;
+    var row = evt.target.closest('tbody tr');
+    if (!row) return;
+    if (row.classList.contains('hidden-row') || row.classList.contains('hidden-peer')) return;
+    openRow(row);
+  });
 })();
 </script>
 

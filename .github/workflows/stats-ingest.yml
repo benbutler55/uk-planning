@@ -21,7 +21,7 @@ jobs:
           python-version: "3.12"
 
       - name: Run statistics ingest check
-        run: python3 scripts/ingest_govuk_stats.py --warn-only
+        run: python3 scripts/ingest_govuk_stats.py --warn-only --append-history
 
       - name: Upload ingest report
         if: always()
@@ -31,4 +31,5 @@ jobs:
           path: |
             stats-ingest-report.txt
             stats-ingest-report.json
+            stats-ingest-history.json
           retention-days: 90

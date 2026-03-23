@@ -1,10 +1,11 @@
 {
-  "report_generated_at": "2026-03-21",
+  "report_generated_at": "2026-03-23",
   "data_version": "v6.0",
   "pilot_id": "LPA-11",
   "lpa_name": "Peak District National Park Authority",
   "lpa_type": "National Park",
   "cohort": "Cohort 2",
+  "peer_group": "National park authorities",
   "region": "East Midlands",
   "growth_context": "Constrained designated",
   "constraint_profile": "National Park statutory purposes and housing affordability tension",
@@ -26,6 +27,14 @@
     "primary_risk_stage": "Pre-application",
     "last_reviewed": "2026-03-18",
     "notes": "National park policy constraints increase front-end complexity"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 15.3,
+    "delegated_ratio_proxy": 82.0,
+    "plan_age_years": 6.4,
+    "consultation_lag_proxy": 4.3,
+    "backlog_pressure": 59.1,
+    "analytical_confidence": "low"
   },
   "quarterly_trends": [
     {
@@ -73,7 +82,12 @@
     "major_in_time_pct": "official",
     "appeals_overturned_pct": "official",
     "issue_incidence": "estimated",
-    "data_quality": "estimated"
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
   },
   "latest_trend_source": {
     "source_table": "P151/P152",

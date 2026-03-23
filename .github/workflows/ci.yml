@@ -36,5 +36,8 @@ jobs:
       - name: Check metric drift thresholds
         run: python3 scripts/check_metric_drift.py
 
+      - name: Check derived metric stability
+        run: python3 scripts/check_metric_stability.py
+
       - name: Check accessibility basics
         run: python3 scripts/check_accessibility.py

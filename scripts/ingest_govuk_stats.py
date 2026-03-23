@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-"""Automated ingest of GOV.UK planning statistics tables.
+"""Automated ingest of GOV.UK and PINS planning statistics sources.
 
-Checks the GOV.UK planning statistics collection page for update timestamps
-and compares against the last_updated dates in official_baseline_metrics.csv.
-Emits a report listing tables that have newer data available.
+Checks source pages for freshness and compares against local dataset retrieval dates.
+Emits text and JSON reports, and can append run history for quarterly monitoring.
 
 Run quarterly after each GOV.UK statistics release:
-  python3 scripts/ingest_govuk_stats.py [--warn-only]
+  python3 scripts/ingest_govuk_stats.py [--warn-only] [--append-history]
 """
 import csv
 import json
 import sys
 import urllib.request
 import urllib.error
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from html.parser import HTMLParser
 
@@ -21,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 METRICS_PATH = ROOT / "data/evidence/official_baseline_metrics.csv"
 REPORT_PATH = ROOT / "stats-ingest-report.txt"
 REPORT_JSON_PATH = ROOT / "stats-ingest-report.json"
+HISTORY_PATH = ROOT / "stats-ingest-history.json"
 
 STATS_TABLES = {
     "P151": {
@@ -99,16 +99,66 @@ def read_metrics():
         return {r["metric_id"]: r for r in csv.DictReader(f)}
 
 
+def parse_iso_date(value):
+    if not value:
+        return None
+    try:
+        return date.fromisoformat(value[:10])
+    except ValueError:
+        return None
+
+
+def source_status_for_metrics(metrics, metric_ids):
+    entries = []
+    for metric_id in metric_ids:
+        row = metrics.get(metric_id)
+        if not row:
+            entries.append({"metric_id": metric_id, "status": "missing"})
+            continue
+        retrieved = row.get("retrieved_at", "")
+        retrieved_date = parse_iso_date(retrieved)
+        age_days = (date.today() - retrieved_date).days if retrieved_date else None
+        status = "fresh"
+        if age_days is None:
+            status = "unknown"
+        elif age_days > 140:
+            status = "critical"
+        elif age_days > 100:
+            status = "stale"
+        entries.append({
+            "metric_id": metric_id,
+            "status": status,
+            "retrieved_at": retrieved,
+            "age_days": age_days,
+            "source_table": row.get("source_table", ""),
+            "value": row.get("value", ""),
+        })
+    return entries
+
+
+def append_history(payload):
+    history = []
+    if HISTORY_PATH.exists():
+        try:
+            history = json.loads(HISTORY_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            history = []
+    history.append(payload)
+    HISTORY_PATH.write_text(json.dumps(history[-24:], indent=2), encoding="utf-8")
+
+
 def main():
     warn_only = "--warn-only" in sys.argv
+    append_hist = "--append-history" in sys.argv
     metrics = read_metrics()
     report_lines = [
-        "GOV.UK Planning Statistics Ingest Report",
+        "GOV.UK / PINS Planning Statistics Ingest Report",
         f"Date: {date.today().isoformat()}",
         "",
     ]
     updates_needed = []
     errors = []
+    source_checks = []
 
     for table_id, spec in STATS_TABLES.items():
         title, dates, err = fetch_page_title(spec["url"])
@@ -116,21 +166,23 @@ def main():
             errors.append(f"{table_id}: could not fetch source page — {err}")
             continue
 
-        # Check current retrieved_at dates in metrics for this table
+        metric_entries = source_status_for_metrics(metrics, spec["metrics"])
         stale_metrics = []
-        for metric_id in spec["metrics"]:
-            row = metrics.get(metric_id)
-            if not row:
-                continue
-            retrieved = row.get("retrieved_at", "")
-            if retrieved:
-                try:
-                    d = date.fromisoformat(retrieved)
-                    age = (date.today() - d).days
-                    if age > 100:  # flag if not updated in 100+ days (quarterly tables)
-                        stale_metrics.append(f"{metric_id} (last retrieved {retrieved}, {age} days ago)")
-                except ValueError:
-                    pass
+        for entry in metric_entries:
+            if entry.get("status") in {"stale", "critical", "unknown", "missing"}:
+                detail = entry.get("status")
+                if entry.get("age_days") is not None:
+                    detail += f", {entry['age_days']} days old"
+                stale_metrics.append(f"{entry.get('metric_id')} ({detail})")
+
+        source_checks.append({
+            "table": table_id,
+            "description": spec["description"],
+            "url": spec["url"],
+            "page_title": title,
+            "date_strings_found": dates[:10],
+            "metric_entries": metric_entries,
+        })
 
         if stale_metrics:
             updates_needed.append({
@@ -160,13 +212,23 @@ def main():
 
     report_text = "\n".join(report_lines)
     REPORT_PATH.write_text(report_text, encoding="utf-8")
-    REPORT_JSON_PATH.write_text(json.dumps({
+    json_payload = {
         "generated_at": date.today().isoformat(),
+        "generated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "stale_table_count": len(updates_needed),
         "error_count": len(errors),
         "stale_tables": updates_needed,
         "errors": errors,
-    }, indent=2), encoding="utf-8")
+        "source_checks": source_checks,
+    }
+    REPORT_JSON_PATH.write_text(json.dumps(json_payload, indent=2), encoding="utf-8")
+    if append_hist:
+        append_history({
+            "generated_at": json_payload["generated_at_utc"],
+            "stale_table_count": json_payload["stale_table_count"],
+            "error_count": json_payload["error_count"],
+            "tables_checked": len(source_checks),
+        })
     print(report_text)
 
     if errors and not warn_only:
