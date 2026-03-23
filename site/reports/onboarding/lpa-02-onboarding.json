@@ -1,12 +1,11 @@
 {
-  "generated_at": "2026-03-23T03:44:39Z",
   "pilot_id": "LPA-02",
   "lpa_name": "Oxford City Council",
-  "coverage_status": "complete",
-  "quality_tier": "A",
-  "cohort": "Cohort 1",
   "region": "South East",
-  "gate_status": {
+  "cohort": "Cohort 1",
+  "quality_tier": "A",
+  "coverage_status": "complete",
+  "checks": {
     "ingest": true,
     "validate": true,
     "profile": true,
@@ -15,11 +14,5 @@
   "failed_checks": [],
   "documents_count": 4,
   "trend_points": 4,
-  "profile_page": "plans-lpa-02.html",
-  "pipeline": [
-    "ingest",
-    "validate",
-    "profile",
-    "qa"
-  ]
+  "profile_page": "plans-lpa-02.html"
 }

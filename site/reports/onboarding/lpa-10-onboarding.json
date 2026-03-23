@@ -1,12 +1,11 @@
 {
-  "generated_at": "2026-03-23T03:44:39Z",
   "pilot_id": "LPA-10",
   "lpa_name": "Newcastle City Council",
-  "coverage_status": "complete",
-  "quality_tier": "B",
-  "cohort": "Cohort 2",
   "region": "North East",
-  "gate_status": {
+  "cohort": "Cohort 2",
+  "quality_tier": "B",
+  "coverage_status": "complete",
+  "checks": {
     "ingest": true,
     "validate": true,
     "profile": true,
@@ -15,11 +14,5 @@
   "failed_checks": [],
   "documents_count": 2,
   "trend_points": 4,
-  "profile_page": "plans-lpa-10.html",
-  "pipeline": [
-    "ingest",
-    "validate",
-    "profile",
-    "qa"
-  ]
+  "profile_page": "plans-lpa-10.html"
 }
