@@ -111,6 +111,7 @@ uk-planning/
 │   │   ├── next-wave-roadmap.md      # Ranked delivery roadmap with effort and owners
 │   │   ├── phase-3-plan.md          # Next-phase implementation plan
 │   │   ├── qa-report.md
+│   │   ├── wave-d-ux-data-architecture-backlog.md  # UX/data presentation backlog with acceptance criteria
 │   │   └── ui-blueprint.md          # Reusable IA/UI component blueprint
 │   │   └── scale-out-backlog.md
 │   ├── recommendations/
