@@ -32,6 +32,7 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Context panels on generated pages to explain what each view shows and how to interpret it
 - Per-record drill-down pages for contradictions (`contradiction-issue-xxx.html`) with connected recommendations, appeals, bottlenecks, and filter-context links
 - Per-record drill-down pages for recommendations (`recommendation-rec-xxx.html`) with status timeline, linked contradictions, milestones, and evidence rows
+- Detail pages now include subsection anchors and sticky mini-TOC blocks (Summary, Evidence, Connected items, Actions)
 - Homepage "England at a glance" KPI strip with source-linked baseline indicators and trend movement card
 - Peer-group benchmark mode for like-for-like authority comparisons, with anchor-authority toggle on benchmark view
 - Expanded authority metrics on benchmark/reports: validation rework proxy, delegated share proxy, plan age, consultation lag proxy, backlog pressure index

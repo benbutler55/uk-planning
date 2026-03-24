@@ -936,6 +936,18 @@ def render_mobile_drawer_script(table_id, labels, max_width=900):
 """
 
 
+def render_detail_toc(items):
+    links = "".join(
+        f'<a href="#{html.escape(anchor)}">{html.escape(label)}</a>' for anchor, label in items
+    )
+    return (
+        '<section class="card detail-toc" aria-label="Detail page sections">'
+        '<h3>On this page</h3>'
+        f'<div class="detail-toc-links">{links}</div>'
+        '</section>'
+    )
+
+
 def render_plan_docs_table(rows):
     body = [
         '<section class="card"><table><thead><tr><th>Document</th><th>Level</th><th>Status</th>'
@@ -1497,7 +1509,14 @@ def build_contradiction_details(weights):
         linked_appeals = appeals_by_issue.get(issue_id, [])
         linked_bottlenecks = bottlenecks_by_issue.get(issue_id, [])
 
-        body = '<section class="card">'
+        body = render_detail_toc([
+            ("summary", "Summary"),
+            ("evidence", "Evidence"),
+            ("connected-items", "Connected items"),
+            ("actions", "Actions"),
+        ])
+
+        body += '<section class="card" id="summary">'
         body += f'<h2>{html.escape(issue_id)}: {html.escape(issue.get("summary", ""))}</h2>'
         body += f'<p>{verification_badge(issue.get("verification_state", ""))} {confidence_badge(issue.get("confidence", ""))}</p>'
         body += '<ul>'
@@ -1521,7 +1540,7 @@ def build_contradiction_details(weights):
         body += ", ".join(html.escape(item) for item in instruments) if instruments else "n/a"
         body += '</p></section>'
 
-        body += '<section class="card"><h3>Connected recommendations</h3>'
+        body += '<section class="card" id="connected-items"><h3>Connected recommendations</h3>'
         if linked_recs:
             body += '<table><thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Horizon</th><th>Evidence links</th></tr></thead><tbody>'
             for rec in linked_recs:
@@ -1538,7 +1557,7 @@ def build_contradiction_details(weights):
             body += '<p><em>No linked recommendations recorded.</em></p>'
         body += '</section>'
 
-        body += '<section class="card"><h3>Appeal evidence</h3>'
+        body += '<section class="card" id="evidence"><h3>Appeal evidence</h3>'
         if linked_appeals:
             body += '<table><thead><tr><th>Reference</th><th>LPA</th><th>Date</th><th>Outcome</th><th>Finding</th><th>Source</th></tr></thead><tbody>'
             for ap in linked_appeals:
@@ -1594,7 +1613,7 @@ def build_contradiction_details(weights):
         type_q = html.escape(query_value(issue.get("issue_type", "")))
         path_q = html.escape(query_value(issue.get("affected_pathway", "")))
         scope_q = html.escape(query_value(issue.get("scope", "")))
-        body += '<section class="card"><h3>Context links</h3><ul>'
+        body += '<section class="card" id="actions"><h3>Context links</h3><ul>'
         body += f'<li><a href="contradictions.html#issue_type={type_q}">Back to contradictions filtered by type</a></li>'
         body += f'<li><a href="contradictions.html#affected_pathway={path_q}">Back to contradictions filtered by pathway</a></li>'
         body += f'<li><a href="contradictions.html#scope={scope_q}">Back to contradictions filtered by scope</a></li>'
@@ -1657,7 +1676,14 @@ def build_recommendation_details():
         linked_milestones = milestones_by_rec.get(rid, [])
         status = status_by_id.get(rid, {})
 
-        body = '<section class="card">'
+        body = render_detail_toc([
+            ("summary", "Summary"),
+            ("evidence", "Evidence"),
+            ("connected-items", "Connected items"),
+            ("actions", "Actions"),
+        ])
+
+        body += '<section class="card" id="summary">'
         body += f'<h2>{html.escape(rid)}: {html.escape(rec.get("title", ""))}</h2>'
         body += f'<p>{verification_badge(rec.get("verification_state", ""))} {confidence_badge(rec.get("confidence", ""))}</p>'
         body += '<ul>'
@@ -1673,7 +1699,7 @@ def build_recommendation_details():
         body += f'<p><strong>Target:</strong> {html.escape(rec.get("target", ""))}</p>'
         body += '</section>'
 
-        body += '<section class="card"><h3>Status timeline</h3>'
+        body += '<section class="card" id="actions"><h3>Status timeline</h3>'
         body += '<table><thead><tr><th>Stage</th><th>Value</th></tr></thead><tbody>'
         body += f'<tr><td>Submission status</td><td>{html.escape(status.get("submission_status", "Not set"))}</td></tr>'
         body += f'<tr><td>Submitted to</td><td>{html.escape(status.get("submitted_to", "")) or "—"}</td></tr>'
@@ -1683,7 +1709,7 @@ def build_recommendation_details():
         body += f'<tr><td>Next action</td><td>{html.escape(status.get("next_action", "")) or "—"}</td></tr>'
         body += '</tbody></table></section>'
 
-        body += '<section class="card"><h3>Linked contradictions</h3>'
+        body += '<section class="card" id="connected-items"><h3>Linked contradictions</h3>'
         if linked_issues:
             body += '<table><thead><tr><th>ID</th><th>Summary</th><th>Stage</th><th>Pathway</th></tr></thead><tbody>'
             for issue in linked_issues:
@@ -1699,7 +1725,7 @@ def build_recommendation_details():
             body += '<p><em>No linked contradictions recorded.</em></p>'
         body += '</section>'
 
-        body += '<section class="card"><h3>Evidence links</h3>'
+        body += '<section class="card" id="evidence"><h3>Evidence links</h3>'
         if linked_evidence:
             body += '<table><thead><tr><th>Source</th><th>Metric</th><th>Baseline</th><th>Window</th><th>Source URL</th></tr></thead><tbody>'
             for ev in linked_evidence:
