@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-03-24",
+  "kpis": {
+    "detail_page_coverage": {
+      "contradictions_with_detail_pages": 22,
+      "recommendations_with_detail_pages": 11
+    },
+    "coverage_status": {
+      "complete": 14,
+      "partial": 2
+    },
+    "instrumentation": {
+      "event_schema": [
+        "page_view",
+        "link_click"
+      ],
+      "storage": "localStorage:uk-planning-ux-events-v1",
+      "guided_mode_available": true,
+      "plain_language_toggle_available": true
+    },
+    "targets": {
+      "time_to_first_insight_seconds": 45,
+      "detail_page_click_through_rate": 0.35,
+      "filter_use_success_rate": 0.8
+    }
+  }
+}

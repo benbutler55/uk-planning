@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
     <div class="layout">
       <header>
         <h1>Search</h1>
@@ -29,12 +33,22 @@
 <a class="active" href="search.html">Search</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="index.html">Overview</a> &gt; <a href="search.html">Search</a></div>
-<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>Cross-site search for legislation, issues, recommendations, LPAs, and evidence.</dd><dt>Who this is for</dt><dd>Users with a specific term or topic who need a fast entry point.</dd><dt>How to use it</dt><dd>Enter plain-language terms and open matching pages by category.</dd><dt>Data source and freshness</dt><dd>Search index is generated from current site datasets at build time.</dd></dl></section>
-<section class="card"><p>Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence.</p></section>
+<section class="card shell-utilities"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></section>
+      <main id="main-content">
+<section class="card plain-language-panel"><h2>Plain-language guide</h2><p>This page helps you understand <strong>Search</strong> without specialist planning jargon. Use the start-here notes first, then open linked detail pages for evidence and next actions.</p><p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), <strong>NSIP</strong> (nationally significant infrastructure project), <strong>verification state</strong> (draft or reviewed data status).</p></section>
+<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>Cross-site search for legislation, issues, recommendations, LPAs, and evidence.</dd><dt>Who this is for</dt><dd>Users with a specific term or topic who need a fast entry point.</dd><dt>How to interpret</dt><dd>Enter plain-language terms and open matching pages by category.</dd><dt>Data trust and freshness</dt><dd>Search index is generated from current site datasets at build time.</dd></dl></section>
+<section class="card guided-only"><p>Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence.</p></section>
+
 
       <section class="card">
         <label for="search-input" class="sr-only">Search across all content</label>
         <input type="search" id="search-input" placeholder="Search legislation, issues, recommendations, LPAs, appeals..." style="width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;" />
+        <div class="filter-row" style="margin-top:10px;" id="filters-start">
+          <label class="filter-item">Type<select id="facet-type"><option value="">All</option><option value="contradiction">Contradiction</option><option value="recommendation">Recommendation</option><option value="authority">Authority</option><option value="appeal">Appeal</option></select></label>
+          <label class="filter-item">Pathway<select id="facet-pathway"><option value="">All</option><option value="housing">Housing</option><option value="commercial">Commercial</option><option value="infrastructure">Infrastructure</option><option value="mixed">Mixed</option></select></label>
+          <label class="filter-item">Confidence<select id="facet-confidence"><option value="">All</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+          <label class="filter-item">Status<select id="facet-status"><option value="">All</option><option value="draft">Draft</option><option value="verified">Verified</option><option value="legal-reviewed">Legal-reviewed</option></select></label>
+        </div>
         <p class="small" id="search-count" style="margin-top:8px;"></p>
       </section>
       <section class="card" id="search-results">
@@ -45,6 +59,10 @@
         var input = document.getElementById('search-input');
         var results = document.getElementById('search-results');
         var countEl = document.getElementById('search-count');
+        var typeEl = document.getElementById('facet-type');
+        var pathwayEl = document.getElementById('facet-pathway');
+        var confidenceEl = document.getElementById('facet-confidence');
+        var statusEl = document.getElementById('facet-status');
         var index = null;
 
         fetch('search-index.json')
@@ -54,15 +72,37 @@
             countEl.textContent = data.length + ' items indexed.';
           });
 
-        input.addEventListener('input', function() {
+        function rankMatches(items, q) {
+          return items.sort(function(a, b) {
+            var aq = (a.id || '').toLowerCase() === q ? 1 : 0;
+            var bq = (b.id || '').toLowerCase() === q ? 1 : 0;
+            if (aq !== bq) return bq - aq;
+            var aTitle = (a.title || '').toLowerCase().indexOf(q) === 0 ? 1 : 0;
+            var bTitle = (b.title || '').toLowerCase().indexOf(q) === 0 ? 1 : 0;
+            return bTitle - aTitle;
+          });
+        }
+
+        function runSearch() {
           var q = input.value.toLowerCase().trim();
           if (!index || q.length < 2) {
             results.innerHTML = '<p class="small">Type at least 2 characters to search.</p>';
             return;
           }
+          var fType = (typeEl.value || '').toLowerCase();
+          var fPath = (pathwayEl.value || '').toLowerCase();
+          var fConf = (confidenceEl.value || '').toLowerCase();
+          var fStatus = (statusEl.value || '').toLowerCase();
           var matches = index.filter(function(item) {
-            return item.text.indexOf(q) !== -1;
-          }).slice(0, 50);
+            if (item.text.indexOf(q) === -1) return false;
+            var facets = item.facets || {};
+            if (fType && facets.type !== fType) return false;
+            if (fPath && facets.pathway !== fPath) return false;
+            if (fConf && facets.confidence !== fConf) return false;
+            if (fStatus && facets.status !== fStatus) return false;
+            return true;
+          });
+          matches = rankMatches(matches, q).slice(0, 50);
 
           if (matches.length === 0) {
             results.innerHTML = '<p class="small">No results found.</p>';
@@ -86,11 +126,82 @@
             html += '</ul>';
           });
           results.innerHTML = html;
+        }
+
+        [input, typeEl, pathwayEl, confidenceEl, statusEl].forEach(function(control) {
+          control.addEventListener('input', runSearch);
+          control.addEventListener('change', runSearch);
         });
       })();
       </script>
 
-<section class="card"><h2>Where to go next</h2><ul><li><a href="index.html">Return to overview</a></li><li><a href="benchmark.html">Open authority benchmark</a></li><li><a href="recommendations.html">Open recommendations</a></li></ul></section>
+<section class="card guided-only"><h2>Next actions</h2><ul><li><a href="index.html">Return to overview</a></li><li><a href="benchmark.html">Open authority benchmark</a></li><li><a href="recommendations.html">Open recommendations</a></li></ul></section>
+      </main>
     </div>
+
+<script>
+(function() {
+  var key = 'uk-planning-view-mode-v1';
+  var shell = document.querySelector('.layout');
+  if (!shell) return;
+  var toggle = document.getElementById('view-mode-toggle');
+  var plainToggle = document.getElementById('plain-language-toggle');
+  var defaultMode = localStorage.getItem(key) || 'guided';
+  shell.dataset.viewMode = defaultMode;
+  if (toggle) toggle.value = defaultMode;
+  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
+  if (plainToggle) plainToggle.checked = plain === 'on';
+  shell.dataset.plainLanguage = plain;
+
+  function persist() {
+    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
+    shell.dataset.viewMode = mode;
+    localStorage.setItem(key, mode);
+    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
+    shell.dataset.plainLanguage = p;
+    localStorage.setItem('uk-planning-plain-language-v1', p);
+  }
+
+  if (toggle) toggle.addEventListener('change', persist);
+  if (plainToggle) plainToggle.addEventListener('change', persist);
+
+  document.addEventListener('click', function(evt) {
+    var copyBtn = evt.target.closest('[data-copy-view]');
+    if (!copyBtn) return;
+    var text = window.location.href;
+    var done = function(ok) {
+      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
+      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  function logEvent(name, meta) {
+    try {
+      var key = 'uk-planning-ux-events-v1';
+      var events = JSON.parse(localStorage.getItem(key) || '[]');
+      events.push({
+        ts: new Date().toISOString(),
+        page: window.location.pathname.replace(/^\//, ''),
+        name: name,
+        meta: meta || {},
+      });
+      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
+    } catch (e) {}
+  }
+
+  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
+  document.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      logEvent('link_click', { href: a.getAttribute('href') || '' });
+    });
+  });
+})();
+</script>
+
   </body>
 </html>

@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
     <div class="layout">
       <header>
         <h1>Coverage Tracker</h1>
@@ -33,8 +37,12 @@
 <a class="active" href="coverage.html">Coverage</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="plans.html">Authority Insights</a> &gt; <a href="coverage.html">Coverage</a></div>
-<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>Authority coverage status with onboarding gates and evidence completeness.</dd><dt>Who this is for</dt><dd>Program teams and users checking which authorities are complete, partial, or estimate-led.</dd><dt>How to use it</dt><dd>Review status counts first, then inspect authority rows and failed onboarding gates.</dd><dt>Data source and freshness</dt><dd>Coverage is derived from plan, trend, issue, and quality datasets plus generated authority profile pages.</dd></dl></section>
-<section class="card"><p>Use this page to see which authorities are complete, partial, or estimate-led and which onboarding gates still need work.</p></section>
+<section class="card shell-utilities"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></section>
+      <main id="main-content">
+<section class="card plain-language-panel"><h2>Plain-language guide</h2><p>This page helps you understand <strong>Coverage Tracker</strong> without specialist planning jargon. Use the start-here notes first, then open linked detail pages for evidence and next actions.</p><p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), <strong>NSIP</strong> (nationally significant infrastructure project), <strong>verification state</strong> (draft or reviewed data status).</p></section>
+<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>Authority coverage status with onboarding gates and evidence completeness.</dd><dt>Who this is for</dt><dd>Program teams and users checking which authorities are complete, partial, or estimate-led.</dd><dt>How to interpret</dt><dd>Review status counts first, then inspect authority rows and failed onboarding gates.</dd><dt>Data trust and freshness</dt><dd>Coverage is derived from plan, trend, issue, and quality datasets plus generated authority profile pages.</dd></dl></section>
+<section class="card guided-only"><p>Use this page to see which authorities are complete, partial, or estimate-led and which onboarding gates still need work.</p></section>
+<section class="card guided-only"><h3>Data trust panel</h3><p><strong>Source tiers:</strong> Official statistics, administrative references, analytical estimates.</p><p><strong>Known caveat:</strong> Some authority metrics are estimated proxies and should be interpreted directionally.</p><p><strong>Latest trust check:</strong> Oldest monitored dataset: Official baseline metrics (7 days)</p><p class="small">See methodology and metric-methods for full caveat details.</p></section>
 <section class="card"><p>Coverage tracker shows onboarding gate status per authority. Statuses: complete (all gates passed and quality tier A/B), partial (some gates passed), estimated (limited onboarding evidence).</p></section><section class="grid"><article class="card"><h3>Complete</h3><p>14</p></article><article class="card"><h3>Partial</h3><p>2</p></article><article class="card"><h3>Estimated</h3><p>0</p></article></section><section class="card"><div class="filter-row"><label class="filter-item">Search coverage<input type="search" data-table="coverage-table" data-filter="search" placeholder="Type authority..." /></label><label class="filter-item">Region<select data-table="coverage-table" data-filter="region"><option value="">All</option><option value="east midlands">East Midlands</option><option value="east of england">East of England</option><option value="london">London</option><option value="north east">North East</option><option value="north west">North West</option><option value="south east">South East</option><option value="south west">South West</option><option value="yorkshire and the humber">Yorkshire and The Humber</option></select></label><label class="filter-item">Cohort<select data-table="coverage-table" data-filter="cohort"><option value="">All</option><option value="cohort 1">Cohort 1</option><option value="cohort 2">Cohort 2</option></select></label><label class="filter-item">Status<select data-table="coverage-table" data-filter="status"><option value="">All</option><option value="complete">Complete</option><option value="partial">Partial</option><option value="estimated">Estimated</option></select></label></div><p class="small" data-filter-count-for="coverage-table"></p></section><section class="card"><h3>How to read this table</h3><ul><li>Coverage status combines onboarding gates and quality tier.</li><li>Failed gates identify where onboarding work is required.</li><li>Use profile links to inspect authority pages directly.</li><li>Status should be reviewed after each monthly refresh cycle.</li></ul></section><section class="card"><table id="coverage-table"><thead><tr><th>ID</th><th>Authority</th><th>Cohort</th><th>Type</th><th>Region</th><th>Quality</th><th>Status</th><th>Failed gates</th><th>Docs</th><th>Trend pts</th><th>Profile</th></tr></thead><tbody><tr data-search="lpa-01 manchester city council north west cohort 1 complete" data-region="north west" data-cohort="cohort 1" data-status="complete"><td>LPA-01</td><td>Manchester City Council</td><td>Cohort 1</td><td>Metropolitan District</td><td>North West</td><td>A</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>3</td><td>4</td><td><a href="plans-lpa-01.html">Open</a></td></tr><tr data-search="lpa-02 oxford city council south east cohort 1 complete" data-region="south east" data-cohort="cohort 1" data-status="complete"><td>LPA-02</td><td>Oxford City Council</td><td>Cohort 1</td><td>Non-metropolitan District</td><td>South East</td><td>A</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>4</td><td>4</td><td><a href="plans-lpa-02.html">Open</a></td></tr><tr data-search="lpa-03 south cambridgeshire district council east of england cohort 1 complete" data-region="east of england" data-cohort="cohort 1" data-status="complete"><td>LPA-03</td><td>South Cambridgeshire District Council</td><td>Cohort 1</td><td>Non-metropolitan District</td><td>East of England</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>4</td><td>4</td><td><a href="plans-lpa-03.html">Open</a></td></tr><tr data-search="lpa-04 cornwall council south west cohort 1 complete" data-region="south west" data-cohort="cohort 1" data-status="complete"><td>LPA-04</td><td>Cornwall Council</td><td>Cohort 1</td><td>Unitary Authority</td><td>South West</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>3</td><td>4</td><td><a href="plans-lpa-04.html">Open</a></td></tr><tr data-search="lpa-05 newham london borough council london cohort 1 complete" data-region="london" data-cohort="cohort 1" data-status="complete"><td>LPA-05</td><td>Newham London Borough Council</td><td>Cohort 1</td><td>London Borough</td><td>London</td><td>A</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>4</td><td>4</td><td><a href="plans-lpa-05.html">Open</a></td></tr><tr data-search="lpa-06 kent county council (minerals/waste planning role) south east cohort 1 complete" data-region="south east" data-cohort="cohort 1" data-status="complete"><td>LPA-06</td><td>Kent County Council (minerals/waste planning role)</td><td>Cohort 1</td><td>County Council</td><td>South East</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>3</td><td>4</td><td><a href="plans-lpa-06.html">Open</a></td></tr><tr data-search="lpa-07 leeds city council yorkshire and the humber cohort 2 complete" data-region="yorkshire and the humber" data-cohort="cohort 2" data-status="complete"><td>LPA-07</td><td>Leeds City Council</td><td>Cohort 2</td><td>Metropolitan District</td><td>Yorkshire and The Humber</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>3</td><td>4</td><td><a href="plans-lpa-07.html">Open</a></td></tr><tr data-search="lpa-08 bristol city council south west cohort 2 complete" data-region="south west" data-cohort="cohort 2" data-status="complete"><td>LPA-08</td><td>Bristol City Council</td><td>Cohort 2</td><td>Unitary Authority</td><td>South West</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-08.html">Open</a></td></tr><tr data-search="lpa-09 guildford borough council south east cohort 2 complete" data-region="south east" data-cohort="cohort 2" data-status="complete"><td>LPA-09</td><td>Guildford Borough Council</td><td>Cohort 2</td><td>Non-metropolitan District</td><td>South East</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-09.html">Open</a></td></tr><tr data-search="lpa-10 newcastle city council north east cohort 2 complete" data-region="north east" data-cohort="cohort 2" data-status="complete"><td>LPA-10</td><td>Newcastle City Council</td><td>Cohort 2</td><td>Metropolitan District</td><td>North East</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-10.html">Open</a></td></tr><tr data-search="lpa-11 peak district national park authority east midlands cohort 2 partial" data-region="east midlands" data-cohort="cohort 2" data-status="partial"><td>LPA-11</td><td>Peak District National Park Authority</td><td>Cohort 2</td><td>National Park</td><td>East Midlands</td><td>C</td><td><span class="badge badge-amber">partial</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-11.html">Open</a></td></tr><tr data-search="lpa-12 northumberland county council north east cohort 2 complete" data-region="north east" data-cohort="cohort 2" data-status="complete"><td>LPA-12</td><td>Northumberland County Council</td><td>Cohort 2</td><td>Unitary Authority</td><td>North East</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-12.html">Open</a></td></tr><tr data-search="lpa-13 southampton city council south east cohort 2 complete" data-region="south east" data-cohort="cohort 2" data-status="complete"><td>LPA-13</td><td>Southampton City Council</td><td>Cohort 2</td><td>Unitary Authority</td><td>South East</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-13.html">Open</a></td></tr><tr data-search="lpa-14 leicester city council east midlands cohort 2 complete" data-region="east midlands" data-cohort="cohort 2" data-status="complete"><td>LPA-14</td><td>Leicester City Council</td><td>Cohort 2</td><td>Unitary Authority</td><td>East Midlands</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-14.html">Open</a></td></tr><tr data-search="lpa-15 cambridge city council east of england cohort 2 complete" data-region="east of england" data-cohort="cohort 2" data-status="complete"><td>LPA-15</td><td>Cambridge City Council</td><td>Cohort 2</td><td>Non-metropolitan District</td><td>East of England</td><td>B</td><td><span class="badge badge-green">complete</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-15.html">Open</a></td></tr><tr data-search="lpa-16 medway council south east cohort 2 partial" data-region="south east" data-cohort="cohort 2" data-status="partial"><td>LPA-16</td><td>Medway Council</td><td>Cohort 2</td><td>Unitary Authority</td><td>South East</td><td>C</td><td><span class="badge badge-amber">partial</span></td><td>none</td><td>2</td><td>4</td><td><a href="plans-lpa-16.html">Open</a></td></tr></tbody></table></section>
 <script>
 (function() {
@@ -127,7 +135,73 @@
 })();
 </script>
 
-<section class="card"><h2>Where to go next</h2><ul><li><a href="plans.html">Open authority profiles</a></li><li><a href="reports.html">Open report bundles</a></li><li><a href="benchmark.html">Open benchmark</a></li></ul></section>
+<section class="card guided-only"><h2>Next actions</h2><ul><li><a href="plans.html">Open authority profiles</a></li><li><a href="reports.html">Open report bundles</a></li><li><a href="benchmark.html">Open benchmark</a></li></ul></section>
+      </main>
     </div>
+
+<script>
+(function() {
+  var key = 'uk-planning-view-mode-v1';
+  var shell = document.querySelector('.layout');
+  if (!shell) return;
+  var toggle = document.getElementById('view-mode-toggle');
+  var plainToggle = document.getElementById('plain-language-toggle');
+  var defaultMode = localStorage.getItem(key) || 'guided';
+  shell.dataset.viewMode = defaultMode;
+  if (toggle) toggle.value = defaultMode;
+  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
+  if (plainToggle) plainToggle.checked = plain === 'on';
+  shell.dataset.plainLanguage = plain;
+
+  function persist() {
+    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
+    shell.dataset.viewMode = mode;
+    localStorage.setItem(key, mode);
+    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
+    shell.dataset.plainLanguage = p;
+    localStorage.setItem('uk-planning-plain-language-v1', p);
+  }
+
+  if (toggle) toggle.addEventListener('change', persist);
+  if (plainToggle) plainToggle.addEventListener('change', persist);
+
+  document.addEventListener('click', function(evt) {
+    var copyBtn = evt.target.closest('[data-copy-view]');
+    if (!copyBtn) return;
+    var text = window.location.href;
+    var done = function(ok) {
+      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
+      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  function logEvent(name, meta) {
+    try {
+      var key = 'uk-planning-ux-events-v1';
+      var events = JSON.parse(localStorage.getItem(key) || '[]');
+      events.push({
+        ts: new Date().toISOString(),
+        page: window.location.pathname.replace(/^\//, ''),
+        name: name,
+        meta: meta || {},
+      });
+      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
+    } catch (e) {}
+  }
+
+  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
+  document.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      logEvent('link_click', { href: a.getAttribute('href') || '' });
+    });
+  });
+})();
+</script>
+
   </body>
 </html>

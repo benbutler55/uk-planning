@@ -4,811 +4,1281 @@
     "page": "contradiction-issue-001.html",
     "title": "ISSUE-001: Unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals.",
     "category": "Contradiction",
-    "text": "issue-001: unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals. unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals. ambiguity committee"
+    "text": "issue-001: unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals. unclear weight between strategic housing need and local restrictive criteria leads to inconsistent refusals and appeals. ambiguity committee",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-002",
     "page": "contradiction-issue-002.html",
     "title": "ISSUE-002: Validation requirements differ materially between LPAs, creating repeat submissions and front-end delay.",
     "category": "Contradiction",
-    "text": "issue-002: validation requirements differ materially between lpas, creating repeat submissions and front-end delay. validation requirements differ materially between lpas, creating repeat submissions and front-end delay. process delay validation"
+    "text": "issue-002: validation requirements differ materially between lpas, creating repeat submissions and front-end delay. validation requirements differ materially between lpas, creating repeat submissions and front-end delay. process delay validation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-003",
     "page": "contradiction-issue-003.html",
     "title": "ISSUE-003: Local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift.",
     "category": "Contradiction",
-    "text": "issue-003: local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift. local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift. duplication pre-application"
+    "text": "issue-003: local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift. local plan and supplementary guidance repeat overlapping design tests with slight wording differences, causing officer interpretation drift. duplication pre-application",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "commercial",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-004",
     "page": "contradiction-issue-004.html",
     "title": "ISSUE-004: Environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines.",
     "category": "Contradiction",
-    "text": "issue-004: environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines. environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines. restriction consultation"
+    "text": "issue-004: environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines. environmental assessment sequencing often duplicates evidence requests across regimes, extending determination timelines. restriction consultation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "infrastructure",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-005",
     "page": "contradiction-issue-005.html",
     "title": "ISSUE-005: Transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities.",
     "category": "Contradiction",
-    "text": "issue-005: transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities. transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities. contradiction pre-application"
+    "text": "issue-005: transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities. transitional policy periods create uncertainty where emerging local plans are given differing weight across authorities. contradiction pre-application",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-006",
     "page": "contradiction-issue-006.html",
     "title": "ISSUE-006: No nationally consistent required-document checklist means validation officers apply local interpretation, generating avoidable invalid notices.",
     "category": "Contradiction",
-    "text": "issue-006: no nationally consistent required-document checklist means validation officers apply local interpretation, generating avoidable invalid notices. no nationally consistent required-document checklist means validation officers apply local interpretation, generating avoidable invalid notices. process delay validation"
+    "text": "issue-006: no nationally consistent required-document checklist means validation officers apply local interpretation, generating avoidable invalid notices. no nationally consistent required-document checklist means validation officers apply local interpretation, generating avoidable invalid notices. process delay validation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-007",
     "page": "contradiction-issue-007.html",
     "title": "ISSUE-007: Housing needs assessment methodologies vary between neighbouring authorities, producing incompatible housing land supply figures that undermine cross-boundary cooperation.",
     "category": "Contradiction",
-    "text": "issue-007: housing needs assessment methodologies vary between neighbouring authorities, producing incompatible housing land supply figures that undermine cross-boundary cooperation. housing needs assessment methodologies vary between neighbouring authorities, producing incompatible housing land supply figures that undermine cross-boundary cooperation. ambiguity pre-application"
+    "text": "issue-007: housing needs assessment methodologies vary between neighbouring authorities, producing incompatible housing land supply figures that undermine cross-boundary cooperation. housing needs assessment methodologies vary between neighbouring authorities, producing incompatible housing land supply figures that undermine cross-boundary cooperation. ambiguity pre-application",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-008",
     "page": "contradiction-issue-008.html",
     "title": "ISSUE-008: LURA 2023 plan-making provisions not yet fully commenced, creating a dual-track system where authorities operate under transitional rules of varying vintage.",
     "category": "Contradiction",
-    "text": "issue-008: lura 2023 plan-making provisions not yet fully commenced, creating a dual-track system where authorities operate under transitional rules of varying vintage. lura 2023 plan-making provisions not yet fully commenced, creating a dual-track system where authorities operate under transitional rules of varying vintage. contradiction committee"
+    "text": "issue-008: lura 2023 plan-making provisions not yet fully commenced, creating a dual-track system where authorities operate under transitional rules of varying vintage. lura 2023 plan-making provisions not yet fully commenced, creating a dual-track system where authorities operate under transitional rules of varying vintage. contradiction committee",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-009",
     "page": "contradiction-issue-009.html",
     "title": "ISSUE-009: Section 106 negotiation timelines are unregulated post-resolution, causing delays of 6-18 months between committee approval and legal completion.",
     "category": "Contradiction",
-    "text": "issue-009: section 106 negotiation timelines are unregulated post-resolution, causing delays of 6-18 months between committee approval and legal completion. section 106 negotiation timelines are unregulated post-resolution, causing delays of 6-18 months between committee approval and legal completion. restriction legal agreements"
+    "text": "issue-009: section 106 negotiation timelines are unregulated post-resolution, causing delays of 6-18 months between committee approval and legal completion. section 106 negotiation timelines are unregulated post-resolution, causing delays of 6-18 months between committee approval and legal completion. restriction legal agreements",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-010",
     "page": "contradiction-issue-010.html",
     "title": "ISSUE-010: Statutory consultee responses overlap in scope between highway authority, Environment Agency, and Historic England, with no coordination protocol to prevent contradictory requirements.",
     "category": "Contradiction",
-    "text": "issue-010: statutory consultee responses overlap in scope between highway authority, environment agency, and historic england, with no coordination protocol to prevent contradictory requirements. statutory consultee responses overlap in scope between highway authority, environment agency, and historic england, with no coordination protocol to prevent contradictory requirements. duplication consultation"
+    "text": "issue-010: statutory consultee responses overlap in scope between highway authority, environment agency, and historic england, with no coordination protocol to prevent contradictory requirements. statutory consultee responses overlap in scope between highway authority, environment agency, and historic england, with no coordination protocol to prevent contradictory requirements. duplication consultation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "infrastructure",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-011",
     "page": "contradiction-issue-011.html",
     "title": "ISSUE-011: Habitats Regulations Assessment and EIA can require near-identical ecological survey data via separate legal routes, doubling applicant cost and extending pre-determination period.",
     "category": "Contradiction",
-    "text": "issue-011: habitats regulations assessment and eia can require near-identical ecological survey data via separate legal routes, doubling applicant cost and extending pre-determination period. habitats regulations assessment and eia can require near-identical ecological survey data via separate legal routes, doubling applicant cost and extending pre-determination period. restriction consultation"
+    "text": "issue-011: habitats regulations assessment and eia can require near-identical ecological survey data via separate legal routes, doubling applicant cost and extending pre-determination period. habitats regulations assessment and eia can require near-identical ecological survey data via separate legal routes, doubling applicant cost and extending pre-determination period. restriction consultation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "infrastructure",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-012",
     "page": "contradiction-issue-012.html",
     "title": "ISSUE-012: Pre-commencement condition discharge applications attract no statutory determination period under current rules, routinely extending post-permission delay by 3-12 months.",
     "category": "Contradiction",
-    "text": "issue-012: pre-commencement condition discharge applications attract no statutory determination period under current rules, routinely extending post-permission delay by 3-12 months. pre-commencement condition discharge applications attract no statutory determination period under current rules, routinely extending post-permission delay by 3-12 months. process delay condition discharge"
+    "text": "issue-012: pre-commencement condition discharge applications attract no statutory determination period under current rules, routinely extending post-permission delay by 3-12 months. pre-commencement condition discharge applications attract no statutory determination period under current rules, routinely extending post-permission delay by 3-12 months. process delay condition discharge",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-013",
     "page": "contradiction-issue-013.html",
     "title": "ISSUE-013: Transport assessment scope and methodology is negotiated case-by-case with highway authorities, producing inconsistent requirements for comparable commercial schemes.",
     "category": "Contradiction",
-    "text": "issue-013: transport assessment scope and methodology is negotiated case-by-case with highway authorities, producing inconsistent requirements for comparable commercial schemes. transport assessment scope and methodology is negotiated case-by-case with highway authorities, producing inconsistent requirements for comparable commercial schemes. ambiguity committee"
+    "text": "issue-013: transport assessment scope and methodology is negotiated case-by-case with highway authorities, producing inconsistent requirements for comparable commercial schemes. transport assessment scope and methodology is negotiated case-by-case with highway authorities, producing inconsistent requirements for comparable commercial schemes. ambiguity committee",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "commercial",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-014",
     "page": "contradiction-issue-014.html",
     "title": "ISSUE-014: NPPF 2024 grey belt policy introduces a new land category without clear boundary criteria, generating uncertainty about what constitutes green belt harm for decision-making.",
     "category": "Contradiction",
-    "text": "issue-014: nppf 2024 grey belt policy introduces a new land category without clear boundary criteria, generating uncertainty about what constitutes green belt harm for decision-making. nppf 2024 grey belt policy introduces a new land category without clear boundary criteria, generating uncertainty about what constitutes green belt harm for decision-making. contradiction pre-application"
+    "text": "issue-014: nppf 2024 grey belt policy introduces a new land category without clear boundary criteria, generating uncertainty about what constitutes green belt harm for decision-making. nppf 2024 grey belt policy introduces a new land category without clear boundary criteria, generating uncertainty about what constitutes green belt harm for decision-making. contradiction pre-application",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-015",
     "page": "contradiction-issue-015.html",
     "title": "ISSUE-015: EIA screening thresholds have not been updated to reflect current development typologies, resulting in over-screening of smaller schemes and under-screening of cumulative impacts.",
     "category": "Contradiction",
-    "text": "issue-015: eia screening thresholds have not been updated to reflect current development typologies, resulting in over-screening of smaller schemes and under-screening of cumulative impacts. eia screening thresholds have not been updated to reflect current development typologies, resulting in over-screening of smaller schemes and under-screening of cumulative impacts. restriction validation"
+    "text": "issue-015: eia screening thresholds have not been updated to reflect current development typologies, resulting in over-screening of smaller schemes and under-screening of cumulative impacts. eia screening thresholds have not been updated to reflect current development typologies, resulting in over-screening of smaller schemes and under-screening of cumulative impacts. restriction validation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-016",
     "page": "contradiction-issue-016.html",
     "title": "ISSUE-016: Viability assessments required at plan-making stage are routinely re-opened at application stage, duplicating cost and creating policy uncertainty for developers.",
     "category": "Contradiction",
-    "text": "issue-016: viability assessments required at plan-making stage are routinely re-opened at application stage, duplicating cost and creating policy uncertainty for developers. viability assessments required at plan-making stage are routinely re-opened at application stage, duplicating cost and creating policy uncertainty for developers. duplication pre-application"
+    "text": "issue-016: viability assessments required at plan-making stage are routinely re-opened at application stage, duplicating cost and creating policy uncertainty for developers. viability assessments required at plan-making stage are routinely re-opened at application stage, duplicating cost and creating policy uncertainty for developers. duplication pre-application",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-017",
     "page": "contradiction-issue-017.html",
     "title": "ISSUE-017: Statutory consultee response periods are not enforced; non-responses routinely extend consultation windows beyond 21-day statutory period without consequence.",
     "category": "Contradiction",
-    "text": "issue-017: statutory consultee response periods are not enforced; non-responses routinely extend consultation windows beyond 21-day statutory period without consequence. statutory consultee response periods are not enforced; non-responses routinely extend consultation windows beyond 21-day statutory period without consequence. process delay consultation"
+    "text": "issue-017: statutory consultee response periods are not enforced; non-responses routinely extend consultation windows beyond 21-day statutory period without consequence. statutory consultee response periods are not enforced; non-responses routinely extend consultation windows beyond 21-day statutory period without consequence. process delay consultation",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-018",
     "page": "contradiction-issue-018.html",
     "title": "ISSUE-018: Boundary between NSIP and non-NSIP thresholds is contested for hybrid infrastructure schemes, triggering jurisdictional uncertainty between PINS and LPA determination.",
     "category": "Contradiction",
-    "text": "issue-018: boundary between nsip and non-nsip thresholds is contested for hybrid infrastructure schemes, triggering jurisdictional uncertainty between pins and lpa determination. boundary between nsip and non-nsip thresholds is contested for hybrid infrastructure schemes, triggering jurisdictional uncertainty between pins and lpa determination. ambiguity committee"
+    "text": "issue-018: boundary between nsip and non-nsip thresholds is contested for hybrid infrastructure schemes, triggering jurisdictional uncertainty between pins and lpa determination. boundary between nsip and non-nsip thresholds is contested for hybrid infrastructure schemes, triggering jurisdictional uncertainty between pins and lpa determination. ambiguity committee",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "infrastructure",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-019",
     "page": "contradiction-issue-019.html",
     "title": "ISSUE-019: LPAs apply inconsistent affordable housing tenure mix requirements in s106, creating renegotiation risk and delaying legal completion.",
     "category": "Contradiction",
-    "text": "issue-019: lpas apply inconsistent affordable housing tenure mix requirements in s106, creating renegotiation risk and delaying legal completion. lpas apply inconsistent affordable housing tenure mix requirements in s106, creating renegotiation risk and delaying legal completion. restriction legal agreements"
+    "text": "issue-019: lpas apply inconsistent affordable housing tenure mix requirements in s106, creating renegotiation risk and delaying legal completion. lpas apply inconsistent affordable housing tenure mix requirements in s106, creating renegotiation risk and delaying legal completion. restriction legal agreements",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-020",
     "page": "contradiction-issue-020.html",
     "title": "ISSUE-020: Pre-commencement conditions are frequently imposed by LPAs beyond NPPF/PPG guidance necessity tests, increasing post-permission workload without commensurate planning benefit.",
     "category": "Contradiction",
-    "text": "issue-020: pre-commencement conditions are frequently imposed by lpas beyond nppf/ppg guidance necessity tests, increasing post-permission workload without commensurate planning benefit. pre-commencement conditions are frequently imposed by lpas beyond nppf/ppg guidance necessity tests, increasing post-permission workload without commensurate planning benefit. contradiction condition discharge"
+    "text": "issue-020: pre-commencement conditions are frequently imposed by lpas beyond nppf/ppg guidance necessity tests, increasing post-permission workload without commensurate planning benefit. pre-commencement conditions are frequently imposed by lpas beyond nppf/ppg guidance necessity tests, increasing post-permission workload without commensurate planning benefit. contradiction condition discharge",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "mixed",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-021",
     "page": "contradiction-issue-021.html",
     "title": "ISSUE-021: NSIP pre-application consultation requirements are disproportionate for smaller nationally significant schemes, adding 12-24 months before examination can commence.",
     "category": "Contradiction",
-    "text": "issue-021: nsip pre-application consultation requirements are disproportionate for smaller nationally significant schemes, adding 12-24 months before examination can commence. nsip pre-application consultation requirements are disproportionate for smaller nationally significant schemes, adding 12-24 months before examination can commence. process delay pre-application"
+    "text": "issue-021: nsip pre-application consultation requirements are disproportionate for smaller nationally significant schemes, adding 12-24 months before examination can commence. nsip pre-application consultation requirements are disproportionate for smaller nationally significant schemes, adding 12-24 months before examination can commence. process delay pre-application",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "infrastructure",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "ISSUE-022",
     "page": "contradiction-issue-022.html",
     "title": "ISSUE-022: Decision-makers apply tilted balance inconsistently when housing land supply is below five-year requirement, producing divergent outcomes for identical scheme types.",
     "category": "Contradiction",
-    "text": "issue-022: decision-makers apply tilted balance inconsistently when housing land supply is below five-year requirement, producing divergent outcomes for identical scheme types. decision-makers apply tilted balance inconsistently when housing land supply is below five-year requirement, producing divergent outcomes for identical scheme types. ambiguity committee"
+    "text": "issue-022: decision-makers apply tilted balance inconsistently when housing land supply is below five-year requirement, producing divergent outcomes for identical scheme types. decision-makers apply tilted balance inconsistently when housing land supply is below five-year requirement, producing divergent outcomes for identical scheme types. ambiguity committee",
+    "facets": {
+      "type": "contradiction",
+      "pathway": "housing",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-001",
     "page": "recommendation-rec-001.html",
     "title": "REC-001: National standard validation checklist for major and minor applications",
     "category": "Recommendation",
-    "text": "rec-001: national standard validation checklist for major and minor applications national standard validation checklist for major and minor applications speed validation rework rate"
+    "text": "rec-001: national standard validation checklist for major and minor applications national standard validation checklist for major and minor applications speed validation rework rate",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-002",
     "page": "recommendation-rec-002.html",
     "title": "REC-002: Clarify precedence rules where local criteria conflict with strategic housing delivery",
     "category": "Recommendation",
-    "text": "rec-002: clarify precedence rules where local criteria conflict with strategic housing delivery clarify precedence rules where local criteria conflict with strategic housing delivery consistency appeal overturn rate in housing refusals"
+    "text": "rec-002: clarify precedence rules where local criteria conflict with strategic housing delivery clarify precedence rules where local criteria conflict with strategic housing delivery consistency appeal overturn rate in housing refusals",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-003",
     "page": "recommendation-rec-003.html",
     "title": "REC-003: Synchronized annual policy update windows for central and local plans",
     "category": "Recommendation",
-    "text": "rec-003: synchronized annual policy update windows for central and local plans synchronized annual policy update windows for central and local plans coordination policy conflict incidents logged per quarter"
+    "text": "rec-003: synchronized annual policy update windows for central and local plans synchronized annual policy update windows for central and local plans coordination policy conflict incidents logged per quarter",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-004",
     "page": "recommendation-rec-004.html",
     "title": "REC-004: Single coordinated evidence gateway for EIA and habitats requirements",
     "category": "Recommendation",
-    "text": "rec-004: single coordinated evidence gateway for eia and habitats requirements single coordinated evidence gateway for eia and habitats requirements restriction reduction median determination time for affected schemes"
+    "text": "rec-004: single coordinated evidence gateway for eia and habitats requirements single coordinated evidence gateway for eia and habitats requirements restriction reduction median determination time for affected schemes",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-005",
     "page": "recommendation-rec-005.html",
     "title": "REC-005: Baseline local-fit design and transport code with measurable compliance checklist",
     "category": "Recommendation",
-    "text": "rec-005: baseline local-fit design and transport code with measurable compliance checklist baseline local-fit design and transport code with measurable compliance checklist baseline certainty first submission policy compliance rate"
+    "text": "rec-005: baseline local-fit design and transport code with measurable compliance checklist baseline local-fit design and transport code with measurable compliance checklist baseline certainty first submission policy compliance rate",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-006",
     "page": "recommendation-rec-006.html",
     "title": "REC-006: Statutory 8-week determination period for pre-commencement condition discharge applications",
     "category": "Recommendation",
-    "text": "rec-006: statutory 8-week determination period for pre-commencement condition discharge applications statutory 8-week determination period for pre-commencement condition discharge applications speed median condition discharge time"
+    "text": "rec-006: statutory 8-week determination period for pre-commencement condition discharge applications statutory 8-week determination period for pre-commencement condition discharge applications speed median condition discharge time",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-007",
     "page": "recommendation-rec-007.html",
     "title": "REC-007: Standard s106 heads of terms and model clauses to reduce post-resolution negotiation delay",
     "category": "Recommendation",
-    "text": "rec-007: standard s106 heads of terms and model clauses to reduce post-resolution negotiation delay standard s106 heads of terms and model clauses to reduce post-resolution negotiation delay speed median time from resolution to legal completion"
+    "text": "rec-007: standard s106 heads of terms and model clauses to reduce post-resolution negotiation delay standard s106 heads of terms and model clauses to reduce post-resolution negotiation delay speed median time from resolution to legal completion",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "high",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-008",
     "page": "recommendation-rec-008.html",
     "title": "REC-008: Binding consultee response deadline with deemed no-objection after 21 days for non-complex applications",
     "category": "Recommendation",
-    "text": "rec-008: binding consultee response deadline with deemed no-objection after 21 days for non-complex applications binding consultee response deadline with deemed no-objection after 21 days for non-complex applications coordination consultee response rate within statutory period"
+    "text": "rec-008: binding consultee response deadline with deemed no-objection after 21 days for non-complex applications binding consultee response deadline with deemed no-objection after 21 days for non-complex applications coordination consultee response rate within statutory period",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-009",
     "page": "recommendation-rec-009.html",
     "title": "REC-009: Viability assessment lock-in at plan adoption stage for allocated sites with prescribed review triggers only",
     "category": "Recommendation",
-    "text": "rec-009: viability assessment lock-in at plan adoption stage for allocated sites with prescribed review triggers only viability assessment lock-in at plan adoption stage for allocated sites with prescribed review triggers only consistency viability re-assessment rate at application stage"
+    "text": "rec-009: viability assessment lock-in at plan adoption stage for allocated sites with prescribed review triggers only viability assessment lock-in at plan adoption stage for allocated sites with prescribed review triggers only consistency viability re-assessment rate at application stage",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-010",
     "page": "recommendation-rec-010.html",
     "title": "REC-010: Tiered NSIP pre-application process with reduced mandatory consultation for sub-threshold infrastructure",
     "category": "Recommendation",
-    "text": "rec-010: tiered nsip pre-application process with reduced mandatory consultation for sub-threshold infrastructure tiered nsip pre-application process with reduced mandatory consultation for sub-threshold infrastructure speed nsip pre-application duration for medium schemes"
+    "text": "rec-010: tiered nsip pre-application process with reduced mandatory consultation for sub-threshold infrastructure tiered nsip pre-application process with reduced mandatory consultation for sub-threshold infrastructure speed nsip pre-application duration for medium schemes",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "medium",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "REC-011",
     "page": "recommendation-rec-011.html",
     "title": "REC-011: Updated EIA screening thresholds reflecting current development typologies and mandatory cumulative impact gateway",
     "category": "Recommendation",
-    "text": "rec-011: updated eia screening thresholds reflecting current development typologies and mandatory cumulative impact gateway updated eia screening thresholds reflecting current development typologies and mandatory cumulative impact gateway restriction reduction over-screening rate for smaller schemes"
+    "text": "rec-011: updated eia screening thresholds reflecting current development typologies and mandatory cumulative impact gateway updated eia screening thresholds reflecting current development typologies and mandatory cumulative impact gateway restriction reduction over-screening rate for smaller schemes",
+    "facets": {
+      "type": "recommendation",
+      "pathway": "",
+      "confidence": "low",
+      "status": "draft",
+      "authority": ""
+    }
   },
   {
     "id": "LEG-ENG-1990-TCPA",
     "page": "legislation.html",
     "title": "Town and Country Planning Act 1990",
     "category": "Legislation",
-    "text": "town and country planning act 1990 act in force (amended) 1990 c.8"
+    "text": "town and country planning act 1990 act in force (amended) 1990 c.8",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2004-PCPA",
     "page": "legislation.html",
     "title": "Planning and Compulsory Purchase Act 2004",
     "category": "Legislation",
-    "text": "planning and compulsory purchase act 2004 act in force (amended) 2004 c.5"
+    "text": "planning and compulsory purchase act 2004 act in force (amended) 2004 c.5",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2008-PA",
     "page": "legislation.html",
     "title": "Planning Act 2008",
     "category": "Legislation",
-    "text": "planning act 2008 act in force (amended) 2008 c.29"
+    "text": "planning act 2008 act in force (amended) 2008 c.29",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2011-LOCALISM",
     "page": "legislation.html",
     "title": "Localism Act 2011",
     "category": "Legislation",
-    "text": "localism act 2011 act in force (amended) 2011 c.20"
+    "text": "localism act 2011 act in force (amended) 2011 c.20",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2016-HPA",
     "page": "legislation.html",
     "title": "Housing and Planning Act 2016",
     "category": "Legislation",
-    "text": "housing and planning act 2016 act in force (amended) 2016 c.22"
+    "text": "housing and planning act 2016 act in force (amended) 2016 c.22",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2017-NPA",
     "page": "legislation.html",
     "title": "Neighbourhood Planning Act 2017",
     "category": "Legislation",
-    "text": "neighbourhood planning act 2017 act in force (amended) 2017 c.20"
+    "text": "neighbourhood planning act 2017 act in force (amended) 2017 c.20",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2023-LURA",
     "page": "legislation.html",
     "title": "Levelling-up and Regeneration Act 2023",
     "category": "Legislation",
-    "text": "levelling-up and regeneration act 2023 act in force (partially commenced) 2023 c.55"
+    "text": "levelling-up and regeneration act 2023 act in force (partially commenced) 2023 c.55",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2015-DMPO",
     "page": "legislation.html",
     "title": "Town and Country Planning (Development Management Procedure) (England) Order 2015",
     "category": "Legislation",
-    "text": "town and country planning (development management procedure) (england) order 2015 order in force (amended) si 2015/595"
+    "text": "town and country planning (development management procedure) (england) order 2015 order in force (amended) si 2015/595",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2015-GPDO",
     "page": "legislation.html",
     "title": "Town and Country Planning (General Permitted Development) (England) Order 2015",
     "category": "Legislation",
-    "text": "town and country planning (general permitted development) (england) order 2015 order in force (amended) si 2015/596"
+    "text": "town and country planning (general permitted development) (england) order 2015 order in force (amended) si 2015/596",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-1987-UCO",
     "page": "legislation.html",
     "title": "Town and Country Planning (Use Classes) Order 1987",
     "category": "Legislation",
-    "text": "town and country planning (use classes) order 1987 order in force (amended) si 1987/764"
+    "text": "town and country planning (use classes) order 1987 order in force (amended) si 1987/764",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2010-CIL",
     "page": "legislation.html",
     "title": "Community Infrastructure Levy Regulations 2010",
     "category": "Legislation",
-    "text": "community infrastructure levy regulations 2010 regulations in force (amended) si 2010/948"
+    "text": "community infrastructure levy regulations 2010 regulations in force (amended) si 2010/948",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2017-EIA",
     "page": "legislation.html",
     "title": "Town and Country Planning (Environmental Impact Assessment) Regulations 2017",
     "category": "Legislation",
-    "text": "town and country planning (environmental impact assessment) regulations 2017 regulations in force (amended) si 2017/571"
+    "text": "town and country planning (environmental impact assessment) regulations 2017 regulations in force (amended) si 2017/571",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-1990-LBCA",
     "page": "legislation.html",
     "title": "Planning (Listed Buildings and Conservation Areas) Act 1990",
     "category": "Legislation",
-    "text": "planning (listed buildings and conservation areas) act 1990 act in force (amended) 1990 c.9"
+    "text": "planning (listed buildings and conservation areas) act 1990 act in force (amended) 1990 c.9",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-1990-HSA",
     "page": "legislation.html",
     "title": "Planning (Hazardous Substances) Act 1990",
     "category": "Legislation",
-    "text": "planning (hazardous substances) act 1990 act in force (amended) 1990 c.10"
+    "text": "planning (hazardous substances) act 1990 act in force (amended) 1990 c.10",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2017-HABITATS",
     "page": "legislation.html",
     "title": "Conservation of Habitats and Species Regulations 2017",
     "category": "Legislation",
-    "text": "conservation of habitats and species regulations 2017 regulations in force (amended) si 2017/1012"
+    "text": "conservation of habitats and species regulations 2017 regulations in force (amended) si 2017/1012",
+    "facets": {}
   },
   {
     "id": "LEG-ENG-2021-ENV",
     "page": "legislation.html",
     "title": "Environment Act 2021",
     "category": "Legislation",
-    "text": "environment act 2021 act in force (phased) 2021 c.30"
+    "text": "environment act 2021 act in force (phased) 2021 c.30",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPPF",
     "page": "legislation.html",
     "title": "National Planning Policy Framework",
     "category": "Policy",
-    "text": "national planning policy framework national policy framework england mhclg"
+    "text": "national planning policy framework national policy framework england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG",
     "page": "legislation.html",
     "title": "Planning Practice Guidance",
     "category": "Policy",
-    "text": "planning practice guidance web guidance collection england mhclg"
+    "text": "planning practice guidance web guidance collection england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-06-HOUSING",
     "page": "legislation.html",
     "title": "Housing supply and delivery",
     "category": "Policy",
-    "text": "housing supply and delivery ppg topic england mhclg"
+    "text": "housing supply and delivery ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-08-HELAA",
     "page": "legislation.html",
     "title": "Housing and economic land availability assessment",
     "category": "Policy",
-    "text": "housing and economic land availability assessment ppg topic england mhclg"
+    "text": "housing and economic land availability assessment ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-13-GREENBELT",
     "page": "legislation.html",
     "title": "Green Belt",
     "category": "Policy",
-    "text": "green belt ppg topic england mhclg"
+    "text": "green belt ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-16-DESIGN",
     "page": "legislation.html",
     "title": "Design process and tools",
     "category": "Policy",
-    "text": "design process and tools ppg topic england mhclg"
+    "text": "design process and tools ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-18-DC",
     "page": "legislation.html",
     "title": "Design codes",
     "category": "Policy",
-    "text": "design codes ppg topic england mhclg"
+    "text": "design codes ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-21-EIA",
     "page": "legislation.html",
     "title": "Environmental Impact Assessment",
     "category": "Policy",
-    "text": "environmental impact assessment ppg topic england mhclg"
+    "text": "environmental impact assessment ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-23-FLOOD",
     "page": "legislation.html",
     "title": "Flood risk and coastal change",
     "category": "Policy",
-    "text": "flood risk and coastal change ppg topic england mhclg"
+    "text": "flood risk and coastal change ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-26-HERITAGE",
     "page": "legislation.html",
     "title": "Conserving and enhancing the historic environment",
     "category": "Policy",
-    "text": "conserving and enhancing the historic environment ppg topic england mhclg"
+    "text": "conserving and enhancing the historic environment ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-34-TRAVEL",
     "page": "legislation.html",
     "title": "Travel plans transport assessments and statements",
     "category": "Policy",
-    "text": "travel plans transport assessments and statements ppg topic england mhclg"
+    "text": "travel plans transport assessments and statements ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-41-PLANMAKING",
     "page": "legislation.html",
     "title": "Plan-making",
     "category": "Policy",
-    "text": "plan-making ppg topic england mhclg"
+    "text": "plan-making ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-45-NEIGHBOURHOOD",
     "page": "legislation.html",
     "title": "Neighbourhood planning",
     "category": "Policy",
-    "text": "neighbourhood planning ppg topic england mhclg"
+    "text": "neighbourhood planning ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-57-USECLASS",
     "page": "legislation.html",
     "title": "When is permission required",
     "category": "Policy",
-    "text": "when is permission required ppg topic england mhclg"
+    "text": "when is permission required ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-68-VIABILITY",
     "page": "legislation.html",
     "title": "Viability",
     "category": "Policy",
-    "text": "viability ppg topic england mhclg"
+    "text": "viability ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-EN1",
     "page": "legislation.html",
     "title": "National Policy Statement for Energy (EN-1)",
     "category": "Policy",
-    "text": "national policy statement for energy (en-1) national policy statement england and wales nsip desnz"
+    "text": "national policy statement for energy (en-1) national policy statement england and wales nsip desnz",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-EN2",
     "page": "legislation.html",
     "title": "National Policy Statement for Fossil Fuel Electricity Generating Infrastructure (EN-2)",
     "category": "Policy",
-    "text": "national policy statement for fossil fuel electricity generating infrastructure (en-2) national policy statement england and wales nsip desnz"
+    "text": "national policy statement for fossil fuel electricity generating infrastructure (en-2) national policy statement england and wales nsip desnz",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-EN3",
     "page": "legislation.html",
     "title": "National Policy Statement for Renewable Energy Infrastructure (EN-3)",
     "category": "Policy",
-    "text": "national policy statement for renewable energy infrastructure (en-3) national policy statement england and wales nsip desnz"
+    "text": "national policy statement for renewable energy infrastructure (en-3) national policy statement england and wales nsip desnz",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-EN4",
     "page": "legislation.html",
     "title": "National Policy Statement for Gas Supply Infrastructure and Gas and Oil Pipelines (EN-4)",
     "category": "Policy",
-    "text": "national policy statement for gas supply infrastructure and gas and oil pipelines (en-4) national policy statement england and wales nsip desnz"
+    "text": "national policy statement for gas supply infrastructure and gas and oil pipelines (en-4) national policy statement england and wales nsip desnz",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-EN5",
     "page": "legislation.html",
     "title": "National Policy Statement for Electricity Networks Infrastructure (EN-5)",
     "category": "Policy",
-    "text": "national policy statement for electricity networks infrastructure (en-5) national policy statement england and wales nsip desnz"
+    "text": "national policy statement for electricity networks infrastructure (en-5) national policy statement england and wales nsip desnz",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-NN",
     "page": "legislation.html",
     "title": "National Policy Statement for National Networks",
     "category": "Policy",
-    "text": "national policy statement for national networks national policy statement england nsip transport dft"
+    "text": "national policy statement for national networks national policy statement england nsip transport dft",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPS-WATER",
     "page": "legislation.html",
     "title": "National Policy Statement for Water Resources Infrastructure",
     "category": "Policy",
-    "text": "national policy statement for water resources infrastructure national policy statement england nsip water defra"
+    "text": "national policy statement for water resources infrastructure national policy statement england nsip water defra",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-NEIGHBOURHOOD",
     "page": "legislation.html",
     "title": "Neighbourhood planning",
     "category": "Policy",
-    "text": "neighbourhood planning ppg topic england mhclg"
+    "text": "neighbourhood planning ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-BNG",
     "page": "legislation.html",
     "title": "Biodiversity net gain",
     "category": "Policy",
-    "text": "biodiversity net gain ppg topic england mhclg"
+    "text": "biodiversity net gain ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-OBLIGATIONS",
     "page": "legislation.html",
     "title": "Planning obligations",
     "category": "Policy",
-    "text": "planning obligations ppg topic england mhclg"
+    "text": "planning obligations ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPG-CONDITIONS",
     "page": "legislation.html",
     "title": "Use of planning conditions",
     "category": "Policy",
-    "text": "use of planning conditions ppg topic england mhclg"
+    "text": "use of planning conditions ppg topic england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-NPPW",
     "page": "legislation.html",
     "title": "National Planning Policy for Waste",
     "category": "Policy",
-    "text": "national planning policy for waste national planning policy england dluhc"
+    "text": "national planning policy for waste national planning policy england dluhc",
+    "facets": {}
   },
   {
     "id": "POL-ENG-PPWPG",
     "page": "legislation.html",
     "title": "Planning Practice Guidance for Waste",
     "category": "Policy",
-    "text": "planning practice guidance for waste web guidance england mhclg"
+    "text": "planning practice guidance for waste web guidance england mhclg",
+    "facets": {}
   },
   {
     "id": "POL-ENG-DMPO-GUIDANCE",
     "page": "legislation.html",
     "title": "Validation and DM procedural guidance",
     "category": "Policy",
-    "text": "validation and dm procedural guidance procedural guidance england mhclg"
+    "text": "validation and dm procedural guidance procedural guidance england mhclg",
+    "facets": {}
   },
   {
     "id": "LPA-01",
     "page": "plans-lpa-01.html",
     "title": "Manchester City Council",
     "category": "LPA",
-    "text": "manchester city council north west transport capacity and urban form constraints high growth urban"
+    "text": "manchester city council north west transport capacity and urban form constraints high growth urban",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "manchester city council"
+    }
   },
   {
     "id": "LPA-02",
     "page": "plans-lpa-02.html",
     "title": "Oxford City Council",
     "category": "LPA",
-    "text": "oxford city council south east green belt and heritage sensitivity high demand constrained"
+    "text": "oxford city council south east green belt and heritage sensitivity high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "oxford city council"
+    }
   },
   {
     "id": "LPA-03",
     "page": "plans-lpa-03.html",
     "title": "South Cambridgeshire District Council",
     "category": "LPA",
-    "text": "south cambridgeshire district council east of england green belt flood risk and infrastructure sequencing growth corridor"
+    "text": "south cambridgeshire district council east of england green belt flood risk and infrastructure sequencing growth corridor",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "south cambridgeshire district council"
+    }
   },
   {
     "id": "LPA-04",
     "page": "plans-lpa-04.html",
     "title": "Cornwall Council",
     "category": "LPA",
-    "text": "cornwall council south west coastal change aonb and transport coverage constraints mixed growth dispersed"
+    "text": "cornwall council south west coastal change aonb and transport coverage constraints mixed growth dispersed",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "cornwall council"
+    }
   },
   {
     "id": "LPA-05",
     "page": "plans-lpa-05.html",
     "title": "Newham London Borough Council",
     "category": "LPA",
-    "text": "newham london borough council london density viability and transport node pressure very high urban growth"
+    "text": "newham london borough council london density viability and transport node pressure very high urban growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "newham london borough council"
+    }
   },
   {
     "id": "LPA-06",
     "page": "plans-lpa-06.html",
     "title": "Kent County Council (minerals/waste planning role)",
     "category": "LPA",
-    "text": "kent county council (minerals/waste planning role) south east strategic waste minerals and transport network constraints county strategic layer"
+    "text": "kent county council (minerals/waste planning role) south east strategic waste minerals and transport network constraints county strategic layer",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "kent county council (minerals/waste planning role)"
+    }
   },
   {
     "id": "LPA-07",
     "page": "plans-lpa-07.html",
     "title": "Leeds City Council",
     "category": "LPA",
-    "text": "leeds city council yorkshire and the humber transport capacity and cross-boundary housing delivery high growth urban"
+    "text": "leeds city council yorkshire and the humber transport capacity and cross-boundary housing delivery high growth urban",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "leeds city council"
+    }
   },
   {
     "id": "LPA-08",
     "page": "plans-lpa-08.html",
     "title": "Bristol City Council",
     "category": "LPA",
-    "text": "bristol city council south west flood risk and harbour/waterfront regeneration complexity high growth urban"
+    "text": "bristol city council south west flood risk and harbour/waterfront regeneration complexity high growth urban",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "bristol city council"
+    }
   },
   {
     "id": "LPA-09",
     "page": "plans-lpa-09.html",
     "title": "Guildford Borough Council",
     "category": "LPA",
-    "text": "guildford borough council south east green belt and aonb adjacency high demand constrained"
+    "text": "guildford borough council south east green belt and aonb adjacency high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "guildford borough council"
+    }
   },
   {
     "id": "LPA-10",
     "page": "plans-lpa-10.html",
     "title": "Newcastle City Council",
     "category": "LPA",
-    "text": "newcastle city council north east riverside flood risk and heritage city centre regeneration growth"
+    "text": "newcastle city council north east riverside flood risk and heritage city centre regeneration growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "newcastle city council"
+    }
   },
   {
     "id": "LPA-11",
     "page": "plans-lpa-11.html",
     "title": "Peak District National Park Authority",
     "category": "LPA",
-    "text": "peak district national park authority east midlands national park statutory purposes and housing affordability tension constrained designated"
+    "text": "peak district national park authority east midlands national park statutory purposes and housing affordability tension constrained designated",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "peak district national park authority"
+    }
   },
   {
     "id": "LPA-12",
     "page": "plans-lpa-12.html",
     "title": "Northumberland County Council",
     "category": "LPA",
-    "text": "northumberland county council north east minerals safeguarding and offshore wind infrastructure pressure mixed growth dispersed"
+    "text": "northumberland county council north east minerals safeguarding and offshore wind infrastructure pressure mixed growth dispersed",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "northumberland county council"
+    }
   },
   {
     "id": "LPA-13",
     "page": "plans-lpa-13.html",
     "title": "Southampton City Council",
     "category": "LPA",
-    "text": "southampton city council south east coastal change and port safeguarding regeneration growth"
+    "text": "southampton city council south east coastal change and port safeguarding regeneration growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "southampton city council"
+    }
   },
   {
     "id": "LPA-14",
     "page": "plans-lpa-14.html",
     "title": "Leicester City Council",
     "category": "LPA",
-    "text": "leicester city council east midlands heritage sensitivity and infrastructure capacity urban renewal"
+    "text": "leicester city council east midlands heritage sensitivity and infrastructure capacity urban renewal",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "leicester city council"
+    }
   },
   {
     "id": "LPA-15",
     "page": "plans-lpa-15.html",
     "title": "Cambridge City Council",
     "category": "LPA",
-    "text": "cambridge city council east of england green belt and heritage conservation area pressure high demand constrained"
+    "text": "cambridge city council east of england green belt and heritage conservation area pressure high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "cambridge city council"
+    }
   },
   {
     "id": "LPA-16",
     "page": "plans-lpa-16.html",
     "title": "Medway Council",
     "category": "LPA",
-    "text": "medway council south east flood risk and strategic transport corridor pressure housing delivery zone"
+    "text": "medway council south east flood risk and strategic transport corridor pressure housing delivery zone",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "medway council"
+    }
   },
   {
     "id": "BN-001",
     "page": "bottlenecks.html",
     "title": "Pre-application — Housing",
     "category": "Bottleneck",
-    "text": "pre-application — housing policy interpretation uncertainty between national and local requirements pre-application"
+    "text": "pre-application — housing policy interpretation uncertainty between national and local requirements pre-application",
+    "facets": {}
   },
   {
     "id": "BN-002",
     "page": "bottlenecks.html",
     "title": "Pre-application — Infrastructure",
     "category": "Bottleneck",
-    "text": "pre-application — infrastructure nsip track determination and pre-app consultation scoping pre-application"
+    "text": "pre-application — infrastructure nsip track determination and pre-app consultation scoping pre-application",
+    "facets": {}
   },
   {
     "id": "BN-003",
     "page": "bottlenecks.html",
     "title": "Validation — Mixed",
     "category": "Bottleneck",
-    "text": "validation — mixed inconsistent lpa validation checklists causing invalid notices and resubmission validation"
+    "text": "validation — mixed inconsistent lpa validation checklists causing invalid notices and resubmission validation",
+    "facets": {}
   },
   {
     "id": "BN-004",
     "page": "bottlenecks.html",
     "title": "Validation — Infrastructure",
     "category": "Bottleneck",
-    "text": "validation — infrastructure eia screening and scoping disputes delaying formal submission validation"
+    "text": "validation — infrastructure eia screening and scoping disputes delaying formal submission validation",
+    "facets": {}
   },
   {
     "id": "BN-005",
     "page": "bottlenecks.html",
     "title": "Consultation — Mixed",
     "category": "Bottleneck",
-    "text": "consultation — mixed statutory consultee non-response or late response consultation"
+    "text": "consultation — mixed statutory consultee non-response or late response consultation",
+    "facets": {}
   },
   {
     "id": "BN-006",
     "page": "bottlenecks.html",
     "title": "Consultation — Infrastructure",
     "category": "Bottleneck",
-    "text": "consultation — infrastructure duplicate eia and hra evidence requests from separate consultee regimes consultation"
+    "text": "consultation — infrastructure duplicate eia and hra evidence requests from separate consultee regimes consultation",
+    "facets": {}
   },
   {
     "id": "BN-007",
     "page": "bottlenecks.html",
     "title": "Committee — Housing",
     "category": "Bottleneck",
-    "text": "committee — housing policy-weight disputes leading to referral or deferral committee"
+    "text": "committee — housing policy-weight disputes leading to referral or deferral committee",
+    "facets": {}
   },
   {
     "id": "BN-008",
     "page": "bottlenecks.html",
     "title": "Committee — Commercial",
     "category": "Bottleneck",
-    "text": "committee — commercial transport assessment scope disputes requiring late amendment committee"
+    "text": "committee — commercial transport assessment scope disputes requiring late amendment committee",
+    "facets": {}
   },
   {
     "id": "BN-009",
     "page": "bottlenecks.html",
     "title": "Legal Agreements — Housing",
     "category": "Bottleneck",
-    "text": "legal agreements — housing unregulated s106 negotiation after resolution legal agreements"
+    "text": "legal agreements — housing unregulated s106 negotiation after resolution legal agreements",
+    "facets": {}
   },
   {
     "id": "BN-010",
     "page": "bottlenecks.html",
     "title": "Legal Agreements — Mixed",
     "category": "Bottleneck",
-    "text": "legal agreements — mixed viability re-assessment reopening plan-stage obligations legal agreements"
+    "text": "legal agreements — mixed viability re-assessment reopening plan-stage obligations legal agreements",
+    "facets": {}
   },
   {
     "id": "BN-011",
     "page": "bottlenecks.html",
     "title": "Condition Discharge — Mixed",
     "category": "Bottleneck",
-    "text": "condition discharge — mixed no statutory determination period for condition discharge applications condition discharge"
+    "text": "condition discharge — mixed no statutory determination period for condition discharge applications condition discharge",
+    "facets": {}
   },
   {
     "id": "BN-012",
     "page": "bottlenecks.html",
     "title": "Condition Discharge — Infrastructure",
     "category": "Bottleneck",
-    "text": "condition discharge — infrastructure complex pre-commencement conditions on nsip consents requiring multiple approvals condition discharge"
+    "text": "condition discharge — infrastructure complex pre-commencement conditions on nsip consents requiring multiple approvals condition discharge",
+    "facets": {}
   },
   {
     "id": "APP-001",
     "page": "appeals.html",
     "title": "APP/Q3115/W/23/3321456 (Oxford City Council)",
     "category": "Appeal",
-    "text": "app/q3115/w/23/3321456 (oxford city council) inspector gave significant weight to five-year housing land supply shortfall. local plan policy h1 (settlement boundary) given reduced weight as it conflicted with strategic housing delivery obligation. policy conflict between local boundary restriction and national supply imperative confirmed. nppf para 11(d); oxford local plan policy h1"
+    "text": "app/q3115/w/23/3321456 (oxford city council) inspector gave significant weight to five-year housing land supply shortfall. local plan policy h1 (settlement boundary) given reduced weight as it conflicted with strategic housing delivery obligation. policy conflict between local boundary restriction and national supply imperative confirmed. nppf para 11(d); oxford local plan policy h1",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "oxford city council"
+    }
   },
   {
     "id": "APP-002",
     "page": "appeals.html",
     "title": "APP/P0240/W/23/3312789 (Bristol City Council)",
     "category": "Appeal",
-    "text": "app/p0240/w/23/3312789 (bristol city council) inspector found local plan design policy dm26 and informal design guidance spd used overlapping but inconsistent tests. dismissed on design grounds but inspector noted officer report applied spd test rather than adopted policy test. illustrates issue-003 interpretation drift. bristol local plan dm26; nppf chapter 12 design"
+    "text": "app/p0240/w/23/3312789 (bristol city council) inspector found local plan design policy dm26 and informal design guidance spd used overlapping but inconsistent tests. dismissed on design grounds but inspector noted officer report applied spd test rather than adopted policy test. illustrates issue-003 interpretation drift. bristol local plan dm26; nppf chapter 12 design",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "dismissed",
+      "authority": "bristol city council"
+    }
   },
   {
     "id": "APP-003",
     "page": "appeals.html",
     "title": "APP/H1840/W/24/3330121 (Guildford Borough Council)",
     "category": "Appeal",
-    "text": "app/h1840/w/24/3330121 (guildford borough council) inspector applied tilted balance after finding housing land supply below five years. lpa sought to rely on green belt policy weight but inspector found tilted balance engaged and scheme acceptable in principle. inconsistent tilted balance application between adjoining inspectors in same lpa confirmed. nppf para 11(d) tilted balance; guildford local plan h4"
+    "text": "app/h1840/w/24/3330121 (guildford borough council) inspector applied tilted balance after finding housing land supply below five years. lpa sought to rely on green belt policy weight but inspector found tilted balance engaged and scheme acceptable in principle. inconsistent tilted balance application between adjoining inspectors in same lpa confirmed. nppf para 11(d) tilted balance; guildford local plan h4",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "guildford borough council"
+    }
   },
   {
     "id": "APP-004",
     "page": "appeals.html",
     "title": "APP/X2410/W/23/3309876 (South Cambridgeshire District Council)",
     "category": "Appeal",
-    "text": "app/x2410/w/23/3309876 (south cambridgeshire district council) inspector gave limited weight to emerging greater cambridge local plan policies at regulation 18 stage. existing adopted plan policies given full weight but found outdated against current nppf housing chapter. transitional uncertainty confirmed as material delay driver. nppf transitional arrangements; emerging greater cambridge local plan"
+    "text": "app/x2410/w/23/3309876 (south cambridgeshire district council) inspector gave limited weight to emerging greater cambridge local plan policies at regulation 18 stage. existing adopted plan policies given full weight but found outdated against current nppf housing chapter. transitional uncertainty confirmed as material delay driver. nppf transitional arrangements; emerging greater cambridge local plan",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "south cambridgeshire district council"
+    }
   },
   {
     "id": "APP-005",
     "page": "appeals.html",
     "title": "APP/M1900/W/24/3335678 (Leeds City Council)",
     "category": "Appeal",
-    "text": "app/m1900/w/24/3335678 (leeds city council) inspector allowed appeal. cross-examination revealed s106 had been unresolved for 14 months post-committee resolution due to tenure mix dispute. inspector noted no regulatory backstop existed on negotiation duration and directed parties to agree within 8 weeks under appeal conditions. leeds core strategy h5; nppf para 57 affordable housing"
+    "text": "app/m1900/w/24/3335678 (leeds city council) inspector allowed appeal. cross-examination revealed s106 had been unresolved for 14 months post-committee resolution due to tenure mix dispute. inspector noted no regulatory backstop existed on negotiation duration and directed parties to agree within 8 weeks under appeal conditions. leeds core strategy h5; nppf para 57 affordable housing",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "leeds city council"
+    }
   },
   {
     "id": "APP-006",
     "page": "appeals.html",
     "title": "APP/C2741/W/23/3318234 (Cornwall Council)",
     "category": "Appeal",
-    "text": "app/c2741/w/23/3318234 (cornwall council) inspector noted applicant had submitted separate hra and eia information in response to separate consultee requests. inspector criticized duplication in evidence requests and noted both sets of ecological surveys reached same conclusions. delay attributable to dual-regime evidence requests confirmed. cornwall local plan policy 16; eia habitats regulations"
+    "text": "app/c2741/w/23/3318234 (cornwall council) inspector noted applicant had submitted separate hra and eia information in response to separate consultee requests. inspector criticized duplication in evidence requests and noted both sets of ecological surveys reached same conclusions. delay attributable to dual-regime evidence requests confirmed. cornwall local plan policy 16; eia habitats regulations",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "dismissed",
+      "authority": "cornwall council"
+    }
   },
   {
     "id": "APP-007",
     "page": "appeals.html",
     "title": "APP/N4720/W/23/3315432 (Newcastle City Council)",
     "category": "Appeal",
-    "text": "app/n4720/w/23/3315432 (newcastle city council) highways consultee response received 34 days after consultation sent; lpa had awaited response before reporting to committee. inspector found lpa had no mechanism to proceed without consultee response despite statutory 21-day period. non-enforcement of consultee deadline confirmed as delay driver. dmpo 2015 article 17; newcastle core strategy transport policies"
+    "text": "app/n4720/w/23/3315432 (newcastle city council) highways consultee response received 34 days after consultation sent; lpa had awaited response before reporting to committee. inspector found lpa had no mechanism to proceed without consultee response despite statutory 21-day period. non-enforcement of consultee deadline confirmed as delay driver. dmpo 2015 article 17; newcastle core strategy transport policies",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "newcastle city council"
+    }
   },
   {
     "id": "APP-008",
     "page": "appeals.html",
     "title": "APP/P3420/W/24/3340987 (Medway Council)",
     "category": "Appeal",
-    "text": "app/p3420/w/24/3340987 (medway council) inspector gave limited weight to medway local plan 2003 policies on housing distribution given plan age. lura 2023 transitional provisions meant emerging policies also carried limited weight. policy vacuum between outdated adopted plan and not-yet-adopted new plan confirmed as decision-making uncertainty. medway local plan 2003; nppf 2023 transitional provisions"
+    "text": "app/p3420/w/24/3340987 (medway council) inspector gave limited weight to medway local plan 2003 policies on housing distribution given plan age. lura 2023 transitional provisions meant emerging policies also carried limited weight. policy vacuum between outdated adopted plan and not-yet-adopted new plan confirmed as decision-making uncertainty. medway local plan 2003; nppf 2023 transitional provisions",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "medway council"
+    }
   },
   {
     "id": "APP-009",
     "page": "appeals.html",
     "title": "APP/R3650/W/23/3322145 (Leicester City Council)",
     "category": "Appeal",
-    "text": "app/r3650/w/23/3322145 (leicester city council) developer submitted viability review challenging plan-stage affordable housing requirement of 20 percent. inspector allowed reduction to 10 percent on viability grounds despite adopted plan rate supported by plan-stage assessment. viability re-opening at application stage confirmed as systemic issue. ppg viability para 009; leicester core strategy policy cs14"
+    "text": "app/r3650/w/23/3322145 (leicester city council) developer submitted viability review challenging plan-stage affordable housing requirement of 20 percent. inspector allowed reduction to 10 percent on viability grounds despite adopted plan rate supported by plan-stage assessment. viability re-opening at application stage confirmed as systemic issue. ppg viability para 009; leicester core strategy policy cs14",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "leicester city council"
+    }
   },
   {
     "id": "APP-010",
     "page": "appeals.html",
     "title": "APP/W0340/W/24/3338765 (Manchester City Council)",
     "category": "Appeal",
-    "text": "app/w0340/w/24/3338765 (manchester city council) inquiry heard evidence that 7 pre-commencement conditions had remained undischarged for 18 months post-permission. inspector noted no statutory framework to compel lpa to determine condition discharge applications within any period. agreed that deemed discharge mechanism would have resolved delay. manchester core strategy policy dm1; nppf para 55 pre-commencement conditions"
+    "text": "app/w0340/w/24/3338765 (manchester city council) inquiry heard evidence that 7 pre-commencement conditions had remained undischarged for 18 months post-permission. inspector noted no statutory framework to compel lpa to determine condition discharge applications within any period. agreed that deemed discharge mechanism would have resolved delay. manchester core strategy policy dm1; nppf para 55 pre-commencement conditions",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "manchester city council"
+    }
   }
 ]

@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
     <div class="layout">
       <header>
         <h1>Northumberland County Council Plan Profile</h1>
@@ -33,10 +37,80 @@
 <a href="coverage.html">Coverage</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="plans.html">Authority Insights</a> &gt; <a href="plans.html">Plans</a> &gt; <a href="plans-lpa-12.html">Northumberland County Council</a></div>
-<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A single authority planning profile with document stack and contextual evidence.</dd><dt>Who this is for</dt><dd>LPA teams, developers, and reviewers assessing authority-specific context.</dd><dt>How to use it</dt><dd>Read the authority summary first, then review tracked documents and linked evidence.</dd><dt>Data source and freshness</dt><dd>Document and evidence records include source links, retrieval and review dates, and quality indicators.</dd></dl></section>
-<section class="card"><p>This authority profile summarises planning context, evidence quality, and tracked plan documents for the selected LPA.</p></section>
+<section class="card shell-utilities"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></section>
+      <main id="main-content">
+<section class="card plain-language-panel"><h2>Plain-language guide</h2><p>This page helps you understand <strong>Northumberland County Council Plan Profile</strong> without specialist planning jargon. Use the start-here notes first, then open linked detail pages for evidence and next actions.</p><p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), <strong>NSIP</strong> (nationally significant infrastructure project), <strong>verification state</strong> (draft or reviewed data status).</p></section>
+<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A single authority planning profile with document stack and contextual evidence.</dd><dt>Who this is for</dt><dd>LPA teams, developers, and reviewers assessing authority-specific context.</dd><dt>How to interpret</dt><dd>Read the authority summary first, then review tracked documents and linked evidence.</dd><dt>Data trust and freshness</dt><dd>Document and evidence records include source links, retrieval and review dates, and quality indicators.</dd></dl></section>
+<section class="card guided-only"><p>This authority profile summarises planning context, evidence quality, and tracked plan documents for the selected LPA.</p></section>
+
 <section class="card"><h2>Northumberland County Council</h2><p><strong>Type:</strong> Unitary Authority</p><p><strong>Region:</strong> North East</p><p><strong>Rationale:</strong> Large rural unitary with minerals and energy planning role and dispersed settlement pattern</p><p><strong>Constraints:</strong> Minerals safeguarding and offshore wind infrastructure pressure</p><p><strong>Data quality tier:</strong> B (coverage score 77)</p><p><strong>Evidence mix:</strong> Official stats + plan docs + limited appeal evidence</p><p><a href="plans.html">Back to pilot overview</a></p></section><section class="card"><h3>How to read this table</h3><ul><li>Each row is one tracked plan document for this authority.</li><li>Status and date together indicate whether policy is current or transitional.</li><li>Notes capture caveats that affect interpretation.</li><li>Source links open the original authority publication where available.</li></ul></section><section class="card"><table><thead><tr><th>Document</th><th>Level</th><th>Status</th><th>Date</th><th>Notes</th><th>Source</th></tr></thead><tbody><tr><td>Northumberland Local Plan</td><td>District/Unitary</td><td>Adopted</td><td>2019-07-30</td><td>Unitary local plan with minerals and energy policies integrated</td><td><a href="https://www.northumberland.gov.uk/Planning.aspx">Link</a></td></tr><tr><td>Northumberland Minerals Local Plan</td><td>County</td><td>Adopted</td><td>2019-07-30</td><td>Minerals and waste policies integrated within the main local plan</td><td><a href="https://www.northumberland.gov.uk/Planning.aspx">Link</a></td></tr></tbody></table></section>
-<section class="card"><h2>Where to go next</h2><ul><li><a href="compare.html">Compare this authority with another</a></li><li><a href="benchmark.html">View ranking context</a></li><li><a href="reports.html">Download authority report bundle</a></li></ul></section>
+<section class="card guided-only"><h2>Next actions</h2><ul><li><a href="compare.html">Compare this authority with another</a></li><li><a href="benchmark.html">View ranking context</a></li><li><a href="reports.html">Download authority report bundle</a></li></ul></section>
+      </main>
     </div>
+
+<script>
+(function() {
+  var key = 'uk-planning-view-mode-v1';
+  var shell = document.querySelector('.layout');
+  if (!shell) return;
+  var toggle = document.getElementById('view-mode-toggle');
+  var plainToggle = document.getElementById('plain-language-toggle');
+  var defaultMode = localStorage.getItem(key) || 'guided';
+  shell.dataset.viewMode = defaultMode;
+  if (toggle) toggle.value = defaultMode;
+  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
+  if (plainToggle) plainToggle.checked = plain === 'on';
+  shell.dataset.plainLanguage = plain;
+
+  function persist() {
+    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
+    shell.dataset.viewMode = mode;
+    localStorage.setItem(key, mode);
+    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
+    shell.dataset.plainLanguage = p;
+    localStorage.setItem('uk-planning-plain-language-v1', p);
+  }
+
+  if (toggle) toggle.addEventListener('change', persist);
+  if (plainToggle) plainToggle.addEventListener('change', persist);
+
+  document.addEventListener('click', function(evt) {
+    var copyBtn = evt.target.closest('[data-copy-view]');
+    if (!copyBtn) return;
+    var text = window.location.href;
+    var done = function(ok) {
+      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
+      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  function logEvent(name, meta) {
+    try {
+      var key = 'uk-planning-ux-events-v1';
+      var events = JSON.parse(localStorage.getItem(key) || '[]');
+      events.push({
+        ts: new Date().toISOString(),
+        page: window.location.pathname.replace(/^\//, ''),
+        name: name,
+        meta: meta || {},
+      });
+      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
+    } catch (e) {}
+  }
+
+  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
+  document.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      logEvent('link_click', { href: a.getAttribute('href') || '' });
+    });
+  });
+})();
+</script>
+
   </body>
 </html>

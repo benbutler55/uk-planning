@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
     <div class="layout">
       <header>
         <h1>UK Planning System Analysis — England Pilot Release</h1>
@@ -29,8 +33,12 @@
 <a href="search.html">Search</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a></div>
-<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A high-level summary of the England planning analysis, key findings, and where to go next.</dd><dt>Who this is for</dt><dd>First-time visitors, policy teams, local authority officers, and public readers.</dd><dt>How to use it</dt><dd>Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.</dd><dt>Data source and freshness</dt><dd>Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency.</dd></dl></section>
-<section class="card"><p>Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations.</p></section>
+<section class="card shell-utilities"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></section>
+      <main id="main-content">
+<section class="card plain-language-panel"><h2>Plain-language guide</h2><p>This page helps you understand <strong>UK Planning System Analysis — England Pilot Release</strong> without specialist planning jargon. Use the start-here notes first, then open linked detail pages for evidence and next actions.</p><p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), <strong>NSIP</strong> (nationally significant infrastructure project), <strong>verification state</strong> (draft or reviewed data status).</p></section>
+<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A high-level summary of the England planning analysis, key findings, and where to go next.</dd><dt>Who this is for</dt><dd>First-time visitors, policy teams, local authority officers, and public readers.</dd><dt>How to interpret</dt><dd>Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.</dd><dt>Data trust and freshness</dt><dd>Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency.</dd></dl></section>
+<section class="card guided-only"><p>Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations.</p></section>
+
 
       <section class="card">
         <h2>Current Phase</h2>
@@ -63,12 +71,12 @@
           <p>Pilot Release for policy-professional audience. Static website on GitHub Pages.</p>
         </article>
       </section>
-      <section class="card">
+      <section class="card" id="filters-start">
         <h2>Start by goal</h2>
         <div class="grid">
-          <article class="card"><h3>Understand the system</h3><p>Review core contradictions and bottlenecks across the full pathway.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
-          <article class="card"><h3>Compare authorities</h3><p>Use benchmark and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
-          <article class="card"><h3>Review reforms</h3><p>Read actionable recommendations and implementation pathways.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
+          <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
+          <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
+          <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
           <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods</a></p></article>
         </div>
       </section>
@@ -86,7 +94,73 @@
         <p>Download machine-readable datasets: <a href="exports/">CSV and JSON exports</a>.</p>
       </section>
     <section class="card"><h2>Data Health Snapshot</h2><p><span class="badge badge-green">fresh</span> 5 <span class="badge badge-amber">stale</span> 0 <span class="badge badge-red">critical</span> 0 </p><p class="small">Oldest monitored dataset: Official baseline metrics (7 days).</p><p><a href="data-health.html">Open full data health report</a></p></section>
-<section class="card"><h2>Where to go next</h2><ul><li><a href="contradictions.html">Go to contradictions dashboard</a></li><li><a href="benchmark.html">Go to benchmark dashboard</a></li><li><a href="recommendations.html">Go to recommendations</a></li><li><a href="data-health.html">Go to data health</a></li></ul></section>
+<section class="card guided-only"><h2>Next actions</h2><ul><li><a href="contradictions.html">Go to contradictions dashboard</a></li><li><a href="benchmark.html">Go to benchmark dashboard</a></li><li><a href="recommendations.html">Go to recommendations</a></li><li><a href="data-health.html">Go to data health</a></li></ul></section>
+      </main>
     </div>
+
+<script>
+(function() {
+  var key = 'uk-planning-view-mode-v1';
+  var shell = document.querySelector('.layout');
+  if (!shell) return;
+  var toggle = document.getElementById('view-mode-toggle');
+  var plainToggle = document.getElementById('plain-language-toggle');
+  var defaultMode = localStorage.getItem(key) || 'guided';
+  shell.dataset.viewMode = defaultMode;
+  if (toggle) toggle.value = defaultMode;
+  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
+  if (plainToggle) plainToggle.checked = plain === 'on';
+  shell.dataset.plainLanguage = plain;
+
+  function persist() {
+    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
+    shell.dataset.viewMode = mode;
+    localStorage.setItem(key, mode);
+    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
+    shell.dataset.plainLanguage = p;
+    localStorage.setItem('uk-planning-plain-language-v1', p);
+  }
+
+  if (toggle) toggle.addEventListener('change', persist);
+  if (plainToggle) plainToggle.addEventListener('change', persist);
+
+  document.addEventListener('click', function(evt) {
+    var copyBtn = evt.target.closest('[data-copy-view]');
+    if (!copyBtn) return;
+    var text = window.location.href;
+    var done = function(ok) {
+      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
+      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  function logEvent(name, meta) {
+    try {
+      var key = 'uk-planning-ux-events-v1';
+      var events = JSON.parse(localStorage.getItem(key) || '[]');
+      events.push({
+        ts: new Date().toISOString(),
+        page: window.location.pathname.replace(/^\//, ''),
+        name: name,
+        meta: meta || {},
+      });
+      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
+    } catch (e) {}
+  }
+
+  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
+  document.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      logEvent('link_click', { href: a.getAttribute('href') || '' });
+    });
+  });
+})();
+</script>
+
   </body>
 </html>

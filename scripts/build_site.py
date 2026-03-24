@@ -447,11 +447,11 @@ def compute_onboarding_status_rows(profile_page_check=True):
 
 def render_page_purpose(purpose):
     return (
-        '<section class="card"><h2>Page guide</h2><dl class="purpose-grid">'
+        '<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid">'
         f'<dt>What this page shows</dt><dd>{html.escape(purpose["what"])}</dd>'
         f'<dt>Who this is for</dt><dd>{html.escape(purpose["who"])}</dd>'
-        f'<dt>How to use it</dt><dd>{html.escape(purpose["how"])}</dd>'
-        f'<dt>Data source and freshness</dt><dd>{html.escape(purpose["data"])}</dd>'
+        f'<dt>How to interpret</dt><dd>{html.escape(purpose["how"])}</dd>'
+        f'<dt>Data trust and freshness</dt><dd>{html.escape(purpose["data"])}</dd>'
         '</dl></section>'
     )
 
@@ -465,11 +465,97 @@ def render_table_guide(title, bullets):
 
 
 def render_next_steps(steps):
-    body = '<section class="card"><h2>Where to go next</h2><ul>'
+    body = '<section class="card guided-only"><h2>Next actions</h2><ul>'
     for href, label in steps:
         body += f'<li><a href="{html.escape(href)}">{html.escape(label)}</a></li>'
     body += '</ul></section>'
     return body
+
+
+def render_data_trust_panel(active):
+    if active not in {"benchmark", "reports", "coverage", "contradictions", "recommendations", "map", "data-health"}:
+        return ""
+    rows, _counts = compute_data_health()
+    if not rows:
+        return ""
+    oldest = sorted(rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True)[0]
+    line = html.escape(f"Oldest monitored dataset: {oldest['dataset']} ({oldest['age_days']} days)")
+    return (
+        '<section class="card guided-only"><h3>Data trust panel</h3>'
+        '<p><strong>Source tiers:</strong> Official statistics, administrative references, analytical estimates.</p>'
+        '<p><strong>Known caveat:</strong> Some authority metrics are estimated proxies and should be interpreted directionally.</p>'
+        f'<p><strong>Latest trust check:</strong> {line}</p>'
+        '<p class="small">See methodology and metric-methods for full caveat details.</p>'
+        '</section>'
+    )
+
+
+def render_mode_shell_script():
+    return r"""
+<script>
+(function() {
+  var key = 'uk-planning-view-mode-v1';
+  var shell = document.querySelector('.layout');
+  if (!shell) return;
+  var toggle = document.getElementById('view-mode-toggle');
+  var plainToggle = document.getElementById('plain-language-toggle');
+  var defaultMode = localStorage.getItem(key) || 'guided';
+  shell.dataset.viewMode = defaultMode;
+  if (toggle) toggle.value = defaultMode;
+  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
+  if (plainToggle) plainToggle.checked = plain === 'on';
+  shell.dataset.plainLanguage = plain;
+
+  function persist() {
+    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
+    shell.dataset.viewMode = mode;
+    localStorage.setItem(key, mode);
+    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
+    shell.dataset.plainLanguage = p;
+    localStorage.setItem('uk-planning-plain-language-v1', p);
+  }
+
+  if (toggle) toggle.addEventListener('change', persist);
+  if (plainToggle) plainToggle.addEventListener('change', persist);
+
+  document.addEventListener('click', function(evt) {
+    var copyBtn = evt.target.closest('[data-copy-view]');
+    if (!copyBtn) return;
+    var text = window.location.href;
+    var done = function(ok) {
+      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
+      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  function logEvent(name, meta) {
+    try {
+      var key = 'uk-planning-ux-events-v1';
+      var events = JSON.parse(localStorage.getItem(key) || '[]');
+      events.push({
+        ts: new Date().toISOString(),
+        page: window.location.pathname.replace(/^\//, ''),
+        name: name,
+        meta: meta || {},
+      });
+      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
+    } catch (e) {}
+  }
+
+  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
+  document.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      logEvent('link_click', { href: a.getAttribute('href') || '' });
+    });
+  });
+})();
+</script>
+"""
 
 
 def default_breadcrumbs(active):
@@ -656,8 +742,36 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
     purpose_html = render_page_purpose(purpose) if purpose else ""
     context_html = ""
     if context:
-        context_html = f'<section class="card"><p>{html.escape(context)}</p></section>'
+        context_html = f'<section class="card guided-only"><p>{html.escape(context)}</p></section>'
     next_html = render_next_steps(next_steps) if next_steps else ""
+    trust_html = render_data_trust_panel(active)
+    utility_html = (
+        '<section class="card shell-utilities">'
+        '<div class="utility-row">'
+        '<label>View mode '
+        '<select id="view-mode-toggle" aria-label="Toggle guided or expert mode">'
+        '<option value="guided">Guided</option><option value="expert">Expert</option>'
+        '</select></label>'
+        '<label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label>'
+        '<button type="button" data-copy-view>Copy this view</button>'
+        '</div>'
+        '<p class="small">Trust legend: '
+        f'{provenance_badge("official")} Official statistic '
+        f'{provenance_badge("estimated")} Analytical estimate '
+        f'{confidence_badge("high")} Confidence example'
+        '</p>'
+        '</section>'
+    )
+    plain_html = (
+        '<section class="card plain-language-panel">'
+        '<h2>Plain-language guide</h2>'
+        f'<p>This page helps you understand <strong>{html.escape(title)}</strong> without specialist planning jargon. '
+        'Use the start-here notes first, then open linked detail pages for evidence and next actions.</p>'
+        '<p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), '
+        '<strong>NSIP</strong> (nationally significant infrastructure project), '
+        '<strong>verification state</strong> (draft or reviewed data status).</p>'
+        '</section>'
+    )
     return f"""<!doctype html>
 <html lang="en">
   <head>
@@ -670,6 +784,10 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
     <div class="layout">
       <header>
         <h1>{html.escape(title)}</h1>
@@ -683,11 +801,17 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
 {sub_nav}
       </nav>
 {breadcrumb_html}
+{utility_html}
+      <main id="main-content">
+{plain_html}
 {purpose_html}
 {context_html}
+{trust_html}
 {body}
 {next_html}
+      </main>
     </div>
+{render_mode_shell_script()}
   </body>
 </html>
 """
@@ -755,10 +879,10 @@ def render_table(rows, columns):
 
 def render_filter_controls(table_id, text_label, filter_defs):
     controls = [
-        '<section class="card">',
+        '<section class="card" id="filters-start">',
         '<div class="filter-row">',
         f'<label class="filter-item">{html.escape(text_label)}'
-        f'<input type="search" data-table="{table_id}" data-filter="search" placeholder="Type to search..." /></label>',
+        f'<input type="search" aria-label="{html.escape(text_label)}" data-table="{table_id}" data-filter="search" placeholder="Type to search..." /></label>',
     ]
     for field, label, options in filter_defs:
         opts = '<option value="">All</option>' + "".join(f"<option>{html.escape(o)}</option>" for o in options)
@@ -782,7 +906,7 @@ def render_filterable_table(rows, columns, table_id, data_fields):
         cells = "".join(render_cell(k, row.get(k, "") or "") for k, _ in columns)
         body_rows.append(f"<tr {attrs}>{cells}</tr>")
     return (
-        f'<section class="card"><table id="{table_id}"><thead><tr>'
+        f'<section class="card" id="table-start"><table id="{table_id}" class="dense-table"><thead><tr>'
         + head
         + "</tr></thead><tbody>"
         + "".join(body_rows)
@@ -888,6 +1012,102 @@ def render_filter_script(table_id, fields, shared_filters=None):
 """
 
 
+def render_table_enhancements_script(table_id, presets=None):
+    preset_cfg = json.dumps(presets or [], ensure_ascii=False)
+    return f"""
+<script>
+(function() {{
+  var table = document.getElementById('{table_id}');
+  if (!table) return;
+  var controls = Array.from(document.querySelectorAll('[data-table="{table_id}"]'));
+  var cards = table.closest('.card');
+  var presets = {preset_cfg};
+
+  function ensureContainers() {{
+    if (!cards) return;
+    if (!cards.querySelector('.active-filter-chips')) {{
+      var chips = document.createElement('p');
+      chips.className = 'small active-filter-chips';
+      cards.parentNode.insertBefore(chips, cards);
+    }}
+    if (presets.length && !cards.parentNode.querySelector('[data-presets-for="{table_id}"]')) {{
+      var wrap = document.createElement('section');
+      wrap.className = 'card';
+      wrap.setAttribute('data-presets-for', '{table_id}');
+      var html = '<h3>Quick presets</h3><div class="preset-row">';
+      presets.forEach(function(p, idx) {{
+        html += '<button type="button" data-preset-index="' + idx + '">' + p.label + '</button>';
+      }});
+      html += '<button type="button" data-preset-clear="1">Clear presets</button></div><p class="small" data-sort-state-for="{table_id}">Sort: none</p>';
+      wrap.innerHTML = html;
+      cards.parentNode.insertBefore(wrap, cards);
+      wrap.querySelectorAll('[data-preset-index]').forEach(function(btn) {{
+        btn.addEventListener('click', function() {{
+          var p = presets[Number(btn.getAttribute('data-preset-index'))] || {{}};
+          controls.forEach(function(c) {{
+            var key = c.dataset.filter;
+            if (key === 'search') return;
+            c.value = (p.filters && p.filters[key]) || '';
+          }});
+          controls.forEach(function(c) {{ c.dispatchEvent(new Event('change', {{ bubbles: true }})); }});
+        }});
+      }});
+      var clear = wrap.querySelector('[data-preset-clear]');
+      if (clear) {{
+        clear.addEventListener('click', function() {{
+          controls.forEach(function(c) {{ c.value = ''; c.dispatchEvent(new Event('change', {{ bubbles: true }})); }});
+        }});
+      }}
+    }}
+  }}
+
+  function renderChips() {{
+    var chips = document.querySelector('.active-filter-chips');
+    if (!chips) return;
+    var active = [];
+    controls.forEach(function(c) {{
+      var key = c.dataset.filter;
+      var value = (c.value || '').trim();
+      if (!value) return;
+      active.push(key + ': ' + value);
+    }});
+    chips.textContent = active.length ? ('Active filters - ' + active.join(' | ')) : 'Active filters - none';
+  }}
+
+  function sortableHeaders() {{
+    var stateEl = document.querySelector('[data-sort-state-for="{table_id}"]');
+    var headers = Array.from(table.querySelectorAll('thead th'));
+    headers.forEach(function(th, idx) {{
+      th.classList.add('sortable-th');
+      th.addEventListener('click', function() {{
+        var dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+        headers.forEach(function(h) {{ delete h.dataset.sortDir; }});
+        th.dataset.sortDir = dir;
+        var rows = Array.from(table.querySelectorAll('tbody tr'));
+        rows.sort(function(a, b) {{
+          var av = (a.children[idx] && a.children[idx].innerText || '').trim();
+          var bv = (b.children[idx] && b.children[idx].innerText || '').trim();
+          var an = parseFloat(av.replace(/[^0-9.+-]/g, ''));
+          var bn = parseFloat(bv.replace(/[^0-9.+-]/g, ''));
+          var cmp = (!isNaN(an) && !isNaN(bn)) ? (an - bn) : av.localeCompare(bv);
+          return dir === 'asc' ? cmp : -cmp;
+        }});
+        var body = table.querySelector('tbody');
+        rows.forEach(function(r) {{ body.appendChild(r); }});
+        if (stateEl) stateEl.textContent = 'Sort: ' + th.innerText.trim() + ' (' + dir + ')';
+      }});
+    }});
+  }}
+
+  ensureContainers();
+  renderChips();
+  sortableHeaders();
+  controls.forEach(function(c) {{ c.addEventListener('input', renderChips); c.addEventListener('change', renderChips); }});
+}})();
+</script>
+"""
+
+
 def render_mobile_drawer_script(table_id, labels, max_width=900):
     ljs = json.dumps(labels)
     return f"""
@@ -940,6 +1160,25 @@ def render_detail_toc(items):
     links = "".join(
         f'<a href="#{html.escape(anchor)}">{html.escape(label)}</a>' for anchor, label in items
     )
+    return (
+        '<section class="card detail-toc" aria-label="Detail page sections">'
+        '<h3>On this page</h3>'
+        f'<div class="detail-toc-links">{links}</div>'
+        '</section>'
+    )
+
+
+def render_metric_context_block(items):
+    body = '<section class="card guided-only" id="evidence-start"><h3>Metric context</h3><table><thead><tr><th>Metric</th><th>Definition</th><th>Why it matters</th><th>Source and confidence</th></tr></thead><tbody>'
+    for item in items:
+        body += "<tr>"
+        body += f"<td>{html.escape(item.get('metric', ''))}</td>"
+        body += f"<td>{html.escape(item.get('definition', ''))}</td>"
+        body += f"<td>{html.escape(item.get('why', ''))}</td>"
+        body += f"<td>{html.escape(item.get('source', ''))}</td>"
+        body += "</tr>"
+    body += "</tbody></table></section>"
+    return body
     return (
         '<section class="card detail-toc" aria-label="Detail page sections">'
         '<h3>On this page</h3>'
@@ -1118,12 +1357,12 @@ def build_index():
           <p>Pilot Release for policy-professional audience. Static website on GitHub Pages.</p>
         </article>
       </section>
-      <section class="card">
+      <section class="card" id="filters-start">
         <h2>Start by goal</h2>
         <div class="grid">
-          <article class="card"><h3>Understand the system</h3><p>Review core contradictions and bottlenecks across the full pathway.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
-          <article class="card"><h3>Compare authorities</h3><p>Use benchmark and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
-          <article class="card"><h3>Review reforms</h3><p>Read actionable recommendations and implementation pathways.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
+          <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
+          <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
+          <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
           <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods</a></p></article>
         </div>
       </section>
@@ -1384,8 +1623,14 @@ def build_contradictions(weights):
     ])
     body += render_filterable_table(rows, columns, "issues-table",
         ["issue_id", "scope", "issue_type", "affected_pathway", "summary", "confidence", "verification_state"])
+    body += '<section class="card guided-only"><p class="small">Mobile tip: tap any table row to open a compact detail drawer.</p></section>'
     body += render_filter_script("issues-table",
         ["issue_id", "scope", "issue_type", "affected_pathway", "summary", "confidence", "verification_state"])
+    body += render_table_enhancements_script("issues-table", presets=[
+        {"label": "Housing only", "filters": {"affected_pathway": "housing"}},
+        {"label": "National scope", "filters": {"scope": "national"}},
+        {"label": "High confidence", "filters": {"confidence": "high"}},
+    ])
     body += render_mobile_drawer_script("issues-table", [
         "Issue", "Scope", "Type", "Pathway", "Weighted Score", "Severity", "Delay", "Status", "Confidence", "Summary",
     ])
@@ -1433,6 +1678,11 @@ def build_recommendations(weights):
     body += render_filter_script("recs-table",
         ["recommendation_id", "priority", "time_horizon", "policy_goal", "title",
          "implementation_vehicle", "confidence", "verification_state"])
+    body += render_table_enhancements_script("recs-table", presets=[
+        {"label": "High priority only", "filters": {"priority": "High"}},
+        {"label": "Near term (0-12)", "filters": {"time_horizon": "0-12 months"}},
+        {"label": "High confidence", "filters": {"confidence": "high"}},
+    ])
 
     # Evidence traces
     body += '<section class="card"><h2>Evidence Traces</h2>'
@@ -1617,6 +1867,11 @@ def build_contradiction_details(weights):
         body += f'<li><a href="contradictions.html#issue_type={type_q}">Back to contradictions filtered by type</a></li>'
         body += f'<li><a href="contradictions.html#affected_pathway={path_q}">Back to contradictions filtered by pathway</a></li>'
         body += f'<li><a href="contradictions.html#scope={scope_q}">Back to contradictions filtered by scope</a></li>'
+        body += '</ul></section>'
+        body += '<section class="card"><h3>Users also viewed</h3><ul>'
+        body += '<li><a href="benchmark.html">Benchmark dashboard</a></li>'
+        body += '<li><a href="reports.html">Authority reports</a></li>'
+        body += '<li><a href="roadmap.html">Implementation roadmap</a></li>'
         body += '</ul></section>'
 
         write(SITE / issue_detail_page(issue_id), page(
@@ -1805,6 +2060,11 @@ def build_recommendation_details():
         body += '<section class="card"><h3>Context links</h3><ul>'
         body += f'<li><a href="recommendations.html#priority={pr_q}">Back to recommendations filtered by priority</a></li>'
         body += f'<li><a href="recommendations.html#time_horizon={hz_q}">Back to recommendations filtered by horizon</a></li>'
+        body += '</ul></section>'
+        body += '<section class="card"><h3>Users also viewed</h3><ul>'
+        body += '<li><a href="coverage.html">Coverage tracker</a></li>'
+        body += '<li><a href="consultation.html">Consultation status</a></li>'
+        body += '<li><a href="metric-methods.html">Metric methods appendix</a></li>'
         body += '</ul></section>'
 
         write(SITE / recommendation_detail_page(rid), page(
@@ -2941,9 +3201,19 @@ def build_benchmark():
     bands = ["Top third", "Middle third", "Bottom third"]
     by_region = defaultdict(list)
     by_cohort = defaultdict(list)
+    by_peer = defaultdict(list)
     for row in ranked:
         by_region[row["region"]].append(row["latest_speed"])
         by_cohort[row["cohort"]].append(row["latest_speed"])
+        by_peer[row["peer_group"]].append(row["latest_speed"])
+    england_major_speed = mean_speed
+    for b in baselines:
+        if b.get("metric_id") == "BAS-001":
+            try:
+                england_major_speed = float(b.get("value", "") or mean_speed)
+            except ValueError:
+                england_major_speed = mean_speed
+            break
     _, health_counts = compute_data_health()
 
     body = '<section class="card"><p>Benchmark dashboard compares LPAs on latest decision speed, appeal overturn trend, issue incidence, and evidence quality. Trend lines show 2024-Q4 to 2025-Q3.</p></section>'
@@ -2978,6 +3248,26 @@ def build_benchmark():
     body += provenance_badge("official") + ' from GOV.UK planning statistics (P151/P152); '
     body += provenance_badge("estimated") + ' from analytical issue-incidence and evidence-quality scoring layers.'
     body += '</p></section>'
+    body += render_metric_context_block([
+        {
+            "metric": "Speed (%)",
+            "definition": "Latest major decisions in time for each authority.",
+            "why": "Primary throughput signal for major applications.",
+            "source": "Official P151 (high confidence)",
+        },
+        {
+            "metric": "Appeal %",
+            "definition": "Latest appeal overturn percentage.",
+            "why": "Quality proxy for decision robustness.",
+            "source": "Official P152 (high confidence)",
+        },
+        {
+            "metric": "Backlog idx",
+            "definition": "Composite index from issues, severity, speed gap, and plan age.",
+            "why": "Highlights authorities facing higher processing pressure.",
+            "source": "Analytical estimate (tier-based confidence)",
+        },
+    ])
 
     top_pid = ranked[0]["pilot_id"] if ranked else ""
     median_pid = ranked[n // 2]["pilot_id"] if ranked else ""
@@ -3092,12 +3382,26 @@ def build_benchmark():
         body += f"<td>{html.escape(r['peer_group'])}</td>"
         body += f"<td>{html.escape(r['lpa_type'])}</td>"
         body += f"<td>{html.escape(r['region'])}</td>"
-        body += f"<td>{speed} {provenance_badge('official')}</td>"
+        speed_chip = ""
+        if isinstance(r.get("latest_speed"), float):
+            cohort_vals = by_cohort.get(r.get("cohort", ""), [])
+            peer_vals = by_peer.get(r.get("peer_group", ""), [])
+            cohort_avg = (sum(cohort_vals) / len(cohort_vals)) if cohort_vals else r["latest_speed"]
+            peer_avg = (sum(peer_vals) / len(peer_vals)) if peer_vals else r["latest_speed"]
+            speed_chip = (
+                f'<div class="mini-chips"><span class="mini-chip">vs England {r["latest_speed"]-england_major_speed:+.1f}pp</span>'
+                f'<span class="mini-chip">vs Cohort {r["latest_speed"]-cohort_avg:+.1f}pp</span>'
+                f'<span class="mini-chip">vs Peer {r["latest_speed"]-peer_avg:+.1f}pp</span></div>'
+            )
+        body += f"<td>{speed} {provenance_badge('official')}{speed_chip}</td>"
         body += f"<td>{delta} {provenance_badge('official')}</td>"
         body += f"<td>{badge(r.get('outlier', 'In range'), outlier_css)}</td>"
         body += f"<td>{html.escape(str(r['percentile']))}</td>"
         body += f"<td>{html.escape(r['band'])}</td>"
-        body += f"<td>{r['trend_spark']}</td>"
+        trend_text = "No trend"
+        if isinstance(r.get("speed_delta"), float):
+            trend_text = f"4Q movement {r['speed_delta']:+.1f}pp"
+        body += f"<td>{r['trend_spark']}<p class=\"small\">{html.escape(trend_text)}</p></td>"
         body += f"<td>{appeal} {provenance_badge('official')}</td>"
         body += f"<td>{html.escape(str(r['total_issues']))} {provenance_badge('estimated')}</td>"
         body += f"<td>{html.escape(str(r['high_severity_issues']))}</td>"
@@ -3113,6 +3417,7 @@ def build_benchmark():
         body += f"<td>{compare_link}</td>"
         body += "</tr>"
     body += '</tbody></table></section>'
+    body += '<section class="card guided-only"><p class="small">Mobile tip: tap a benchmark row for a compact, readable detail view.</p></section>'
 
     body += render_filter_script(
         "benchmark-table",
@@ -3121,6 +3426,10 @@ def build_benchmark():
     )
     body += render_mobile_drawer_script("benchmark-table", [
         "Rank", "LPA", "Cohort", "Peer group", "Type", "Region", "Speed", "4Q Delta", "Outlier", "Percentile", "Band", "Trend", "Appeal", "Issues", "High Severity", "Risk Stage", "Quality", "Validation rework", "Delegated", "Plan age", "Consult lag", "Backlog index", "Confidence", "Compare",
+    ])
+    body += render_table_enhancements_script("benchmark-table", presets=[
+        {"label": "High priority pressure", "filters": {"band": "bottom third", "quality": "c"}},
+        {"label": "Housing-focused peer", "filters": {"peer_group": "constrained housing-pressure authorities"}},
     ])
     body += """
 <script>
@@ -3427,6 +3736,26 @@ def build_reports():
     body += metric_help("Trend source", "Originating statistical table for the latest trend snapshot in each report.", "speed-delta") + ' '
     body += metric_help("Analytical confidence", "Confidence level for estimated metrics derived from authority data-quality tier.", "analytical-confidence")
     body += '</p></section>'
+    body += render_metric_context_block([
+        {
+            "metric": "Metric provenance",
+            "definition": "Source classification for report indicators.",
+            "why": "Helps users understand whether data is official or estimated.",
+            "source": "Official + analytical provenance badges",
+        },
+        {
+            "metric": "Analytical confidence",
+            "definition": "High/medium/low confidence for estimated authority metrics.",
+            "why": "Flags uncertainty before decisions are made.",
+            "source": "Derived from authority quality tiers",
+        },
+        {
+            "metric": "Trend source",
+            "definition": "Originating table reference for latest trend values.",
+            "why": "Supports traceability and evidence verification.",
+            "source": "GOV.UK/PINS source table links",
+        },
+    ])
     body += '<section class="card"><table id="reports-table"><thead><tr>'
     body += '<th>ID</th><th>Authority</th><th>Cohort</th><th>Peer group</th><th>Type</th><th>Region</th>'
     body += f'<th>{metric_help("Metric provenance", "Official stats are from GOV.UK trend tables; estimates are analytical layers.", "major-speed")}</th>'
@@ -3459,6 +3788,7 @@ def build_reports():
         body += f'<td><a href="{html.escape(row["json"])}">Download JSON</a></td>'
         body += '</tr>'
     body += '</tbody></table></section>'
+    body += '<section class="card guided-only"><p class="small">Mobile tip: tap a report row to inspect details without horizontal scrolling.</p></section>'
 
     if latest_speed_rows:
         latest_speed_rows.sort(key=lambda x: x["major_in_time_pct"], reverse=True)
@@ -3489,6 +3819,10 @@ def build_reports():
         ["search", "region", "cohort", "lpa_type", "quality", "peer_group"],
         shared_filters=["region", "lpa_type", "cohort", "quality"],
     )
+    body += render_table_enhancements_script("reports-table", presets=[
+        {"label": "Tier C only", "filters": {"quality": "c"}},
+        {"label": "Cohort 1", "filters": {"cohort": "cohort 1"}},
+    ])
     body += render_mobile_drawer_script("reports-table", [
         "ID", "Authority", "Cohort", "Peer group", "Type", "Region", "Metric provenance", "Analytical confidence", "Trend source", "CSV", "JSON",
     ])
@@ -3644,6 +3978,44 @@ def build_coverage():
         ]))
 
 
+def build_ux_kpi_report():
+    contradictions = read_csv(ROOT / "data/issues/contradiction-register.csv")
+    recommendations = read_csv(ROOT / "data/issues/recommendations.csv")
+    coverage_rows, coverage_counts = compute_onboarding_status_rows(profile_page_check=True)
+    report = {
+        "generated_at": date.today().isoformat(),
+        "kpis": {
+            "detail_page_coverage": {
+                "contradictions_with_detail_pages": len(contradictions),
+                "recommendations_with_detail_pages": len(recommendations),
+            },
+            "coverage_status": coverage_counts,
+            "instrumentation": {
+                "event_schema": ["page_view", "link_click"],
+                "storage": "localStorage:uk-planning-ux-events-v1",
+                "guided_mode_available": True,
+                "plain_language_toggle_available": True,
+            },
+            "targets": {
+                "time_to_first_insight_seconds": 45,
+                "detail_page_click_through_rate": 0.35,
+                "filter_use_success_rate": 0.8,
+            },
+        },
+    }
+    reports_dir = SITE / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    (reports_dir / "ux-kpi-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    with (reports_dir / "ux-kpi-report.csv").open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["metric", "value"])
+        w.writerow(["contradiction_detail_pages", len(contradictions)])
+        w.writerow(["recommendation_detail_pages", len(recommendations)])
+        w.writerow(["coverage_complete", coverage_counts.get("complete", 0)])
+        w.writerow(["coverage_partial", coverage_counts.get("partial", 0)])
+        w.writerow(["coverage_estimated", coverage_counts.get("estimated", 0)])
+
+
 def build_consultation():
     recs = read_csv(ROOT / "data/issues/recommendations.csv")
     statuses = read_csv(ROOT / "data/issues/recommendation-status.csv")
@@ -3723,20 +4095,35 @@ def build_search_index():
     """Build a JSON search index from all key datasets for client-side search."""
     index = []
 
-    def add(doc_id, page, title, category, text):
+    def add(doc_id, page, title, category, text, facets=None):
         index.append({
             "id": doc_id, "page": page, "title": title,
             "category": category,
-            "text": " ".join(str(v) for v in [title, text] if v).lower()
+            "text": " ".join(str(v) for v in [title, text] if v).lower(),
+            "facets": facets or {},
         })
 
     for r in read_csv(ROOT / "data/issues/contradiction-register.csv"):
         add(r["issue_id"], issue_detail_page(r["issue_id"]), r["issue_id"] + ": " + r["summary"],
-            "Contradiction", r.get("summary", "") + " " + r.get("issue_type", "") + " " + r.get("process_stage", ""))
+            "Contradiction", r.get("summary", "") + " " + r.get("issue_type", "") + " " + r.get("process_stage", ""),
+            facets={
+                "type": "contradiction",
+                "pathway": (r.get("affected_pathway", "") or "").lower(),
+                "confidence": (r.get("confidence", "") or "").lower(),
+                "status": (r.get("verification_state", "") or "").lower(),
+                "authority": "",
+            })
 
     for r in read_csv(ROOT / "data/issues/recommendations.csv"):
         add(r["recommendation_id"], recommendation_detail_page(r["recommendation_id"]), r["recommendation_id"] + ": " + r["title"],
-            "Recommendation", r.get("title", "") + " " + r.get("policy_goal", "") + " " + r.get("kpi_primary", ""))
+            "Recommendation", r.get("title", "") + " " + r.get("policy_goal", "") + " " + r.get("kpi_primary", ""),
+            facets={
+                "type": "recommendation",
+                "pathway": "",
+                "confidence": (r.get("confidence", "") or "").lower(),
+                "status": (r.get("verification_state", "") or "").lower(),
+                "authority": "",
+            })
 
     for r in read_csv(ROOT / "data/legislation/england-core-legislation.csv"):
         add(r["id"], "legislation.html", r["title"],
@@ -3748,7 +4135,14 @@ def build_search_index():
 
     for r in read_csv(ROOT / "data/plans/pilot-lpas.csv"):
         add(r["pilot_id"], f"plans-{r['pilot_id'].lower()}.html", r["lpa_name"],
-            "LPA", r.get("region", "") + " " + r.get("constraint_profile", "") + " " + r.get("growth_context", ""))
+            "LPA", r.get("region", "") + " " + r.get("constraint_profile", "") + " " + r.get("growth_context", ""),
+            facets={
+                "type": "authority",
+                "pathway": "",
+                "confidence": "",
+                "status": "",
+                "authority": (r.get("lpa_name", "") or "").lower(),
+            })
 
     for r in read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"):
         add(r["stage_id"], "bottlenecks.html", r["process_stage"] + " — " + r["pathway"],
@@ -3756,7 +4150,14 @@ def build_search_index():
 
     for r in read_csv(ROOT / "data/evidence/appeal-decisions.csv"):
         add(r["appeal_id"], "appeals.html", r["pins_reference"] + " (" + r["lpa"] + ")",
-            "Appeal", r.get("inspector_finding", "") + " " + r.get("policy_cited", ""))
+            "Appeal", r.get("inspector_finding", "") + " " + r.get("policy_cited", ""),
+            facets={
+                "type": "appeal",
+                "pathway": "",
+                "confidence": "",
+                "status": (r.get("outcome", "") or "").lower(),
+                "authority": (r.get("lpa", "") or "").lower(),
+            })
 
     idx_path = SITE / "search-index.json"
     idx_path.write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -3768,6 +4169,12 @@ def build_search():
       <section class="card">
         <label for="search-input" class="sr-only">Search across all content</label>
         <input type="search" id="search-input" placeholder="Search legislation, issues, recommendations, LPAs, appeals..." style="width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;" />
+        <div class="filter-row" style="margin-top:10px;" id="filters-start">
+          <label class="filter-item">Type<select id="facet-type"><option value="">All</option><option value="contradiction">Contradiction</option><option value="recommendation">Recommendation</option><option value="authority">Authority</option><option value="appeal">Appeal</option></select></label>
+          <label class="filter-item">Pathway<select id="facet-pathway"><option value="">All</option><option value="housing">Housing</option><option value="commercial">Commercial</option><option value="infrastructure">Infrastructure</option><option value="mixed">Mixed</option></select></label>
+          <label class="filter-item">Confidence<select id="facet-confidence"><option value="">All</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+          <label class="filter-item">Status<select id="facet-status"><option value="">All</option><option value="draft">Draft</option><option value="verified">Verified</option><option value="legal-reviewed">Legal-reviewed</option></select></label>
+        </div>
         <p class="small" id="search-count" style="margin-top:8px;"></p>
       </section>
       <section class="card" id="search-results">
@@ -3778,6 +4185,10 @@ def build_search():
         var input = document.getElementById('search-input');
         var results = document.getElementById('search-results');
         var countEl = document.getElementById('search-count');
+        var typeEl = document.getElementById('facet-type');
+        var pathwayEl = document.getElementById('facet-pathway');
+        var confidenceEl = document.getElementById('facet-confidence');
+        var statusEl = document.getElementById('facet-status');
         var index = null;
 
         fetch('search-index.json')
@@ -3787,15 +4198,37 @@ def build_search():
             countEl.textContent = data.length + ' items indexed.';
           });
 
-        input.addEventListener('input', function() {
+        function rankMatches(items, q) {
+          return items.sort(function(a, b) {
+            var aq = (a.id || '').toLowerCase() === q ? 1 : 0;
+            var bq = (b.id || '').toLowerCase() === q ? 1 : 0;
+            if (aq !== bq) return bq - aq;
+            var aTitle = (a.title || '').toLowerCase().indexOf(q) === 0 ? 1 : 0;
+            var bTitle = (b.title || '').toLowerCase().indexOf(q) === 0 ? 1 : 0;
+            return bTitle - aTitle;
+          });
+        }
+
+        function runSearch() {
           var q = input.value.toLowerCase().trim();
           if (!index || q.length < 2) {
             results.innerHTML = '<p class="small">Type at least 2 characters to search.</p>';
             return;
           }
+          var fType = (typeEl.value || '').toLowerCase();
+          var fPath = (pathwayEl.value || '').toLowerCase();
+          var fConf = (confidenceEl.value || '').toLowerCase();
+          var fStatus = (statusEl.value || '').toLowerCase();
           var matches = index.filter(function(item) {
-            return item.text.indexOf(q) !== -1;
-          }).slice(0, 50);
+            if (item.text.indexOf(q) === -1) return false;
+            var facets = item.facets || {};
+            if (fType && facets.type !== fType) return false;
+            if (fPath && facets.pathway !== fPath) return false;
+            if (fConf && facets.confidence !== fConf) return false;
+            if (fStatus && facets.status !== fStatus) return false;
+            return true;
+          });
+          matches = rankMatches(matches, q).slice(0, 50);
 
           if (matches.length === 0) {
             results.innerHTML = '<p class="small">No results found.</p>';
@@ -3819,6 +4252,11 @@ def build_search():
             html += '</ul>';
           });
           results.innerHTML = html;
+        }
+
+        [input, typeEl, pathwayEl, confidenceEl, statusEl].forEach(function(control) {
+          control.addEventListener('input', runSearch);
+          control.addEventListener('change', runSearch);
         });
       })();
       </script>
@@ -3866,6 +4304,7 @@ def main():
     build_metric_methods()
     build_sources()
     build_exports_index()
+    build_ux_kpi_report()
 
     # Write exports
     exports_data = {

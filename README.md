@@ -41,6 +41,11 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Coverage tracker page (`coverage.html`) with complete/partial/estimated authority status
 - Onboarding pipeline outputs under `site/reports/onboarding/*.json` with ingest->validate->profile->QA gate status
 - Mobile table detail drawer on dense benchmark/reports/contradictions tables
+- Guided vs Expert page mode toggle with optional plain-language guidance
+- Faceted search filters (type/pathway/confidence/status) with exact-ID prioritization
+- Quick filter presets and active-filter chips on major analytical tables
+- Shareable state helper (`Copy this view`) and global trust legend
+- UX KPI artifacts generated under `site/reports/ux-kpi-report.*`
 - Quarterly automated GOV.UK statistics ingest check
 - Ingest workflow now publishes both text and JSON freshness reports as build artifacts
 - Statistics ingest can append quarterly run history (`stats-ingest-history.json`) and source-level freshness details
@@ -111,6 +116,7 @@ uk-planning/
 │   │   ├── next-wave-roadmap.md      # Ranked delivery roadmap with effort and owners
 │   │   ├── phase-3-plan.md          # Next-phase implementation plan
 │   │   ├── qa-report.md
+│   │   ├── ux-instrumentation-kpis.md  # UX event schema and KPI definitions
 │   │   ├── wave-d-ux-data-architecture-backlog.md  # UX/data presentation backlog with acceptance criteria
 │   │   └── ui-blueprint.md          # Reusable IA/UI component blueprint
 │   │   └── scale-out-backlog.md
@@ -122,6 +128,7 @@ uk-planning/
 │   ├── exports/
 │   ├── reports/                     # Per-LPA downloadable comparison bundles
 │   │   └── onboarding/              # Per-authority onboarding gate outputs
+│   │   └── ux-kpi-report.json       # Build-time KPI structure and targets artifact
 │   ├── search-index.json            # Client-side search index
 │   └── *.html                       # 28+ generated pages
 └── .github/workflows/

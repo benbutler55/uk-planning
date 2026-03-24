@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
     <div class="layout">
       <header>
         <h1>Official Baseline Metrics</h1>
@@ -32,10 +36,80 @@
 <a class="active" href="baselines.html">Baselines</a>
       </nav>
 <div class="breadcrumbs"><a href="index.html">Overview</a> &gt; <a href="contradictions.html">System Analysis</a> &gt; <a href="baselines.html">Baselines</a></div>
-<section class="card"><h2>Page guide</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>Baseline performance metrics used to measure current planning outcomes.</dd><dt>Who this is for</dt><dd>Users benchmarking current performance before evaluating reforms.</dd><dt>How to use it</dt><dd>Compare England-level and LPA-level values, then connect metrics to recommendations.</dd><dt>Data source and freshness</dt><dd>Baselines are sourced from GOV.UK and PINS tables with source table IDs and retrieval dates.</dd></dl></section>
-<section class="card"><p>Use these baseline metrics to understand current performance levels before assessing the impact of proposed reforms.</p></section>
+<section class="card shell-utilities"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></section>
+      <main id="main-content">
+<section class="card plain-language-panel"><h2>Plain-language guide</h2><p>This page helps you understand <strong>Official Baseline Metrics</strong> without specialist planning jargon. Use the start-here notes first, then open linked detail pages for evidence and next actions.</p><p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), <strong>NSIP</strong> (nationally significant infrastructure project), <strong>verification state</strong> (draft or reviewed data status).</p></section>
+<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>Baseline performance metrics used to measure current planning outcomes.</dd><dt>Who this is for</dt><dd>Users benchmarking current performance before evaluating reforms.</dd><dt>How to interpret</dt><dd>Compare England-level and LPA-level values, then connect metrics to recommendations.</dd><dt>Data trust and freshness</dt><dd>Baselines are sourced from GOV.UK and PINS tables with source table IDs and retrieval dates.</dd></dl></section>
+<section class="card guided-only"><p>Use these baseline metrics to understand current performance levels before assessing the impact of proposed reforms.</p></section>
+
 <section class="card"><p>Official baseline metrics from GOV.UK planning statistics and PINS casework data. Window: latest 4 quarters.</p></section><section class="card"><h3>How to read this table</h3><ul><li>Each row is one baseline metric with source and period context.</li><li>Compare geography and pathway before drawing conclusions.</li><li>Period and retrieved_at dates help assess recency.</li><li>Use these values as current-state benchmarks for reform impact.</li></ul></section><section class="card"><table><thead><tr><th>ID</th><th>Metric</th><th>Source</th><th>Geography</th><th>Pathway</th><th>Value</th><th>Unit</th><th>Period</th></tr></thead><tbody><tr><td>BAS-001</td><td>Speed of major decisions (in time)</td><td>P151</td><td>England</td><td>Housing</td><td>74</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-002</td><td>Speed of non-major decisions (in time)</td><td>P153</td><td>England</td><td>Mixed</td><td>88</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-003</td><td>Quality of major decisions (appeals overturned)</td><td>P152</td><td>England</td><td>Housing</td><td>2.1</td><td>percent of total decisions overturned at appeal</td><td>Jan 2023 to Dec 2024</td></tr><tr><td>BAS-004</td><td>Quality of non-major decisions (appeals overturned)</td><td>P154</td><td>England</td><td>Mixed</td><td>1.0</td><td>percent of total decisions overturned at appeal</td><td>Jan 2023 to Dec 2024</td></tr><tr><td>BAS-005</td><td>NSIP examination median duration</td><td>PINS quarterly stats</td><td>England</td><td>Infrastructure</td><td>16</td><td>months median examination duration</td><td>Latest 4 quarters</td></tr><tr><td>BAS-006</td><td>S78 appeal determination median time</td><td>PINS quarterly stats</td><td>England</td><td>Mixed</td><td>8</td><td>months median appeal determination</td><td>Latest 4 quarters</td></tr><tr><td>BAS-007</td><td>Validation rework rate (proxy)</td><td>PS2</td><td>England</td><td>Mixed</td><td>12</td><td>percent of submissions returned as invalid or withdrawn before determination</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-008</td><td>Speed of major decisions (Manchester pilot)</td><td>P151</td><td>LPA-01 Manchester</td><td>Housing</td><td>71</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-009</td><td>Speed of major decisions (Oxford pilot)</td><td>P151</td><td>LPA-02 Oxford</td><td>Housing</td><td>68</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-010</td><td>Speed of major decisions (South Cambs pilot)</td><td>P151</td><td>LPA-03 South Cambridgeshire</td><td>Housing</td><td>65</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-011</td><td>Speed of major decisions (Cornwall pilot)</td><td>P151</td><td>LPA-04 Cornwall</td><td>Mixed</td><td>76</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-012</td><td>Speed of major decisions (Newham pilot)</td><td>P151</td><td>LPA-05 Newham</td><td>Housing</td><td>69</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-013</td><td>Speed of major decisions (Leeds cohort 2)</td><td>P151</td><td>LPA-07 Leeds</td><td>Housing</td><td>78</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-014</td><td>Speed of major decisions (Bristol cohort 2)</td><td>P151</td><td>LPA-08 Bristol</td><td>Mixed</td><td>72</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-015</td><td>Speed of major decisions (Guildford cohort 2)</td><td>P151</td><td>LPA-09 Guildford</td><td>Housing</td><td>61</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-016</td><td>Speed of major decisions (Newcastle cohort 2)</td><td>P151</td><td>LPA-10 Newcastle</td><td>Mixed</td><td>80</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-017</td><td>Speed of major decisions (Southampton cohort 2)</td><td>P151</td><td>LPA-13 Southampton</td><td>Mixed</td><td>74</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-018</td><td>Speed of major decisions (Leicester cohort 2)</td><td>P151</td><td>LPA-14 Leicester</td><td>Mixed</td><td>70</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr><tr><td>BAS-019</td><td>Speed of major decisions (Medway cohort 2)</td><td>P151</td><td>LPA-16 Medway</td><td>Housing</td><td>63</td><td>percent decided in time or agreed extension</td><td>Latest 4 quarters to Sep 2025</td></tr></tbody></table></section>
-<section class="card"><h2>Where to go next</h2><ul><li><a href="benchmark.html">Open benchmark dashboard</a></li><li><a href="reports.html">Open authority reports</a></li><li><a href="recommendations.html">Open recommendations</a></li></ul></section>
+<section class="card guided-only"><h2>Next actions</h2><ul><li><a href="benchmark.html">Open benchmark dashboard</a></li><li><a href="reports.html">Open authority reports</a></li><li><a href="recommendations.html">Open recommendations</a></li></ul></section>
+      </main>
     </div>
+
+<script>
+(function() {
+  var key = 'uk-planning-view-mode-v1';
+  var shell = document.querySelector('.layout');
+  if (!shell) return;
+  var toggle = document.getElementById('view-mode-toggle');
+  var plainToggle = document.getElementById('plain-language-toggle');
+  var defaultMode = localStorage.getItem(key) || 'guided';
+  shell.dataset.viewMode = defaultMode;
+  if (toggle) toggle.value = defaultMode;
+  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
+  if (plainToggle) plainToggle.checked = plain === 'on';
+  shell.dataset.plainLanguage = plain;
+
+  function persist() {
+    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
+    shell.dataset.viewMode = mode;
+    localStorage.setItem(key, mode);
+    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
+    shell.dataset.plainLanguage = p;
+    localStorage.setItem('uk-planning-plain-language-v1', p);
+  }
+
+  if (toggle) toggle.addEventListener('change', persist);
+  if (plainToggle) plainToggle.addEventListener('change', persist);
+
+  document.addEventListener('click', function(evt) {
+    var copyBtn = evt.target.closest('[data-copy-view]');
+    if (!copyBtn) return;
+    var text = window.location.href;
+    var done = function(ok) {
+      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
+      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  function logEvent(name, meta) {
+    try {
+      var key = 'uk-planning-ux-events-v1';
+      var events = JSON.parse(localStorage.getItem(key) || '[]');
+      events.push({
+        ts: new Date().toISOString(),
+        page: window.location.pathname.replace(/^\//, ''),
+        name: name,
+        meta: meta || {},
+      });
+      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
+    } catch (e) {}
+  }
+
+  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
+  document.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      logEvent('link_click', { href: a.getAttribute('href') || '' });
+    });
+  });
+})();
+</script>
+
   </body>
 </html>
