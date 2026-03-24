@@ -1,5 +1,5 @@
 field,value
-report_generated_at,2026-03-23
+report_generated_at,2026-03-24
 data_version,v6.0
 pilot_id,LPA-12
 lpa_name,Northumberland County Council
@@ -20,9 +20,9 @@ issue_incidence_provenance,estimated
 data_quality_provenance,estimated
 validation_rework_proxy,13.4
 delegated_ratio_proxy,89.5
-plan_age_years,6.6
+plan_age_years,6.7
 consultation_lag_proxy,4.5
-backlog_pressure,37.2
+backlog_pressure,37.5
 analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

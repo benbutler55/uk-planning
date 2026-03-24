@@ -55,20 +55,25 @@
   }
 
   function applyInitialSharedFilters() {
-    if (!sharedFilters.length) return;
     var params = new URLSearchParams(window.location.search);
+    if (!Array.from(params.keys()).length && window.location.hash) {
+      params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    }
     var stored = loadSharedState();
     controls.forEach(function(control) {
       var key = control.dataset.filter;
-      if (sharedFilters.indexOf(key) === -1) return;
       var fromUrl = (params.get(key) || '').toLowerCase().trim();
-      var fromStore = (stored[key] || '').toLowerCase().trim();
+      var fromStore = sharedFilters.indexOf(key) !== -1 ? (stored[key] || '').toLowerCase().trim() : '';
       var next = fromUrl || fromStore;
       if (!next) return;
       var hasOption = Array.from(control.options || []).some(function(opt) {
         return (opt.value || '').toLowerCase() === next;
       });
-      if (hasOption) control.value = next;
+      if (hasOption) {
+        control.value = next;
+      } else if (control.dataset.filter === 'search') {
+        control.value = next;
+      }
     });
   }
 

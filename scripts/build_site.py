@@ -7,6 +7,7 @@ import html
 import json
 import math
 import shutil
+import urllib.parse
 from collections import defaultdict
 from datetime import date, datetime
 from pathlib import Path
@@ -298,6 +299,24 @@ def parse_iso_date(raw):
         return date.fromisoformat(raw)
     except ValueError:
         return None
+
+
+def split_pipe_values(raw):
+    if not raw:
+        return []
+    return [item.strip() for item in str(raw).split("|") if item.strip()]
+
+
+def issue_detail_page(issue_id):
+    return f"contradiction-{issue_id.lower()}.html"
+
+
+def recommendation_detail_page(recommendation_id):
+    return f"recommendation-{recommendation_id.lower()}.html"
+
+
+def query_value(value):
+    return urllib.parse.quote((value or "").strip().lower())
 
 
 def compute_data_health():
@@ -688,6 +707,12 @@ def render_cell(key, value):
     if key in URL_COLUMNS and value and (value.startswith("http://") or value.startswith("https://")):
         escaped = html.escape(value)
         return f'<td><a href="{escaped}" target="_blank" rel="noopener noreferrer">Link</a></td>'
+    if key == "issue_id" and value:
+        href = issue_detail_page(value)
+        return f'<td><a href="{html.escape(href)}">{html.escape(value)}</a></td>'
+    if key == "recommendation_id" and value:
+        href = recommendation_detail_page(value)
+        return f'<td><a href="{html.escape(href)}">{html.escape(value)}</a></td>'
     return f"<td>{html.escape(value)}</td>"
 
 
@@ -790,20 +815,25 @@ def render_filter_script(table_id, fields, shared_filters=None):
   }}
 
   function applyInitialSharedFilters() {{
-    if (!sharedFilters.length) return;
     var params = new URLSearchParams(window.location.search);
+    if (!Array.from(params.keys()).length && window.location.hash) {{
+      params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    }}
     var stored = loadSharedState();
     controls.forEach(function(control) {{
       var key = control.dataset.filter;
-      if (sharedFilters.indexOf(key) === -1) return;
       var fromUrl = (params.get(key) || '').toLowerCase().trim();
-      var fromStore = (stored[key] || '').toLowerCase().trim();
+      var fromStore = sharedFilters.indexOf(key) !== -1 ? (stored[key] || '').toLowerCase().trim() : '';
       var next = fromUrl || fromStore;
       if (!next) return;
       var hasOption = Array.from(control.options || []).some(function(opt) {{
         return (opt.value || '').toLowerCase() === next;
       }});
-      if (hasOption) control.value = next;
+      if (hasOption) {{
+        control.value = next;
+      }} else if (control.dataset.filter === 'search') {{
+        control.value = next;
+      }}
     }});
   }}
 
@@ -1338,6 +1368,7 @@ def build_contradictions(weights):
         "Weighted score combines severity, frequency, legal risk, delay impact, and fixability.",
         "Higher scores indicate higher operational priority.",
         "Confidence and verification badges show evidence maturity.",
+        "Click an Issue ID to open the full contradiction drill-down page.",
     ])
     body += render_filterable_table(rows, columns, "issues-table",
         ["issue_id", "scope", "issue_type", "affected_pathway", "summary", "confidence", "verification_state"])
@@ -1382,6 +1413,7 @@ def build_recommendations(weights):
         "Priority and confidence support triage and sequencing.",
         "Implementation vehicle identifies whether delivery is guidance, SI, or statutory change.",
         "KPI and target define the measurable intended impact.",
+        "Click a Recommendation ID to open the full recommendation drill-down page.",
     ])
     body += render_filterable_table(rows, columns, "recs-table",
         ["recommendation_id", "priority", "time_horizon", "policy_goal", "title",
@@ -1402,7 +1434,7 @@ def build_recommendations(weights):
     for row in rows:
         rid = row["recommendation_id"]
         evs = ev_by_rec.get(rid, [])
-        body += f'<section class="card"><h3>{html.escape(rid)}: {html.escape(row["title"])}</h3>'
+        body += f'<section class="card"><h3><a href="{html.escape(recommendation_detail_page(rid))}">{html.escape(rid)}</a>: {html.escape(row["title"])}</h3>'
         body += f'<p>{confidence_badge(row.get("confidence", ""))} {verification_badge(row.get("verification_state", ""))}</p>'
         if evs:
             body += "<table><thead><tr><th>Source</th><th>Metric</th><th>Baseline</th><th>Window</th><th>Link</th></tr></thead><tbody>"
@@ -1429,6 +1461,342 @@ def build_recommendations(weights):
             ("consultation.html", "Open consultation tracker"),
             ("sources.html", "Review source evidence index"),
         ]))
+
+
+def build_contradiction_details(weights):
+    issues = read_csv(ROOT / "data/issues/contradiction-register.csv")
+    recs = read_csv(ROOT / "data/issues/recommendations.csv")
+    evidence = read_csv(ROOT / "data/evidence/recommendation_evidence_links.csv")
+    appeals = read_csv(ROOT / "data/evidence/appeal-decisions.csv")
+    bottlenecks = read_csv(ROOT / "data/issues/bottleneck-heatmap.csv")
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    lpa_by_name = {r.get("lpa_name", "").strip().lower(): r for r in lpas}
+
+    recs_by_issue = defaultdict(list)
+    for rec in recs:
+        for issue_id in split_pipe_values(rec.get("linked_issues", "")):
+            recs_by_issue[issue_id].append(rec)
+
+    ev_by_rec = defaultdict(list)
+    for row in evidence:
+        ev_by_rec[row.get("recommendation_id", "")].append(row)
+
+    appeals_by_issue = defaultdict(list)
+    for row in appeals:
+        appeals_by_issue[row.get("linked_issue", "")].append(row)
+
+    bottlenecks_by_issue = defaultdict(list)
+    for row in bottlenecks:
+        for issue_id in split_pipe_values(row.get("linked_issues", "")):
+            bottlenecks_by_issue[issue_id].append(row)
+
+    for issue in issues:
+        issue_id = issue.get("issue_id", "")
+        issue["weighted_score"] = f"{weighted_score(issue, weights):.2f}"
+        linked_recs = recs_by_issue.get(issue_id, [])
+        linked_appeals = appeals_by_issue.get(issue_id, [])
+        linked_bottlenecks = bottlenecks_by_issue.get(issue_id, [])
+
+        body = '<section class="card">'
+        body += f'<h2>{html.escape(issue_id)}: {html.escape(issue.get("summary", ""))}</h2>'
+        body += f'<p>{verification_badge(issue.get("verification_state", ""))} {confidence_badge(issue.get("confidence", ""))}</p>'
+        body += '<ul>'
+        body += f'<li><strong>Scope:</strong> {html.escape(issue.get("scope", ""))}</li>'
+        body += f'<li><strong>Type:</strong> {html.escape(issue.get("issue_type", ""))}</li>'
+        body += f'<li><strong>Pathway:</strong> {html.escape(issue.get("affected_pathway", ""))}</li>'
+        body += f'<li><strong>Process stage:</strong> {html.escape(issue.get("process_stage", ""))}</li>'
+        body += f'<li><strong>Weighted score:</strong> {html.escape(issue.get("weighted_score", ""))} / 5</li>'
+        body += '</ul></section>'
+
+        body += '<section class="card"><h3>Score components</h3><ul>'
+        body += f'<li>Severity: {html.escape(issue.get("severity_score", ""))}</li>'
+        body += f'<li>Frequency: {html.escape(issue.get("frequency_score", ""))}</li>'
+        body += f'<li>Legal risk: {html.escape(issue.get("legal_risk_score", ""))}</li>'
+        body += f'<li>Delay impact: {html.escape(issue.get("delay_impact_score", ""))}</li>'
+        body += f'<li>Fixability: {html.escape(issue.get("fixability_score", ""))}</li>'
+        body += '</ul></section>'
+
+        body += '<section class="card"><h3>Linked instruments</h3><p>'
+        instruments = split_pipe_values(issue.get("linked_instruments", ""))
+        body += ", ".join(html.escape(item) for item in instruments) if instruments else "n/a"
+        body += '</p></section>'
+
+        body += '<section class="card"><h3>Connected recommendations</h3>'
+        if linked_recs:
+            body += '<table><thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Horizon</th><th>Evidence links</th></tr></thead><tbody>'
+            for rec in linked_recs:
+                rid = rec.get("recommendation_id", "")
+                body += '<tr>'
+                body += f'<td><a href="{html.escape(recommendation_detail_page(rid))}">{html.escape(rid)}</a></td>'
+                body += f'<td>{html.escape(rec.get("title", ""))}</td>'
+                body += f'<td>{html.escape(rec.get("priority", ""))}</td>'
+                body += f'<td>{html.escape(rec.get("time_horizon", ""))}</td>'
+                body += f'<td>{html.escape(str(len(ev_by_rec.get(rid, []))))}</td>'
+                body += '</tr>'
+            body += '</tbody></table>'
+        else:
+            body += '<p><em>No linked recommendations recorded.</em></p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Appeal evidence</h3>'
+        if linked_appeals:
+            body += '<table><thead><tr><th>Reference</th><th>LPA</th><th>Date</th><th>Outcome</th><th>Finding</th><th>Source</th></tr></thead><tbody>'
+            for ap in linked_appeals:
+                body += '<tr>'
+                body += f'<td>{html.escape(ap.get("pins_reference", ""))}</td>'
+                body += f'<td>{html.escape(ap.get("lpa", ""))}</td>'
+                body += f'<td>{html.escape(ap.get("decision_date", ""))}</td>'
+                body += f'<td>{html.escape(ap.get("outcome", ""))}</td>'
+                body += f'<td>{html.escape(ap.get("inspector_finding", ""))}</td>'
+                src = ap.get("source_url", "")
+                if src:
+                    body += f'<td><a href="{html.escape(src)}" target="_blank" rel="noopener noreferrer">Source</a></td>'
+                else:
+                    body += '<td>—</td>'
+                body += '</tr>'
+            body += '</tbody></table>'
+        else:
+            body += '<p><em>No direct appeal records linked.</em></p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Related bottleneck stages</h3>'
+        if linked_bottlenecks:
+            body += '<table><thead><tr><th>ID</th><th>Stage</th><th>Pathway</th><th>Median delay (weeks)</th></tr></thead><tbody>'
+            for b in linked_bottlenecks:
+                body += '<tr>'
+                body += f'<td>{html.escape(b.get("stage_id", ""))}</td>'
+                body += f'<td>{html.escape(b.get("process_stage", ""))}</td>'
+                body += f'<td>{html.escape(b.get("pathway", ""))}</td>'
+                body += f'<td>{html.escape(b.get("median_delay_weeks", ""))}</td>'
+                body += '</tr>'
+            body += '</tbody></table>'
+        else:
+            body += '<p><em>No related bottleneck rows linked.</em></p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Affected authorities observed in appeals</h3>'
+        seen = set()
+        authority_links = []
+        for ap in linked_appeals:
+            key = ap.get("lpa", "").strip().lower()
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            lpa = lpa_by_name.get(key)
+            if lpa:
+                pid = lpa.get("pilot_id", "")
+                authority_links.append(f'<a href="plans-{pid.lower()}.html">{html.escape(lpa.get("lpa_name", ""))}</a>')
+            else:
+                authority_links.append(html.escape(ap.get("lpa", "")))
+        body += '<p>' + (", ".join(authority_links) if authority_links else "No in-scope authorities linked via appeals.") + '</p>'
+        body += '</section>'
+
+        type_q = html.escape(query_value(issue.get("issue_type", "")))
+        path_q = html.escape(query_value(issue.get("affected_pathway", "")))
+        scope_q = html.escape(query_value(issue.get("scope", "")))
+        body += '<section class="card"><h3>Context links</h3><ul>'
+        body += f'<li><a href="contradictions.html#issue_type={type_q}">Back to contradictions filtered by type</a></li>'
+        body += f'<li><a href="contradictions.html#affected_pathway={path_q}">Back to contradictions filtered by pathway</a></li>'
+        body += f'<li><a href="contradictions.html#scope={scope_q}">Back to contradictions filtered by scope</a></li>'
+        body += '</ul></section>'
+
+        write(SITE / issue_detail_page(issue_id), page(
+            f"{issue_id} Detail",
+            "Detailed contradiction drill-down with linked recommendations and evidence.",
+            "contradictions", body,
+            "Use this page to inspect scoring, evidence, and connected recommendations for a single contradiction record.",
+            breadcrumbs=[
+                ("index.html", "Overview"),
+                ("contradictions.html", "System Analysis"),
+                ("contradictions.html", "Contradictions"),
+                (issue_detail_page(issue_id), issue_id),
+            ],
+            next_steps=[
+                ("contradictions.html", "Back to contradiction register"),
+                ("recommendations.html", "Open recommendations"),
+                ("appeals.html", "Open appeal evidence"),
+            ]))
+
+
+def build_recommendation_details():
+    recs = read_csv(ROOT / "data/issues/recommendations.csv")
+    statuses = read_csv(ROOT / "data/issues/recommendation-status.csv")
+    evidence = read_csv(ROOT / "data/evidence/recommendation_evidence_links.csv")
+    issues = read_csv(ROOT / "data/issues/contradiction-register.csv")
+    roadmap = read_csv(ROOT / "data/issues/implementation-roadmap.csv")
+    appeals = read_csv(ROOT / "data/evidence/appeal-decisions.csv")
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+
+    status_by_id = {row.get("recommendation_id", ""): row for row in statuses}
+    issue_by_id = {row.get("issue_id", ""): row for row in issues}
+    lpa_by_name = {r.get("lpa_name", "").strip().lower(): r for r in lpas}
+
+    ev_by_rec = defaultdict(list)
+    for row in evidence:
+        ev_by_rec[row.get("recommendation_id", "")].append(row)
+
+    milestones_by_rec = defaultdict(list)
+    for row in roadmap:
+        for rid in split_pipe_values(row.get("linked_recommendations", "")):
+            milestones_by_rec[rid].append(row)
+
+    recs_by_issue = defaultdict(list)
+    for rec in recs:
+        for issue_id in split_pipe_values(rec.get("linked_issues", "")):
+            recs_by_issue[issue_id].append(rec)
+
+    appeals_by_issue = defaultdict(list)
+    for row in appeals:
+        appeals_by_issue[row.get("linked_issue", "")].append(row)
+
+    for rec in recs:
+        rid = rec.get("recommendation_id", "")
+        linked_issue_ids = split_pipe_values(rec.get("linked_issues", ""))
+        linked_issues = [issue_by_id[iid] for iid in linked_issue_ids if iid in issue_by_id]
+        linked_evidence = ev_by_rec.get(rid, [])
+        linked_milestones = milestones_by_rec.get(rid, [])
+        status = status_by_id.get(rid, {})
+
+        body = '<section class="card">'
+        body += f'<h2>{html.escape(rid)}: {html.escape(rec.get("title", ""))}</h2>'
+        body += f'<p>{verification_badge(rec.get("verification_state", ""))} {confidence_badge(rec.get("confidence", ""))}</p>'
+        body += '<ul>'
+        body += f'<li><strong>Priority:</strong> {html.escape(rec.get("priority", ""))}</li>'
+        body += f'<li><strong>Horizon:</strong> {html.escape(rec.get("time_horizon", ""))}</li>'
+        body += f'<li><strong>Policy goal:</strong> {html.escape(rec.get("policy_goal", ""))}</li>'
+        body += f'<li><strong>Owner:</strong> {html.escape(rec.get("delivery_owner", ""))}</li>'
+        body += f'<li><strong>Vehicle:</strong> {html.escape(rec.get("implementation_vehicle", ""))}</li>'
+        body += '</ul></section>'
+
+        body += '<section class="card"><h3>Outcome target</h3>'
+        body += f'<p><strong>KPI:</strong> {html.escape(rec.get("kpi_primary", ""))}</p>'
+        body += f'<p><strong>Target:</strong> {html.escape(rec.get("target", ""))}</p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Status timeline</h3>'
+        body += '<table><thead><tr><th>Stage</th><th>Value</th></tr></thead><tbody>'
+        body += f'<tr><td>Submission status</td><td>{html.escape(status.get("submission_status", "Not set"))}</td></tr>'
+        body += f'<tr><td>Submitted to</td><td>{html.escape(status.get("submitted_to", "")) or "—"}</td></tr>'
+        body += f'<tr><td>Submission date</td><td>{html.escape(status.get("submission_date", "")) or "—"}</td></tr>'
+        body += f'<tr><td>Response received</td><td>{html.escape(status.get("response_received", "")) or "—"}</td></tr>'
+        body += f'<tr><td>Response summary</td><td>{html.escape(status.get("response_summary", "")) or "—"}</td></tr>'
+        body += f'<tr><td>Next action</td><td>{html.escape(status.get("next_action", "")) or "—"}</td></tr>'
+        body += '</tbody></table></section>'
+
+        body += '<section class="card"><h3>Linked contradictions</h3>'
+        if linked_issues:
+            body += '<table><thead><tr><th>ID</th><th>Summary</th><th>Stage</th><th>Pathway</th></tr></thead><tbody>'
+            for issue in linked_issues:
+                iid = issue.get("issue_id", "")
+                body += '<tr>'
+                body += f'<td><a href="{html.escape(issue_detail_page(iid))}">{html.escape(iid)}</a></td>'
+                body += f'<td>{html.escape(issue.get("summary", ""))}</td>'
+                body += f'<td>{html.escape(issue.get("process_stage", ""))}</td>'
+                body += f'<td>{html.escape(issue.get("affected_pathway", ""))}</td>'
+                body += '</tr>'
+            body += '</tbody></table>'
+        else:
+            body += '<p><em>No linked contradictions recorded.</em></p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Evidence links</h3>'
+        if linked_evidence:
+            body += '<table><thead><tr><th>Source</th><th>Metric</th><th>Baseline</th><th>Window</th><th>Source URL</th></tr></thead><tbody>'
+            for ev in linked_evidence:
+                body += '<tr>'
+                body += f'<td>{html.escape(ev.get("source_dataset", ""))}</td>'
+                body += f'<td>{html.escape(ev.get("metric_name", ""))}</td>'
+                body += f'<td>{html.escape(ev.get("baseline_value", ""))}</td>'
+                body += f'<td>{html.escape(ev.get("baseline_window", ""))}</td>'
+                src = ev.get("source_url", "")
+                if src:
+                    body += f'<td><a href="{html.escape(src)}" target="_blank" rel="noopener noreferrer">Source</a></td>'
+                else:
+                    body += '<td>—</td>'
+                body += '</tr>'
+            body += '</tbody></table>'
+        else:
+            body += '<p><em>No evidence links recorded.</em></p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Implementation milestones</h3>'
+        if linked_milestones:
+            body += '<table><thead><tr><th>Milestone</th><th>Phase</th><th>Window</th><th>Owner</th><th>Status metric</th></tr></thead><tbody>'
+            for m in linked_milestones:
+                body += '<tr>'
+                body += f'<td>{html.escape(m.get("action", ""))}</td>'
+                body += f'<td>{html.escape(m.get("phase", ""))}</td>'
+                body += f'<td>{html.escape(m.get("window", ""))}</td>'
+                body += f'<td>{html.escape(m.get("owner", ""))}</td>'
+                body += f'<td>{html.escape(m.get("status_metric", ""))}</td>'
+                body += '</tr>'
+            body += '</tbody></table>'
+        else:
+            body += '<p><em>No roadmap milestones explicitly linked.</em></p>'
+        body += '</section>'
+
+        body += '<section class="card"><h3>Related authorities observed in linked issue appeals</h3>'
+        seen = set()
+        authority_links = []
+        for issue_id in linked_issue_ids:
+            for ap in appeals_by_issue.get(issue_id, []):
+                key = ap.get("lpa", "").strip().lower()
+                if not key or key in seen:
+                    continue
+                seen.add(key)
+                lpa = lpa_by_name.get(key)
+                if lpa:
+                    pid = lpa.get("pilot_id", "")
+                    authority_links.append(f'<a href="plans-{pid.lower()}.html">{html.escape(lpa.get("lpa_name", ""))}</a>')
+                else:
+                    authority_links.append(html.escape(ap.get("lpa", "")))
+        body += '<p>' + (", ".join(authority_links) if authority_links else "No in-scope authority links observed.") + '</p>'
+        body += '</section>'
+
+        related_recs = []
+        seen_ids = set([rid])
+        for issue_id in linked_issue_ids:
+            for candidate in recs_by_issue.get(issue_id, []):
+                cid = candidate.get("recommendation_id", "")
+                if cid in seen_ids:
+                    continue
+                seen_ids.add(cid)
+                related_recs.append(candidate)
+
+        body += '<section class="card"><h3>Connected recommendations</h3>'
+        if related_recs:
+            body += '<ul>'
+            for candidate in sorted(related_recs, key=lambda r: r.get("recommendation_id", "")):
+                cid = candidate.get("recommendation_id", "")
+                body += f'<li><a href="{html.escape(recommendation_detail_page(cid))}">{html.escape(cid)}</a> — {html.escape(candidate.get("title", ""))}</li>'
+            body += '</ul>'
+        else:
+            body += '<p><em>No additional connected recommendations found.</em></p>'
+        body += '</section>'
+
+        pr_q = html.escape(query_value(rec.get("priority", "")))
+        hz_q = html.escape(query_value(rec.get("time_horizon", "")))
+        body += '<section class="card"><h3>Context links</h3><ul>'
+        body += f'<li><a href="recommendations.html#priority={pr_q}">Back to recommendations filtered by priority</a></li>'
+        body += f'<li><a href="recommendations.html#time_horizon={hz_q}">Back to recommendations filtered by horizon</a></li>'
+        body += '</ul></section>'
+
+        write(SITE / recommendation_detail_page(rid), page(
+            f"{rid} Detail",
+            "Detailed recommendation drill-down with status timeline and evidence links.",
+            "recommendations", body,
+            "Use this page to inspect implementation context, linked contradictions, and evidence rows for a single recommendation.",
+            breadcrumbs=[
+                ("index.html", "Overview"),
+                ("recommendations.html", "Recommendations"),
+                ("recommendations.html", "Recommendations"),
+                (recommendation_detail_page(rid), rid),
+            ],
+            next_steps=[
+                ("recommendations.html", "Back to recommendations"),
+                ("roadmap.html", "Open implementation roadmap"),
+                ("consultation.html", "Open consultation tracker"),
+            ]))
 
 
 def build_roadmap():
@@ -3337,11 +3705,11 @@ def build_search_index():
         })
 
     for r in read_csv(ROOT / "data/issues/contradiction-register.csv"):
-        add(r["issue_id"], "contradictions.html", r["issue_id"] + ": " + r["summary"],
+        add(r["issue_id"], issue_detail_page(r["issue_id"]), r["issue_id"] + ": " + r["summary"],
             "Contradiction", r.get("summary", "") + " " + r.get("issue_type", "") + " " + r.get("process_stage", ""))
 
     for r in read_csv(ROOT / "data/issues/recommendations.csv"):
-        add(r["recommendation_id"], "recommendations.html", r["recommendation_id"] + ": " + r["title"],
+        add(r["recommendation_id"], recommendation_detail_page(r["recommendation_id"]), r["recommendation_id"] + ": " + r["title"],
             "Recommendation", r.get("title", "") + " " + r.get("policy_goal", "") + " " + r.get("kpi_primary", ""))
 
     for r in read_csv(ROOT / "data/legislation/england-core-legislation.csv"):
@@ -3449,6 +3817,8 @@ def main():
     build_plans()
     build_contradictions(weights)
     build_recommendations(weights)
+    build_contradiction_details(weights)
+    build_recommendation_details()
     build_roadmap()
     build_baselines()
     build_bottlenecks()

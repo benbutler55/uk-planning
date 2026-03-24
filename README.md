@@ -30,6 +30,8 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Inline metric definition/provenance help markers on benchmark and reports tables
 - Tooltip method links from benchmark/reports to a dedicated metric-methods appendix
 - Context panels on generated pages to explain what each view shows and how to interpret it
+- Per-record drill-down pages for contradictions (`contradiction-issue-xxx.html`) with connected recommendations, appeals, bottlenecks, and filter-context links
+- Per-record drill-down pages for recommendations (`recommendation-rec-xxx.html`) with status timeline, linked contradictions, milestones, and evidence rows
 - Homepage "England at a glance" KPI strip with source-linked baseline indicators and trend movement card
 - Peer-group benchmark mode for like-for-like authority comparisons, with anchor-authority toggle on benchmark view
 - Expanded authority metrics on benchmark/reports: validation rework proxy, delegated share proxy, plan age, consultation lag proxy, backlog pressure index
@@ -176,10 +178,10 @@ See `AGENTS.md` for full agent operating rules.
 | `index.html` | Overview and navigation |
 | `legislation.html` | Acts, regulations, and national policy index |
 | `plans.html` | Plan hierarchy and all 16 LPA profiles |
-| `contradictions.html` | Weighted-scored issue register with filters |
+| `contradictions.html` | Weighted-scored issue register with filters and linked contradiction detail pages |
 | `bottlenecks.html` | Process delay heatmap by stage and pathway |
 | `appeals.html` | PINS appeal decisions linked to contradictions |
-| `recommendations.html` | Reform proposals with evidence traces and model text |
+| `recommendations.html` | Reform proposals with evidence traces, model text, and linked recommendation detail pages |
 | `roadmap.html` | Delivery milestones |
 | `baselines.html` | Official KPI baselines |
 | `map.html` | National Leaflet.js map with decision speed overlay |
