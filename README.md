@@ -54,11 +54,20 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Monthly decision snapshot bundles generated under `site/reports/monthly-snapshot.*`
 - CI/Pages now include metric-drift and accessibility checks
 - CI now includes derived metric stability checks (`scripts/check_metric_stability.py`)
-- IA refresh: 6-section navigation model with section sub-navigation and breadcrumbs
+- IA refresh: 5-section top navigation (audiences moved to footer + homepage cards) with two-tier visual hierarchy
 - Progressive drill-down from overview to analysis to authority-level detail pages
 - Standard page guide blocks on generated pages (what, who, how, data freshness)
 - “How to read this table” explainers for major analytical tables
 - “Where to go next” step cards across pages for intuitive cross-navigation
+- Detail pages use sidebar layout (sticky TOC + metadata on desktop, single column on mobile)
+- Card variants for visual hierarchy: `.card-kpi`, `.card-guidance`, `.card-hero`, `.card-filter`
+- Homepage organised with section headings (Key Indicators, Explore by Goal, Audience Views, Data & Health)
+- Collapsible settings/trust bar (closed by default) to reclaim viewport space
+- Table row striping, sortable headers with `aria-sort`, cell truncation for long text
+- Mobile hamburger nav collapse below 768px, table tap hints, back-to-top button
+- Site-wide footer with section links, version info, and methodology/data health links
+- External shared JS (`assets/shell.js`) for view mode, plain language, copy, event logging
+- Accessibility: `aria-live` filter counts, double-ring focus indicators, font-display swap fallback
 - Methodology page now includes monthly/quarterly/annual governance cadence and owner responsibilities
 - Metric methods appendix page (`metric-methods.html`) documents formulas, provenance, and confidence mapping for authority metrics
 - UI blueprint document for reusable layout/copy components (`content/methodology/ui-blueprint.md`)
@@ -124,7 +133,8 @@ uk-planning/
 │   │   └── model-text/              # Model drafting text for all 11 recommendations
 │   └── templates/
 ├── site/                            # Generated static website (committed)
-│   ├── assets/styles.css
+│   ├── assets/styles.css            # Design system stylesheet
+│   ├── assets/shell.js              # Shared JS: view mode, nav, utilities
 │   ├── exports/
 │   ├── reports/                     # Per-LPA downloadable comparison bundles
 │   │   └── onboarding/              # Per-authority onboarding gate outputs

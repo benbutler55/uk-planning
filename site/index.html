@@ -18,45 +18,48 @@
       <header>
         <h1>UK Planning System Analysis — England Pilot Release</h1>
         <p class="subhead">Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.</p>
-        <a class="header-search" href="search.html">Search</a>
+        <div class="header-search"><span class="search-icon" aria-hidden="true">&#128269;</span><a href="search.html">Search</a></div>
       </header>
-      <nav class="top-nav">
+      <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="true">&#9776;</button>
+      <div class="nav-panel nav-panel--open">
+        <nav class="top-nav" aria-label="Main sections">
 <a class="top-tab active" href="index.html">Overview</a>
 <a class="top-tab" href="contradictions.html">System Analysis</a>
 <a class="top-tab" href="plans.html">Authority Insights</a>
 <a class="top-tab" href="recommendations.html">Recommendations</a>
 <a class="top-tab" href="methodology.html">Data & Methods</a>
-<a class="top-tab" href="audience-policymakers.html">For Audiences</a>
-      </nav>
-      <nav class="sub-nav">
+        </nav>
+        <nav class="sub-nav" aria-label="Section pages">
 <a class="active" href="index.html">Overview</a>
 <a href="search.html">Search</a>
-      </nav>
+        </nav>
+      </div>
 <div class="breadcrumbs"><a href="index.html">Overview</a></div>
-<section class="card shell-utilities"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></section>
+<section class="shell-utilities"><button type="button" class="utility-toggle" aria-expanded="true">Settings &amp; trust info</button><div class="utility-body"><div class="utility-row"><label>View mode <select id="view-mode-toggle" aria-label="Toggle guided or expert mode"><option value="guided">Guided</option><option value="expert">Expert</option></select></label><label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label><button type="button" data-copy-view>Copy this view</button></div><p class="small">Trust legend: <span class="badge badge-blue">Official stats</span> Official statistic <span class="badge badge-amber">Analytical estimate</span> Analytical estimate <span class="badge badge-green">high</span> Confidence example</p></div></section>
       <main id="main-content">
 <section class="card plain-language-panel"><h2>Plain-language guide</h2><p>This page helps you understand <strong>UK Planning System Analysis — England Pilot Release</strong> without specialist planning jargon. Use the start-here notes first, then open linked detail pages for evidence and next actions.</p><p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), <strong>NSIP</strong> (nationally significant infrastructure project), <strong>verification state</strong> (draft or reviewed data status).</p></section>
-<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A high-level summary of the England planning analysis, key findings, and where to go next.</dd><dt>Who this is for</dt><dd>First-time visitors, policy teams, local authority officers, and public readers.</dd><dt>How to interpret</dt><dd>Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.</dd><dt>Data trust and freshness</dt><dd>Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency.</dd></dl></section>
+<section class="card card-guidance guided-only"><h2>Start here</h2><dl class="purpose-grid"><dt>What this page shows</dt><dd>A high-level summary of the England planning analysis, key findings, and where to go next.</dd><dt>Who this is for</dt><dd>First-time visitors, policy teams, local authority officers, and public readers.</dd><dt>How to interpret</dt><dd>Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.</dd><dt>Data trust and freshness</dt><dd>Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency.</dd></dl></section>
 <section class="card guided-only"><p>Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations.</p></section>
 
 
-      <section class="card">
+      <section class="card card-hero">
         <h2>Current Phase</h2>
         <p>Phase 6 — trust, monitoring, and decision readiness with drift checks and data health reporting.</p>
       </section>
+      <h2 class="section-heading">Key Indicators</h2>
       <section class="card">
         <h2>England at a glance</h2>
         <p class="small">Headline indicators with direct source references for rapid triage.</p>
         <div class="grid">
-    <article class="card"><h3>Major decisions in time</h3><p class="kpi-value">74%</p><p class="small">Source: <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics" target="_blank" rel="noopener noreferrer">BAS-001 (P151)</a></p></article><article class="card"><h3>Non-major decisions in time</h3><p class="kpi-value">88%</p><p class="small">Source: <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics" target="_blank" rel="noopener noreferrer">BAS-002 (P153)</a></p></article><article class="card"><h3>Major appeals overturned</h3><p class="kpi-value">2.1%</p><p class="small">Source: <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics" target="_blank" rel="noopener noreferrer">BAS-003 (P152)</a></p></article><article class="card"><h3>NSIP examination median</h3><p class="kpi-value">16 months</p><p class="small">Source: <a href="https://www.gov.uk/government/organisations/planning-inspectorate/about/statistics" target="_blank" rel="noopener noreferrer">BAS-005 (PINS quarterly stats)</a></p></article><article class="card"><h3>LPA average 4Q movement</h3><p class="kpi-value">3.2 pp (up)</p><p class="small">Source: <a href="exports/lpa-quarterly-trends.csv">lpa-quarterly-trends.csv</a></p></article>
+    <article class="card card-kpi"><h3>Major decisions in time</h3><p class="kpi-value">74%</p><p class="small">Source: <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics" target="_blank" rel="noopener noreferrer">BAS-001 (P151)</a></p></article><article class="card card-kpi"><h3>Non-major decisions in time</h3><p class="kpi-value">88%</p><p class="small">Source: <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics" target="_blank" rel="noopener noreferrer">BAS-002 (P153)</a></p></article><article class="card card-kpi"><h3>Major appeals overturned</h3><p class="kpi-value">2.1%</p><p class="small">Source: <a href="https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics" target="_blank" rel="noopener noreferrer">BAS-003 (P152)</a></p></article><article class="card card-kpi"><h3>NSIP examination median</h3><p class="kpi-value">16 months</p><p class="small">Source: <a href="https://www.gov.uk/government/organisations/planning-inspectorate/about/statistics" target="_blank" rel="noopener noreferrer">BAS-005 (PINS quarterly stats)</a></p></article><article class="card card-kpi"><h3>LPA average 4Q movement</h3><p class="kpi-value">3.2 pp (up)</p><p class="small">Source: <a href="exports/lpa-quarterly-trends.csv">lpa-quarterly-trends.csv</a></p></article>
         </div>
       </section>
       <section class="grid">
-        <article class="card">
+        <article class="card card-guidance">
           <h3>Goal</h3>
           <p>Build a coherent cross-level planning framework that is faster, clearer, and more predictable.</p>
         </article>
-        <article class="card">
+        <article class="card card-guidance">
           <h3>Outputs</h3>
           <ul>
             <li>Legal and policy inventory</li>
@@ -66,101 +69,36 @@
             <li>Machine-readable exports (CSV/JSON)</li>
           </ul>
         </article>
-        <article class="card">
+        <article class="card card-guidance">
           <h3>Delivery Horizon</h3>
           <p>Pilot Release for policy-professional audience. Static website on GitHub Pages.</p>
         </article>
       </section>
+      <h2 class="section-heading">Explore by Goal</h2>
       <section class="card" id="filters-start">
-        <h2>Start by goal</h2>
         <div class="grid">
-          <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
-          <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
-          <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
-          <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods</a></p></article>
+          <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis &rarr;</a></p></article>
+          <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights &rarr;</a></p></article>
+          <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations &rarr;</a></p></article>
+          <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods &rarr;</a></p></article>
         </div>
       </section>
-      <section class="card">
-        <h2>Audience Views</h2>
-        <ul>
-          <li><a href="audience-policymakers.html">For Policy Makers</a></li>
-          <li><a href="audience-lpas.html">For LPAs</a></li>
-          <li><a href="audience-developers.html">For Developers</a></li>
-          <li><a href="audience-public.html">For the Public</a></li>
-        </ul>
+      <h2 class="section-heading">Audience Views</h2>
+      <section class="grid">
+        <article class="card"><h3>Policy Makers</h3><p>Priority actions, evidence, and reform tracking for policy teams.</p><p><a href="audience-policymakers.html">View &rarr;</a></p></article>
+        <article class="card"><h3>Local Planning Authorities</h3><p>Authority-specific insights, benchmarks, and improvement actions.</p><p><a href="audience-lpas.html">View &rarr;</a></p></article>
+        <article class="card"><h3>Developers</h3><p>Key impacts, recommendations, and authority comparisons.</p><p><a href="audience-developers.html">View &rarr;</a></p></article>
+        <article class="card"><h3>Public</h3><p>Plain-language findings and proposed improvements.</p><p><a href="audience-public.html">View &rarr;</a></p></article>
       </section>
-      <section class="card">
-        <h2>Data Exports</h2>
-        <p>Download machine-readable datasets: <a href="exports/">CSV and JSON exports</a>.</p>
-      </section>
-    <section class="card"><h2>Data Health Snapshot</h2><p><span class="badge badge-green">fresh</span> 5 <span class="badge badge-amber">stale</span> 0 <span class="badge badge-red">critical</span> 0 </p><p class="small">Oldest monitored dataset: Official baseline metrics (7 days).</p><p><a href="data-health.html">Open full data health report</a></p></section>
+      <h2 class="section-heading">Data &amp; Health</h2>
+    <section class="card"><h2>Data Health Snapshot</h2><p><span class="badge badge-green">fresh</span> 5 <span class="badge badge-amber">stale</span> 0 <span class="badge badge-red">critical</span> 0 </p><p class="small">Oldest monitored dataset: Official baseline metrics (8 days).</p><p><a href="data-health.html">Open full data health report</a></p></section>
 <section class="card guided-only"><h2>Next actions</h2><ul><li><a href="contradictions.html">Go to contradictions dashboard</a></li><li><a href="benchmark.html">Go to benchmark dashboard</a></li><li><a href="recommendations.html">Go to recommendations</a></li><li><a href="data-health.html">Go to data health</a></li></ul></section>
       </main>
+<footer class="site-footer"><div class="footer-inner"><nav class="footer-nav" aria-label="Footer navigation"><a href="index.html">Overview</a> <a href="contradictions.html">System Analysis</a> <a href="plans.html">Authority Insights</a> <a href="recommendations.html">Recommendations</a> <a href="methodology.html">Data & Methods</a><a href="search.html">Search</a><a href="audience-policymakers.html">For Audiences</a></nav><div class="footer-meta"><p>v6.0 &middot; Built with open data &middot; <a href="methodology.html">Methodology</a> &middot; <a href="data-health.html">Data Health</a> &middot; <a href="exports.html">Exports</a></p></div></div></footer>
     </div>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" style="display:none;">&uarr;</button>
 
-<script>
-(function() {
-  var key = 'uk-planning-view-mode-v1';
-  var shell = document.querySelector('.layout');
-  if (!shell) return;
-  var toggle = document.getElementById('view-mode-toggle');
-  var plainToggle = document.getElementById('plain-language-toggle');
-  var defaultMode = localStorage.getItem(key) || 'guided';
-  shell.dataset.viewMode = defaultMode;
-  if (toggle) toggle.value = defaultMode;
-  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
-  if (plainToggle) plainToggle.checked = plain === 'on';
-  shell.dataset.plainLanguage = plain;
-
-  function persist() {
-    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
-    shell.dataset.viewMode = mode;
-    localStorage.setItem(key, mode);
-    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
-    shell.dataset.plainLanguage = p;
-    localStorage.setItem('uk-planning-plain-language-v1', p);
-  }
-
-  if (toggle) toggle.addEventListener('change', persist);
-  if (plainToggle) plainToggle.addEventListener('change', persist);
-
-  document.addEventListener('click', function(evt) {
-    var copyBtn = evt.target.closest('[data-copy-view]');
-    if (!copyBtn) return;
-    var text = window.location.href;
-    var done = function(ok) {
-      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
-      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
-    } else {
-      done(false);
-    }
-  });
-
-  function logEvent(name, meta) {
-    try {
-      var key = 'uk-planning-ux-events-v1';
-      var events = JSON.parse(localStorage.getItem(key) || '[]');
-      events.push({
-        ts: new Date().toISOString(),
-        page: window.location.pathname.replace(/^\//, ''),
-        name: name,
-        meta: meta || {},
-      });
-      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
-    } catch (e) {}
-  }
-
-  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
-  document.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() {
-      logEvent('link_click', { href: a.getAttribute('href') || '' });
-    });
-  });
-})();
-</script>
+<script src="assets/shell.js"></script>
 
   </body>
 </html>

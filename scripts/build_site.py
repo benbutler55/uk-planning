@@ -447,7 +447,7 @@ def compute_onboarding_status_rows(profile_page_check=True):
 
 def render_page_purpose(purpose):
     return (
-        '<section class="card guided-only"><h2>Start here</h2><dl class="purpose-grid">'
+        '<section class="card card-guidance guided-only"><h2>Start here</h2><dl class="purpose-grid">'
         f'<dt>What this page shows</dt><dd>{html.escape(purpose["what"])}</dd>'
         f'<dt>Who this is for</dt><dd>{html.escape(purpose["who"])}</dd>'
         f'<dt>How to interpret</dt><dd>{html.escape(purpose["how"])}</dd>'
@@ -481,7 +481,7 @@ def render_data_trust_panel(active):
     oldest = sorted(rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True)[0]
     line = html.escape(f"Oldest monitored dataset: {oldest['dataset']} ({oldest['age_days']} days)")
     return (
-        '<section class="card guided-only"><h3>Data trust panel</h3>'
+        '<section class="card card-guidance guided-only"><h3>Data trust panel</h3>'
         '<p><strong>Source tiers:</strong> Official statistics, administrative references, analytical estimates.</p>'
         '<p><strong>Known caveat:</strong> Some authority metrics are estimated proxies and should be interpreted directionally.</p>'
         f'<p><strong>Latest trust check:</strong> {line}</p>'
@@ -491,71 +491,7 @@ def render_data_trust_panel(active):
 
 
 def render_mode_shell_script():
-    return r"""
-<script>
-(function() {
-  var key = 'uk-planning-view-mode-v1';
-  var shell = document.querySelector('.layout');
-  if (!shell) return;
-  var toggle = document.getElementById('view-mode-toggle');
-  var plainToggle = document.getElementById('plain-language-toggle');
-  var defaultMode = localStorage.getItem(key) || 'guided';
-  shell.dataset.viewMode = defaultMode;
-  if (toggle) toggle.value = defaultMode;
-  var plain = localStorage.getItem('uk-planning-plain-language-v1') || 'off';
-  if (plainToggle) plainToggle.checked = plain === 'on';
-  shell.dataset.plainLanguage = plain;
-
-  function persist() {
-    var mode = toggle ? toggle.value : shell.dataset.viewMode || 'guided';
-    shell.dataset.viewMode = mode;
-    localStorage.setItem(key, mode);
-    var p = plainToggle && plainToggle.checked ? 'on' : 'off';
-    shell.dataset.plainLanguage = p;
-    localStorage.setItem('uk-planning-plain-language-v1', p);
-  }
-
-  if (toggle) toggle.addEventListener('change', persist);
-  if (plainToggle) plainToggle.addEventListener('change', persist);
-
-  document.addEventListener('click', function(evt) {
-    var copyBtn = evt.target.closest('[data-copy-view]');
-    if (!copyBtn) return;
-    var text = window.location.href;
-    var done = function(ok) {
-      copyBtn.textContent = ok ? 'Copied' : 'Copy failed';
-      setTimeout(function() { copyBtn.textContent = 'Copy this view'; }, 1200);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function() { done(true); }).catch(function() { done(false); });
-    } else {
-      done(false);
-    }
-  });
-
-  function logEvent(name, meta) {
-    try {
-      var key = 'uk-planning-ux-events-v1';
-      var events = JSON.parse(localStorage.getItem(key) || '[]');
-      events.push({
-        ts: new Date().toISOString(),
-        page: window.location.pathname.replace(/^\//, ''),
-        name: name,
-        meta: meta || {},
-      });
-      localStorage.setItem(key, JSON.stringify(events.slice(-400)));
-    } catch (e) {}
-  }
-
-  logEvent('page_view', { mode: shell.dataset.viewMode, plain_language: shell.dataset.plainLanguage });
-  document.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() {
-      logEvent('link_click', { href: a.getAttribute('href') || '' });
-    });
-  });
-})();
-</script>
-"""
+    return '\n<script src="assets/shell.js"></script>\n'
 
 
 def default_breadcrumbs(active):
@@ -563,10 +499,13 @@ def default_breadcrumbs(active):
     crumbs = [("index.html", "Overview")]
     if active == "index":
         return crumbs
-    crumbs.append((SECTION_CONFIG[section]["href"], SECTION_CONFIG[section]["label"]))
+    section_href = SECTION_CONFIG[section]["href"]
+    crumbs.append((section_href, SECTION_CONFIG[section]["label"]))
     for key, label, href in SECTION_CONFIG[section]["children"]:
         if key == active:
-            crumbs.append((href, label))
+            # Skip duplicate when child is the section landing page
+            if href != section_href:
+                crumbs.append((href, label))
             break
     return crumbs
 
@@ -722,11 +661,39 @@ def default_purpose(active):
 
 # --- Page shell ---
 
+
+def render_footer(active):
+    """Site-wide footer with section links, version info, and data health."""
+    section_links = " ".join(
+        f'<a href="{cfg["href"]}">{cfg["label"]}</a>'
+        for key, cfg in SECTION_CONFIG.items()
+        if key != "audiences"
+    )
+    return (
+        '<footer class="site-footer">'
+        '<div class="footer-inner">'
+        f'<nav class="footer-nav" aria-label="Footer navigation">{section_links}'
+        '<a href="search.html">Search</a>'
+        '<a href="audience-policymakers.html">For Audiences</a>'
+        '</nav>'
+        '<div class="footer-meta">'
+        f'<p>{BUILD_VERSION} &middot; Built with open data &middot; '
+        '<a href="methodology.html">Methodology</a> &middot; '
+        '<a href="data-health.html">Data Health</a> &middot; '
+        '<a href="exports.html">Exports</a></p>'
+        '</div>'
+        '</div>'
+        '</footer>'
+    )
+
+
 def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=None, next_steps=None):
     section = PAGE_TO_SECTION.get(active, "overview")
+    # "audiences" removed from top nav (moved to footer + homepage cards)
     top_nav = "\n".join(
         f'<a class="top-tab{(" active" if key == section else "")}" href="{cfg["href"]}">{cfg["label"]}</a>'
         for key, cfg in SECTION_CONFIG.items()
+        if key != "audiences"
     )
     sub_nav = "\n".join(
         f'<a{" class=\"active\"" if key == active else ""} href="{href}">{label}</a>'
@@ -746,7 +713,9 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
     next_html = render_next_steps(next_steps) if next_steps else ""
     trust_html = render_data_trust_panel(active)
     utility_html = (
-        '<section class="card shell-utilities">'
+        '<section class="shell-utilities">'
+        '<button type="button" class="utility-toggle" aria-expanded="true">Settings &amp; trust info</button>'
+        '<div class="utility-body">'
         '<div class="utility-row">'
         '<label>View mode '
         '<select id="view-mode-toggle" aria-label="Toggle guided or expert mode">'
@@ -760,6 +729,7 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
         f'{provenance_badge("estimated")} Analytical estimate '
         f'{confidence_badge("high")} Confidence example'
         '</p>'
+        '</div>'
         '</section>'
     )
     plain_html = (
@@ -792,14 +762,17 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
       <header>
         <h1>{html.escape(title)}</h1>
         <p class="subhead">{html.escape(subhead)}</p>
-        <a class="header-search" href="search.html">Search</a>
+        <div class="header-search"><span class="search-icon" aria-hidden="true">&#128269;</span><a href="search.html">Search</a></div>
       </header>
-      <nav class="top-nav">
+      <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="true">&#9776;</button>
+      <div class="nav-panel nav-panel--open">
+        <nav class="top-nav" aria-label="Main sections">
 {top_nav}
-      </nav>
-      <nav class="sub-nav">
+        </nav>
+        <nav class="sub-nav" aria-label="Section pages">
 {sub_nav}
-      </nav>
+        </nav>
+      </div>
 {breadcrumb_html}
 {utility_html}
       <main id="main-content">
@@ -810,7 +783,9 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
 {body}
 {next_html}
       </main>
+{render_footer(active)}
     </div>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" style="display:none;">&uarr;</button>
 {render_mode_shell_script()}
   </body>
 </html>
@@ -824,6 +799,7 @@ def write(path, content):
 # --- Table helpers ---
 
 URL_COLUMNS = {"source_url", "url"}
+TRUNCATE_COLUMNS = {"summary", "inspector_finding"}
 
 
 def render_cell(key, value):
@@ -837,6 +813,8 @@ def render_cell(key, value):
     if key == "recommendation_id" and value:
         href = recommendation_detail_page(value)
         return f'<td><a href="{html.escape(href)}">{html.escape(value)}</a></td>'
+    if key in TRUNCATE_COLUMNS and value:
+        return f'<td><div class="cell-truncate">{html.escape(value)}</div></td>'
     return f"<td>{html.escape(value)}</td>"
 
 
@@ -891,7 +869,7 @@ def render_filter_controls(table_id, text_label, filter_defs):
             f'<select data-table="{table_id}" data-filter="{field}">{opts}</select></label>'
         )
     controls.append("</div>")
-    controls.append(f'<p class="small" data-filter-count-for="{table_id}"></p>')
+    controls.append(f'<p class="small" data-filter-count-for="{table_id}" aria-live="polite" role="status"></p>')
     controls.append("</section>")
     return "".join(controls)
 
@@ -906,7 +884,9 @@ def render_filterable_table(rows, columns, table_id, data_fields):
         cells = "".join(render_cell(k, row.get(k, "") or "") for k, _ in columns)
         body_rows.append(f"<tr {attrs}>{cells}</tr>")
     return (
-        f'<section class="card" id="table-start"><table id="{table_id}" class="dense-table"><thead><tr>'
+        f'<section class="card" id="table-start">'
+        f'<p class="table-tap-hint">Tap any row to see full details</p>'
+        f'<table id="{table_id}" class="dense-table"><thead><tr>'
         + head
         + "</tr></thead><tbody>"
         + "".join(body_rows)
@@ -1079,10 +1059,12 @@ def render_table_enhancements_script(table_id, presets=None):
     var headers = Array.from(table.querySelectorAll('thead th'));
     headers.forEach(function(th, idx) {{
       th.classList.add('sortable-th');
+      th.setAttribute('aria-sort', 'none');
       th.addEventListener('click', function() {{
         var dir = th.dataset.sortDir === 'asc' ? 'desc' : 'asc';
-        headers.forEach(function(h) {{ delete h.dataset.sortDir; }});
+        headers.forEach(function(h) {{ delete h.dataset.sortDir; h.setAttribute('aria-sort', 'none'); }});
         th.dataset.sortDir = dir;
+        th.setAttribute('aria-sort', dir === 'asc' ? 'ascending' : 'descending');
         var rows = Array.from(table.querySelectorAll('tbody tr'));
         rows.sort(function(a, b) {{
           var av = (a.children[idx] && a.children[idx].innerText || '').trim();
@@ -1284,7 +1266,7 @@ def build_index():
         if source_url:
             source_line = f'<a href="{source_url}" target="_blank" rel="noopener noreferrer">{source_line}</a>'
         return (
-            '<article class="card">'
+            '<article class="card card-kpi">'
             f'<h3>{html.escape(label)}</h3>'
             f'<p class="kpi-value">{value_label}</p>'
             f'<p class="small">Source: {source_line}</p>'
@@ -1314,10 +1296,11 @@ def build_index():
         delta_arrow = "flat"
 
     body = """
-      <section class="card">
+      <section class="card card-hero">
         <h2>Current Phase</h2>
         <p>Phase 6 — trust, monitoring, and decision readiness with drift checks and data health reporting.</p>
       </section>
+      <h2 class="section-heading">Key Indicators</h2>
       <section class="card">
         <h2>England at a glance</h2>
         <p class="small">Headline indicators with direct source references for rapid triage.</p>
@@ -1328,7 +1311,7 @@ def build_index():
     body += metric_card("BAS-003", "Major appeals overturned", "%")
     body += metric_card("BAS-005", "NSIP examination median", " months")
     body += (
-        '<article class="card">'
+        '<article class="card card-kpi">'
         '<h3>LPA average 4Q movement</h3>'
         f'<p class="kpi-value">{html.escape(str(avg_delta))} pp ({delta_arrow})</p>'
         '<p class="small">Source: <a href="exports/lpa-quarterly-trends.csv">lpa-quarterly-trends.csv</a></p>'
@@ -1338,11 +1321,11 @@ def build_index():
         </div>
       </section>
       <section class="grid">
-        <article class="card">
+        <article class="card card-guidance">
           <h3>Goal</h3>
           <p>Build a coherent cross-level planning framework that is faster, clearer, and more predictable.</p>
         </article>
-        <article class="card">
+        <article class="card card-guidance">
           <h3>Outputs</h3>
           <ul>
             <li>Legal and policy inventory</li>
@@ -1352,33 +1335,28 @@ def build_index():
             <li>Machine-readable exports (CSV/JSON)</li>
           </ul>
         </article>
-        <article class="card">
+        <article class="card card-guidance">
           <h3>Delivery Horizon</h3>
           <p>Pilot Release for policy-professional audience. Static website on GitHub Pages.</p>
         </article>
       </section>
+      <h2 class="section-heading">Explore by Goal</h2>
       <section class="card" id="filters-start">
-        <h2>Start by goal</h2>
         <div class="grid">
-          <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis</a></p></article>
-          <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights</a></p></article>
-          <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations</a></p></article>
-          <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods</a></p></article>
+          <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis &rarr;</a></p></article>
+          <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights &rarr;</a></p></article>
+          <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations &rarr;</a></p></article>
+          <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods &rarr;</a></p></article>
         </div>
       </section>
-      <section class="card">
-        <h2>Audience Views</h2>
-        <ul>
-          <li><a href="audience-policymakers.html">For Policy Makers</a></li>
-          <li><a href="audience-lpas.html">For LPAs</a></li>
-          <li><a href="audience-developers.html">For Developers</a></li>
-          <li><a href="audience-public.html">For the Public</a></li>
-        </ul>
+      <h2 class="section-heading">Audience Views</h2>
+      <section class="grid">
+        <article class="card"><h3>Policy Makers</h3><p>Priority actions, evidence, and reform tracking for policy teams.</p><p><a href="audience-policymakers.html">View &rarr;</a></p></article>
+        <article class="card"><h3>Local Planning Authorities</h3><p>Authority-specific insights, benchmarks, and improvement actions.</p><p><a href="audience-lpas.html">View &rarr;</a></p></article>
+        <article class="card"><h3>Developers</h3><p>Key impacts, recommendations, and authority comparisons.</p><p><a href="audience-developers.html">View &rarr;</a></p></article>
+        <article class="card"><h3>Public</h3><p>Plain-language findings and proposed improvements.</p><p><a href="audience-public.html">View &rarr;</a></p></article>
       </section>
-      <section class="card">
-        <h2>Data Exports</h2>
-        <p>Download machine-readable datasets: <a href="exports/">CSV and JSON exports</a>.</p>
-      </section>
+      <h2 class="section-heading">Data &amp; Health</h2>
     """
     body += '<section class="card"><h2>Data Health Snapshot</h2>'
     body += '<p>'
@@ -1759,12 +1737,21 @@ def build_contradiction_details(weights):
         linked_appeals = appeals_by_issue.get(issue_id, [])
         linked_bottlenecks = bottlenecks_by_issue.get(issue_id, [])
 
-        body = render_detail_toc([
+        toc_html = render_detail_toc([
             ("summary", "Summary"),
             ("evidence", "Evidence"),
             ("connected-items", "Connected items"),
             ("actions", "Actions"),
         ])
+
+        sidebar_meta = '<section class="card"><h3>At a glance</h3><ul>'
+        sidebar_meta += f'<li><strong>Score:</strong> {html.escape(issue.get("weighted_score", ""))} / 5</li>'
+        sidebar_meta += f'<li><strong>Type:</strong> {html.escape(issue.get("issue_type", ""))}</li>'
+        sidebar_meta += f'<li><strong>Pathway:</strong> {html.escape(issue.get("affected_pathway", ""))}</li>'
+        sidebar_meta += f'<li><strong>Confidence:</strong> {html.escape(issue.get("confidence", ""))}</li>'
+        sidebar_meta += '</ul></section>'
+
+        body = f'<div class="detail-layout"><div class="detail-sidebar">{toc_html}{sidebar_meta}</div><div class="detail-main">'
 
         body += '<section class="card" id="summary">'
         body += f'<h2>{html.escape(issue_id)}: {html.escape(issue.get("summary", ""))}</h2>'
@@ -1777,6 +1764,7 @@ def build_contradiction_details(weights):
         body += f'<li><strong>Weighted score:</strong> {html.escape(issue.get("weighted_score", ""))} / 5</li>'
         body += '</ul></section>'
 
+        body += '<div class="detail-section-group"><p class="detail-section-group-heading">Scoring &amp; Classification</p>'
         body += '<section class="card"><h3>Score components</h3><ul>'
         body += f'<li>Severity: {html.escape(issue.get("severity_score", ""))}</li>'
         body += f'<li>Frequency: {html.escape(issue.get("frequency_score", ""))}</li>'
@@ -1788,8 +1776,9 @@ def build_contradiction_details(weights):
         body += '<section class="card"><h3>Linked instruments</h3><p>'
         instruments = split_pipe_values(issue.get("linked_instruments", ""))
         body += ", ".join(html.escape(item) for item in instruments) if instruments else "n/a"
-        body += '</p></section>'
+        body += '</p></section></div>'
 
+        body += '<div class="detail-section-group"><p class="detail-section-group-heading">Connected Items</p>'
         body += '<section class="card" id="connected-items"><h3>Connected recommendations</h3>'
         if linked_recs:
             body += '<table><thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Horizon</th><th>Evidence links</th></tr></thead><tbody>'
@@ -1858,7 +1847,7 @@ def build_contradiction_details(weights):
             else:
                 authority_links.append(html.escape(ap.get("lpa", "")))
         body += '<p>' + (", ".join(authority_links) if authority_links else "No in-scope authorities linked via appeals.") + '</p>'
-        body += '</section>'
+        body += '</section></div>'
 
         type_q = html.escape(query_value(issue.get("issue_type", "")))
         path_q = html.escape(query_value(issue.get("affected_pathway", "")))
@@ -1873,6 +1862,7 @@ def build_contradiction_details(weights):
         body += '<li><a href="reports.html">Authority reports</a></li>'
         body += '<li><a href="roadmap.html">Implementation roadmap</a></li>'
         body += '</ul></section>'
+        body += '</div></div>'  # close .detail-main and .detail-layout
 
         write(SITE / issue_detail_page(issue_id), page(
             f"{issue_id} Detail",
@@ -1931,12 +1921,21 @@ def build_recommendation_details():
         linked_milestones = milestones_by_rec.get(rid, [])
         status = status_by_id.get(rid, {})
 
-        body = render_detail_toc([
+        toc_html = render_detail_toc([
             ("summary", "Summary"),
             ("evidence", "Evidence"),
             ("connected-items", "Connected items"),
             ("actions", "Actions"),
         ])
+
+        sidebar_meta = '<section class="card"><h3>At a glance</h3><ul>'
+        sidebar_meta += f'<li><strong>Priority:</strong> {html.escape(rec.get("priority", ""))}</li>'
+        sidebar_meta += f'<li><strong>Horizon:</strong> {html.escape(rec.get("time_horizon", ""))}</li>'
+        sidebar_meta += f'<li><strong>Goal:</strong> {html.escape(rec.get("policy_goal", ""))}</li>'
+        sidebar_meta += f'<li><strong>Confidence:</strong> {html.escape(rec.get("confidence", ""))}</li>'
+        sidebar_meta += '</ul></section>'
+
+        body = f'<div class="detail-layout"><div class="detail-sidebar">{toc_html}{sidebar_meta}</div><div class="detail-main">'
 
         body += '<section class="card" id="summary">'
         body += f'<h2>{html.escape(rid)}: {html.escape(rec.get("title", ""))}</h2>'
@@ -2066,6 +2065,7 @@ def build_recommendation_details():
         body += '<li><a href="consultation.html">Consultation status</a></li>'
         body += '<li><a href="metric-methods.html">Metric methods appendix</a></li>'
         body += '</ul></section>'
+        body += '</div></div>'  # close .detail-main and .detail-layout
 
         write(SITE / recommendation_detail_page(rid), page(
             f"{rid} Detail",
