@@ -19,17 +19,8 @@ def load_scoring():
     return data["scoring_model"]["dimensions"]
 
 
-def _badge(label, css_class):
-    """Inline badge helper used until html_utils is available."""
-    import html as _html
-    return f'<span class="badge badge-{css_class}">{_html.escape(label)}</span>'
-
-
 def compute_data_health():
-    try:
-        from .html_utils import badge
-    except ImportError:
-        badge = _badge
+    from .html_utils import badge  # lazy import to avoid circular dependency
 
     specs = [
         {
