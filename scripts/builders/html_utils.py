@@ -261,6 +261,7 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
         </nav>
       </div>
 {breadcrumb_html}
+      <button type="button" class="print-export" onclick="window.print()">Print / PDF</button>
 {utility_html}
       <main id="main-content">
 {plain_html}

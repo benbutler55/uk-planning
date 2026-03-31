@@ -913,3 +913,107 @@ a:focus-visible {
     border-top: 1px solid var(--line);
   }
 }
+
+/* ── Print export button ─────────────────────────── */
+.print-export {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+.print-export:hover {
+  background: var(--accent-dark);
+}
+
+/* ── Print stylesheet ────────────────────────────── */
+@media print {
+  nav,
+  .nav-hamburger,
+  .breadcrumbs,
+  .shell-utilities,
+  .back-to-top,
+  .skip-link,
+  .site-footer,
+  .filter-row,
+  .filter-item,
+  .preset-row,
+  .active-filter-chips,
+  .print-export,
+  button,
+  select,
+  input,
+  .guided-only,
+  .plain-language-panel,
+  .header-search,
+  .nav-panel,
+  .mobile-drawer,
+  .table-tap-hint,
+  [data-filter-count-for],
+  [data-presets-for],
+  [data-sort-state-for] {
+    display: none !important;
+  }
+
+  body {
+    font-size: 11pt;
+    color: #000;
+    line-height: 1.4;
+    background: #fff;
+  }
+
+  .layout {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    page-break-inside: avoid;
+    box-shadow: none;
+    margin: 8pt 0;
+    padding: 10pt;
+  }
+
+  table {
+    font-size: 9pt;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border: 1px solid #999;
+    padding: 4pt 6pt;
+  }
+
+  th {
+    background: #eee;
+    position: static;
+  }
+
+  .badge {
+    border: 1px solid #999;
+    background: #fff;
+    color: #000;
+  }
+
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  svg {
+    max-width: 100px;
+  }
+
+  header {
+    border: none;
+    box-shadow: none;
+    border-top: 2px solid #000;
+    padding: 8pt 0;
+  }
+}
