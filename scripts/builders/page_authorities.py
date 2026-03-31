@@ -12,9 +12,8 @@ from .metrics import (
     cohort_for_pid, peer_group_for_lpa, derive_metric_bundle,
 )
 from .html_utils import (
-    badge, confidence_badge, verification_badge, provenance_badge, metric_help,
-    render_table_guide, render_table,
-    render_filter_script, render_table_enhancements_script,
+    badge, confidence_badge, provenance_badge, metric_help,
+    render_table_guide, render_filter_script, render_table_enhancements_script,
     render_mobile_drawer_script, render_metric_context_block,
     render_plan_docs_table, sparkline_svg, page, write,
 )

@@ -1,5 +1,4 @@
 """Audience-specific page builders: policymakers, LPAs, developers, public."""
-import html
 
 from .config import ROOT, SITE
 from .data_loader import read_csv

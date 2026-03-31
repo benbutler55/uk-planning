@@ -9,7 +9,7 @@ from .metrics import (
     recommendation_detail_page, query_value,
 )
 from .html_utils import (
-    badge, confidence_badge, verification_badge,
+    confidence_badge, verification_badge,
     render_table_guide, render_table,
     render_filter_controls, render_filterable_table, render_filter_script,
     render_table_enhancements_script, render_mobile_drawer_script,

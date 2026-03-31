@@ -644,12 +644,6 @@ def render_metric_context_block(items):
         body += "</tr>"
     body += "</tbody></table></section>"
     return body
-    return (
-        '<section class="card detail-toc" aria-label="Detail page sections">'
-        '<h3>On this page</h3>'
-        f'<div class="detail-toc-links">{links}</div>'
-        '</section>'
-    )
 
 
 def render_plan_docs_table(rows):
