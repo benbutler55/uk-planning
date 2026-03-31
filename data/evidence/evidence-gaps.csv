@@ -1,0 +1,13 @@
+record_id,record_type,gap_description,severity,remediation_path,last_reviewed
+ISSUE-007,contradiction,No appeal decision evidence linked to this issue,medium,Search PINS database for S78 appeals citing relevant policy conflict,2026-03-30
+ISSUE-008,contradiction,Limited to single-authority observation without cross-authority comparison,low,Extend analysis to Cohort 3 authorities with similar constraint profiles,2026-03-30
+ISSUE-009,contradiction,Relies on proxy operational data rather than official statistics,medium,Integrate PS1/PS2 official tables when next quarterly release available,2026-03-30
+ISSUE-010,contradiction,No appeal decision evidence linked to this issue,medium,Search PINS database for relevant condition discharge appeals,2026-03-30
+ISSUE-013,contradiction,Inspector findings reference is secondary summary rather than primary decision letter,low,Obtain full decision letter text from PINS website,2026-03-30
+ISSUE-015,contradiction,Policy citation chain incomplete — missing link between local plan and NPPF paragraph,medium,Trace policy citation from local plan to specific NPPF provision,2026-03-30
+ISSUE-018,contradiction,Evidence based on pre-LURA 2023 policy context and may need updating,high,Reassess against post-LURA policy landscape and updated NPPF,2026-03-30
+ISSUE-020,contradiction,No quantitative impact data — relies on qualitative officer interview evidence,medium,Add FOI-based or published performance data on consultation timescales,2026-03-30
+REC-003,recommendation,Evidence links reference general statistics rather than specific causal analysis,low,Add targeted analysis linking recommendation to measurable outcome data,2026-03-30
+REC-007,recommendation,Implementation pathway references outdated ministerial statement,medium,Update to reference current policy vehicle and responsible minister,2026-03-30
+REC-009,recommendation,No LPA-level evidence of impact — recommendation is based on aggregate data only,medium,Add at least two authority-specific case studies showing impact pattern,2026-03-30
+REC-011,recommendation,Cost-benefit analysis missing — recommendation has no quantified expected impact,high,Develop order-of-magnitude cost-benefit estimate using GOV.UK impact assessment methodology,2026-03-30

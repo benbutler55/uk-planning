@@ -228,6 +228,19 @@
       }
     },
     {
+      "path": "data/evidence/evidence-gaps.csv",
+      "required_columns": [
+        "record_id", "record_type", "gap_description", "severity",
+        "remediation_path", "last_reviewed"
+      ],
+      "id_column": "record_id",
+      "date_columns": ["last_reviewed"],
+      "enum_columns": {
+        "record_type": ["contradiction", "recommendation"],
+        "severity": ["high", "medium", "low"]
+      }
+    },
+    {
       "path": "data/evidence/recommendation_evidence_links.csv",
       "required_columns": [
         "link_id", "recommendation_id", "evidence_type",
