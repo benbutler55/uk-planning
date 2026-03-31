@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 26 LPAs across 3 cohorts (Cohort 3 added March 2026). Published as a static website on GitHub Pages.
 
-## Current State (v13.0 Phase 3)
+## Current State (v14.0 Phase 4)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -76,7 +76,11 @@ Citation-backed analysis of England's planning system identifying contradictions
 - UI blueprint document for reusable layout/copy components (`content/methodology/ui-blueprint.md`)
 - Consultation layer with status tracker, disclaimer, and PDF print export
 - CI and Pages guardrails fail if generated `site/` artifacts are out of sync
-- 39+ generated site pages including benchmark and reports views
+- Trend analysis page with sparklines and England aggregate
+- Performance history sections on LPA detail pages
+- Print stylesheet and PDF export button on all pages
+- Comparison history with localStorage persistence
+- 85 generated site pages including benchmark, reports, and trends views
 
 ## Repository Structure
 
@@ -159,7 +163,7 @@ uk-planning/
 │   │   └── onboarding/              # Per-authority onboarding gate outputs
 │   │   └── ux-kpi-report.json       # Build-time KPI structure and targets artifact
 │   ├── search-index.json            # Client-side search index
-│   └── *.html                       # 28+ generated pages
+│   └── *.html                       # 85 generated pages
 └── .github/workflows/
     ├── ci.yml                       # PR and push: validate, build, link check
     ├── freshness.yml                # Monthly: URL and staleness check
@@ -238,6 +242,7 @@ See `AGENTS.md` for full agent operating rules.
 | `metric-methods.html` | Per-metric formula appendix for benchmark and report indicators |
 | `sources.html` | Full evidence and citation index |
 | `exports.html` | CSV and JSON dataset download index |
+| `trends.html` | Quarter-on-quarter performance trends for all authorities |
 
 ## Hosting
 
