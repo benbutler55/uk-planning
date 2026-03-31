@@ -18,6 +18,7 @@ from builders.page_authorities import (
     build_plans, build_map, build_compare, build_benchmark,
     build_reports, build_coverage,
 )
+from builders.page_trends import build_trends
 from builders.page_recommendations import (
     build_recommendations, build_recommendation_details,
     build_roadmap, build_consultation,
@@ -49,6 +50,7 @@ def main():
     build_map()
     build_compare()
     build_benchmark()
+    build_trends()
     build_reports()
     build_coverage()
     build_data_health()
