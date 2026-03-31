@@ -122,3 +122,87 @@
     }
   });
 })();
+
+/* Comparison history */
+(function() {
+  var HISTORY_KEY = 'uk-planning-compare-history-v1';
+  var MAX_ENTRIES = 10;
+
+  function loadHistory() {
+    try {
+      return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveHistory(entries) {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(entries.slice(0, MAX_ENTRIES)));
+  }
+
+  function recordComparison() {
+    var params = new URLSearchParams(window.location.search);
+    if (!params.get('a') && !params.get('b') && window.location.hash) {
+      params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    }
+    var a = (params.get('a') || '').trim();
+    var b = (params.get('b') || '').trim();
+    if (!a || !b) return;
+    var history = loadHistory();
+    // Remove duplicate
+    history = history.filter(function(entry) {
+      return !(entry.a === a && entry.b === b);
+    });
+    history.unshift({ a: a, b: b, ts: new Date().toISOString() });
+    saveHistory(history);
+  }
+
+  function renderHistory() {
+    var container = document.getElementById('compare-history');
+    if (!container) return;
+    var history = loadHistory();
+    // Clear existing content safely
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+    if (!history.length) {
+      var empty = document.createElement('p');
+      empty.className = 'small';
+      empty.textContent = 'No recent comparisons yet.';
+      container.appendChild(empty);
+      return;
+    }
+    var list = document.createElement('ul');
+    history.forEach(function(entry) {
+      var li = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = 'compare.html?a=' + encodeURIComponent(entry.a) + '&b=' + encodeURIComponent(entry.b);
+      link.textContent = entry.a + ' vs ' + entry.b;
+      li.appendChild(link);
+      if (entry.ts) {
+        var ts = document.createElement('span');
+        ts.className = 'small';
+        ts.textContent = ' (' + entry.ts.substring(0, 10) + ')';
+        li.appendChild(ts);
+      }
+      list.appendChild(li);
+    });
+    container.appendChild(list);
+    var clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.textContent = 'Clear history';
+    clearBtn.addEventListener('click', function() {
+      localStorage.removeItem(HISTORY_KEY);
+      renderHistory();
+    });
+    container.appendChild(clearBtn);
+  }
+
+  // Record if on compare page with both params
+  if (window.location.pathname.indexOf('compare.html') !== -1) {
+    recordComparison();
+  }
+
+  // Render if container exists
+  renderHistory();
+})();

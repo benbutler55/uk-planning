@@ -14,10 +14,6 @@ from .html_utils import (
 def build_trends():
     lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
     trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
-    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
-
-    quality_by_id = {r["pilot_id"]: r for r in quality_rows}
-
     trends_by_id = defaultdict(list)
     for r in trend_rows:
         trends_by_id[r["pilot_id"]].append(r)

@@ -418,6 +418,7 @@ def build_compare():
     records_json = json.dumps(records, ensure_ascii=False)
 
     body = """
+      <section class="card"><h3>Recent Comparisons</h3><div id="compare-history"></div></section>
       <section class="card">
         <p>Select two authorities to compare policy context, evidence quality, and baseline performance metrics. You can also open this page with URL presets such as <code>?a=LPA-01&b=LPA-07</code>.</p>
         <div class="filter-row">
