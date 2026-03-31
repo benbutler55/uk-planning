@@ -28,6 +28,13 @@ def build_plans():
     for item in docs:
         docs_by_lpa[item["pilot_id"]].append(item)
 
+    trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
+    trends_by_id = defaultdict(list)
+    for tr in trend_rows:
+        trends_by_id[tr["pilot_id"]].append(tr)
+    for pid in trends_by_id:
+        trends_by_id[pid].sort(key=lambda x: x["quarter"])
+
     body = '<section class="card"><ul>'
     for level in ["National", "Regional/sub-regional", "County", "District/unitary", "Neighbourhood", "Sector overlays"]:
         body += f"<li>{html.escape(level)}</li>"
@@ -132,6 +139,35 @@ def build_plans():
             "Source links open the original authority publication where available.",
         ])
         pb += render_plan_docs_table(lpa_docs)
+
+        # Performance history section
+        lpa_trends = trends_by_id.get(row["pilot_id"], [])
+        if lpa_trends:
+            pb += '<section class="card"><h2 id="performance-history">Performance History</h2>'
+            pb += '<table><thead><tr><th>Quarter</th><th>Major in time %</th><th>Appeals overturned %</th><th>Change</th></tr></thead><tbody>'
+            prev_speed = None
+            for tr in lpa_trends:
+                speed = float(tr["major_in_time_pct"])
+                appeal = tr.get("appeals_overturned_pct", "n/a")
+                if prev_speed is not None:
+                    diff = speed - prev_speed
+                    arrow = "\u2191" if diff > 0 else ("\u2193" if diff < 0 else "\u2192")
+                    change_str = f"{arrow} {diff:+.1f} pp"
+                else:
+                    change_str = "\u2014"
+                pb += (
+                    f'<tr><td>{html.escape(tr["quarter"])}</td>'
+                    f'<td>{html.escape(tr["major_in_time_pct"])}</td>'
+                    f'<td>{html.escape(str(appeal))}</td>'
+                    f'<td>{change_str}</td></tr>'
+                )
+                prev_speed = speed
+            pb += '</tbody></table>'
+            speeds = [float(t["major_in_time_pct"]) for t in lpa_trends]
+            pb += f'<p>Trend: {sparkline_svg(speeds)}</p>'
+            pb += '<p class="small"><a href="trends.html">View full trend analysis</a></p>'
+            pb += '</section>'
+
         write(SITE / f"plans-{row['pilot_id'].lower()}.html", page(
             f"{row['lpa_name']} Plan Profile",
             "Pilot authority planning document stack.",
