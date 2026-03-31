@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-03-31
+data_version,v12.0
+pilot_id,LPA-26
+lpa_name,Stockport Metropolitan Borough Council
+lpa_type,Metropolitan District
+cohort,Cohort 3
+peer_group,High-growth urban authorities
+region,North West
+growth_context,High demand constrained
+constraint_profile,Green Belt and transport corridor pressure
+data_quality_tier,B
+coverage_score,74
+total_linked_issues,8
+high_severity_issues,3
+primary_risk_stage,Pre-application
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.1
+delegated_ratio_proxy,83.8
+plan_age_years,15.0
+consultation_lag_proxy,3.8
+backlog_pressure,73.2
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

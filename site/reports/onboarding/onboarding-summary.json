@@ -286,5 +286,185 @@
     "documents_count": 2,
     "trend_points": 4,
     "profile_page": "plans-lpa-16.html"
+  },
+  {
+    "pilot_id": "LPA-17",
+    "lpa_name": "Sunderland City Council",
+    "region": "North East",
+    "cohort": "Cohort 3",
+    "quality_tier": "C",
+    "coverage_status": "partial",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-17.html"
+  },
+  {
+    "pilot_id": "LPA-18",
+    "lpa_name": "Wiltshire Council",
+    "region": "South West",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 3,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-18.html"
+  },
+  {
+    "pilot_id": "LPA-19",
+    "lpa_name": "Brighton and Hove City Council",
+    "region": "South East",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-19.html"
+  },
+  {
+    "pilot_id": "LPA-20",
+    "lpa_name": "Sheffield City Council",
+    "region": "Yorkshire and The Humber",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 3,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-20.html"
+  },
+  {
+    "pilot_id": "LPA-21",
+    "lpa_name": "Broads Authority",
+    "region": "East of England",
+    "cohort": "Cohort 3",
+    "quality_tier": "C",
+    "coverage_status": "partial",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-21.html"
+  },
+  {
+    "pilot_id": "LPA-22",
+    "lpa_name": "County Durham Council",
+    "region": "North East",
+    "cohort": "Cohort 3",
+    "quality_tier": "C",
+    "coverage_status": "partial",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-22.html"
+  },
+  {
+    "pilot_id": "LPA-23",
+    "lpa_name": "Plymouth City Council",
+    "region": "South West",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-23.html"
+  },
+  {
+    "pilot_id": "LPA-24",
+    "lpa_name": "Reading Borough Council",
+    "region": "South East",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-24.html"
+  },
+  {
+    "pilot_id": "LPA-25",
+    "lpa_name": "Nottingham City Council",
+    "region": "East Midlands",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-25.html"
+  },
+  {
+    "pilot_id": "LPA-26",
+    "lpa_name": "Stockport Metropolitan Borough Council",
+    "region": "North West",
+    "cohort": "Cohort 3",
+    "quality_tier": "B",
+    "coverage_status": "complete",
+    "checks": {
+      "ingest": true,
+      "validate": true,
+      "profile": true,
+      "qa": true
+    },
+    "failed_checks": [],
+    "documents_count": 2,
+    "trend_points": 4,
+    "profile_page": "plans-lpa-26.html"
   }
 ]

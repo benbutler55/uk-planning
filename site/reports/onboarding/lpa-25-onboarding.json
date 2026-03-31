@@ -1,0 +1,18 @@
+{
+  "pilot_id": "LPA-25",
+  "lpa_name": "Nottingham City Council",
+  "region": "East Midlands",
+  "cohort": "Cohort 3",
+  "quality_tier": "B",
+  "coverage_status": "complete",
+  "checks": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-25.html"
+}

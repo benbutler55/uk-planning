@@ -1046,6 +1046,146 @@
     }
   },
   {
+    "id": "LPA-17",
+    "page": "plans-lpa-17.html",
+    "title": "Sunderland City Council",
+    "category": "LPA",
+    "text": "sunderland city council north east coastal change and former industrial land remediation regeneration growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "sunderland city council"
+    }
+  },
+  {
+    "id": "LPA-18",
+    "page": "plans-lpa-18.html",
+    "title": "Wiltshire Council",
+    "category": "LPA",
+    "text": "wiltshire council south west military safeguarding and aonb adjacency mixed growth dispersed",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "wiltshire council"
+    }
+  },
+  {
+    "id": "LPA-19",
+    "page": "plans-lpa-19.html",
+    "title": "Brighton and Hove City Council",
+    "category": "LPA",
+    "text": "brighton and hove city council south east coastal flood risk and conservation area density high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "brighton and hove city council"
+    }
+  },
+  {
+    "id": "LPA-20",
+    "page": "plans-lpa-20.html",
+    "title": "Sheffield City Council",
+    "category": "LPA",
+    "text": "sheffield city council yorkshire and the humber green belt and topographic constraints high growth urban",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "sheffield city council"
+    }
+  },
+  {
+    "id": "LPA-21",
+    "page": "plans-lpa-21.html",
+    "title": "Broads Authority",
+    "category": "LPA",
+    "text": "broads authority east of england flood risk and ecological sensitivity constrained designated",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "broads authority"
+    }
+  },
+  {
+    "id": "LPA-22",
+    "page": "plans-lpa-22.html",
+    "title": "County Durham Council",
+    "category": "LPA",
+    "text": "county durham council north east former coalfield remediation and employment land pressure regeneration growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "county durham council"
+    }
+  },
+  {
+    "id": "LPA-23",
+    "page": "plans-lpa-23.html",
+    "title": "Plymouth City Council",
+    "category": "LPA",
+    "text": "plymouth city council south west coastal flood risk and military safeguarding regeneration growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "plymouth city council"
+    }
+  },
+  {
+    "id": "LPA-24",
+    "page": "plans-lpa-24.html",
+    "title": "Reading Borough Council",
+    "category": "LPA",
+    "text": "reading borough council south east transport capacity and flood risk high growth urban",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "reading borough council"
+    }
+  },
+  {
+    "id": "LPA-25",
+    "page": "plans-lpa-25.html",
+    "title": "Nottingham City Council",
+    "category": "LPA",
+    "text": "nottingham city council east midlands heritage sensitivity and transport capacity urban renewal",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "nottingham city council"
+    }
+  },
+  {
+    "id": "LPA-26",
+    "page": "plans-lpa-26.html",
+    "title": "Stockport Metropolitan Borough Council",
+    "category": "LPA",
+    "text": "stockport metropolitan borough council north west green belt and transport corridor pressure high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "stockport metropolitan borough council"
+    }
+  },
+  {
     "id": "BN-001",
     "page": "bottlenecks.html",
     "title": "Pre-application — Housing",

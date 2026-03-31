@@ -15,7 +15,13 @@ def weighted_score(row, weights):
 
 def cohort_for_pid(pid):
     cohort_1 = {"LPA-01", "LPA-02", "LPA-03", "LPA-04", "LPA-05", "LPA-06"}
-    return "Cohort 1" if pid in cohort_1 else "Cohort 2"
+    cohort_2 = {"LPA-07", "LPA-08", "LPA-09", "LPA-10", "LPA-11", "LPA-12",
+                "LPA-13", "LPA-14", "LPA-15", "LPA-16"}
+    if pid in cohort_1:
+        return "Cohort 1"
+    if pid in cohort_2:
+        return "Cohort 2"
+    return "Cohort 3"
 
 
 def analytical_confidence_for_tier(tier):

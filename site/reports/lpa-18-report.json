@@ -1,0 +1,96 @@
+{
+  "report_generated_at": "2026-03-31",
+  "data_version": "v12.0",
+  "pilot_id": "LPA-18",
+  "lpa_name": "Wiltshire Council",
+  "lpa_type": "Unitary Authority",
+  "cohort": "Cohort 3",
+  "peer_group": "Mixed and dispersed authorities",
+  "region": "South West",
+  "growth_context": "Mixed growth dispersed",
+  "constraint_profile": "Military safeguarding and AONB adjacency",
+  "data_quality": {
+    "pilot_id": "LPA-18",
+    "lpa_name": "Wiltshire Council",
+    "data_quality_tier": "B",
+    "coverage_score": "76",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-18",
+    "lpa_name": "Wiltshire Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 13.7,
+    "delegated_ratio_proxy": 90.0,
+    "plan_age_years": 6.1,
+    "consultation_lag_proxy": 3.5,
+    "backlog_pressure": 36.0,
+    "analytical_confidence": "medium"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-18",
+      "lpa_name": "Wiltshire Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "76",
+      "appeals_overturned_pct": "2.1",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-30"
+    },
+    {
+      "pilot_id": "LPA-18",
+      "lpa_name": "Wiltshire Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "77",
+      "appeals_overturned_pct": "2.0",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-30"
+    },
+    {
+      "pilot_id": "LPA-18",
+      "lpa_name": "Wiltshire Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "79",
+      "appeals_overturned_pct": "1.8",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-30"
+    },
+    {
+      "pilot_id": "LPA-18",
+      "lpa_name": "Wiltshire Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "80",
+      "appeals_overturned_pct": "1.7",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-03-30"
+    }
+  ],
+  "metric_provenance": {
+    "major_in_time_pct": "official",
+    "appeals_overturned_pct": "official",
+    "issue_incidence": "estimated",
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
+  },
+  "latest_trend_source": {
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics"
+  }
+}

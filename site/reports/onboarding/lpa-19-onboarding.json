@@ -1,0 +1,18 @@
+{
+  "pilot_id": "LPA-19",
+  "lpa_name": "Brighton and Hove City Council",
+  "region": "South East",
+  "cohort": "Cohort 3",
+  "quality_tier": "B",
+  "coverage_status": "complete",
+  "checks": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-19.html"
+}

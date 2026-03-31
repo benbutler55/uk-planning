@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-03-31
+data_version,v12.0
+pilot_id,LPA-17
+lpa_name,Sunderland City Council
+lpa_type,Metropolitan District
+cohort,Cohort 3
+peer_group,High-growth urban authorities
+region,North East
+growth_context,Regeneration growth
+constraint_profile,Coastal change and former industrial land remediation
+data_quality_tier,C
+coverage_score,64
+total_linked_issues,7
+high_severity_issues,3
+primary_risk_stage,Consultation
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,15.8
+delegated_ratio_proxy,84.6
+plan_age_years,6.2
+consultation_lag_proxy,5.7
+backlog_pressure,45.6
+analytical_confidence,low
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

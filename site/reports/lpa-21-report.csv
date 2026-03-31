@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-03-31
+data_version,v12.0
+pilot_id,LPA-21
+lpa_name,Broads Authority
+lpa_type,National Park
+cohort,Cohort 3
+peer_group,National park authorities
+region,East of England
+growth_context,Constrained designated
+constraint_profile,Flood risk and ecological sensitivity
+data_quality_tier,C
+coverage_score,60
+total_linked_issues,5
+high_severity_issues,2
+primary_risk_stage,Consultation
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,15.8
+delegated_ratio_proxy,85.2
+plan_age_years,6.9
+consultation_lag_proxy,5.3
+backlog_pressure,34.4
+analytical_confidence,low
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

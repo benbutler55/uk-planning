@@ -158,5 +158,105 @@
     "primary_risk_stage": "Committee",
     "last_reviewed": "2026-03-18",
     "notes": "Ageing plan and policy vacuum elevate refusal/appeal volatility"
+  },
+  {
+    "pilot_id": "LPA-17",
+    "lpa_name": "Sunderland City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-18",
+    "lpa_name": "Wiltshire Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-19",
+    "lpa_name": "Brighton and Hove City Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-20",
+    "lpa_name": "Sheffield City Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-21",
+    "lpa_name": "Broads Authority",
+    "total_linked_issues": "5",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "4",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-22",
+    "lpa_name": "County Durham Council",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Validation",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-23",
+    "lpa_name": "Plymouth City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-24",
+    "lpa_name": "Reading Borough Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-25",
+    "lpa_name": "Nottingham City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-26",
+    "lpa_name": "Stockport Metropolitan Borough Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 initial assessment"
   }
 ]

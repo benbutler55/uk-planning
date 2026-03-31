@@ -142,5 +142,95 @@
     "evidence_type_mix": "Official stats + ageing plan + limited appeal evidence",
     "last_reviewed": "2026-03-18",
     "notes": "Outdated adopted plan weakens policy certainty"
+  },
+  {
+    "pilot_id": "LPA-17",
+    "lpa_name": "Sunderland City Council",
+    "data_quality_tier": "C",
+    "coverage_score": "64",
+    "evidence_type_mix": "Official stats + ageing plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-18",
+    "lpa_name": "Wiltshire Council",
+    "data_quality_tier": "B",
+    "coverage_score": "76",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-19",
+    "lpa_name": "Brighton and Hove City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "80",
+    "evidence_type_mix": "Official stats + adopted plan + appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-20",
+    "lpa_name": "Sheffield City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "78",
+    "evidence_type_mix": "Official stats + emerging plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-21",
+    "lpa_name": "Broads Authority",
+    "data_quality_tier": "C",
+    "coverage_score": "60",
+    "evidence_type_mix": "Plan docs + limited official local metrics",
+    "last_reviewed": "2026-03-30",
+    "notes": "Designated landscape reduces metric comparability"
+  },
+  {
+    "pilot_id": "LPA-22",
+    "lpa_name": "County Durham Council",
+    "data_quality_tier": "C",
+    "coverage_score": "65",
+    "evidence_type_mix": "Official stats + adopted plan + limited evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-23",
+    "lpa_name": "Plymouth City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "77",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-24",
+    "lpa_name": "Reading Borough Council",
+    "data_quality_tier": "B",
+    "coverage_score": "79",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-25",
+    "lpa_name": "Nottingham City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "75",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-26",
+    "lpa_name": "Stockport Metropolitan Borough Council",
+    "data_quality_tier": "B",
+    "coverage_score": "74",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-03-30",
+    "notes": "Cohort 3 newly onboarded"
   }
 ]

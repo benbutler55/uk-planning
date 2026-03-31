@@ -1,0 +1,18 @@
+{
+  "pilot_id": "LPA-21",
+  "lpa_name": "Broads Authority",
+  "region": "East of England",
+  "cohort": "Cohort 3",
+  "quality_tier": "C",
+  "coverage_status": "partial",
+  "checks": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-21.html"
+}

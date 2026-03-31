@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-03-31
+data_version,v12.0
+pilot_id,LPA-19
+lpa_name,Brighton and Hove City Council
+lpa_type,Unitary Authority
+cohort,Cohort 3
+peer_group,Constrained housing-pressure authorities
+region,South East
+growth_context,High demand constrained
+constraint_profile,Coastal flood risk and conservation area density
+data_quality_tier,B
+coverage_score,80
+total_linked_issues,9
+high_severity_issues,4
+primary_risk_stage,Committee
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.0
+delegated_ratio_proxy,88.5
+plan_age_years,3.4
+consultation_lag_proxy,4.6
+backlog_pressure,55.6
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

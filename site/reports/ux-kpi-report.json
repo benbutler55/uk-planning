@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-03-25",
+  "generated_at": "2026-03-31",
   "kpis": {
     "detail_page_coverage": {
       "contradictions_with_detail_pages": 22,
       "recommendations_with_detail_pages": 11
     },
     "coverage_status": {
-      "complete": 14,
-      "partial": 2
+      "complete": 21,
+      "partial": 5
     },
     "instrumentation": {
       "event_schema": [

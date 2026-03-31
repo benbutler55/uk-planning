@@ -1,17 +1,17 @@
 {
   "snapshot_period": "2026-03",
-  "generated_on": "2026-03-25",
-  "data_version": "v6.0",
+  "generated_on": "2026-03-31",
+  "data_version": "v12.0",
   "top_lpa": {
-    "pilot_id": "LPA-10",
-    "lpa_name": "Newcastle City Council",
-    "major_in_time_pct": 80.0
+    "pilot_id": "LPA-21",
+    "lpa_name": "Broads Authority",
+    "major_in_time_pct": 85.0
   },
   "bottom_lpa": {
     "pilot_id": "LPA-11",
     "lpa_name": "Peak District National Park Authority",
     "major_in_time_pct": 61.0
   },
-  "average_major_in_time_pct": 70.25,
-  "authority_count": 16
+  "average_major_in_time_pct": 72.73,
+  "authority_count": 26
 }

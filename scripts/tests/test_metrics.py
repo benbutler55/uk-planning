@@ -24,7 +24,12 @@ def test_cohort_for_pid_cohort1():
 
 def test_cohort_for_pid_cohort2():
     assert cohort_for_pid("LPA-07") == "Cohort 2"
-    assert cohort_for_pid("LPA-99") == "Cohort 2"
+    assert cohort_for_pid("LPA-16") == "Cohort 2"
+
+
+def test_cohort_for_pid_cohort_3():
+    assert cohort_for_pid("LPA-17") == "Cohort 3"
+    assert cohort_for_pid("LPA-26") == "Cohort 3"
 
 
 def test_parse_iso_date_valid():

@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-03-31
+data_version,v12.0
+pilot_id,LPA-20
+lpa_name,Sheffield City Council
+lpa_type,Metropolitan District
+cohort,Cohort 3
+peer_group,High-growth urban authorities
+region,Yorkshire and The Humber
+growth_context,High growth urban
+constraint_profile,Green Belt and topographic constraints
+data_quality_tier,B
+coverage_score,78
+total_linked_issues,8
+high_severity_issues,3
+primary_risk_stage,Legal Agreements
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.1
+delegated_ratio_proxy,84.3
+plan_age_years,17.1
+consultation_lag_proxy,4.0
+backlog_pressure,76.5
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

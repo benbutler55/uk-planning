@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-03-31
+data_version,v12.0
+pilot_id,LPA-18
+lpa_name,Wiltshire Council
+lpa_type,Unitary Authority
+cohort,Cohort 3
+peer_group,Mixed and dispersed authorities
+region,South West
+growth_context,Mixed growth dispersed
+constraint_profile,Military safeguarding and AONB adjacency
+data_quality_tier,B
+coverage_score,76
+total_linked_issues,6
+high_severity_issues,2
+primary_risk_stage,Pre-application
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,13.7
+delegated_ratio_proxy,90.0
+plan_age_years,6.1
+consultation_lag_proxy,3.5
+backlog_pressure,36.0
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics
