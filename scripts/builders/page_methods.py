@@ -3,7 +3,7 @@ import html
 
 from .config import ROOT, SITE
 from .data_loader import read_csv, compute_data_health
-from .html_utils import render_table_guide, render_table, page, write
+from .html_utils import badge, render_table_guide, render_table, page, write
 
 
 def build_methodology():
@@ -35,6 +35,36 @@ def build_methodology():
     body += '<li><strong>Product/editorial lead:</strong> release notes, audience guidance, and change communication.</li>'
     body += '</ul></section>'
     body += '<section class="card"><h2>How scoring works in 3 steps</h2><ol><li>Collect issue-level values for severity, frequency, legal risk, delay impact, and fixability.</li><li>Apply explicit weighting from scoring.json.</li><li>Rank and review with confidence and verification labels.</li></ol></section>'
+
+    # Evidence gaps summary
+    gaps_path = ROOT / "data/evidence/evidence-gaps.csv"
+    if gaps_path.exists():
+        gaps = read_csv(gaps_path)
+        severity_counts = {}
+        for g in gaps:
+            sev = g.get("severity", "unknown")
+            severity_counts[sev] = severity_counts.get(sev, 0) + 1
+        severity_colors = {"high": "red", "medium": "amber", "low": "green"}
+        body += '<section class="card"><h2>Evidence Gaps</h2>'
+        body += "<p>Known gaps in evidence coverage, tracked for remediation.</p>"
+        body += "<p>"
+        for sev in ["high", "medium", "low"]:
+            if sev in severity_counts:
+                body += f"{badge(sev, severity_colors[sev])} {severity_counts[sev]} &nbsp; "
+        body += "</p>"
+        body += '<table><thead><tr><th>Record</th><th>Type</th><th>Gap</th><th>Severity</th><th>Remediation</th></tr></thead><tbody>'
+        for g in gaps:
+            sev = g.get("severity", "unknown")
+            color = severity_colors.get(sev, "grey")
+            body += "<tr>"
+            body += f"<td>{html.escape(g.get('record_id', ''))}</td>"
+            body += f"<td>{html.escape(g.get('record_type', ''))}</td>"
+            body += f"<td>{html.escape(g.get('gap_description', ''))}</td>"
+            body += f"<td>{badge(sev, color)}</td>"
+            body += f"<td>{html.escape(g.get('remediation_path', ''))}</td>"
+            body += "</tr>"
+        body += "</tbody></table></section>"
+
     write(SITE / "methodology.html", page(
         "Methodology",
         "Taxonomy, scoring model, evidence standards, and quality controls.",

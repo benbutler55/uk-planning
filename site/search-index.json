@@ -9,7 +9,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -23,7 +23,7 @@
       "type": "contradiction",
       "pathway": "mixed",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -37,7 +37,7 @@
       "type": "contradiction",
       "pathway": "commercial",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -51,7 +51,7 @@
       "type": "contradiction",
       "pathway": "infrastructure",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -65,7 +65,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -79,7 +79,7 @@
       "type": "contradiction",
       "pathway": "mixed",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -93,7 +93,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -107,7 +107,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -121,7 +121,7 @@
       "type": "contradiction",
       "pathway": "mixed",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -135,7 +135,7 @@
       "type": "contradiction",
       "pathway": "infrastructure",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -149,7 +149,7 @@
       "type": "contradiction",
       "pathway": "infrastructure",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -163,7 +163,7 @@
       "type": "contradiction",
       "pathway": "mixed",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -1419,6 +1419,76 @@
       "confidence": "",
       "status": "allowed",
       "authority": "manchester city council"
+    }
+  },
+  {
+    "id": "APP-011",
+    "page": "appeals.html",
+    "title": "APP/D4610/W/24/3341567 (Sheffield City Council)",
+    "category": "Appeal",
+    "text": "app/d4610/w/24/3341567 (sheffield city council) inspector found five-year supply shortfall and applied tilted balance. local plan affordable housing policy given reduced weight due to viability evidence. confirms issue-001 weight ambiguity pattern in northern metropolitan contexts. nppf para 11(d); sheffield local plan cs24",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "sheffield city council"
+    }
+  },
+  {
+    "id": "APP-012",
+    "page": "appeals.html",
+    "title": "APP/Q1825/W/24/3345678 (Brighton and Hove City Council)",
+    "category": "Appeal",
+    "text": "app/q1825/w/24/3345678 (brighton and hove city council) inspector found design policy dm18 and supplementary design guidance applied conflicting height and massing tests. dismissed on heritage impact but noted interpretation inconsistency. confirms issue-003 duplication pattern. brighton city plan part two policy dm18; nppf chapter 12",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "dismissed",
+      "authority": "brighton and hove city council"
+    }
+  },
+  {
+    "id": "APP-013",
+    "page": "appeals.html",
+    "title": "APP/L3245/W/25/3350123 (Reading Borough Council)",
+    "category": "Appeal",
+    "text": "app/l3245/w/25/3350123 (reading borough council) inspector found validation requirements exceeded statutory minimum and caused unnecessary delay. application had been returned twice for minor document formatting issues. confirms issue-002 validation friction. reading local plan policy cc7; nppf validation guidance",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "reading borough council"
+    }
+  },
+  {
+    "id": "APP-014",
+    "page": "appeals.html",
+    "title": "APP/M2460/W/24/3348901 (Nottingham City Council)",
+    "category": "Appeal",
+    "text": "app/m2460/w/24/3348901 (nottingham city council) inspector gave moderate weight to emerging plan policies at regulation 19 stage. allowed housing element but dismissed commercial element on heritage grounds. transitional weight inconsistency between plan components confirmed. nppf transitional arrangements; emerging nottingham local plan part 2",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "split decision",
+      "authority": "nottingham city council"
+    }
+  },
+  {
+    "id": "APP-015",
+    "page": "appeals.html",
+    "title": "APP/N5830/W/25/3352456 (Stockport Metropolitan Borough Council)",
+    "category": "Appeal",
+    "text": "app/n5830/w/25/3352456 (stockport metropolitan borough council) inspector applied tilted balance due to lack of up-to-date adopted plan following withdrawal from joint plan process. green belt exceptional circumstances test applied inconsistently with neighbouring authority decisions. confirms issue-022. nppf para 11(d); gmsf/places for everyone joint plan",
+    "facets": {
+      "type": "appeal",
+      "pathway": "",
+      "confidence": "",
+      "status": "allowed",
+      "authority": "stockport metropolitan borough council"
     }
   }
 ]

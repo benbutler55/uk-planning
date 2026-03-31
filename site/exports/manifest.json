@@ -5,7 +5,7 @@
   "datasets": [
     {
       "dataset": "appeal-decisions",
-      "row_count": 10,
+      "row_count": 15,
       "fields": [
         "appeal_id",
         "pins_reference",
@@ -20,7 +20,7 @@
         "retrieved_at",
         "notes"
       ],
-      "content_sha256": "5cc33a1ae59d70f28a95c08ada6f329c55268643a3d168687420b018d35dcee7",
+      "content_sha256": "06e134dca774460a9961545c0d92ba3867fddfcbf767d390b9d919532ae2c9b1",
       "csv_path": "exports/appeal-decisions.csv",
       "json_path": "exports/appeal-decisions.json"
     },
@@ -63,7 +63,7 @@
         "verification_state",
         "confidence"
       ],
-      "content_sha256": "b0eaddc9b799d1ddf03428c0e03e31b1aafc3b3426fcb53a3b2da36942f6e311",
+      "content_sha256": "5bc86d412b9c344cb95a8796e99ddd829a1880af296f415d5bbd91d2b11c26b7",
       "csv_path": "exports/contradiction-register.csv",
       "json_path": "exports/contradiction-register.json"
     },
