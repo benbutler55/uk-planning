@@ -5,7 +5,8 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-import build_site
+from builders.data_loader import read_csv
+from builders.metrics import derive_metric_bundle
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -21,12 +22,12 @@ def to_float(value, fallback=0.0):
 
 
 def read_inputs():
-    lpas = build_site.read_csv(ROOT / "data/plans/pilot-lpas.csv")
-    docs = build_site.read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
-    baselines = build_site.read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
-    quality_rows = build_site.read_csv(ROOT / "data/plans/lpa-data-quality.csv")
-    issue_rows = build_site.read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
-    trend_rows = build_site.read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
+    lpas = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    docs = read_csv(ROOT / "data/plans/pilot-plan-documents.csv")
+    baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
+    quality_rows = read_csv(ROOT / "data/plans/lpa-data-quality.csv")
+    issue_rows = read_csv(ROOT / "data/issues/lpa-issue-incidence.csv")
+    trend_rows = read_csv(ROOT / "data/evidence/lpa-quarterly-trends.csv")
     return lpas, docs, baselines, quality_rows, issue_rows, trend_rows
 
 
@@ -64,7 +65,7 @@ def build_metric_state(lpas, docs, baselines, quality_rows, issue_rows, trend_ro
             subset = series
         if len(subset) < 2:
             continue
-        derived = build_site.derive_metric_bundle(lpa, i, q, subset, docs_by_lpa, national_validation_proxy)
+        derived = derive_metric_bundle(lpa, i, q, subset, docs_by_lpa, national_validation_proxy)
         state[pid] = derived
     return state
 

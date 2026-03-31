@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-import build_site
+from builders.data_loader import compute_onboarding_status_rows
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -55,7 +55,7 @@ def main():
     parser.add_argument("--all", action="store_true", help="Check all authorities")
     args = parser.parse_args()
 
-    rows, counts = build_site.compute_onboarding_status_rows(profile_page_check=True)
+    rows, counts = compute_onboarding_status_rows(profile_page_check=True)
     target_rows = rows
     if args.pilot_id:
         pid = args.pilot_id.upper().strip()
