@@ -2,19 +2,22 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 26 LPAs across 3 cohorts (Cohort 3 added March 2026). Published as a static website on GitHub Pages.
 
-## Current State (v12.0 Phase 11)
+## Current State (v13.0 Phase 3)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
 - **26 LPAs across 3 cohorts** with 64 plan document records (including neighbourhood plans)
 - Policy precedence hierarchy mapping for all 26 authorities
 - 22 issues in contradiction register across all 6 process stages (weighted-scored)
+- **12 verified contradiction records** with full evidence traces
+- Evidence gaps dataset tracking data quality and missing evidence across record types
 - 12 bottleneck records with severity heatmap by stage and pathway
 - 11 recommendations with model drafting text and official evidence traces
 - 12 evidence links to GOV.UK planning statistics and PINS data
 - 19 official baseline metrics (England aggregate and all LPA breakdowns)
-- 10 appeal decision citations linked to contradiction records
+- **15 appeal decision citations** linked to contradiction records
 - 11 recommendation consultation status records
+- Verification state tracked per record (verified/partial/unverified) across contradiction and evidence datasets
 - LPA data quality tiers (`A/B/C`) with coverage scores for all 26 authorities
 - Full-text client-side search across all content
 - National Leaflet.js map with decision speed overlay
