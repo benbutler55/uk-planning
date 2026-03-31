@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Published as a static website on GitHub Pages.
 
-## Current State (v7.0 Phase 7)
+## Current State (v11.0 Phase 11)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -110,7 +110,7 @@ uk-planning/
 │       ├── datasets.json
 │       └── scoring.json
 ├── scripts/
-│   ├── build_site.py
+│   ├── build_site.py                # Thin entry point — orchestrates builders/ modules
 │   ├── check_accessibility.py      # Accessibility guardrails for generated HTML
 │   ├── check_metric_drift.py       # Quarter-on-quarter drift threshold checks
 │   ├── check_metric_stability.py   # Stability checks for derived authority metrics
@@ -119,7 +119,23 @@ uk-planning/
 │   ├── ingest_govuk_stats.py        # Quarterly GOV.UK statistics ingest check
 │   ├── onboard_council.py           # Onboarding gate checks and report writer
 │   ├── serve_local.sh
-│   └── validate_data.py
+│   ├── validate_data.py
+│   ├── builders/                    # Modular page-builder package
+│   │   ├── __init__.py
+│   │   ├── config.py                # Paths, constants, site-wide settings
+│   │   ├── data_loader.py           # CSV ingestion and data-health helpers
+│   │   ├── html_utils.py            # Shared HTML rendering primitives
+│   │   ├── metrics.py               # Derived metric computations
+│   │   ├── page_analysis.py         # Contradictions, bottlenecks, appeals pages
+│   │   ├── page_audiences.py        # Audience-specific views (policymakers, LPAs, etc.)
+│   │   ├── page_authorities.py      # LPA profiles, benchmark, compare, reports pages
+│   │   ├── page_core.py             # Homepage, legislation, policy, baselines pages
+│   │   └── page_meta.py             # Methodology, sources, exports, search pages
+│   └── tests/                       # pytest unit tests for builder modules
+│       ├── test_build_regression.py # Regression: built site output is stable
+│       ├── test_data_loader.py      # Unit tests for data_loader helpers
+│       ├── test_html_utils.py       # Unit tests for HTML rendering primitives
+│       └── test_metrics.py          # Unit tests for derived metric logic
 ├── content/
 │   ├── methodology/
 │   │   ├── next-wave-roadmap.md      # Ranked delivery roadmap with effort and owners
@@ -170,6 +186,7 @@ python3 scripts/validate_data.py
 python3 scripts/build_site.py
 python3 scripts/check_links.py
 python3 scripts/check_metric_stability.py
+python3 -m pytest scripts/tests/ -v
 ```
 
 Optional checks:
