@@ -18,18 +18,34 @@
   box-sizing: border-box;
 }
 
-/* ── Font fallback (Wave 4.4) ──────────────────── */
+/* ── Self-hosted fonts (C.2) ──────────────────── */
 @font-face {
-  font-family: "Source Sans 3 Fallback";
-  src: local("Segoe UI"), local("Helvetica Neue"), local("Arial");
+  font-family: "Source Sans 3";
+  src: url("fonts/source-sans-3-400.woff2") format("woff2");
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("fonts/source-sans-3-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("fonts/source-sans-3-700.woff2") format("woff2");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 body {
   margin: 0;
-  font-family: "Source Sans 3", "Source Sans 3 Fallback", "Segoe UI", sans-serif;
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
   color: var(--ink);
   background: linear-gradient(145deg, #eff5ff 0%, #f6f7fb 40%, #fff8ef 100%);
   min-height: 100vh;
@@ -911,6 +927,48 @@ a:focus-visible {
     margin-top: 8px;
     padding-top: 8px;
     border-top: 1px solid var(--line);
+  }
+}
+
+/* ── Dark mode (C.2) ─────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1d23;
+    --surface: #23272f;
+    --ink: #e1e4e8;
+    --muted: #8b949e;
+    --accent: #3fb89f;
+    --accent-soft: #1a3a33;
+    --accent-dark: #2dd4a8;
+    --line: #30363d;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.4);
+  }
+
+  body {
+    background: var(--bg);
+  }
+
+  header {
+    border-top-color: var(--accent);
+  }
+
+  .badge { opacity: 0.9; }
+  .badge-green { background: #22543d; color: #9ae6b4; }
+  .badge-amber { background: #744210; color: #fbd38d; }
+  .badge-red { background: #742a2a; color: #feb2b2; }
+  .badge-blue { background: #2a4365; color: #90cdf4; }
+  .badge-grey { background: #2d3748; color: #cbd5e0; }
+
+  table th { background: #2d333b; }
+  table tr:nth-child(even) td { background: #1c2028; }
+
+  .card-kpi .kpi-value { color: var(--accent); }
+
+  input, select {
+    background: var(--surface);
+    color: var(--ink);
+    border-color: var(--line);
   }
 }
 
