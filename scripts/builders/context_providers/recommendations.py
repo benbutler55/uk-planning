@@ -1,19 +1,27 @@
 """Context providers for Recommendations pages: recommendations, recommendation details,
 roadmap, consultation."""
+
 import html as html_lib
 from collections import defaultdict
 
 from ..config import ROOT
 from ..data_loader import read_csv
 from ..metrics import (
-    split_pipe_values, issue_detail_page,
-    recommendation_detail_page, query_value,
+    split_pipe_values,
+    issue_detail_page,
+    recommendation_detail_page,
+    query_value,
 )
 from ..html_utils import (
-    confidence_badge, verification_badge,
-    render_table, render_table_guide,
-    render_filter_controls, render_filterable_table, render_filter_script,
-    render_table_enhancements_script, render_detail_toc,
+    confidence_badge,
+    verification_badge,
+    render_table,
+    render_table_guide,
+    render_filter_controls,
+    render_filterable_table,
+    render_filter_script,
+    render_table_enhancements_script,
+    render_detail_toc,
 )
 
 
@@ -26,42 +34,70 @@ def recommendations_context(weights):
         ev_by_rec[e["recommendation_id"]].append(e)
 
     columns = [
-        ("recommendation_id", "ID"), ("priority", "Priority"), ("time_horizon", "Horizon"),
-        ("policy_goal", "Goal"), ("title", "Recommendation"), ("implementation_vehicle", "Vehicle"),
-        ("kpi_primary", "KPI"), ("target", "Target"),
-        ("verification_state", "Status"), ("confidence", "Confidence"),
+        ("recommendation_id", "ID"),
+        ("priority", "Priority"),
+        ("time_horizon", "Horizon"),
+        ("policy_goal", "Goal"),
+        ("title", "Recommendation"),
+        ("implementation_vehicle", "Vehicle"),
+        ("kpi_primary", "KPI"),
+        ("target", "Target"),
+        ("verification_state", "Status"),
+        ("confidence", "Confidence"),
     ]
     priorities = sorted({r.get("priority", "") for r in rows if r.get("priority")})
-    horizons = sorted({r.get("time_horizon", "") for r in rows if r.get("time_horizon")})
+    horizons = sorted(
+        {r.get("time_horizon", "") for r in rows if r.get("time_horizon")}
+    )
 
-    filter_controls_html = render_filter_controls("recs-table", "Search recommendations", [
-        ("priority", "Priority", priorities), ("time_horizon", "Horizon", horizons)])
-    table_guide_html = render_table_guide("How to read this table", [
-        "Each row is one actionable recommendation.",
-        "Priority and confidence support triage and sequencing.",
-        "Implementation vehicle identifies whether delivery is guidance, SI, or statutory change.",
-        "KPI and target define the measurable intended impact.",
-        "Click a Recommendation ID to open the full recommendation drill-down page.",
-    ])
+    filter_controls_html = render_filter_controls(
+        "recs-table",
+        "Search recommendations",
+        [("priority", "Priority", priorities), ("time_horizon", "Horizon", horizons)],
+    )
+    table_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one actionable recommendation.",
+            "Priority and confidence support triage and sequencing.",
+            "Implementation vehicle identifies whether delivery is guidance, SI, or statutory change.",
+            "KPI and target define the measurable intended impact.",
+            "Click a Recommendation ID to open the full recommendation drill-down page.",
+        ],
+    )
     data_fields = [
-        "recommendation_id", "priority", "time_horizon", "policy_goal", "title",
-        "implementation_vehicle", "confidence", "verification_state",
+        "recommendation_id",
+        "priority",
+        "time_horizon",
+        "policy_goal",
+        "title",
+        "implementation_vehicle",
+        "confidence",
+        "verification_state",
     ]
-    filterable_table_html = render_filterable_table(rows, columns, "recs-table", data_fields)
+    filterable_table_html = render_filterable_table(
+        rows, columns, "recs-table", data_fields
+    )
     filter_script = render_filter_script("recs-table", data_fields)
-    enhancements_script = render_table_enhancements_script("recs-table", presets=[
-        {"label": "High priority only", "filters": {"priority": "High"}},
-        {"label": "Near term (0-12)", "filters": {"time_horizon": "0-12 months"}},
-        {"label": "High confidence", "filters": {"confidence": "high"}},
-    ])
+    enhancements_script = render_table_enhancements_script(
+        "recs-table",
+        presets=[
+            {"label": "High priority only", "filters": {"priority": "High"}},
+            {"label": "Near term (0-12)", "filters": {"time_horizon": "0-12 months"}},
+            {"label": "High confidence", "filters": {"confidence": "high"}},
+        ],
+    )
 
     # Evidence traces: build per-rec evidence data for template
-    evidence_guide_html = render_table_guide("How to read the evidence tables", [
-        "Source identifies the dataset or guidance used.",
-        "Metric and baseline value explain the current-state evidence point.",
-        "Baseline window shows the measurement period.",
-        "Open source links to verify references directly.",
-    ])
+    evidence_guide_html = render_table_guide(
+        "How to read the evidence tables",
+        [
+            "Source identifies the dataset or guidance used.",
+            "Metric and baseline value explain the current-state evidence point.",
+            "Baseline window shows the measurement period.",
+            "Open source links to verify references directly.",
+        ],
+    )
 
     evidence_traces = []
     for row in rows:
@@ -72,7 +108,9 @@ def recommendations_context(weights):
             "title": row["title"],
             "detail_href": recommendation_detail_page(rid),
             "confidence_badge_html": confidence_badge(row.get("confidence", "")),
-            "verification_badge_html": verification_badge(row.get("verification_state", "")),
+            "verification_badge_html": verification_badge(
+                row.get("verification_state", "")
+            ),
             "evidence": evs,
         }
         evidence_traces.append(trace)
@@ -141,18 +179,22 @@ def recommendation_detail_contexts():
     for rec in recs:
         rid = rec.get("recommendation_id", "")
         linked_issue_ids = split_pipe_values(rec.get("linked_issues", ""))
-        linked_issues = [issue_by_id[iid] for iid in linked_issue_ids if iid in issue_by_id]
+        linked_issues = [
+            issue_by_id[iid] for iid in linked_issue_ids if iid in issue_by_id
+        ]
         linked_evidence = ev_by_rec.get(rid, [])
         linked_milestones = milestones_by_rec.get(rid, [])
         status = status_by_id.get(rid, {})
 
         # TOC
-        toc_html = render_detail_toc([
-            ("summary", "Summary"),
-            ("evidence", "Evidence"),
-            ("connected-items", "Connected items"),
-            ("actions", "Actions"),
-        ])
+        toc_html = render_detail_toc(
+            [
+                ("summary", "Summary"),
+                ("evidence", "Evidence"),
+                ("connected-items", "Connected items"),
+                ("actions", "Actions"),
+            ]
+        )
 
         # Badges
         verification_badge_html = verification_badge(rec.get("verification_state", ""))
@@ -162,18 +204,22 @@ def recommendation_detail_contexts():
         issues_data = []
         for issue in linked_issues:
             iid = issue.get("issue_id", "")
-            issues_data.append({
-                **issue,
-                "detail_href": issue_detail_page(iid),
-            })
+            issues_data.append(
+                {
+                    **issue,
+                    "detail_href": issue_detail_page(iid),
+                }
+            )
 
         # Evidence links with source handling
         evidence_data = []
         for ev in linked_evidence:
-            evidence_data.append({
-                **ev,
-                "has_source": bool(ev.get("source_url", "")),
-            })
+            evidence_data.append(
+                {
+                    **ev,
+                    "has_source": bool(ev.get("source_url", "")),
+                }
+            )
 
         # Affected authorities observed in linked issue appeals
         seen = set()
@@ -187,13 +233,17 @@ def recommendation_detail_contexts():
                 lpa = lpa_by_name.get(key)
                 if lpa:
                     pid = lpa.get("pilot_id", "")
-                    authority_links.append({
-                        "html": f'<a href="plans-{pid.lower()}.html">{html_lib.escape(lpa.get("lpa_name", ""))}</a>',
-                    })
+                    authority_links.append(
+                        {
+                            "html": f'<a href="plans-{pid.lower()}.html">{html_lib.escape(lpa.get("lpa_name", ""))}</a>',
+                        }
+                    )
                 else:
-                    authority_links.append({
-                        "html": html_lib.escape(ap.get("lpa", "")),
-                    })
+                    authority_links.append(
+                        {
+                            "html": html_lib.escape(ap.get("lpa", "")),
+                        }
+                    )
 
         # Connected recommendations (same issue graph)
         related_recs = []
@@ -204,10 +254,12 @@ def recommendation_detail_contexts():
                 if cid in seen_ids:
                     continue
                 seen_ids.add(cid)
-                related_recs.append({
-                    **candidate,
-                    "detail_href": recommendation_detail_page(cid),
-                })
+                related_recs.append(
+                    {
+                        **candidate,
+                        "detail_href": recommendation_detail_page(cid),
+                    }
+                )
         related_recs.sort(key=lambda r: r.get("recommendation_id", ""))
 
         # Context links query params
@@ -264,25 +316,45 @@ def roadmap_context():
     quick = [m for m in milestones if m.get("phase") == "Quick Wins"]
     structural = [m for m in milestones if m.get("phase") == "Statutory and Structural"]
 
-    quick_guide_html = render_table_guide("How to read roadmap tables", [
-        "Each row is a milestone or action in the implementation sequence.",
-        "Read top-to-bottom to follow intended delivery order.",
-        "Dependencies identify prerequisites for later milestones.",
-        "Use owner and metric columns to assign accountability.",
-    ])
-    quick_table_html = render_table(quick, [
-        ("window", "Window"), ("action", "Action"), ("owner", "Owner"),
-        ("linked_recommendations", "Recs"), ("status_metric", "Metric"),
-    ])
-    structural_table_html = render_table(structural, [
-        ("window", "Window"), ("action", "Action"), ("owner", "Owner"),
-        ("dependencies", "Dependencies"), ("linked_recommendations", "Recs"),
-    ])
-    horizon_table_html = render_table(recs, [
-        ("recommendation_id", "Rec"), ("title", "Title"),
-        ("time_horizon", "Horizon"), ("delivery_owner", "Owner"),
-        ("implementation_vehicle", "Vehicle"),
-    ])
+    quick_guide_html = render_table_guide(
+        "How to read roadmap tables",
+        [
+            "Each row is a milestone or action in the implementation sequence.",
+            "Read top-to-bottom to follow intended delivery order.",
+            "Dependencies identify prerequisites for later milestones.",
+            "Use owner and metric columns to assign accountability.",
+        ],
+    )
+    quick_table_html = render_table(
+        quick,
+        [
+            ("window", "Window"),
+            ("action", "Action"),
+            ("owner", "Owner"),
+            ("linked_recommendations", "Recs"),
+            ("status_metric", "Metric"),
+        ],
+    )
+    structural_table_html = render_table(
+        structural,
+        [
+            ("window", "Window"),
+            ("action", "Action"),
+            ("owner", "Owner"),
+            ("dependencies", "Dependencies"),
+            ("linked_recommendations", "Recs"),
+        ],
+    )
+    horizon_table_html = render_table(
+        recs,
+        [
+            ("recommendation_id", "Rec"),
+            ("title", "Title"),
+            ("time_horizon", "Horizon"),
+            ("delivery_owner", "Owner"),
+            ("implementation_vehicle", "Vehicle"),
+        ],
+    )
 
     return {
         "output_filename": "roadmap.html",
@@ -322,12 +394,15 @@ def consultation_context():
 
     status_summary = sorted(counts.items())
 
-    table_guide_html = render_table_guide("How to read this table", [
-        "Each row tracks consultation progress for one recommendation.",
-        "Status indicates workflow stage for external submission.",
-        "Submitted to and next action capture operational follow-up.",
-        "Use recommendation ID to cross-reference recommendation details.",
-    ])
+    table_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row tracks consultation progress for one recommendation.",
+            "Status indicates workflow stage for external submission.",
+            "Submitted to and next action capture operational follow-up.",
+            "Use recommendation ID to cross-reference recommendation details.",
+        ],
+    )
 
     # Build tracker rows for template
     tracker_rows = []
@@ -336,18 +411,23 @@ def consultation_context():
         s = status_map.get(rid, {})
         status_val = s.get("submission_status", "Not submitted")
         css = {
-            "Adopted": "badge-green", "Submitted": "badge-blue",
-            "Response received": "badge-blue", "Rejected": "badge-red",
-            "Not submitted": "badge-grey", "Under review": "badge-amber",
+            "Adopted": "badge-green",
+            "Submitted": "badge-blue",
+            "Response received": "badge-blue",
+            "Rejected": "badge-red",
+            "Not submitted": "badge-grey",
+            "Under review": "badge-amber",
         }.get(status_val, "badge-grey")
-        tracker_rows.append({
-            "rid": rid,
-            "title": rec.get("title", ""),
-            "status_val": status_val,
-            "css": css,
-            "submitted_to": s.get("submitted_to", "\u2014"),
-            "next_action": s.get("next_action", ""),
-        })
+        tracker_rows.append(
+            {
+                "rid": rid,
+                "title": rec.get("title", ""),
+                "status_val": status_val,
+                "css": css,
+                "submitted_to": s.get("submitted_to", "\u2014"),
+                "next_action": s.get("next_action", ""),
+            }
+        )
 
     return {
         "output_filename": "consultation.html",

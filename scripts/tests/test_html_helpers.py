@@ -1,12 +1,18 @@
 """Tests for Jinja2 html_helpers."""
+
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from builders.html_helpers import (
-    badge, confidence_badge, verification_badge, provenance_badge,
-    sparkline_svg, render_cell, default_breadcrumbs,
+    badge,
+    confidence_badge,
+    verification_badge,
+    provenance_badge,
+    sparkline_svg,
+    render_cell,
+    default_breadcrumbs,
 )
 
 

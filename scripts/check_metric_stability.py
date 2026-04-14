@@ -31,7 +31,9 @@ def read_inputs():
     return lpas, docs, baselines, quality_rows, issue_rows, trend_rows
 
 
-def build_metric_state(lpas, docs, baselines, quality_rows, issue_rows, trend_rows, quarter_index):
+def build_metric_state(
+    lpas, docs, baselines, quality_rows, issue_rows, trend_rows, quarter_index
+):
     quality_by_id = {r["pilot_id"]: r for r in quality_rows}
     issues_by_id = {r["pilot_id"]: r for r in issue_rows}
     docs_by_lpa = defaultdict(list)
@@ -65,13 +67,17 @@ def build_metric_state(lpas, docs, baselines, quality_rows, issue_rows, trend_ro
             subset = series
         if len(subset) < 2:
             continue
-        derived = derive_metric_bundle(lpa, i, q, subset, docs_by_lpa, national_validation_proxy)
+        derived = derive_metric_bundle(
+            lpa, i, q, subset, docs_by_lpa, national_validation_proxy
+        )
         state[pid] = derived
     return state
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Check quarter-on-quarter stability of derived authority metrics")
+    parser = argparse.ArgumentParser(
+        description="Check quarter-on-quarter stability of derived authority metrics"
+    )
     parser.add_argument("--max-validation-delta", type=float, default=2.5)
     parser.add_argument("--max-delegated-delta", type=float, default=2.5)
     parser.add_argument("--max-consult-delta", type=float, default=1.5)
@@ -80,8 +86,12 @@ def main():
     args = parser.parse_args()
 
     lpas, docs, baselines, quality_rows, issue_rows, trend_rows = read_inputs()
-    previous_state = build_metric_state(lpas, docs, baselines, quality_rows, issue_rows, trend_rows, -2)
-    latest_state = build_metric_state(lpas, docs, baselines, quality_rows, issue_rows, trend_rows, -1)
+    previous_state = build_metric_state(
+        lpas, docs, baselines, quality_rows, issue_rows, trend_rows, -2
+    )
+    latest_state = build_metric_state(
+        lpas, docs, baselines, quality_rows, issue_rows, trend_rows, -1
+    )
 
     flags = []
     for pid in sorted(set(previous_state.keys()) & set(latest_state.keys())):
@@ -97,7 +107,9 @@ def main():
         for metric, threshold in checks:
             delta = to_float(curr.get(metric)) - to_float(prev.get(metric))
             if abs(delta) > threshold:
-                breaches.append({"metric": metric, "delta": round(delta, 2), "threshold": threshold})
+                breaches.append(
+                    {"metric": metric, "delta": round(delta, 2), "threshold": threshold}
+                )
         if breaches:
             flags.append({"pilot_id": pid, "breaches": breaches})
 

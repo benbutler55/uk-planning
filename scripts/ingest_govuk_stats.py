@@ -9,6 +9,7 @@ Run quarterly after each GOV.UK statistics release:
   python3 scripts/ingest_govuk_stats.py --update [--append-history]
   python3 scripts/ingest_govuk_stats.py --dry-run
 """
+
 import csv
 import json
 import sys
@@ -28,8 +29,21 @@ STATS_TABLES = {
     "P151": {
         "description": "Speed of major decisions",
         "url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-        "metrics": ["BAS-001", "BAS-008", "BAS-009", "BAS-010", "BAS-011", "BAS-012",
-                    "BAS-013", "BAS-014", "BAS-015", "BAS-016", "BAS-017", "BAS-018", "BAS-019"],
+        "metrics": [
+            "BAS-001",
+            "BAS-008",
+            "BAS-009",
+            "BAS-010",
+            "BAS-011",
+            "BAS-012",
+            "BAS-013",
+            "BAS-014",
+            "BAS-015",
+            "BAS-016",
+            "BAS-017",
+            "BAS-018",
+            "BAS-019",
+        ],
     },
     "P152": {
         "description": "Quality of major decisions (appeals overturned)",
@@ -61,6 +75,7 @@ STATS_TABLES = {
 
 class TitleDateParser(HTMLParser):
     """Extracts the page title and any date strings for basic freshness detection."""
+
     def __init__(self):
         super().__init__()
         self.title = ""
@@ -79,7 +94,8 @@ class TitleDateParser(HTMLParser):
         if self._in_title:
             self.title += data.strip()
         import re
-        for m in re.findall(r'\d{1,2} \w+ 20\d{2}', data):
+
+        for m in re.findall(r"\d{1,2} \w+ 20\d{2}", data):
             self.dates_found.append(m)
 
 
@@ -127,14 +143,16 @@ def source_status_for_metrics(metrics, metric_ids):
             status = "critical"
         elif age_days > 100:
             status = "stale"
-        entries.append({
-            "metric_id": metric_id,
-            "status": status,
-            "retrieved_at": retrieved,
-            "age_days": age_days,
-            "source_table": row.get("source_table", ""),
-            "value": row.get("value", ""),
-        })
+        entries.append(
+            {
+                "metric_id": metric_id,
+                "status": status,
+                "retrieved_at": retrieved,
+                "age_days": age_days,
+                "source_table": row.get("source_table", ""),
+                "value": row.get("value", ""),
+            }
+        )
     return entries
 
 
@@ -178,13 +196,15 @@ def compute_diff(current_metrics, detected_updates):
         for metric_id in config["metrics"]:
             current = current_metrics.get(metric_id, {})
             current_retrieved = current.get("retrieved_at", "")
-            changes.append({
-                "metric_id": metric_id,
-                "source_table": table_id,
-                "current_retrieved_at": current_retrieved,
-                "page_dates_detected": update_info.get("dates_found", []),
-                "action": "check_for_update",
-            })
+            changes.append(
+                {
+                    "metric_id": metric_id,
+                    "source_table": table_id,
+                    "current_retrieved_at": current_retrieved,
+                    "page_dates_detected": update_info.get("dates_found", []),
+                    "action": "check_for_update",
+                }
+            )
     return changes
 
 
@@ -196,7 +216,9 @@ def write_diff_report(changes, mode):
         "changes": changes,
         "summary": {
             "checked": len(changes),
-            "flagged_for_update": sum(1 for c in changes if c["action"] == "check_for_update"),
+            "flagged_for_update": sum(
+                1 for c in changes if c["action"] == "check_for_update"
+            ),
         },
     }
     REPORT_JSON_PATH.write_text(json.dumps(report, indent=2), encoding="utf-8")
@@ -233,29 +255,37 @@ def main():
             parsed = parse_metrics_from_page(content, config)
             detected_updates[table_id] = parsed
             print(f"  Title: {parsed['title']}")
-            print(f"  Dates found: {', '.join(parsed['dates_found']) if parsed['dates_found'] else 'none'}")
+            print(
+                f"  Dates found: {', '.join(parsed['dates_found']) if parsed['dates_found'] else 'none'}"
+            )
 
         changes = compute_diff(metrics, detected_updates)
         mode_label = "dry-run" if dry_run else "update"
         report = write_diff_report(changes, mode_label)
 
-        print(f"\n{mode_label.title()} report: {report['summary']['checked']} metrics checked, "
-              f"{report['summary']['flagged_for_update']} flagged for update")
+        print(
+            f"\n{mode_label.title()} report: {report['summary']['checked']} metrics checked, "
+            f"{report['summary']['flagged_for_update']} flagged for update"
+        )
 
         if dry_run:
             print("Dry run — no files modified.")
         elif update_mode:
             # In update mode, update retrieved_at dates for checked metrics
             # Full CSV download/parse would go here in a future enhancement
-            print("Update mode — source page checks completed. "
-                  "Full CSV parsing not yet implemented; use manual update for now.")
+            print(
+                "Update mode — source page checks completed. "
+                "Full CSV parsing not yet implemented; use manual update for now."
+            )
 
         if append_hist:
-            append_history({
-                "run_date": date.today().isoformat(),
-                "mode": mode_label,
-                "summary": report["summary"],
-            })
+            append_history(
+                {
+                    "run_date": date.today().isoformat(),
+                    "mode": mode_label,
+                    "summary": report["summary"],
+                }
+            )
             print(f"Run history appended to {HISTORY_PATH}")
 
         return
@@ -285,22 +315,26 @@ def main():
                     detail += f", {entry['age_days']} days old"
                 stale_metrics.append(f"{entry.get('metric_id')} ({detail})")
 
-        source_checks.append({
-            "table": table_id,
-            "description": spec["description"],
-            "url": spec["url"],
-            "page_title": title,
-            "date_strings_found": dates[:10],
-            "metric_entries": metric_entries,
-        })
-
-        if stale_metrics:
-            updates_needed.append({
+        source_checks.append(
+            {
                 "table": table_id,
                 "description": spec["description"],
                 "url": spec["url"],
-                "stale_metrics": stale_metrics,
-            })
+                "page_title": title,
+                "date_strings_found": dates[:10],
+                "metric_entries": metric_entries,
+            }
+        )
+
+        if stale_metrics:
+            updates_needed.append(
+                {
+                    "table": table_id,
+                    "description": spec["description"],
+                    "url": spec["url"],
+                    "stale_metrics": stale_metrics,
+                }
+            )
 
     if errors:
         report_lines.append("Fetch errors:")
@@ -308,15 +342,21 @@ def main():
         report_lines.append("")
 
     if updates_needed:
-        report_lines.append(f"{len(updates_needed)} table(s) with potentially stale metrics:")
+        report_lines.append(
+            f"{len(updates_needed)} table(s) with potentially stale metrics:"
+        )
         for item in updates_needed:
             report_lines.append(f"\n  [{item['table']}] {item['description']}")
             report_lines.append(f"  Source: {item['url']}")
             report_lines.append("  Stale metrics:")
             report_lines.extend(f"    - {m}" for m in item["stale_metrics"])
         report_lines.append("")
-        report_lines.append("Action: visit the source URLs above, download the latest data tables,")
-        report_lines.append("and update data/evidence/official_baseline_metrics.csv with new values and retrieved_at dates.")
+        report_lines.append(
+            "Action: visit the source URLs above, download the latest data tables,"
+        )
+        report_lines.append(
+            "and update data/evidence/official_baseline_metrics.csv with new values and retrieved_at dates."
+        )
     else:
         report_lines.append("All metrics are within the 100-day freshness window.")
 
@@ -324,7 +364,10 @@ def main():
     REPORT_PATH.write_text(report_text, encoding="utf-8")
     json_payload = {
         "generated_at": date.today().isoformat(),
-        "generated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "generated_at_utc": datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         "stale_table_count": len(updates_needed),
         "error_count": len(errors),
         "stale_tables": updates_needed,
@@ -333,12 +376,14 @@ def main():
     }
     REPORT_JSON_PATH.write_text(json.dumps(json_payload, indent=2), encoding="utf-8")
     if append_hist:
-        append_history({
-            "generated_at": json_payload["generated_at_utc"],
-            "stale_table_count": json_payload["stale_table_count"],
-            "error_count": json_payload["error_count"],
-            "tables_checked": len(source_checks),
-        })
+        append_history(
+            {
+                "generated_at": json_payload["generated_at_utc"],
+                "stale_table_count": json_payload["stale_table_count"],
+                "error_count": json_payload["error_count"],
+                "tables_checked": len(source_checks),
+            }
+        )
     print(report_text)
 
     if errors and not warn_only:

@@ -1,4 +1,5 @@
 """Data loading, scoring config, data-health checks, and onboarding status."""
+
 import csv
 import json
 from collections import defaultdict
@@ -76,15 +77,17 @@ def compute_data_health():
         else:
             status = "fresh"
             css = "green"
-        rows.append({
-            "dataset": spec["dataset"],
-            "row_count": len(data),
-            "last_updated": most_recent.isoformat() if most_recent else "n/a",
-            "age_days": age_days if most_recent else "n/a",
-            "status": status,
-            "status_badge": badge(status, css),
-            "source_path": str(spec["path"].relative_to(ROOT)),
-        })
+        rows.append(
+            {
+                "dataset": spec["dataset"],
+                "row_count": len(data),
+                "last_updated": most_recent.isoformat() if most_recent else "n/a",
+                "age_days": age_days if most_recent else "n/a",
+                "status": status,
+                "status_badge": badge(status, css),
+                "source_path": str(spec["path"].relative_to(ROOT)),
+            }
+        )
 
     counts = defaultdict(int)
     for row in rows:
@@ -129,19 +132,21 @@ def compute_onboarding_status_rows(profile_page_check=True):
             coverage = "estimated"
         counts[coverage] += 1
         failed = [name for name, ok in checks.items() if not ok]
-        rows.append({
-            "pilot_id": pid,
-            "lpa_name": lpa.get("lpa_name", ""),
-            "region": lpa.get("region", ""),
-            "lpa_type": lpa.get("lpa_type", ""),
-            "cohort": cohort_for_pid(pid),
-            "quality_tier": quality_tier or "n/a",
-            "coverage_status": coverage,
-            "checks": checks,
-            "failed_checks": failed,
-            "documents_count": len(docs_by_id.get(pid, [])),
-            "trend_points": len(trends_by_id.get(pid, [])),
-            "issue_rows": 1 if pid in issues_by_id else 0,
-            "profile_page": f"plans-{pid.lower()}.html",
-        })
+        rows.append(
+            {
+                "pilot_id": pid,
+                "lpa_name": lpa.get("lpa_name", ""),
+                "region": lpa.get("region", ""),
+                "lpa_type": lpa.get("lpa_type", ""),
+                "cohort": cohort_for_pid(pid),
+                "quality_tier": quality_tier or "n/a",
+                "coverage_status": coverage,
+                "checks": checks,
+                "failed_checks": failed,
+                "documents_count": len(docs_by_id.get(pid, [])),
+                "trend_points": len(trends_by_id.get(pid, [])),
+                "issue_rows": 1 if pid in issues_by_id else 0,
+                "profile_page": f"plans-{pid.lower()}.html",
+            }
+        )
     return rows, dict(counts)

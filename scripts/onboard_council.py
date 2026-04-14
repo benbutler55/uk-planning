@@ -23,7 +23,12 @@ def gate_summary(row):
 
 def write_reports(rows):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    generated = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    generated = (
+        datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
     summary = []
     for row in rows:
         payload = {
@@ -45,7 +50,9 @@ def write_reports(rows):
         path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
         summary.append(payload)
 
-    (OUT_DIR / "onboarding-summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (OUT_DIR / "onboarding-summary.json").write_text(
+        json.dumps(summary, indent=2), encoding="utf-8"
+    )
     return summary
 
 
@@ -67,7 +74,9 @@ def main():
 
     summary = write_reports(target_rows)
     print(f"Onboarding checks written: {len(summary)} authority report(s)")
-    print(f"Coverage status totals (all authorities): complete={counts.get('complete', 0)}, partial={counts.get('partial', 0)}, estimated={counts.get('estimated', 0)}")
+    print(
+        f"Coverage status totals (all authorities): complete={counts.get('complete', 0)}, partial={counts.get('partial', 0)}, estimated={counts.get('estimated', 0)}"
+    )
 
 
 if __name__ == "__main__":

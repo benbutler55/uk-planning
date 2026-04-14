@@ -18,7 +18,9 @@ def read_rows(path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Check quarter-on-quarter metric drift")
+    parser = argparse.ArgumentParser(
+        description="Check quarter-on-quarter metric drift"
+    )
     parser.add_argument("--max-speed-delta", type=float, default=8.0)
     parser.add_argument("--max-appeal-delta", type=float, default=1.0)
     parser.add_argument("--warn-only", action="store_true")
@@ -37,17 +39,26 @@ def main():
             continue
         prev = items[-2]
         curr = items[-1]
-        speed_delta = float(curr["major_in_time_pct"]) - float(prev["major_in_time_pct"])
-        appeal_delta = float(curr["appeals_overturned_pct"]) - float(prev["appeals_overturned_pct"])
-        if abs(speed_delta) > args.max_speed_delta or abs(appeal_delta) > args.max_appeal_delta:
-            flags.append({
-                "pilot_id": pid,
-                "lpa_name": curr["lpa_name"],
-                "previous_quarter": prev["quarter"],
-                "latest_quarter": curr["quarter"],
-                "speed_delta": round(speed_delta, 2),
-                "appeal_delta": round(appeal_delta, 2),
-            })
+        speed_delta = float(curr["major_in_time_pct"]) - float(
+            prev["major_in_time_pct"]
+        )
+        appeal_delta = float(curr["appeals_overturned_pct"]) - float(
+            prev["appeals_overturned_pct"]
+        )
+        if (
+            abs(speed_delta) > args.max_speed_delta
+            or abs(appeal_delta) > args.max_appeal_delta
+        ):
+            flags.append(
+                {
+                    "pilot_id": pid,
+                    "lpa_name": curr["lpa_name"],
+                    "previous_quarter": prev["quarter"],
+                    "latest_quarter": curr["quarter"],
+                    "speed_delta": round(speed_delta, 2),
+                    "appeal_delta": round(appeal_delta, 2),
+                }
+            )
 
     lines = [
         "Quarterly Metric Drift Report",
@@ -65,15 +76,21 @@ def main():
         lines.append("No drift thresholds exceeded.")
 
     TXT_REPORT.write_text("\n".join(lines), encoding="utf-8")
-    JSON_REPORT.write_text(json.dumps({
-        "flagged_count": len(flags),
-        "checked_lpas": len(by_lpa),
-        "thresholds": {
-            "max_speed_delta": args.max_speed_delta,
-            "max_appeal_delta": args.max_appeal_delta,
-        },
-        "flags": flags,
-    }, indent=2), encoding="utf-8")
+    JSON_REPORT.write_text(
+        json.dumps(
+            {
+                "flagged_count": len(flags),
+                "checked_lpas": len(by_lpa),
+                "thresholds": {
+                    "max_speed_delta": args.max_speed_delta,
+                    "max_appeal_delta": args.max_appeal_delta,
+                },
+                "flags": flags,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
 
     print("\n".join(lines))
     if flags and not args.warn_only:

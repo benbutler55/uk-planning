@@ -40,12 +40,14 @@ class A11yParser(HTMLParser):
             control_id = a.get("id", "")
             explicit = bool(a.get("aria-label") or a.get("aria-labelledby"))
             in_label = self.label_depth > 0
-            self.controls.append({
-                "tag": tag,
-                "id": control_id,
-                "in_label": in_label,
-                "explicit": explicit,
-            })
+            self.controls.append(
+                {
+                    "tag": tag,
+                    "id": control_id,
+                    "in_label": in_label,
+                    "explicit": explicit,
+                }
+            )
 
     def handle_endtag(self, tag):
         if tag == "table" and self.table_stack:
@@ -70,9 +72,15 @@ def main():
             if t["th_count"] == 0:
                 errors.append(f"{path.relative_to(ROOT)} table #{idx} missing <th>")
         for c in parser.controls:
-            labeled = c["explicit"] or c["in_label"] or (c["id"] and c["id"] in parser.labels_for)
+            labeled = (
+                c["explicit"]
+                or c["in_label"]
+                or (c["id"] and c["id"] in parser.labels_for)
+            )
             if not labeled:
-                errors.append(f"{path.relative_to(ROOT)} unlabeled {c['tag']} id='{c['id']}'")
+                errors.append(
+                    f"{path.relative_to(ROOT)} unlabeled {c['tag']} id='{c['id']}'"
+                )
 
     if errors:
         print("Accessibility checks failed:")

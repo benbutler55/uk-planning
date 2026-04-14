@@ -1,4 +1,5 @@
 """Context providers for Audience pages: policymakers, LPAs, developers, public."""
+
 from ..config import ROOT
 from ..data_loader import read_csv
 from ..html_utils import render_table, render_table_guide
@@ -37,25 +38,44 @@ def policymakers_context():
     recs = read_csv(ROOT / "data/issues/recommendations.csv")
     issues = read_csv(ROOT / "data/issues/contradiction-register.csv")
 
-    recs_guide_html = render_table_guide("How to read this table", [
-        "Priority and horizon show sequencing urgency.",
-        "Owner and vehicle indicate delivery accountability and route.",
-        "Confidence signals strength of supporting evidence.",
-    ])
-    recs_table_html = render_table(recs, [
-        ("recommendation_id", "ID"), ("priority", "Priority"), ("title", "Recommendation"),
-        ("delivery_owner", "Owner"), ("implementation_vehicle", "Vehicle"),
-        ("time_horizon", "Horizon"), ("confidence", "Confidence"),
-    ])
-    issues_guide_html = render_table_guide("How to read this table", [
-        "Issue type and scope show where intervention is needed.",
-        "Summary gives the practical policy conflict in plain language.",
-        "Use confidence as a guide to evidence maturity.",
-    ])
-    issues_table_html = render_table(issues, [
-        ("issue_id", "Issue"), ("issue_type", "Type"), ("scope", "Scope"),
-        ("summary", "Summary"), ("confidence", "Confidence"),
-    ])
+    recs_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Priority and horizon show sequencing urgency.",
+            "Owner and vehicle indicate delivery accountability and route.",
+            "Confidence signals strength of supporting evidence.",
+        ],
+    )
+    recs_table_html = render_table(
+        recs,
+        [
+            ("recommendation_id", "ID"),
+            ("priority", "Priority"),
+            ("title", "Recommendation"),
+            ("delivery_owner", "Owner"),
+            ("implementation_vehicle", "Vehicle"),
+            ("time_horizon", "Horizon"),
+            ("confidence", "Confidence"),
+        ],
+    )
+    issues_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Issue type and scope show where intervention is needed.",
+            "Summary gives the practical policy conflict in plain language.",
+            "Use confidence as a guide to evidence maturity.",
+        ],
+    )
+    issues_table_html = render_table(
+        issues,
+        [
+            ("issue_id", "Issue"),
+            ("issue_type", "Type"),
+            ("scope", "Scope"),
+            ("summary", "Summary"),
+            ("confidence", "Confidence"),
+        ],
+    )
 
     return {
         "output_filename": "audience-policymakers.html",
@@ -82,30 +102,48 @@ def lpas_context():
     recs = read_csv(ROOT / "data/issues/recommendations.csv")
     lpa_recs = [r for r in recs if "LPA" in r.get("delivery_owner", "")]
 
-    recs_guide_html = render_table_guide("How to read this table", [
-        "Each row is one LPA-relevant recommendation.",
-        "KPI and target describe measurable outcomes.",
-        "Use horizon to phase internal workplans.",
-    ])
-    recs_table_html = render_table(lpa_recs if lpa_recs else recs, [
-        ("recommendation_id", "ID"), ("title", "Recommendation"),
-        ("time_horizon", "Horizon"), ("kpi_primary", "KPI"), ("target", "Target"),
-    ])
+    recs_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one LPA-relevant recommendation.",
+            "KPI and target describe measurable outcomes.",
+            "Use horizon to phase internal workplans.",
+        ],
+    )
+    recs_table_html = render_table(
+        lpa_recs if lpa_recs else recs,
+        [
+            ("recommendation_id", "ID"),
+            ("title", "Recommendation"),
+            ("time_horizon", "Horizon"),
+            ("kpi_primary", "KPI"),
+            ("target", "Target"),
+        ],
+    )
 
     baselines = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
     pilot_baselines = [b for b in baselines if b.get("geography", "").startswith("LPA")]
     baselines_guide_html = ""
     baselines_table_html = ""
     if pilot_baselines:
-        baselines_guide_html = render_table_guide("How to read this table", [
-            "Each metric shows a baseline for pilot authorities.",
-            "Compare values by geography and unit only where equivalent.",
-            "Use as starting point before assessing interventions.",
-        ])
-        baselines_table_html = render_table(pilot_baselines, [
-            ("metric_id", "ID"), ("metric_name", "Metric"), ("geography", "Authority"),
-            ("value", "Value"), ("unit", "Unit"),
-        ])
+        baselines_guide_html = render_table_guide(
+            "How to read this table",
+            [
+                "Each metric shows a baseline for pilot authorities.",
+                "Compare values by geography and unit only where equivalent.",
+                "Use as starting point before assessing interventions.",
+            ],
+        )
+        baselines_table_html = render_table(
+            pilot_baselines,
+            [
+                ("metric_id", "ID"),
+                ("metric_name", "Metric"),
+                ("geography", "Authority"),
+                ("value", "Value"),
+                ("unit", "Unit"),
+            ],
+        )
 
     return {
         "output_filename": "audience-lpas.html",
@@ -132,10 +170,16 @@ def developers_context():
     """Return template context dict for audience-developers.html."""
     recs = read_csv(ROOT / "data/issues/recommendations.csv")
 
-    recs_table_html = render_table(recs, [
-        ("recommendation_id", "ID"), ("title", "Recommendation"),
-        ("time_horizon", "Timeline"), ("kpi_primary", "KPI"), ("target", "Target"),
-    ])
+    recs_table_html = render_table(
+        recs,
+        [
+            ("recommendation_id", "ID"),
+            ("title", "Recommendation"),
+            ("time_horizon", "Timeline"),
+            ("kpi_primary", "KPI"),
+            ("target", "Target"),
+        ],
+    )
 
     return {
         "output_filename": "audience-developers.html",

@@ -1,4 +1,5 @@
 """HTML rendering functions: badges, page shell, tables, filters, scripts."""
+
 import html
 import json
 
@@ -13,6 +14,7 @@ TRUNCATE_COLUMNS = {"summary", "inspector_finding"}
 
 
 # --- Badge helpers ---
+
 
 def badge(label, css_class):
     return f'<span class="badge badge-{css_class}">{html.escape(label)}</span>'
@@ -43,23 +45,24 @@ def metric_help(label, description, method_anchor=None):
     if method_anchor:
         method_link = f' <a class="inline-help-link" href="metric-methods.html#{html.escape(method_anchor)}">method</a>'
     return (
-        f'{html.escape(label)} '
+        f"{html.escape(label)} "
         f'<span class="inline-help" tabindex="0" role="note" '
         f'aria-label="{escaped_desc}" title="{escaped_desc}">?</span>'
-        f'{method_link}'
+        f"{method_link}"
     )
 
 
 # --- Page purpose and guidance ---
 
+
 def render_page_purpose(purpose):
     return (
         '<section class="card card-guidance guided-only"><h2>Start here</h2><dl class="purpose-grid">'
-        f'<dt>What this page shows</dt><dd>{html.escape(purpose["what"])}</dd>'
-        f'<dt>Who this is for</dt><dd>{html.escape(purpose["who"])}</dd>'
-        f'<dt>How to interpret</dt><dd>{html.escape(purpose["how"])}</dd>'
-        f'<dt>Data trust and freshness</dt><dd>{html.escape(purpose["data"])}</dd>'
-        '</dl></section>'
+        f"<dt>What this page shows</dt><dd>{html.escape(purpose['what'])}</dd>"
+        f"<dt>Who this is for</dt><dd>{html.escape(purpose['who'])}</dd>"
+        f"<dt>How to interpret</dt><dd>{html.escape(purpose['how'])}</dd>"
+        f"<dt>Data trust and freshness</dt><dd>{html.escape(purpose['data'])}</dd>"
+        "</dl></section>"
     )
 
 
@@ -75,26 +78,43 @@ def render_next_steps(steps):
     body = '<section class="card guided-only"><h2>Next actions</h2><ul>'
     for href, label in steps:
         body += f'<li><a href="{html.escape(href)}">{html.escape(label)}</a></li>'
-    body += '</ul></section>'
+    body += "</ul></section>"
     return body
 
 
 def render_data_trust_panel(active):
-    if active not in {"benchmark", "reports", "coverage", "contradictions", "recommendations", "map", "data-health"}:
+    if active not in {
+        "benchmark",
+        "reports",
+        "coverage",
+        "contradictions",
+        "recommendations",
+        "map",
+        "data-health",
+    }:
         return ""
-    from .data_loader import compute_data_health  # lazy import to avoid circular dependency
+    from .data_loader import (
+        compute_data_health,
+    )  # lazy import to avoid circular dependency
+
     rows, _counts = compute_data_health()
     if not rows:
         return ""
-    oldest = sorted(rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True)[0]
-    line = html.escape(f"Oldest monitored dataset: {oldest['dataset']} ({oldest['age_days']} days)")
+    oldest = sorted(
+        rows,
+        key=lambda r: r["age_days"] if isinstance(r["age_days"], int) else 9999,
+        reverse=True,
+    )[0]
+    line = html.escape(
+        f"Oldest monitored dataset: {oldest['dataset']} ({oldest['age_days']} days)"
+    )
     return (
         '<section class="card card-guidance guided-only"><h3>Data trust panel</h3>'
-        '<p><strong>Source tiers:</strong> Official statistics, administrative references, analytical estimates.</p>'
-        '<p><strong>Known caveat:</strong> Some authority metrics are estimated proxies and should be interpreted directionally.</p>'
-        f'<p><strong>Latest trust check:</strong> {line}</p>'
+        "<p><strong>Source tiers:</strong> Official statistics, administrative references, analytical estimates.</p>"
+        "<p><strong>Known caveat:</strong> Some authority metrics are estimated proxies and should be interpreted directionally.</p>"
+        f"<p><strong>Latest trust check:</strong> {line}</p>"
         '<p class="small">See methodology and metric-methods for full caveat details.</p>'
-        '</section>'
+        "</section>"
     )
 
 
@@ -119,31 +139,156 @@ def default_breadcrumbs(active):
 
 def default_purpose(active):
     return {
-        "index": {"what": "A high-level summary of the England planning analysis, key findings, and where to go next.", "who": "First-time visitors, policy teams, local authority officers, and public readers.", "how": "Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.", "data": "Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency."},
-        "legislation": {"what": "The legislation and policy library that underpins planning decisions in scope.", "who": "Policy professionals, legal reviewers, and users tracing legal context.", "how": "Filter by instrument type and status to find the relevant law or policy, then follow source links.", "data": "Official legal and policy references are linked to source URLs and retrieval dates."},
-        "plans": {"what": "The plan hierarchy across authorities, from national policy down to local and neighbourhood layers.", "who": "Users comparing policy stacks across LPAs.", "how": "Start with the authority list, then open a specific LPA profile for detailed document context.", "data": "Plan records are sourced from authority documents and tracked with status/date fields."},
-        "contradictions": {"what": "System contradictions and friction points scored by impact, risk, and frequency.", "who": "Policy leads, analysts, and non-specialists who need a ranked issue view.", "how": "Filter by pathway, stage, and type, then review high-scoring issues first.", "data": "Scores are derived from the published methodology and linked evidence records."},
-        "recommendations": {"what": "Reform recommendations with owners, vehicles, KPIs, and evidence links.", "who": "Policy and delivery teams prioritizing actionable changes.", "how": "Start with priority and confidence, then review implementation details and evidence traceability.", "data": "Every recommendation is linked to at least one evidence record in the evidence links dataset."},
-        "roadmap": {"what": "A sequenced implementation plan from near-term actions to longer reforms.", "who": "Program owners and stakeholders managing delivery order and dependencies.", "how": "Read milestones in order and use dependencies and owners to plan delivery cadence.", "data": "Roadmap records are maintained in the implementation dataset and updated as statuses evolve."},
-        "baselines": {"what": "Baseline performance metrics used to measure current planning outcomes.", "who": "Users benchmarking current performance before evaluating reforms.", "how": "Compare England-level and LPA-level values, then connect metrics to recommendations.", "data": "Baselines are sourced from GOV.UK and PINS tables with source table IDs and retrieval dates."},
-        "bottlenecks": {"what": "Delay hotspots across the six planning stages, with severity and pathway context.", "who": "Process improvement teams and users diagnosing where time is lost.", "how": "Use the heatmap to identify high-friction stages, then review detailed rows for causes.", "data": "Bottleneck records are maintained in the issues datasets with review dates and linked issue IDs."},
-        "appeals": {"what": "Appeal decisions used as practical evidence for contradiction patterns.", "who": "Users validating whether identified issues appear in real decisions.", "how": "Filter by issue, outcome, or LPA, then read inspector findings and linked policy citations.", "data": "Appeal examples are sourced from Planning Inspectorate references and tagged with retrieval dates."},
-        "map": {"what": "A geographic view of authorities in scope with headline performance overlays.", "who": "Users who prefer spatial exploration of authority performance.", "how": "Select markers for summary context, then drill to profile and compare pages.", "data": "Geo and performance overlays come from project authority and trend datasets."},
-        "compare": {"what": "A side-by-side authority comparison across profile, performance, and quality indicators.", "who": "Decision-makers comparing two LPAs for similarity, risk, or performance gaps.", "how": "Select two authorities or use presets, then scan differences metric by metric.", "data": "Comparison values come from trends, issue incidence, and data-quality datasets."},
-        "benchmark": {"what": "A ranked authority benchmark with percentile bands, trend deltas, and outlier signals.", "who": "Users needing a quick comparative performance view across all LPAs.", "how": "Filter by region, type, cohort, or band, then drill into report or compare links.", "data": "Uses quarterly trends plus analytical layers; provenance badges distinguish official vs estimated inputs."},
-        "trends": {"what": "Quarterly trend data for major decision speed across all LPAs in scope.", "who": "Policy teams, analysts, and stakeholders tracking performance trajectories.", "how": "Use the sparklines and change column to identify improving and declining authorities, then drill into profiles for context.", "data": "Trend data is sourced from GOV.UK P151 planning statistics. See Data Health for recency."},
-        "reports": {"what": "Downloadable per-authority report bundles and monthly snapshot outputs.", "who": "Analysts, policy teams, and stakeholders needing offline evidence packs.", "how": "Filter by authority type, region, or cohort, then download CSV or JSON bundles.", "data": "Reports include version stamps, generation dates, provenance tags, and source references."},
-        "coverage": {"what": "Authority coverage status with onboarding gates and evidence completeness.", "who": "Program teams and users checking which authorities are complete, partial, or estimate-led.", "how": "Review status counts first, then inspect authority rows and failed onboarding gates.", "data": "Coverage is derived from plan, trend, issue, and quality datasets plus generated authority profile pages."},
-        "data-health": {"what": "Freshness status for core datasets and update age in days.", "who": "Anyone assessing confidence before relying on metrics or rankings.", "how": "Check status badges and age values, then prioritize stale or critical datasets for refresh.", "data": "Health is computed from date fields in monitored datasets against configured thresholds."},
-        "consultation": {"what": "Submission status and consultation tracking for recommendations.", "who": "Stakeholders monitoring where recommendations have been sent and responses received.", "how": "Check status by recommendation ID, then review next actions.", "data": "Statuses are drawn from the recommendation-status dataset with current workflow fields."},
-        "search": {"what": "Cross-site search for legislation, issues, recommendations, LPAs, and evidence.", "who": "Users with a specific term or topic who need a fast entry point.", "how": "Enter plain-language terms and open matching pages by category.", "data": "Search index is generated from current site datasets at build time."},
-        "methodology": {"what": "How scoring, evidence standards, and quality controls are applied.", "who": "Users who need to validate analytical rigor and assumptions.", "how": "Read scoring dimensions first, then review quality checks and limitations.", "data": "Method definitions are versioned in schema and scoring files and reflected in generated outputs."},
-        "sources": {"what": "Source index and citations used across the site.", "who": "Users verifying data origin and citation reliability.", "how": "Use source categories and links to verify a metric, issue, or recommendation claim.", "data": "Entries include source URLs and retrieval timestamps where available."},
-        "exports": {"what": "Machine-readable dataset downloads plus manifest metadata.", "who": "Analysts and technical users reusing the data externally.", "how": "Download CSV or JSON datasets, then check manifest.json for hashes and version metadata.", "data": "Export artifacts are generated during site build and tied to versioned source datasets."},
-        "policymakers": {"what": "A role-specific view of findings, actions, and relevant evidence for policy teams.", "who": "National and local policy makers.", "how": "Start with priority actions, then follow links to detailed pages and supporting evidence.", "data": "Content is drawn from shared datasets and reflects current build and version status."},
-        "lpas": {"what": "A role-specific view of findings, actions, and relevant evidence for LPAs.", "who": "Local planning authority officers and service managers.", "how": "Start with LPA actions, then drill into authority insights and recommendation details.", "data": "Content is drawn from shared datasets and reflects current build and version status."},
-        "developers": {"what": "A role-specific view of findings, actions, and relevant evidence for developers.", "who": "Developers and planning consultants.", "how": "Review key impacts first, then open recommendations and authority pages for detail.", "data": "Content is drawn from shared datasets and reflects current build and version status."},
-        "public": {"what": "A role-specific plain-language view of findings and proposed improvements.", "who": "Residents, community groups, and lay readers.", "how": "Read the plain-language summary first, then open recommendations and methodology pages for detail.", "data": "Content is drawn from shared datasets and reflects current build and version status."},
+        "index": {
+            "what": "A high-level summary of the England planning analysis, key findings, and where to go next.",
+            "who": "First-time visitors, policy teams, local authority officers, and public readers.",
+            "how": "Start with the summary cards, then choose a path for system issues, authority insights, recommendations, or data exports.",
+            "data": "Metrics and evidence are compiled from GOV.UK statistics, Planning Inspectorate references, and project datasets. Check Data Health for recency.",
+        },
+        "legislation": {
+            "what": "The legislation and policy library that underpins planning decisions in scope.",
+            "who": "Policy professionals, legal reviewers, and users tracing legal context.",
+            "how": "Filter by instrument type and status to find the relevant law or policy, then follow source links.",
+            "data": "Official legal and policy references are linked to source URLs and retrieval dates.",
+        },
+        "plans": {
+            "what": "The plan hierarchy across authorities, from national policy down to local and neighbourhood layers.",
+            "who": "Users comparing policy stacks across LPAs.",
+            "how": "Start with the authority list, then open a specific LPA profile for detailed document context.",
+            "data": "Plan records are sourced from authority documents and tracked with status/date fields.",
+        },
+        "contradictions": {
+            "what": "System contradictions and friction points scored by impact, risk, and frequency.",
+            "who": "Policy leads, analysts, and non-specialists who need a ranked issue view.",
+            "how": "Filter by pathway, stage, and type, then review high-scoring issues first.",
+            "data": "Scores are derived from the published methodology and linked evidence records.",
+        },
+        "recommendations": {
+            "what": "Reform recommendations with owners, vehicles, KPIs, and evidence links.",
+            "who": "Policy and delivery teams prioritizing actionable changes.",
+            "how": "Start with priority and confidence, then review implementation details and evidence traceability.",
+            "data": "Every recommendation is linked to at least one evidence record in the evidence links dataset.",
+        },
+        "roadmap": {
+            "what": "A sequenced implementation plan from near-term actions to longer reforms.",
+            "who": "Program owners and stakeholders managing delivery order and dependencies.",
+            "how": "Read milestones in order and use dependencies and owners to plan delivery cadence.",
+            "data": "Roadmap records are maintained in the implementation dataset and updated as statuses evolve.",
+        },
+        "baselines": {
+            "what": "Baseline performance metrics used to measure current planning outcomes.",
+            "who": "Users benchmarking current performance before evaluating reforms.",
+            "how": "Compare England-level and LPA-level values, then connect metrics to recommendations.",
+            "data": "Baselines are sourced from GOV.UK and PINS tables with source table IDs and retrieval dates.",
+        },
+        "bottlenecks": {
+            "what": "Delay hotspots across the six planning stages, with severity and pathway context.",
+            "who": "Process improvement teams and users diagnosing where time is lost.",
+            "how": "Use the heatmap to identify high-friction stages, then review detailed rows for causes.",
+            "data": "Bottleneck records are maintained in the issues datasets with review dates and linked issue IDs.",
+        },
+        "appeals": {
+            "what": "Appeal decisions used as practical evidence for contradiction patterns.",
+            "who": "Users validating whether identified issues appear in real decisions.",
+            "how": "Filter by issue, outcome, or LPA, then read inspector findings and linked policy citations.",
+            "data": "Appeal examples are sourced from Planning Inspectorate references and tagged with retrieval dates.",
+        },
+        "map": {
+            "what": "A geographic view of authorities in scope with headline performance overlays.",
+            "who": "Users who prefer spatial exploration of authority performance.",
+            "how": "Select markers for summary context, then drill to profile and compare pages.",
+            "data": "Geo and performance overlays come from project authority and trend datasets.",
+        },
+        "compare": {
+            "what": "A side-by-side authority comparison across profile, performance, and quality indicators.",
+            "who": "Decision-makers comparing two LPAs for similarity, risk, or performance gaps.",
+            "how": "Select two authorities or use presets, then scan differences metric by metric.",
+            "data": "Comparison values come from trends, issue incidence, and data-quality datasets.",
+        },
+        "benchmark": {
+            "what": "A ranked authority benchmark with percentile bands, trend deltas, and outlier signals.",
+            "who": "Users needing a quick comparative performance view across all LPAs.",
+            "how": "Filter by region, type, cohort, or band, then drill into report or compare links.",
+            "data": "Uses quarterly trends plus analytical layers; provenance badges distinguish official vs estimated inputs.",
+        },
+        "trends": {
+            "what": "Quarterly trend data for major decision speed across all LPAs in scope.",
+            "who": "Policy teams, analysts, and stakeholders tracking performance trajectories.",
+            "how": "Use the sparklines and change column to identify improving and declining authorities, then drill into profiles for context.",
+            "data": "Trend data is sourced from GOV.UK P151 planning statistics. See Data Health for recency.",
+        },
+        "reports": {
+            "what": "Downloadable per-authority report bundles and monthly snapshot outputs.",
+            "who": "Analysts, policy teams, and stakeholders needing offline evidence packs.",
+            "how": "Filter by authority type, region, or cohort, then download CSV or JSON bundles.",
+            "data": "Reports include version stamps, generation dates, provenance tags, and source references.",
+        },
+        "coverage": {
+            "what": "Authority coverage status with onboarding gates and evidence completeness.",
+            "who": "Program teams and users checking which authorities are complete, partial, or estimate-led.",
+            "how": "Review status counts first, then inspect authority rows and failed onboarding gates.",
+            "data": "Coverage is derived from plan, trend, issue, and quality datasets plus generated authority profile pages.",
+        },
+        "data-health": {
+            "what": "Freshness status for core datasets and update age in days.",
+            "who": "Anyone assessing confidence before relying on metrics or rankings.",
+            "how": "Check status badges and age values, then prioritize stale or critical datasets for refresh.",
+            "data": "Health is computed from date fields in monitored datasets against configured thresholds.",
+        },
+        "consultation": {
+            "what": "Submission status and consultation tracking for recommendations.",
+            "who": "Stakeholders monitoring where recommendations have been sent and responses received.",
+            "how": "Check status by recommendation ID, then review next actions.",
+            "data": "Statuses are drawn from the recommendation-status dataset with current workflow fields.",
+        },
+        "search": {
+            "what": "Cross-site search for legislation, issues, recommendations, LPAs, and evidence.",
+            "who": "Users with a specific term or topic who need a fast entry point.",
+            "how": "Enter plain-language terms and open matching pages by category.",
+            "data": "Search index is generated from current site datasets at build time.",
+        },
+        "methodology": {
+            "what": "How scoring, evidence standards, and quality controls are applied.",
+            "who": "Users who need to validate analytical rigor and assumptions.",
+            "how": "Read scoring dimensions first, then review quality checks and limitations.",
+            "data": "Method definitions are versioned in schema and scoring files and reflected in generated outputs.",
+        },
+        "sources": {
+            "what": "Source index and citations used across the site.",
+            "who": "Users verifying data origin and citation reliability.",
+            "how": "Use source categories and links to verify a metric, issue, or recommendation claim.",
+            "data": "Entries include source URLs and retrieval timestamps where available.",
+        },
+        "exports": {
+            "what": "Machine-readable dataset downloads plus manifest metadata.",
+            "who": "Analysts and technical users reusing the data externally.",
+            "how": "Download CSV or JSON datasets, then check manifest.json for hashes and version metadata.",
+            "data": "Export artifacts are generated during site build and tied to versioned source datasets.",
+        },
+        "policymakers": {
+            "what": "A role-specific view of findings, actions, and relevant evidence for policy teams.",
+            "who": "National and local policy makers.",
+            "how": "Start with priority actions, then follow links to detailed pages and supporting evidence.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+        "lpas": {
+            "what": "A role-specific view of findings, actions, and relevant evidence for LPAs.",
+            "who": "Local planning authority officers and service managers.",
+            "how": "Start with LPA actions, then drill into authority insights and recommendation details.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+        "developers": {
+            "what": "A role-specific view of findings, actions, and relevant evidence for developers.",
+            "who": "Developers and planning consultants.",
+            "how": "Review key impacts first, then open recommendations and authority pages for detail.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
+        "public": {
+            "what": "A role-specific plain-language view of findings and proposed improvements.",
+            "who": "Residents, community groups, and lay readers.",
+            "how": "Read the plain-language summary first, then open recommendations and methodology pages for detail.",
+            "data": "Content is drawn from shared datasets and reflects current build and version status.",
+        },
     }.get(active)
 
 
@@ -163,19 +308,28 @@ def render_footer(active):
         f'<nav class="footer-nav" aria-label="Footer navigation">{section_links}'
         '<a href="search.html">Search</a>'
         '<a href="audience-policymakers.html">For Audiences</a>'
-        '</nav>'
+        "</nav>"
         '<div class="footer-meta">'
-        f'<p>{BUILD_VERSION} &middot; Built with open data &middot; '
+        f"<p>{BUILD_VERSION} &middot; Built with open data &middot; "
         '<a href="methodology.html">Methodology</a> &middot; '
         '<a href="data-health.html">Data Health</a> &middot; '
         '<a href="exports.html">Exports</a></p>'
-        '</div>'
-        '</div>'
-        '</footer>'
+        "</div>"
+        "</div>"
+        "</footer>"
     )
 
 
-def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=None, next_steps=None):
+def page(
+    title,
+    subhead,
+    active,
+    body,
+    context=None,
+    purpose=None,
+    breadcrumbs=None,
+    next_steps=None,
+):
     section = PAGE_TO_SECTION.get(active, "overview")
     top_nav = "\n".join(
         f'<a class="top-tab{(" active" if key == section else "")}" href="{cfg["href"]}">{cfg["label"]}</a>'
@@ -183,20 +337,28 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
         if key != "audiences"
     )
     sub_nav = "\n".join(
-        f'<a{" class=\"active\"" if key == active else ""} href="{href}">{label}</a>'
+        f'<a{' class="active"' if key == active else ""} href="{href}">{label}</a>'
         for key, label, href in SECTION_CONFIG[section]["children"]
     )
-    breadcrumb_data = breadcrumbs if breadcrumbs is not None else default_breadcrumbs(active)
-    breadcrumb_html = '<div class="breadcrumbs">' + " &gt; ".join(
-        f'<a href="{html.escape(href)}">{html.escape(label)}</a>'
-        for href, label in breadcrumb_data
-    ) + "</div>"
+    breadcrumb_data = (
+        breadcrumbs if breadcrumbs is not None else default_breadcrumbs(active)
+    )
+    breadcrumb_html = (
+        '<div class="breadcrumbs">'
+        + " &gt; ".join(
+            f'<a href="{html.escape(href)}">{html.escape(label)}</a>'
+            for href, label in breadcrumb_data
+        )
+        + "</div>"
+    )
     if purpose is None:
         purpose = default_purpose(active)
     purpose_html = render_page_purpose(purpose) if purpose else ""
     context_html = ""
     if context:
-        context_html = f'<section class="card guided-only"><p>{html.escape(context)}</p></section>'
+        context_html = (
+            f'<section class="card guided-only"><p>{html.escape(context)}</p></section>'
+        )
     next_html = render_next_steps(next_steps) if next_steps else ""
     trust_html = render_data_trust_panel(active)
     utility_html = (
@@ -204,30 +366,30 @@ def page(title, subhead, active, body, context=None, purpose=None, breadcrumbs=N
         '<button type="button" class="utility-toggle" aria-expanded="true">Settings &amp; trust info</button>'
         '<div class="utility-body">'
         '<div class="utility-row">'
-        '<label>View mode '
+        "<label>View mode "
         '<select id="view-mode-toggle" aria-label="Toggle guided or expert mode">'
         '<option value="guided">Guided</option><option value="expert">Expert</option>'
-        '</select></label>'
+        "</select></label>"
         '<label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label>'
         '<button type="button" data-copy-view>Copy this view</button>'
-        '</div>'
+        "</div>"
         '<p class="small">Trust legend: '
-        f'{provenance_badge("official")} Official statistic '
-        f'{provenance_badge("estimated")} Analytical estimate '
-        f'{confidence_badge("high")} Confidence example'
-        '</p>'
-        '</div>'
-        '</section>'
+        f"{provenance_badge('official')} Official statistic "
+        f"{provenance_badge('estimated')} Analytical estimate "
+        f"{confidence_badge('high')} Confidence example"
+        "</p>"
+        "</div>"
+        "</section>"
     )
     plain_html = (
         '<section class="card plain-language-panel">'
-        '<h2>Plain-language guide</h2>'
-        f'<p>This page helps you understand <strong>{html.escape(title)}</strong> without specialist planning jargon. '
-        'Use the start-here notes first, then open linked detail pages for evidence and next actions.</p>'
+        "<h2>Plain-language guide</h2>"
+        f"<p>This page helps you understand <strong>{html.escape(title)}</strong> without specialist planning jargon. "
+        "Use the start-here notes first, then open linked detail pages for evidence and next actions.</p>"
         '<p class="small">Common terms: <strong>s106</strong> (legal agreement on development obligations), '
-        '<strong>NSIP</strong> (nationally significant infrastructure project), '
-        '<strong>verification state</strong> (draft or reviewed data status).</p>'
-        '</section>'
+        "<strong>NSIP</strong> (nationally significant infrastructure project), "
+        "<strong>verification state</strong> (draft or reviewed data status).</p>"
+        "</section>"
     )
     return f"""<!doctype html>
 <html lang="en">
@@ -289,7 +451,11 @@ def write(path, content):
 
 def render_cell(key, value):
     """Render a table cell, turning URL columns into clickable links."""
-    if key in URL_COLUMNS and value and (value.startswith("http://") or value.startswith("https://")):
+    if (
+        key in URL_COLUMNS
+        and value
+        and (value.startswith("http://") or value.startswith("https://"))
+    ):
         escaped = html.escape(value)
         return f'<td><a href="{escaped}" target="_blank" rel="noopener noreferrer">Link</a></td>'
     if key == "issue_id" and value:
@@ -321,7 +487,7 @@ def sparkline_svg(values, width=120, height=28):
         f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
         f'xmlns="http://www.w3.org/2000/svg" role="img" aria-label="trend sparkline">'
         f'<polyline points="{pts}" fill="none" stroke="#00695c" stroke-width="2" />'
-        f'</svg>'
+        f"</svg>"
     )
 
 
@@ -348,13 +514,17 @@ def render_filter_controls(table_id, text_label, filter_defs):
         f'<input type="search" aria-label="{html.escape(text_label)}" data-table="{table_id}" data-filter="search" placeholder="Type to search..." /></label>',
     ]
     for field, label, options in filter_defs:
-        opts = '<option value="">All</option>' + "".join(f"<option>{html.escape(o)}</option>" for o in options)
+        opts = '<option value="">All</option>' + "".join(
+            f"<option>{html.escape(o)}</option>" for o in options
+        )
         controls.append(
             f'<label class="filter-item">{html.escape(label)}'
             f'<select data-table="{table_id}" data-filter="{field}">{opts}</select></label>'
         )
     controls.append("</div>")
-    controls.append(f'<p class="small" data-filter-count-for="{table_id}" aria-live="polite" role="status"></p>')
+    controls.append(
+        f'<p class="small" data-filter-count-for="{table_id}" aria-live="polite" role="status"></p>'
+    )
     controls.append("</section>")
     return "".join(controls)
 
@@ -364,7 +534,8 @@ def render_filterable_table(rows, columns, table_id, data_fields):
     body_rows = []
     for row in rows:
         attrs = " ".join(
-            f'data-{f}="{html.escape((row.get(f, "") or "").strip().lower())}"' for f in data_fields
+            f'data-{f}="{html.escape((row.get(f, "") or "").strip().lower())}"'
+            for f in data_fields
         )
         cells = "".join(render_cell(k, row.get(k, "") or "") for k, _ in columns)
         body_rows.append(f"<tr {attrs}>{cells}</tr>")
@@ -625,13 +796,14 @@ def render_mobile_drawer_script(table_id, labels, max_width=900):
 
 def render_detail_toc(items):
     links = "".join(
-        f'<a href="#{html.escape(anchor)}">{html.escape(label)}</a>' for anchor, label in items
+        f'<a href="#{html.escape(anchor)}">{html.escape(label)}</a>'
+        for anchor, label in items
     )
     return (
         '<section class="card detail-toc" aria-label="Detail page sections">'
-        '<h3>On this page</h3>'
+        "<h3>On this page</h3>"
         f'<div class="detail-toc-links">{links}</div>'
-        '</section>'
+        "</section>"
     )
 
 

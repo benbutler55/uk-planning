@@ -1,4 +1,5 @@
 """Jinja2 custom filters and globals for template rendering."""
+
 import html as html_lib
 
 from .config import BUILD_VERSION, PAGE_TO_SECTION, SECTION_CONFIG
@@ -40,10 +41,10 @@ def metric_help(label, description, method_anchor=None):
             f'href="metric-methods.html#{html_lib.escape(method_anchor)}">method</a>'
         )
     return (
-        f'{html_lib.escape(label)} '
+        f"{html_lib.escape(label)} "
         f'<span class="inline-help" tabindex="0" role="note" '
         f'aria-label="{escaped_desc}" title="{escaped_desc}">?</span>'
-        f'{method_link}'
+        f"{method_link}"
     )
 
 
@@ -67,7 +68,7 @@ def sparkline_svg(values, width=120, height=28):
         f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
         f'xmlns="http://www.w3.org/2000/svg" role="img" aria-label="trend sparkline">'
         f'<polyline points="{pts}" fill="none" stroke="#00695c" stroke-width="2" />'
-        f'</svg>'
+        f"</svg>"
     )
 
 
@@ -78,8 +79,10 @@ TRUNCATE_COLUMNS = {"summary", "inspector_finding"}
 
 
 def render_cell(key, value):
-    if key in URL_COLUMNS and value and (
-        value.startswith("http://") or value.startswith("https://")
+    if (
+        key in URL_COLUMNS
+        and value
+        and (value.startswith("http://") or value.startswith("https://"))
     ):
         escaped = html_lib.escape(value)
         return f'<a href="{escaped}" target="_blank" rel="noopener noreferrer">Link</a>'

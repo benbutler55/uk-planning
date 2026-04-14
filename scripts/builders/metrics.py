@@ -1,4 +1,5 @@
 """Pure metric and utility functions with no HTML or I/O dependencies."""
+
 import urllib.parse
 from datetime import date
 
@@ -21,6 +22,7 @@ def _load_cohort_map():
         return _COHORT_CACHE
     from .config import ROOT
     from .data_loader import read_csv
+
     rows = read_csv(ROOT / "data/plans/pilot-lpas.csv")
     for row in rows:
         _COHORT_CACHE[row.get("pilot_id", "")] = row.get("cohort", "Unknown")
@@ -50,9 +52,16 @@ def peer_group_for_lpa(lpa):
         return "County strategic authorities"
     if "london borough" in lpa_type:
         return "London urban authorities"
-    if "metropolitan" in lpa_type or "high growth urban" in growth or "very high urban growth" in growth:
+    if (
+        "metropolitan" in lpa_type
+        or "high growth urban" in growth
+        or "very high urban growth" in growth
+    ):
         return "High-growth urban authorities"
-    if "high demand constrained" in growth or "green belt" in (lpa.get("constraint_profile", "") or "").lower():
+    if (
+        "high demand constrained" in growth
+        or "green belt" in (lpa.get("constraint_profile", "") or "").lower()
+    ):
         return "Constrained housing-pressure authorities"
     if "regeneration" in growth or "urban renewal" in growth:
         return "Regeneration-focused authorities"
@@ -74,7 +83,9 @@ def derive_plan_age_years(pid, docs_by_lpa):
     return round((date.today() - latest).days / 365.25, 1)
 
 
-def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, national_validation_proxy):
+def derive_metric_bundle(
+    lpa, issue_row, quality_row, trend_rows, docs_by_lpa, national_validation_proxy
+):
     pid = lpa.get("pilot_id", "")
     quality_tier = quality_row.get("data_quality_tier", "")
     issue_count = int(issue_row.get("total_linked_issues", 0) or 0)
@@ -121,7 +132,16 @@ def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, n
         tier_adjust = {"A": -1.5, "B": 0.0, "C": 2.0}.get(quality_tier, 0.0)
         issue_adjust = min(4.0, issue_count * 0.12)
         volatility_adjust = min(1.8, volatility * 0.6)
-        validation_rework_proxy = round(max(5.0, national_validation_proxy + tier_adjust + issue_adjust + volatility_adjust), 1)
+        validation_rework_proxy = round(
+            max(
+                5.0,
+                national_validation_proxy
+                + tier_adjust
+                + issue_adjust
+                + volatility_adjust,
+            ),
+            1,
+        )
         validation_provenance = "estimated"
 
     # 2) delegated decision proxy
@@ -147,9 +167,24 @@ def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, n
             delegated_base = 82.0
         elif "national park" in lpa_type:
             delegated_base = 84.0
-        speed_adjust = 0.0 if speed is None else max(-3.0, min(2.0, (speed - 74.0) * 0.12))
-        appeal_adjust = 0.0 if latest_appeal is None else max(-2.5, min(1.0, (1.9 - latest_appeal) * 1.4))
-        delegated_ratio_proxy = round(max(70.0, min(95.0, delegated_base - (high_sev * 0.5) + speed_adjust + appeal_adjust)), 1)
+        speed_adjust = (
+            0.0 if speed is None else max(-3.0, min(2.0, (speed - 74.0) * 0.12))
+        )
+        appeal_adjust = (
+            0.0
+            if latest_appeal is None
+            else max(-2.5, min(1.0, (1.9 - latest_appeal) * 1.4))
+        )
+        delegated_ratio_proxy = round(
+            max(
+                70.0,
+                min(
+                    95.0,
+                    delegated_base - (high_sev * 0.5) + speed_adjust + appeal_adjust,
+                ),
+            ),
+            1,
+        )
         delegated_provenance = "estimated"
 
     # 3) plan age metric
@@ -164,12 +199,29 @@ def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, n
         "legal agreements": 1.0,
         "condition discharge": 1.1,
     }.get(risk_stage, 0.4)
-    consultation_lag_proxy = round(min(10.0, 1.2 + (high_sev * 0.35) + stage_adjust + (0 if quality_tier == "A" else 0.8 if quality_tier == "B" else 1.6)), 1)
+    consultation_lag_proxy = round(
+        min(
+            10.0,
+            1.2
+            + (high_sev * 0.35)
+            + stage_adjust
+            + (0 if quality_tier == "A" else 0.8 if quality_tier == "B" else 1.6),
+        ),
+        1,
+    )
 
     # 5) backlog pressure index
     speed_gap = max(0.0, 74.0 - (speed if isinstance(speed, float) else 74.0))
-    plan_age_factor = 0.0 if plan_age_years is None else max(0.0, (plan_age_years - 5.0) * 2.5)
-    backlog_pressure = round(min(100.0, issue_count * 3.6 + high_sev * 5.8 + speed_gap * 2.0 + plan_age_factor), 1)
+    plan_age_factor = (
+        0.0 if plan_age_years is None else max(0.0, (plan_age_years - 5.0) * 2.5)
+    )
+    backlog_pressure = round(
+        min(
+            100.0,
+            issue_count * 3.6 + high_sev * 5.8 + speed_gap * 2.0 + plan_age_factor,
+        ),
+        1,
+    )
 
     return {
         "validation_rework_proxy": validation_rework_proxy,

@@ -1,4 +1,5 @@
 """Tests for builders.html_utils module."""
+
 import sys
 from pathlib import Path
 

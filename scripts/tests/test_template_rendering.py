@@ -1,4 +1,5 @@
 """Tests for template rendering — verify each template produces valid HTML."""
+
 import sys
 from pathlib import Path
 from html.parser import HTMLParser
@@ -13,6 +14,7 @@ from builders.data_loader import load_scoring
 
 class StructureChecker(HTMLParser):
     """Minimal HTML structure checker."""
+
     def __init__(self):
         super().__init__()
         self.has_doctype = False
@@ -53,7 +55,9 @@ def check_html_structure(html_content, page_name):
     checker = StructureChecker()
     checker.feed(html_content)
     assert checker.has_html_lang, f"{page_name}: missing <html lang>"
-    assert checker.h1_count == 1, f"{page_name}: expected 1 <h1>, found {checker.h1_count}"
+    assert (
+        checker.h1_count == 1
+    ), f"{page_name}: expected 1 <h1>, found {checker.h1_count}"
     assert checker.has_main, f"{page_name}: missing <main>"
     assert checker.has_title, f"{page_name}: missing <title>"
     assert len(checker.title_text.strip()) > 0, f"{page_name}: empty <title>"
@@ -73,8 +77,10 @@ def render_context(builder, template_path, context_fn):
 
 # --- Methods pages ---
 
+
 def test_render_methodology(builder):
     from builders.context_providers.methods import methodology_context
+
     html = render_context(builder, "pages/methodology.html", methodology_context)
     check_html_structure(html, "methodology")
     assert "Scoring Model" in html
@@ -82,14 +88,17 @@ def test_render_methodology(builder):
 
 def test_render_data_health(builder):
     from builders.context_providers.methods import data_health_context
+
     html = render_context(builder, "pages/data_health.html", data_health_context)
     check_html_structure(html, "data-health")
 
 
 # --- Overview pages ---
 
+
 def test_render_index(builder):
     from builders.context_providers.overview import index_context
+
     html = render_context(builder, "pages/index.html", index_context)
     check_html_structure(html, "index")
     assert "England at a glance" in html
@@ -97,6 +106,7 @@ def test_render_index(builder):
 
 def test_render_search(builder):
     from builders.context_providers.overview import search_context
+
     html = render_context(builder, "pages/search.html", search_context)
     check_html_structure(html, "search")
     assert "search-input" in html
@@ -104,8 +114,10 @@ def test_render_search(builder):
 
 # --- Audience pages ---
 
+
 def test_render_audience_public(builder):
     from builders.context_providers.audiences import public_context
+
     html = render_context(builder, "pages/audience_public.html", public_context)
     check_html_structure(html, "audience-public")
     assert "What Is This Project?" in html
@@ -113,8 +125,10 @@ def test_render_audience_public(builder):
 
 # --- Spot check a detail page ---
 
+
 def test_render_contradiction_detail(builder):
     from builders.context_providers.analysis import contradiction_detail_contexts
+
     weights = load_scoring()
     contexts = contradiction_detail_contexts(weights)
     if contexts:

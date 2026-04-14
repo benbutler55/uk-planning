@@ -1,4 +1,5 @@
 """Tests for builders.metrics module."""
+
 import sys
 from datetime import date
 from pathlib import Path
@@ -34,6 +35,7 @@ def test_cohort_for_pid_cohort_3():
 
 def test_cohort_for_pid_unknown():
     from builders.metrics import _COHORT_CACHE
+
     _COHORT_CACHE.clear()  # ensure fresh load
     assert cohort_for_pid("LPA-99") == "Unknown"
 
@@ -92,11 +94,28 @@ def test_weighted_score_basic():
 
 def test_derive_metric_bundle_uses_official_validation():
     from builders.metrics import derive_metric_bundle, _COHORT_CACHE
+
     _COHORT_CACHE.clear()
-    lpa = {"pilot_id": "LPA-01", "lpa_type": "Metropolitan District", "growth_context": "High growth urban", "constraint_profile": ""}
-    issue_row = {"total_linked_issues": "5", "high_severity_issues": "2", "primary_risk_stage": "Committee"}
+    lpa = {
+        "pilot_id": "LPA-01",
+        "lpa_type": "Metropolitan District",
+        "growth_context": "High growth urban",
+        "constraint_profile": "",
+    }
+    issue_row = {
+        "total_linked_issues": "5",
+        "high_severity_issues": "2",
+        "primary_risk_stage": "Committee",
+    }
     quality_row = {"data_quality_tier": "A"}
-    trend_rows = [{"major_in_time_pct": "75", "appeals_overturned_pct": "2.0", "official_validation_return_pct": "8.5", "official_delegated_pct": ""}]
+    trend_rows = [
+        {
+            "major_in_time_pct": "75",
+            "appeals_overturned_pct": "2.0",
+            "official_validation_return_pct": "8.5",
+            "official_delegated_pct": "",
+        }
+    ]
     result = derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, {}, 12.0)
     assert result["validation_rework_proxy"] == 8.5
     assert result["validation_provenance"] == "official"
@@ -104,11 +123,28 @@ def test_derive_metric_bundle_uses_official_validation():
 
 def test_derive_metric_bundle_falls_back_to_proxy():
     from builders.metrics import derive_metric_bundle, _COHORT_CACHE
+
     _COHORT_CACHE.clear()
-    lpa = {"pilot_id": "LPA-01", "lpa_type": "Metropolitan District", "growth_context": "", "constraint_profile": ""}
-    issue_row = {"total_linked_issues": "5", "high_severity_issues": "2", "primary_risk_stage": "Committee"}
+    lpa = {
+        "pilot_id": "LPA-01",
+        "lpa_type": "Metropolitan District",
+        "growth_context": "",
+        "constraint_profile": "",
+    }
+    issue_row = {
+        "total_linked_issues": "5",
+        "high_severity_issues": "2",
+        "primary_risk_stage": "Committee",
+    }
     quality_row = {"data_quality_tier": "A"}
-    trend_rows = [{"major_in_time_pct": "75", "appeals_overturned_pct": "2.0", "official_validation_return_pct": "", "official_delegated_pct": ""}]
+    trend_rows = [
+        {
+            "major_in_time_pct": "75",
+            "appeals_overturned_pct": "2.0",
+            "official_validation_return_pct": "",
+            "official_delegated_pct": "",
+        }
+    ]
     result = derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, {}, 12.0)
     assert result["validation_provenance"] == "estimated"
     assert isinstance(result["validation_rework_proxy"], float)

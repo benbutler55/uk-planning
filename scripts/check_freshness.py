@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check source URL freshness and data staleness. Warning-only by default."""
+
 import csv
 import sys
 import urllib.request
@@ -40,7 +41,9 @@ def check_staleness(rows, date_col, label):
         try:
             d = date.fromisoformat(val)
             if d < cutoff:
-                warnings.append(f"{label}:{idx} stale {date_col}={val} (>{STALE_DAYS} days old)")
+                warnings.append(
+                    f"{label}:{idx} stale {date_col}={val} (>{STALE_DAYS} days old)"
+                )
         except ValueError:
             pass
     return warnings
@@ -59,7 +62,9 @@ def check_urls_in_rows(rows, url_col, label):
             warnings.append(f"{label}:{idx} URL unreachable: {url} ({err})")
         elif status == 403:
             # 403 may indicate server-level bot-blocking rather than a missing page
-            warnings.append(f"{label}:{idx} URL returned 403 (access blocked - verify manually): {url}")
+            warnings.append(
+                f"{label}:{idx} URL returned 403 (access blocked - verify manually): {url}"
+            )
         elif status >= 400:
             warnings.append(f"{label}:{idx} URL returned {status}: {url}")
     return warnings
@@ -71,12 +76,32 @@ def main():
 
     datasets = [
         # (path, date_col_for_staleness, url_col, check_staleness_flag)
-        ("data/legislation/england-core-legislation.csv", "last_updated", "source_url", True),
+        (
+            "data/legislation/england-core-legislation.csv",
+            "last_updated",
+            "source_url",
+            True,
+        ),
         ("data/policy/england-national-policy.csv", "last_updated", "source_url", True),
         # plan adoption dates are intentionally historical — skip staleness, check URLs only
-        ("data/plans/pilot-plan-documents.csv", "adoption_or_publication_date", "source_url", False),
-        ("data/evidence/recommendation_evidence_links.csv", "retrieved_at", "source_url", True),
-        ("data/evidence/official_baseline_metrics.csv", "retrieved_at", "source_url", True),
+        (
+            "data/plans/pilot-plan-documents.csv",
+            "adoption_or_publication_date",
+            "source_url",
+            False,
+        ),
+        (
+            "data/evidence/recommendation_evidence_links.csv",
+            "retrieved_at",
+            "source_url",
+            True,
+        ),
+        (
+            "data/evidence/official_baseline_metrics.csv",
+            "retrieved_at",
+            "source_url",
+            True,
+        ),
         ("data/evidence/lpa-quarterly-trends.csv", "retrieved_at", "source_url", True),
     ]
 

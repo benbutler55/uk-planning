@@ -1,4 +1,5 @@
 """Regression test: verify refactored build produces identical HTML output."""
+
 import hashlib
 import json
 import pytest
@@ -15,8 +16,7 @@ def hash_file(path: Path) -> str:
 
 def snapshot_site() -> dict[str, str]:
     return {
-        str(p.relative_to(SITE)): hash_file(p)
-        for p in sorted(SITE.rglob("*.html"))
+        str(p.relative_to(SITE)): hash_file(p) for p in sorted(SITE.rglob("*.html"))
     }
 
 
@@ -33,8 +33,5 @@ def test_build_output_unchanged(baseline_snapshot):
         f"  Added: {set(current.keys()) - set(baseline_snapshot.keys())}\n"
         f"  Removed: {set(baseline_snapshot.keys()) - set(current.keys())}"
     )
-    mismatches = [
-        f for f in current
-        if current[f] != baseline_snapshot[f]
-    ]
+    mismatches = [f for f in current if current[f] != baseline_snapshot[f]]
     assert not mismatches, f"Content changed in: {mismatches}"

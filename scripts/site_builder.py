@@ -1,4 +1,5 @@
 """SiteBuilder: Jinja2-based static site generator for uk-planning."""
+
 import sys
 from pathlib import Path
 

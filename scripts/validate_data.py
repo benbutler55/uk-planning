@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Data validation with schema checks, enum enforcement, FK integrity, and unique IDs."""
+
 import csv
 import json
 import re
@@ -57,7 +58,9 @@ def validate_dataset(spec, all_specs):
     for idx, row in enumerate(rows, start=2):
         for col in spec.get("url_columns", []):
             value = (row.get(col, "") or "").strip()
-            if value and not (value.startswith("https://") or value.startswith("http://")):
+            if value and not (
+                value.startswith("https://") or value.startswith("http://")
+            ):
                 errors.append(f"{spec['path']}:{idx} invalid URL '{value}' in '{col}'")
 
     # --- Score range ---
@@ -67,10 +70,14 @@ def validate_dataset(spec, all_specs):
             try:
                 score = float(value)
             except ValueError:
-                errors.append(f"{spec['path']}:{idx} non-numeric score '{value}' in '{col}'")
+                errors.append(
+                    f"{spec['path']}:{idx} non-numeric score '{value}' in '{col}'"
+                )
                 continue
             if score < 1 or score > 5:
-                errors.append(f"{spec['path']}:{idx} score out of range (1-5) for '{col}': {value}")
+                errors.append(
+                    f"{spec['path']}:{idx} score out of range (1-5) for '{col}': {value}"
+                )
 
     # --- Unique IDs ---
     id_col = spec.get("id_column")

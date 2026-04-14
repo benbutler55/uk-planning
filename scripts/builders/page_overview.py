@@ -1,4 +1,5 @@
 """Overview, search index, and search page builders."""
+
 import html
 import json
 from collections import defaultdict
@@ -22,15 +23,15 @@ def build_index():
         source_table = html.escape(row.get("source_table", ""))
         source_ref = html.escape(metric_id)
         value_label = html.escape(str(value)) + unit_suffix
-        source_line = f'{source_ref} ({source_table})'
+        source_line = f"{source_ref} ({source_table})"
         if source_url:
             source_line = f'<a href="{source_url}" target="_blank" rel="noopener noreferrer">{source_line}</a>'
         return (
             '<article class="card card-kpi">'
-            f'<h3>{html.escape(label)}</h3>'
+            f"<h3>{html.escape(label)}</h3>"
             f'<p class="kpi-value">{value_label}</p>'
             f'<p class="small">Source: {source_line}</p>'
-            '</article>'
+            "</article>"
         )
 
     # Trend delta card: average major speed movement from first to latest quarter across LPAs
@@ -43,7 +44,9 @@ def build_index():
         if len(ordered) < 2:
             continue
         try:
-            delta = float(ordered[-1].get("major_in_time_pct", 0) or 0) - float(ordered[0].get("major_in_time_pct", 0) or 0)
+            delta = float(ordered[-1].get("major_in_time_pct", 0) or 0) - float(
+                ordered[0].get("major_in_time_pct", 0) or 0
+            )
         except ValueError:
             continue
         deltas.append(delta)
@@ -72,10 +75,10 @@ def build_index():
     body += metric_card("BAS-005", "NSIP examination median", " months")
     body += (
         '<article class="card card-kpi">'
-        '<h3>LPA average 4Q movement</h3>'
+        "<h3>LPA average 4Q movement</h3>"
         f'<p class="kpi-value">{html.escape(str(avg_delta))} pp ({delta_arrow})</p>'
         '<p class="small">Source: <a href="exports/lpa-quarterly-trends.csv">lpa-quarterly-trends.csv</a></p>'
-        '</article>'
+        "</article>"
     )
     body += """
         </div>
@@ -119,26 +122,37 @@ def build_index():
       <h2 class="section-heading">Data &amp; Health</h2>
     """
     body += '<section class="card"><h2>Data Health Snapshot</h2>'
-    body += '<p>'
-    body += f'{badge("fresh", "green")} {health_counts.get("fresh", 0)} '
-    body += f'{badge("stale", "amber")} {health_counts.get("stale", 0)} '
-    body += f'{badge("critical", "red")} {health_counts.get("critical", 0)} '
-    body += '</p>'
+    body += "<p>"
+    body += f"{badge('fresh', 'green')} {health_counts.get('fresh', 0)} "
+    body += f"{badge('stale', 'amber')} {health_counts.get('stale', 0)} "
+    body += f"{badge('critical', 'red')} {health_counts.get('critical', 0)} "
+    body += "</p>"
     if health_rows:
-        top = sorted(health_rows, key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999), reverse=True)[0]
+        top = sorted(
+            health_rows,
+            key=lambda r: r["age_days"] if isinstance(r["age_days"], int) else 9999,
+            reverse=True,
+        )[0]
         body += f'<p class="small">Oldest monitored dataset: {html.escape(top["dataset"])} ({html.escape(str(top["age_days"]))} days).</p>'
-    body += '<p><a href="data-health.html">Open full data health report</a></p></section>'
-    write(SITE / "index.html", page(
-        "UK Planning System Analysis — England Pilot Release",
-        "Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.",
-        "index", body,
-        "Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations.",
-        next_steps=[
-            ("contradictions.html", "Go to contradictions dashboard"),
-            ("benchmark.html", "Go to benchmark dashboard"),
-            ("recommendations.html", "Go to recommendations"),
-            ("data-health.html", "Go to data health"),
-        ]))
+    body += (
+        '<p><a href="data-health.html">Open full data health report</a></p></section>'
+    )
+    write(
+        SITE / "index.html",
+        page(
+            "UK Planning System Analysis — England Pilot Release",
+            "Citation-backed analysis of legislation, policy, and local plan layers with reform proposals.",
+            "index",
+            body,
+            "Start here to understand what this pilot covers, who it is for, and which pages contain the detailed evidence and recommendations.",
+            next_steps=[
+                ("contradictions.html", "Go to contradictions dashboard"),
+                ("benchmark.html", "Go to benchmark dashboard"),
+                ("recommendations.html", "Go to recommendations"),
+                ("data-health.html", "Go to data health"),
+            ],
+        ),
+    )
 
 
 def build_search_index():
@@ -146,71 +160,124 @@ def build_search_index():
     index = []
 
     def add(doc_id, page, title, category, text, facets=None):
-        index.append({
-            "id": doc_id, "page": page, "title": title,
-            "category": category,
-            "text": " ".join(str(v) for v in [title, text] if v).lower(),
-            "facets": facets or {},
-        })
+        index.append(
+            {
+                "id": doc_id,
+                "page": page,
+                "title": title,
+                "category": category,
+                "text": " ".join(str(v) for v in [title, text] if v).lower(),
+                "facets": facets or {},
+            }
+        )
 
     for r in read_csv(ROOT / "data/issues/contradiction-register.csv"):
-        add(r["issue_id"], issue_detail_page(r["issue_id"]), r["issue_id"] + ": " + r["summary"],
-            "Contradiction", r.get("summary", "") + " " + r.get("issue_type", "") + " " + r.get("process_stage", ""),
+        add(
+            r["issue_id"],
+            issue_detail_page(r["issue_id"]),
+            r["issue_id"] + ": " + r["summary"],
+            "Contradiction",
+            r.get("summary", "")
+            + " "
+            + r.get("issue_type", "")
+            + " "
+            + r.get("process_stage", ""),
             facets={
                 "type": "contradiction",
                 "pathway": (r.get("affected_pathway", "") or "").lower(),
                 "confidence": (r.get("confidence", "") or "").lower(),
                 "status": (r.get("verification_state", "") or "").lower(),
                 "authority": "",
-            })
+            },
+        )
 
     for r in read_csv(ROOT / "data/issues/recommendations.csv"):
-        add(r["recommendation_id"], recommendation_detail_page(r["recommendation_id"]), r["recommendation_id"] + ": " + r["title"],
-            "Recommendation", r.get("title", "") + " " + r.get("policy_goal", "") + " " + r.get("kpi_primary", ""),
+        add(
+            r["recommendation_id"],
+            recommendation_detail_page(r["recommendation_id"]),
+            r["recommendation_id"] + ": " + r["title"],
+            "Recommendation",
+            r.get("title", "")
+            + " "
+            + r.get("policy_goal", "")
+            + " "
+            + r.get("kpi_primary", ""),
             facets={
                 "type": "recommendation",
                 "pathway": "",
                 "confidence": (r.get("confidence", "") or "").lower(),
                 "status": (r.get("verification_state", "") or "").lower(),
                 "authority": "",
-            })
+            },
+        )
 
     for r in read_csv(ROOT / "data/legislation/england-core-legislation.csv"):
-        add(r["id"], "legislation.html", r["title"],
-            "Legislation", r.get("type", "") + " " + r.get("status", "") + " " + r.get("citation", ""))
+        add(
+            r["id"],
+            "legislation.html",
+            r["title"],
+            "Legislation",
+            r.get("type", "") + " " + r.get("status", "") + " " + r.get("citation", ""),
+        )
 
     for r in read_csv(ROOT / "data/policy/england-national-policy.csv"):
-        add(r["id"], "legislation.html", r["title"],
-            "Policy", r.get("type", "") + " " + r.get("scope", "") + " " + r.get("authority", ""))
+        add(
+            r["id"],
+            "legislation.html",
+            r["title"],
+            "Policy",
+            r.get("type", "") + " " + r.get("scope", "") + " " + r.get("authority", ""),
+        )
 
     for r in read_csv(ROOT / "data/plans/pilot-lpas.csv"):
-        add(r["pilot_id"], f"plans-{r['pilot_id'].lower()}.html", r["lpa_name"],
-            "LPA", r.get("region", "") + " " + r.get("constraint_profile", "") + " " + r.get("growth_context", ""),
+        add(
+            r["pilot_id"],
+            f"plans-{r['pilot_id'].lower()}.html",
+            r["lpa_name"],
+            "LPA",
+            r.get("region", "")
+            + " "
+            + r.get("constraint_profile", "")
+            + " "
+            + r.get("growth_context", ""),
             facets={
                 "type": "authority",
                 "pathway": "",
                 "confidence": "",
                 "status": "",
                 "authority": (r.get("lpa_name", "") or "").lower(),
-            })
+            },
+        )
 
     for r in read_csv(ROOT / "data/issues/bottleneck-heatmap.csv"):
-        add(r["stage_id"], "bottlenecks.html", r["process_stage"] + " — " + r["pathway"],
-            "Bottleneck", r.get("delay_driver", "") + " " + r.get("process_stage", ""))
+        add(
+            r["stage_id"],
+            "bottlenecks.html",
+            r["process_stage"] + " — " + r["pathway"],
+            "Bottleneck",
+            r.get("delay_driver", "") + " " + r.get("process_stage", ""),
+        )
 
     for r in read_csv(ROOT / "data/evidence/appeal-decisions.csv"):
-        add(r["appeal_id"], "appeals.html", r["pins_reference"] + " (" + r["lpa"] + ")",
-            "Appeal", r.get("inspector_finding", "") + " " + r.get("policy_cited", ""),
+        add(
+            r["appeal_id"],
+            "appeals.html",
+            r["pins_reference"] + " (" + r["lpa"] + ")",
+            "Appeal",
+            r.get("inspector_finding", "") + " " + r.get("policy_cited", ""),
             facets={
                 "type": "appeal",
                 "pathway": "",
                 "confidence": "",
                 "status": (r.get("outcome", "") or "").lower(),
                 "authority": (r.get("lpa", "") or "").lower(),
-            })
+            },
+        )
 
     idx_path = SITE / "search-index.json"
-    idx_path.write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
+    idx_path.write_text(
+        json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     return len(index)
 
 
@@ -311,13 +378,18 @@ def build_search():
       })();
       </script>
 """
-    write(SITE / "search.html", page(
-        "Search",
-        "Full-text search across legislation, issues, recommendations, LPAs, appeals, and bottlenecks.",
-        "search", body,
-        "Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence.",
-        next_steps=[
-            ("index.html", "Return to overview"),
-            ("benchmark.html", "Open authority benchmark"),
-            ("recommendations.html", "Open recommendations"),
-        ]))
+    write(
+        SITE / "search.html",
+        page(
+            "Search",
+            "Full-text search across legislation, issues, recommendations, LPAs, appeals, and bottlenecks.",
+            "search",
+            body,
+            "Use keyword search to quickly find relevant records across legislation, plans, issues, recommendations, appeals, and evidence.",
+            next_steps=[
+                ("index.html", "Return to overview"),
+                ("benchmark.html", "Open authority benchmark"),
+                ("recommendations.html", "Open recommendations"),
+            ],
+        ),
+    )

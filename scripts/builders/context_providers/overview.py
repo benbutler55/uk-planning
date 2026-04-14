@@ -1,4 +1,5 @@
 """Context providers for Overview pages (index, search)."""
+
 import html
 from collections import defaultdict
 
@@ -53,9 +54,9 @@ def index_context():
         if len(ordered) < 2:
             continue
         try:
-            delta = float(
-                ordered[-1].get("major_in_time_pct", 0) or 0
-            ) - float(ordered[0].get("major_in_time_pct", 0) or 0)
+            delta = float(ordered[-1].get("major_in_time_pct", 0) or 0) - float(
+                ordered[0].get("major_in_time_pct", 0) or 0
+            )
         except ValueError:
             continue
         deltas.append(delta)
@@ -69,17 +70,15 @@ def index_context():
 
     # Data health snapshot
     health_badges = (
-        f'{badge("fresh", "green")} {health_counts.get("fresh", 0)} '
-        f'{badge("stale", "amber")} {health_counts.get("stale", 0)} '
-        f'{badge("critical", "red")} {health_counts.get("critical", 0)} '
+        f"{badge('fresh', 'green')} {health_counts.get('fresh', 0)} "
+        f"{badge('stale', 'amber')} {health_counts.get('stale', 0)} "
+        f"{badge('critical', 'red')} {health_counts.get('critical', 0)} "
     )
     health_top = None
     if health_rows:
         top = sorted(
             health_rows,
-            key=lambda r: (
-                r["age_days"] if isinstance(r["age_days"], int) else 9999
-            ),
+            key=lambda r: r["age_days"] if isinstance(r["age_days"], int) else 9999,
             reverse=True,
         )[0]
         health_top = {
@@ -154,17 +153,10 @@ def search_context():
                 "Cross-site search for legislation, issues, "
                 "recommendations, LPAs, and evidence."
             ),
-            "who": (
-                "Users with a specific term or topic who need "
-                "a fast entry point."
-            ),
-            "how": (
-                "Enter plain-language terms and open matching "
-                "pages by category."
-            ),
+            "who": ("Users with a specific term or topic who need a fast entry point."),
+            "how": ("Enter plain-language terms and open matching pages by category."),
             "data": (
-                "Search index is generated from current site "
-                "datasets at build time."
+                "Search index is generated from current site datasets at build time."
             ),
         },
         "show_trust_panel": False,

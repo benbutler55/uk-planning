@@ -1,4 +1,5 @@
 """Tests for GOV.UK statistics ingest pipeline."""
+
 import sys
 from pathlib import Path
 
@@ -54,6 +55,7 @@ def test_compute_diff_with_updates():
 
 def test_write_diff_report(tmp_path):
     import ingest_govuk_stats
+
     original = ingest_govuk_stats.REPORT_JSON_PATH
     ingest_govuk_stats.REPORT_JSON_PATH = tmp_path / "report.json"
     try:
@@ -69,6 +71,7 @@ def test_write_diff_report(tmp_path):
 def test_append_history(tmp_path):
     import ingest_govuk_stats
     import json
+
     original = ingest_govuk_stats.HISTORY_PATH
     ingest_govuk_stats.HISTORY_PATH = tmp_path / "history.json"
     try:

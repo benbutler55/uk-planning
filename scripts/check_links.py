@@ -24,7 +24,11 @@ class LinkCollector(HTMLParser):
 
 
 def is_external(link):
-    return link.startswith("http://") or link.startswith("https://") or link.startswith("mailto:")
+    return (
+        link.startswith("http://")
+        or link.startswith("https://")
+        or link.startswith("mailto:")
+    )
 
 
 def normalize(link):

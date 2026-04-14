@@ -1,19 +1,28 @@
 """Context providers for System Analysis pages: legislation, contradictions,
 contradiction details, bottlenecks, appeals, baselines."""
+
 import html as html_lib
 from collections import defaultdict
 
 from ..config import ROOT
 from ..data_loader import read_csv
 from ..metrics import (
-    weighted_score, split_pipe_values, issue_detail_page,
-    recommendation_detail_page, query_value,
+    weighted_score,
+    split_pipe_values,
+    issue_detail_page,
+    recommendation_detail_page,
+    query_value,
 )
 from ..html_utils import (
-    confidence_badge, verification_badge,
-    render_table, render_table_guide,
-    render_filter_controls, render_filterable_table, render_filter_script,
-    render_table_enhancements_script, render_mobile_drawer_script,
+    confidence_badge,
+    verification_badge,
+    render_table,
+    render_table_guide,
+    render_filter_controls,
+    render_filterable_table,
+    render_filter_script,
+    render_table_enhancements_script,
+    render_mobile_drawer_script,
     render_detail_toc,
 )
 
@@ -24,27 +33,40 @@ def legislation_context():
     policy_rows = read_csv(ROOT / "data/policy/england-national-policy.csv")
 
     legislation_columns = [
-        ("title", "Instrument"), ("type", "Type"), ("status", "Status"),
-        ("decision_weight", "Decision Weight"), ("citation", "Citation"),
+        ("title", "Instrument"),
+        ("type", "Type"),
+        ("status", "Status"),
+        ("decision_weight", "Decision Weight"),
+        ("citation", "Citation"),
         ("source_url", "Source"),
     ]
     policy_columns = [
-        ("title", "Policy or Guidance"), ("type", "Type"), ("authority", "Owner"),
-        ("status", "Status"), ("scope", "Scope"), ("source_url", "Source"),
+        ("title", "Policy or Guidance"),
+        ("type", "Type"),
+        ("authority", "Owner"),
+        ("status", "Status"),
+        ("scope", "Scope"),
+        ("source_url", "Source"),
     ]
 
-    table_guide_html = render_table_guide("How to read this table", [
-        "Each row is one legal or policy instrument used in planning decisions.",
-        "Decision weight indicates practical influence in decision making.",
-        "Use status and type together to separate in-force law from guidance.",
-        "Source links open the originating official publication.",
-    ])
+    table_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one legal or policy instrument used in planning decisions.",
+            "Decision weight indicates practical influence in decision making.",
+            "Use status and type together to separate in-force law from guidance.",
+            "Source links open the originating official publication.",
+        ],
+    )
     legislation_table_html = render_table(rows, legislation_columns)
-    policy_guide_html = render_table_guide("How to read the policy index", [
-        "This table complements legislation with national policy and guidance records.",
-        "Scope helps identify whether a record applies to housing, infrastructure, or mixed pathways.",
-        "Owner identifies the responsible body for updates.",
-    ])
+    policy_guide_html = render_table_guide(
+        "How to read the policy index",
+        [
+            "This table complements legislation with national policy and guidance records.",
+            "Scope helps identify whether a record applies to housing, infrastructure, or mixed pathways.",
+            "Owner identifies the responsible body for updates.",
+        ],
+    )
     policy_table_html = render_table(policy_rows, policy_columns)
 
     return {
@@ -79,15 +101,24 @@ def contradictions_context(weights):
         row["weighted_score"] = str(weighted_score(row, weights))
 
     columns = [
-        ("issue_id", "Issue"), ("scope", "Scope"), ("issue_type", "Type"),
-        ("affected_pathway", "Pathway"), ("weighted_score", "Weighted Score"),
-        ("severity_score", "Severity"), ("delay_impact_score", "Delay"),
-        ("verification_state", "Status"), ("confidence", "Confidence"),
+        ("issue_id", "Issue"),
+        ("scope", "Scope"),
+        ("issue_type", "Type"),
+        ("affected_pathway", "Pathway"),
+        ("weighted_score", "Weighted Score"),
+        ("severity_score", "Severity"),
+        ("delay_impact_score", "Delay"),
+        ("verification_state", "Status"),
+        ("confidence", "Confidence"),
         ("summary", "Summary"),
     ]
 
     issue_count = len(rows)
-    avg_ws = sum(float(r["weighted_score"]) for r in rows) / issue_count if issue_count else 0
+    avg_ws = (
+        sum(float(r["weighted_score"]) for r in rows) / issue_count
+        if issue_count
+        else 0
+    )
 
     counts_by_type = defaultdict(int)
     for row in rows:
@@ -101,37 +132,67 @@ def contradictions_context(weights):
 
     # Filter options
     issue_types = sorted({r.get("issue_type", "") for r in rows if r.get("issue_type")})
-    pathways = sorted({r.get("affected_pathway", "") for r in rows if r.get("affected_pathway")})
+    pathways = sorted(
+        {r.get("affected_pathway", "") for r in rows if r.get("affected_pathway")}
+    )
     scopes = sorted({r.get("scope", "") for r in rows if r.get("scope")})
 
     # Pre-rendered HTML blocks from html_utils helpers
-    filter_controls_html = render_filter_controls("issues-table", "Search issues", [
-        ("issue_type", "Type", issue_types),
-        ("affected_pathway", "Pathway", pathways),
-        ("scope", "Scope", scopes),
-    ])
-    table_guide_html = render_table_guide("How to read this table", [
-        "Each row is one contradiction record.",
-        "Weighted score combines severity, frequency, legal risk, delay impact, and fixability.",
-        "Higher scores indicate higher operational priority.",
-        "Confidence and verification badges show evidence maturity.",
-        "Click an Issue ID to open the full contradiction drill-down page.",
-    ])
+    filter_controls_html = render_filter_controls(
+        "issues-table",
+        "Search issues",
+        [
+            ("issue_type", "Type", issue_types),
+            ("affected_pathway", "Pathway", pathways),
+            ("scope", "Scope", scopes),
+        ],
+    )
+    table_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one contradiction record.",
+            "Weighted score combines severity, frequency, legal risk, delay impact, and fixability.",
+            "Higher scores indicate higher operational priority.",
+            "Confidence and verification badges show evidence maturity.",
+            "Click an Issue ID to open the full contradiction drill-down page.",
+        ],
+    )
     data_fields = [
-        "issue_id", "scope", "issue_type", "affected_pathway",
-        "summary", "confidence", "verification_state",
+        "issue_id",
+        "scope",
+        "issue_type",
+        "affected_pathway",
+        "summary",
+        "confidence",
+        "verification_state",
     ]
-    filterable_table_html = render_filterable_table(rows, columns, "issues-table", data_fields)
+    filterable_table_html = render_filterable_table(
+        rows, columns, "issues-table", data_fields
+    )
     filter_script = render_filter_script("issues-table", data_fields)
-    enhancements_script = render_table_enhancements_script("issues-table", presets=[
-        {"label": "Housing only", "filters": {"affected_pathway": "housing"}},
-        {"label": "National scope", "filters": {"scope": "national"}},
-        {"label": "High confidence", "filters": {"confidence": "high"}},
-    ])
-    drawer_script = render_mobile_drawer_script("issues-table", [
-        "Issue", "Scope", "Type", "Pathway", "Weighted Score",
-        "Severity", "Delay", "Status", "Confidence", "Summary",
-    ])
+    enhancements_script = render_table_enhancements_script(
+        "issues-table",
+        presets=[
+            {"label": "Housing only", "filters": {"affected_pathway": "housing"}},
+            {"label": "National scope", "filters": {"scope": "national"}},
+            {"label": "High confidence", "filters": {"confidence": "high"}},
+        ],
+    )
+    drawer_script = render_mobile_drawer_script(
+        "issues-table",
+        [
+            "Issue",
+            "Scope",
+            "Type",
+            "Pathway",
+            "Weighted Score",
+            "Severity",
+            "Delay",
+            "Status",
+            "Confidence",
+            "Summary",
+        ],
+    )
 
     return {
         "output_filename": "contradictions.html",
@@ -205,19 +266,23 @@ def contradiction_detail_contexts(weights):
         recs_with_ev = []
         for rec in linked_recs:
             rid = rec.get("recommendation_id", "")
-            recs_with_ev.append({
-                **rec,
-                "detail_href": recommendation_detail_page(rid),
-                "evidence_count": str(len(ev_by_rec.get(rid, []))),
-            })
+            recs_with_ev.append(
+                {
+                    **rec,
+                    "detail_href": recommendation_detail_page(rid),
+                    "evidence_count": str(len(ev_by_rec.get(rid, []))),
+                }
+            )
 
         # Linked appeals with source handling
         appeals_data = []
         for ap in linked_appeals:
-            appeals_data.append({
-                **ap,
-                "has_source": bool(ap.get("source_url", "")),
-            })
+            appeals_data.append(
+                {
+                    **ap,
+                    "has_source": bool(ap.get("source_url", "")),
+                }
+            )
 
         # Affected authorities observed in appeals
         seen = set()
@@ -230,24 +295,32 @@ def contradiction_detail_contexts(weights):
             lpa = lpa_by_name.get(key)
             if lpa:
                 pid = lpa.get("pilot_id", "")
-                authority_links.append({
-                    "html": f'<a href="plans-{pid.lower()}.html">{html_lib.escape(lpa.get("lpa_name", ""))}</a>',
-                })
+                authority_links.append(
+                    {
+                        "html": f'<a href="plans-{pid.lower()}.html">{html_lib.escape(lpa.get("lpa_name", ""))}</a>',
+                    }
+                )
             else:
-                authority_links.append({
-                    "html": html_lib.escape(ap.get("lpa", "")),
-                })
+                authority_links.append(
+                    {
+                        "html": html_lib.escape(ap.get("lpa", "")),
+                    }
+                )
 
         # TOC
-        toc_html = render_detail_toc([
-            ("summary", "Summary"),
-            ("evidence", "Evidence"),
-            ("connected-items", "Connected items"),
-            ("actions", "Actions"),
-        ])
+        toc_html = render_detail_toc(
+            [
+                ("summary", "Summary"),
+                ("evidence", "Evidence"),
+                ("connected-items", "Connected items"),
+                ("actions", "Actions"),
+            ]
+        )
 
         # Badges
-        verification_badge_html = verification_badge(issue.get("verification_state", ""))
+        verification_badge_html = verification_badge(
+            issue.get("verification_state", "")
+        )
         confidence_badge_html = confidence_badge(issue.get("confidence", ""))
 
         # Linked instruments
@@ -305,12 +378,22 @@ def contradiction_detail_contexts(weights):
 def bottlenecks_context():
     """Return template context dict for bottlenecks.html."""
     rows = read_csv(ROOT / "data/issues/bottleneck-heatmap.csv")
-    stages = ["Pre-application", "Validation", "Consultation", "Committee",
-              "Legal Agreements", "Condition Discharge"]
+    stages = [
+        "Pre-application",
+        "Validation",
+        "Consultation",
+        "Committee",
+        "Legal Agreements",
+        "Condition Discharge",
+    ]
     pathways = ["Housing", "Commercial", "Infrastructure", "Mixed"]
 
     total_delay = sum(float(r.get("median_delay_weeks", 0) or 0) for r in rows)
-    worst = max(rows, key=lambda r: float(r.get("median_delay_weeks", 0) or 0)) if rows else {}
+    worst = (
+        max(rows, key=lambda r: float(r.get("median_delay_weeks", 0) or 0))
+        if rows
+        else {}
+    )
 
     # Build heatmap lookup
     by_stage_pathway = {}
@@ -327,23 +410,35 @@ def bottlenecks_context():
             if entry:
                 weeks = float(entry.get("median_delay_weeks", 0) or 0)
                 sev = entry.get("severity", "Low")
-                css = {"High": "badge-red", "Medium": "badge-amber", "Low": "badge-green"}.get(sev, "badge-grey")
+                css = {
+                    "High": "badge-red",
+                    "Medium": "badge-amber",
+                    "Low": "badge-green",
+                }.get(sev, "badge-grey")
                 cells.append({"weeks": f"{weeks:.0f}", "css": css, "has_data": True})
             else:
                 cells.append({"has_data": False})
         heatmap_rows.append({"stage": stage, "cells": cells})
 
     detail_columns = [
-        ("stage_id", "ID"), ("process_stage", "Stage"), ("pathway", "Pathway"),
-        ("median_delay_weeks", "Median Delay (weeks)"), ("frequency", "Frequency"),
-        ("severity", "Severity"), ("delay_driver", "Driver"), ("linked_issues", "Issues"),
+        ("stage_id", "ID"),
+        ("process_stage", "Stage"),
+        ("pathway", "Pathway"),
+        ("median_delay_weeks", "Median Delay (weeks)"),
+        ("frequency", "Frequency"),
+        ("severity", "Severity"),
+        ("delay_driver", "Driver"),
+        ("linked_issues", "Issues"),
     ]
-    detail_guide_html = render_table_guide("How to read this table", [
-        "Each row is one process-stage bottleneck with pathway context.",
-        "Median delay shows central delay impact for that bottleneck pattern.",
-        "Frequency indicates how often the issue appears in tracked records.",
-        "Use linked issues to cross-reference contradiction evidence.",
-    ])
+    detail_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one process-stage bottleneck with pathway context.",
+            "Median delay shows central delay impact for that bottleneck pattern.",
+            "Frequency indicates how often the issue appears in tracked records.",
+            "Use linked issues to cross-reference contradiction evidence.",
+        ],
+    )
     detail_table_html = render_table(rows, detail_columns)
 
     return {
@@ -383,25 +478,47 @@ def appeals_context():
     outcomes = sorted({r.get("outcome", "") for r in rows if r.get("outcome")})
     linked = sorted({r.get("linked_issue", "") for r in rows if r.get("linked_issue")})
 
-    filter_controls_html = render_filter_controls("appeals-table", "Search appeals", [
-        ("outcome", "Outcome", outcomes),
-        ("linked_issue", "Linked Issue", linked),
-    ])
-    table_guide_html = render_table_guide("How to read this table", [
-        "Each row is one appeal decision linked to a tracked issue.",
-        "Outcome and inspector finding show how issues appear in practice.",
-        "Linked issue connects this evidence to the contradiction register.",
-        "These entries are illustrative evidence, not a full census of appeals.",
-    ])
+    filter_controls_html = render_filter_controls(
+        "appeals-table",
+        "Search appeals",
+        [
+            ("outcome", "Outcome", outcomes),
+            ("linked_issue", "Linked Issue", linked),
+        ],
+    )
+    table_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one appeal decision linked to a tracked issue.",
+            "Outcome and inspector finding show how issues appear in practice.",
+            "Linked issue connects this evidence to the contradiction register.",
+            "These entries are illustrative evidence, not a full census of appeals.",
+        ],
+    )
 
     columns = [
-        ("appeal_id", "ID"), ("pins_reference", "PINS Reference"), ("appeal_type", "Type"),
-        ("lpa", "LPA"), ("decision_date", "Date"), ("outcome", "Outcome"),
-        ("linked_issue", "Issue"), ("policy_cited", "Policy"), ("inspector_finding", "Inspector Finding"),
+        ("appeal_id", "ID"),
+        ("pins_reference", "PINS Reference"),
+        ("appeal_type", "Type"),
+        ("lpa", "LPA"),
+        ("decision_date", "Date"),
+        ("outcome", "Outcome"),
+        ("linked_issue", "Issue"),
+        ("policy_cited", "Policy"),
+        ("inspector_finding", "Inspector Finding"),
         ("source_url", "Source"),
     ]
-    data_fields = ["appeal_id", "lpa", "outcome", "linked_issue", "policy_cited", "inspector_finding"]
-    filterable_table_html = render_filterable_table(rows, columns, "appeals-table", data_fields)
+    data_fields = [
+        "appeal_id",
+        "lpa",
+        "outcome",
+        "linked_issue",
+        "policy_cited",
+        "inspector_finding",
+    ]
+    filterable_table_html = render_filterable_table(
+        rows, columns, "appeals-table", data_fields
+    )
     filter_script = render_filter_script("appeals-table", data_fields)
 
     # Issue cross-reference
@@ -410,11 +527,13 @@ def appeals_context():
         linked_by_issue[r.get("linked_issue", "")].append(r["appeal_id"])
     cross_ref = []
     for issue_id, appeal_ids in sorted(linked_by_issue.items()):
-        cross_ref.append({
-            "issue_id": issue_id,
-            "summary": issue_map.get(issue_id, ""),
-            "appeal_ids": ", ".join(appeal_ids),
-        })
+        cross_ref.append(
+            {
+                "issue_id": issue_id,
+                "summary": issue_map.get(issue_id, ""),
+                "appeal_ids": ", ".join(appeal_ids),
+            }
+        )
 
     return {
         "output_filename": "appeals.html",
@@ -446,17 +565,28 @@ def baselines_context():
     """Return template context dict for baselines.html."""
     rows = read_csv(ROOT / "data/evidence/official_baseline_metrics.csv")
 
-    table_guide_html = render_table_guide("How to read this table", [
-        "Each row is one baseline metric with source and period context.",
-        "Compare geography and pathway before drawing conclusions.",
-        "Period and retrieved_at dates help assess recency.",
-        "Use these values as current-state benchmarks for reform impact.",
-    ])
-    table_html = render_table(rows, [
-        ("metric_id", "ID"), ("metric_name", "Metric"), ("source_table", "Source"),
-        ("geography", "Geography"), ("pathway", "Pathway"), ("value", "Value"),
-        ("unit", "Unit"), ("period", "Period"),
-    ])
+    table_guide_html = render_table_guide(
+        "How to read this table",
+        [
+            "Each row is one baseline metric with source and period context.",
+            "Compare geography and pathway before drawing conclusions.",
+            "Period and retrieved_at dates help assess recency.",
+            "Use these values as current-state benchmarks for reform impact.",
+        ],
+    )
+    table_html = render_table(
+        rows,
+        [
+            ("metric_id", "ID"),
+            ("metric_name", "Metric"),
+            ("source_table", "Source"),
+            ("geography", "Geography"),
+            ("pathway", "Pathway"),
+            ("value", "Value"),
+            ("unit", "Unit"),
+            ("period", "Period"),
+        ],
+    )
 
     return {
         "output_filename": "baselines.html",

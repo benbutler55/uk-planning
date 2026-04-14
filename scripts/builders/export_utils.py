@@ -1,4 +1,5 @@
 """Export utilities: CSV/JSON exports, manifest generation, UX KPI report."""
+
 import csv
 import hashlib
 import json
@@ -20,7 +21,9 @@ def write_exports(datasets):
                 w.writerows(rows)
             # JSON
             json_path = EXPORTS / f"{name}.json"
-            json_path.write_text(json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8")
+            json_path.write_text(
+                json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
 
 
 def write_exports_manifest(datasets):
@@ -40,27 +43,33 @@ def write_exports_manifest(datasets):
                     latest = candidate
     if latest is None:
         latest = date.today()
-    generated = datetime(latest.year, latest.month, latest.day, 0, 0, 0).isoformat() + "Z"
+    generated = (
+        datetime(latest.year, latest.month, latest.day, 0, 0, 0).isoformat() + "Z"
+    )
     items = []
     for name, rows in datasets.items():
         encoded = json.dumps(rows, sort_keys=True, ensure_ascii=False).encode("utf-8")
         digest = hashlib.sha256(encoded).hexdigest()
         fields = list(rows[0].keys()) if rows else []
-        items.append({
-            "dataset": name,
-            "row_count": len(rows),
-            "fields": fields,
-            "content_sha256": digest,
-            "csv_path": f"exports/{name}.csv",
-            "json_path": f"exports/{name}.json",
-        })
+        items.append(
+            {
+                "dataset": name,
+                "row_count": len(rows),
+                "fields": fields,
+                "content_sha256": digest,
+                "csv_path": f"exports/{name}.csv",
+                "json_path": f"exports/{name}.json",
+            }
+        )
     manifest = {
         "version": BUILD_VERSION,
         "generated_at": generated,
         "dataset_count": len(items),
         "datasets": sorted(items, key=lambda x: x["dataset"]),
     }
-    (EXPORTS / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    (EXPORTS / "manifest.json").write_text(
+        json.dumps(manifest, indent=2), encoding="utf-8"
+    )
 
 
 # --- Page builders ---
@@ -69,7 +78,9 @@ def write_exports_manifest(datasets):
 def build_ux_kpi_report():
     contradictions = read_csv(ROOT / "data/issues/contradiction-register.csv")
     recommendations = read_csv(ROOT / "data/issues/recommendations.csv")
-    coverage_rows, coverage_counts = compute_onboarding_status_rows(profile_page_check=True)
+    coverage_rows, coverage_counts = compute_onboarding_status_rows(
+        profile_page_check=True
+    )
     report = {
         "generated_at": date.today().isoformat(),
         "kpis": {
@@ -93,8 +104,12 @@ def build_ux_kpi_report():
     }
     reports_dir = SITE / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
-    (reports_dir / "ux-kpi-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
-    with (reports_dir / "ux-kpi-report.csv").open("w", newline="", encoding="utf-8") as f:
+    (reports_dir / "ux-kpi-report.json").write_text(
+        json.dumps(report, indent=2), encoding="utf-8"
+    )
+    with (reports_dir / "ux-kpi-report.csv").open(
+        "w", newline="", encoding="utf-8"
+    ) as f:
         w = csv.writer(f)
         w.writerow(["metric", "value"])
         w.writerow(["contradiction_detail_pages", len(contradictions)])

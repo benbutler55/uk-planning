@@ -1,4 +1,5 @@
 """Context providers for Data & Methods pages."""
+
 from ..config import ROOT
 from ..data_loader import compute_data_health, read_csv
 from ..html_helpers import DEFAULT_PURPOSE
@@ -78,11 +79,16 @@ def sources_context():
 def exports_context():
     """Return template context dict for exports.html."""
     dataset_names = [
-        "contradiction-register", "recommendations",
-        "recommendation_evidence_links", "official_baseline_metrics",
-        "implementation-roadmap", "bottleneck-heatmap",
-        "appeal-decisions", "lpa-data-quality",
-        "lpa-quarterly-trends", "lpa-issue-incidence",
+        "contradiction-register",
+        "recommendations",
+        "recommendation_evidence_links",
+        "official_baseline_metrics",
+        "implementation-roadmap",
+        "bottleneck-heatmap",
+        "appeal-decisions",
+        "lpa-data-quality",
+        "lpa-quarterly-trends",
+        "lpa-issue-incidence",
     ]
     return {
         "output_filename": "exports.html",
@@ -107,7 +113,7 @@ def data_health_context():
     # Sort by age descending (n/a treated as 9999)
     sorted_rows = sorted(
         rows,
-        key=lambda r: (r["age_days"] if isinstance(r["age_days"], int) else 9999),
+        key=lambda r: r["age_days"] if isinstance(r["age_days"], int) else 9999,
         reverse=True,
     )
     # Prepare trust panel rows with sort_age for the partial template
