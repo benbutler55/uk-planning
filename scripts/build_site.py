@@ -15,11 +15,11 @@ from builders.context_providers.analysis import (
     contradiction_detail_contexts, bottlenecks_context,
     appeals_context, baselines_context,
 )
-from builders.page_authorities import (
-    build_plans, build_map, build_compare, build_benchmark,
-    build_reports, build_coverage,
+from builders.context_providers.authorities import (
+    plans_context, plans_detail_contexts,
+    map_context, compare_context, benchmark_context,
+    trends_context, reports_context, coverage_context,
 )
-from builders.page_trends import build_trends
 from builders.context_providers.recommendations import (
     recommendations_context, recommendation_detail_contexts,
     roadmap_context, consultation_context,
@@ -39,13 +39,6 @@ from builders.page_audiences import (
 def main():
     weights = load_scoring()
 
-    build_plans()
-    build_map()
-    build_compare()
-    build_benchmark()
-    build_trends()
-    build_reports()
-    build_coverage()
     build_search_index()
     build_audience_policymakers()
     build_audience_lpas()
@@ -77,6 +70,18 @@ def main():
     for detail_ctx in recommendation_detail_contexts():
         page_name = detail_ctx["output_filename"].replace(".html", "")
         builder.register(page_name, "pages/recommendation_detail.html",
+                         lambda c=detail_ctx: c)
+    # Authority Insights pages
+    builder.register("plans", "pages/plans.html", plans_context)
+    builder.register("map", "pages/map.html", map_context)
+    builder.register("compare", "pages/compare.html", compare_context)
+    builder.register("benchmark", "pages/benchmark.html", benchmark_context)
+    builder.register("trends", "pages/trends.html", trends_context)
+    builder.register("reports", "pages/reports.html", reports_context)
+    builder.register("coverage", "pages/coverage.html", coverage_context)
+    for detail_ctx in plans_detail_contexts():
+        page_name = detail_ctx["output_filename"].replace(".html", "")
+        builder.register(page_name, "pages/plans_detail.html",
                          lambda c=detail_ctx: c)
     builder.render_all()
 
