@@ -20,9 +20,9 @@ from builders.page_authorities import (
     build_reports, build_coverage,
 )
 from builders.page_trends import build_trends
-from builders.page_recommendations import (
-    build_recommendations, build_recommendation_details,
-    build_roadmap, build_consultation,
+from builders.context_providers.recommendations import (
+    recommendations_context, recommendation_detail_contexts,
+    roadmap_context, consultation_context,
 )
 from builders.context_providers.methods import (
     methodology_context, metric_methods_context,
@@ -40,16 +40,12 @@ def main():
     weights = load_scoring()
 
     build_plans()
-    build_recommendations(weights)
-    build_recommendation_details()
-    build_roadmap()
     build_map()
     build_compare()
     build_benchmark()
     build_trends()
     build_reports()
     build_coverage()
-    build_consultation()
     build_search_index()
     build_audience_policymakers()
     build_audience_lpas()
@@ -73,6 +69,14 @@ def main():
     for detail_ctx in contradiction_detail_contexts(weights):
         page_name = detail_ctx["output_filename"].replace(".html", "")
         builder.register(page_name, "pages/contradiction_detail.html",
+                         lambda c=detail_ctx: c)
+    builder.register("recommendations", "pages/recommendations.html",
+                     lambda: recommendations_context(weights))
+    builder.register("roadmap", "pages/roadmap.html", roadmap_context)
+    builder.register("consultation", "pages/consultation.html", consultation_context)
+    for detail_ctx in recommendation_detail_contexts():
+        page_name = detail_ctx["output_filename"].replace(".html", "")
+        builder.register(page_name, "pages/recommendation_detail.html",
                          lambda c=detail_ctx: c)
     builder.render_all()
 

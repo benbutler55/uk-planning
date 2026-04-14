@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+<h2>Disclaimer</h2>
+<p>This analysis is <strong>advisory only</strong>. It does not constitute legal advice. All recommendations are at <em>draft</em> verification state and have not been legally reviewed. Model drafting text is provided for discussion purposes and is not intended to be used as statutory language without independent legal review. The analysis covers England only. The authors have no affiliation with MHCLG, PINS, or any local planning authority.</p>
+</section>
+<section class="grid">
+{% for status, count in status_summary %}
+<article class="card"><h3>{{ status }}</h3><p>{{ count }} recommendation(s)</p></article>
+{% endfor %}
+</section>
+<section class="card"><h2>Submission Status Tracker</h2>
+<p class="small">Status terms: Not submitted, Submitted, Response received, Under review, Rejected, Adopted.</p>
+{{ table_guide_html | safe }}
+<table><thead><tr><th>Recommendation</th><th>Title</th><th>Status</th><th>Submitted To</th><th>Next Action</th></tr></thead><tbody>
+{% for row in tracker_rows %}
+<tr><td>{{ row.rid }}</td>
+<td>{{ row.title }}</td>
+<td><span class="badge {{ row.css }}">{{ row.status_val }}</span></td>
+<td>{{ row.submitted_to }}</td>
+<td>{{ row.next_action }}</td></tr>
+{% endfor %}
+</tbody></table></section>
+<section class="card"><h2>Download Recommendations Pack</h2>
+<p>Download the full recommendations as a machine-readable dataset for consultation purposes.</p>
+<ul>
+<li><a href="exports/recommendations.csv">recommendations.csv</a></li>
+<li><a href="exports/recommendations.json">recommendations.json</a></li>
+</ul>
+<button onclick="window.print()" style="margin-top:12px;padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1rem;">Print / Save as PDF</button>
+</section>
+<section class="card"><h2>How to Respond</h2>
+<p>This analysis is published as open data. To contribute evidence, corrections, or policy responses:</p><ul>
+<li>Open an issue on the <a href="https://github.com/benbutler55/uk-planning/issues" target="_blank" rel="noopener">GitHub repository</a>.</li>
+<li>Download the datasets from the <a href="exports.html">Exports</a> page and submit a pull request with updated data.</li>
+<li>Cite this analysis using the repository URL and the version tag.</li>
+</ul></section>
+{% endblock %}

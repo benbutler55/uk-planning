@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="grid">
+<article class="card"><h3>Quick Wins (0-12 months)</h3><p>Guidance and process changes.</p></article>
+<article class="card"><h3>Statutory and Structural (12-24+ months)</h3><p>SI/legislative pathways.</p></article>
+</section>
+<section class="card"><h2>Quick Wins</h2></section>
+{{ quick_guide_html | safe }}
+{{ quick_table_html | safe }}
+<section class="card"><h2>Statutory and Structural</h2></section>
+{{ structural_table_html | safe }}
+<section class="card"><h2>Recommendation to Horizon</h2></section>
+{{ horizon_table_html | safe }}
+{% endblock %}

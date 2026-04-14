@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+{{ filter_controls_html | safe }}
+{{ table_guide_html | safe }}
+{{ filterable_table_html | safe }}
+<section class="card"><h2>Evidence Traces</h2>
+<p>Each recommendation is linked to at least one official dataset row.</p></section>
+{{ evidence_guide_html | safe }}
+{% for trace in evidence_traces %}
+<section class="card"><h3><a href="{{ trace.detail_href }}">{{ trace.rid }}</a>: {{ trace.title }}</h3>
+<p>{{ trace.confidence_badge_html | safe }} {{ trace.verification_badge_html | safe }}</p>
+{% if trace.evidence %}
+<table><thead><tr><th>Source</th><th>Metric</th><th>Baseline</th><th>Window</th><th>Link</th></tr></thead><tbody>
+{% for e in trace.evidence %}
+<tr>
+<td>{{ e.get("source_dataset", "") }}</td>
+<td>{{ e.get("metric_name", "") }}</td>
+<td>{{ e.get("baseline_value", "") }}</td>
+<td>{{ e.get("baseline_window", "") }}</td>
+<td><a href="{{ e.get("source_url", "") }}">Source</a></td></tr>
+{% endfor %}
+</tbody></table>
+{% else %}
+<p><em>No evidence links yet.</em></p>
+{% endif %}
+</section>
+{% endfor %}
+{% endblock %}
+{% block scripts %}
+{{ filter_script | safe }}
+{{ enhancements_script | safe }}
+{% endblock %}
