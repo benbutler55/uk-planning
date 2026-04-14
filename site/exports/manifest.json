@@ -61,9 +61,10 @@
         "fixability_score",
         "summary",
         "verification_state",
-        "confidence"
+        "confidence",
+        "verification_notes"
       ],
-      "content_sha256": "5bc86d412b9c344cb95a8796e99ddd829a1880af296f415d5bbd91d2b11c26b7",
+      "content_sha256": "c8614058f780ab0954cb194e132eedfe845ea12f8851275e692e045222f84095",
       "csv_path": "exports/contradiction-register.csv",
       "json_path": "exports/contradiction-register.json"
     },

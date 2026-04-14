@@ -1,12 +1,11 @@
 {
-  "generated_at": "2026-04-14T20:07:10Z",
   "pilot_id": "LPA-33",
   "lpa_name": "Bath and North East Somerset Council",
-  "coverage_status": "complete",
-  "quality_tier": "B",
-  "cohort": "Cohort 4",
   "region": "South West",
-  "gate_status": {
+  "cohort": "Cohort 4",
+  "quality_tier": "B",
+  "coverage_status": "complete",
+  "checks": {
     "ingest": true,
     "validate": true,
     "profile": true,
@@ -15,11 +14,5 @@
   "failed_checks": [],
   "documents_count": 3,
   "trend_points": 4,
-  "profile_page": "plans-lpa-33.html",
-  "pipeline": [
-    "ingest",
-    "validate",
-    "profile",
-    "qa"
-  ]
+  "profile_page": "plans-lpa-33.html"
 }

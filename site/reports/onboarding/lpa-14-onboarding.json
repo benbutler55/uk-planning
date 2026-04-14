@@ -1,12 +1,11 @@
 {
-  "generated_at": "2026-04-14T20:07:10Z",
   "pilot_id": "LPA-14",
   "lpa_name": "Leicester City Council",
-  "coverage_status": "complete",
-  "quality_tier": "B",
-  "cohort": "Cohort 2",
   "region": "East Midlands",
-  "gate_status": {
+  "cohort": "Cohort 2",
+  "quality_tier": "B",
+  "coverage_status": "complete",
+  "checks": {
     "ingest": true,
     "validate": true,
     "profile": true,
@@ -15,11 +14,5 @@
   "failed_checks": [],
   "documents_count": 2,
   "trend_points": 4,
-  "profile_page": "plans-lpa-14.html",
-  "pipeline": [
-    "ingest",
-    "validate",
-    "profile",
-    "qa"
-  ]
+  "profile_page": "plans-lpa-14.html"
 }

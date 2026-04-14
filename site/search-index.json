@@ -177,7 +177,7 @@
       "type": "contradiction",
       "pathway": "commercial",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -191,7 +191,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -219,7 +219,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -233,7 +233,7 @@
       "type": "contradiction",
       "pathway": "mixed",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -247,7 +247,7 @@
       "type": "contradiction",
       "pathway": "infrastructure",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -261,7 +261,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -275,7 +275,7 @@
       "type": "contradiction",
       "pathway": "mixed",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -289,7 +289,7 @@
       "type": "contradiction",
       "pathway": "infrastructure",
       "confidence": "medium",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
@@ -303,7 +303,7 @@
       "type": "contradiction",
       "pathway": "housing",
       "confidence": "high",
-      "status": "draft",
+      "status": "verified",
       "authority": ""
     }
   },
