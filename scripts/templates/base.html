@@ -1,0 +1,68 @@
+{# Master layout — equivalent of html_utils.page() #}
+{% set section = PAGE_TO_SECTION.get(active, "overview") %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+    {% block head_extra %}{% endblock %}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#filters-start">Skip to filters</a>
+    <a class="skip-link" href="#table-start">Skip to data table</a>
+    <a class="skip-link" href="#evidence-start">Skip to evidence</a>
+    <div class="layout">
+      <header>
+        <h1>{{ title }}</h1>
+        <p class="subhead">{{ subhead }}</p>
+        <div class="header-search"><span class="search-icon" aria-hidden="true">&#128269;</span><a href="search.html">Search</a></div>
+      </header>
+      <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="true">&#9776;</button>
+      <div class="nav-panel nav-panel--open">
+        <nav class="top-nav" aria-label="Main sections">
+          {% for key, cfg in SECTION_CONFIG.items() if key != "audiences" %}
+          <a class="top-tab{{ ' active' if key == section else '' }}" href="{{ cfg.href }}">{{ cfg.label }}</a>
+          {% endfor %}
+        </nav>
+        <nav class="sub-nav" aria-label="Section pages">
+          {% for key, label, href in SECTION_CONFIG[section].children %}
+          <a{{ ' class="active"' | safe if key == active else '' }} href="{{ href }}">{{ label }}</a>
+          {% endfor %}
+        </nav>
+      </div>
+      {% include "partials/_breadcrumbs.html" %}
+      <button type="button" class="print-export" onclick="window.print()">Print / PDF</button>
+      {% include "partials/_shell_utilities.html" %}
+      <main id="main-content">
+        {% include "partials/plain_language.html" %}
+        {% if purpose %}
+        {% include "partials/page_purpose.html" %}
+        {% endif %}
+        {% if context_text %}
+        <section class="card guided-only"><p>{{ context_text }}</p></section>
+        {% endif %}
+        {% if show_trust_panel %}
+        {% include "partials/data_trust_panel.html" %}
+        {% endif %}
+        {% block content %}{% endblock %}
+        {% if next_steps %}
+        <section class="card guided-only"><h2>Next actions</h2><ul>
+          {% for href, label in next_steps %}
+          <li><a href="{{ href }}">{{ label }}</a></li>
+          {% endfor %}
+        </ul></section>
+        {% endif %}
+      </main>
+      {% include "partials/_footer.html" %}
+    </div>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" style="display:none;">&uarr;</button>
+    <script src="assets/shell.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

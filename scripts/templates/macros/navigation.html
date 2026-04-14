@@ -1,0 +1,27 @@
+{% macro detail_toc(items) %}
+<section class="card detail-toc" aria-label="Detail page sections">
+  <h3>On this page</h3>
+  <div class="detail-toc-links">
+    {% for anchor, label in items %}
+    <a href="#{{ anchor }}">{{ label }}</a>
+    {% endfor %}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro metric_context_block(items) %}
+<section class="card guided-only" id="evidence-start">
+  <h3>Metric context</h3>
+  <table><thead><tr><th>Metric</th><th>Definition</th><th>Why it matters</th><th>Source and confidence</th></tr></thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.metric }}</td>
+      <td>{{ item.definition }}</td>
+      <td>{{ item.why }}</td>
+      <td>{{ item.source }}</td>
+    </tr>
+    {% endfor %}
+  </tbody></table>
+</section>
+{% endmacro %}

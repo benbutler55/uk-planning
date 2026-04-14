@@ -1,0 +1,13 @@
+{% macro badge_html(label, css_class) %}
+<span class="badge badge-{{ css_class }}">{{ label }}</span>
+{% endmacro %}
+
+{% macro confidence_badge_html(level) %}
+{% set colors = {"high": "green", "medium": "amber", "low": "red"} %}
+{{ badge_html(level, colors.get(level, "grey")) }}
+{% endmacro %}
+
+{% macro verification_badge_html(state) %}
+{% set colors = {"draft": "grey", "verified": "green", "legal-reviewed": "blue"} %}
+{{ badge_html(state, colors.get(state, "grey")) }}
+{% endmacro %}

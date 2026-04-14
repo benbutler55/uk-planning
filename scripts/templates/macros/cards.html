@@ -1,0 +1,21 @@
+{% macro card_kpi(title, value, source_line) %}
+<article class="card card-kpi">
+  <h3>{{ title }}</h3>
+  <p class="kpi-value">{{ value }}</p>
+  <p class="small">Source: {{ source_line }}</p>
+</article>
+{% endmacro %}
+
+{% macro card_hero(title, text) %}
+<section class="card card-hero">
+  <h2>{{ title }}</h2>
+  <p>{{ text }}</p>
+</section>
+{% endmacro %}
+
+{% macro card_guidance(title, content) %}
+<section class="card card-guidance guided-only">
+  <h2>{{ title }}</h2>
+  {{ content | safe }}
+</section>
+{% endmacro %}

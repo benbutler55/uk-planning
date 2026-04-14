@@ -1,0 +1,20 @@
+{% macro filter_row(table_id, text_label, filter_defs) %}
+<section class="card" id="filters-start">
+  <div class="filter-row">
+    <label class="filter-item">{{ text_label }}
+      <input type="search" aria-label="{{ text_label }}" data-table="{{ table_id }}" data-filter="search" placeholder="Type to search..." />
+    </label>
+    {% for field, label, options in filter_defs %}
+    <label class="filter-item">{{ label }}
+      <select data-table="{{ table_id }}" data-filter="{{ field }}">
+        <option value="">All</option>
+        {% for opt in options %}
+        <option>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endfor %}
+  </div>
+  <p class="small" data-filter-count-for="{{ table_id }}" aria-live="polite" role="status"></p>
+</section>
+{% endmacro %}

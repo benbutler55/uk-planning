@@ -1,0 +1,10 @@
+{% if trust_panel_rows %}
+{% set oldest = trust_panel_rows | sort(attribute='sort_age', reverse=true) | first %}
+<section class="card card-guidance guided-only">
+  <h3>Data trust panel</h3>
+  <p><strong>Source tiers:</strong> Official statistics, administrative references, analytical estimates.</p>
+  <p><strong>Known caveat:</strong> Some authority metrics are estimated proxies and should be interpreted directionally.</p>
+  <p><strong>Latest trust check:</strong> Oldest monitored dataset: {{ oldest.dataset }} ({{ oldest.age_days }} days)</p>
+  <p class="small">See methodology and metric-methods for full caveat details.</p>
+</section>
+{% endif %}

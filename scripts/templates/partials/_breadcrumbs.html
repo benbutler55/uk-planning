@@ -1,0 +1,6 @@
+{% set crumbs = breadcrumbs if breadcrumbs is defined and breadcrumbs else default_breadcrumbs(active) %}
+<div class="breadcrumbs">
+  {% for href, label in crumbs %}
+  <a href="{{ href }}">{{ label }}</a>{{ " &gt; " | safe if not loop.last else "" }}
+  {% endfor %}
+</div>

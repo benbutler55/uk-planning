@@ -1,0 +1,17 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav class="footer-nav" aria-label="Footer navigation">
+      {% for key, cfg in SECTION_CONFIG.items() if key != "audiences" %}
+      <a href="{{ cfg.href }}">{{ cfg.label }}</a>
+      {% endfor %}
+      <a href="search.html">Search</a>
+      <a href="audience-policymakers.html">For Audiences</a>
+    </nav>
+    <div class="footer-meta">
+      <p>{{ BUILD_VERSION }} &middot; Built with open data &middot;
+        <a href="methodology.html">Methodology</a> &middot;
+        <a href="data-health.html">Data Health</a> &middot;
+        <a href="exports.html">Exports</a></p>
+    </div>
+  </div>
+</footer>

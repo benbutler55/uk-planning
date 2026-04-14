@@ -1,0 +1,20 @@
+<section class="shell-utilities">
+  <button type="button" class="utility-toggle" aria-expanded="true">Settings &amp; trust info</button>
+  <div class="utility-body">
+    <div class="utility-row">
+      <label>View mode
+        <select id="view-mode-toggle" aria-label="Toggle guided or expert mode">
+          <option value="guided">Guided</option>
+          <option value="expert">Expert</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="plain-language-toggle" /> Plain-language mode</label>
+      <button type="button" data-copy-view>Copy this view</button>
+    </div>
+    <p class="small">Trust legend:
+      {{ provenance_badge("official") | safe }} Official statistic
+      {{ provenance_badge("estimated") | safe }} Analytical estimate
+      {{ confidence_badge("high") | safe }} Confidence example
+    </p>
+  </div>
+</section>

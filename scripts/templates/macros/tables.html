@@ -1,0 +1,31 @@
+{% macro data_table(rows, columns, table_id="") %}
+<section class="card"{% if table_id %} id="table-start"{% endif %}>
+  <table{% if table_id %} id="{{ table_id }}" class="dense-table"{% endif %}>
+    <thead><tr>
+      {% for key, label in columns %}
+      <th>{{ label }}</th>
+      {% endfor %}
+    </tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        {% for key, label in columns %}
+        <td>{{ render_cell(key, row.get(key, "") or "") | safe }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endmacro %}
+
+{% macro table_guide(title, bullets) %}
+<section class="card">
+  <h3>{{ title }}</h3>
+  <ul>
+    {% for item in bullets %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endmacro %}
