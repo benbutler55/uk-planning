@@ -1,15 +1,15 @@
 # UK Planning Analysis
 
-Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 26 LPAs across 3 cohorts (Cohort 3 added March 2026). Published as a static website on GitHub Pages.
+Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 34 LPAs across 4 cohorts (Cohort 4 added April 2026). Published as a static website on GitHub Pages.
 
-## Current State (v14.0 Phase 4)
+## Current State (v15.0 Phase B)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
-- **26 LPAs across 3 cohorts** with 64 plan document records (including neighbourhood plans)
-- Policy precedence hierarchy mapping for all 26 authorities
+- **34 LPAs across 4 cohorts** with ~86 plan document records (including neighbourhood plans)
+- Policy precedence hierarchy mapping for all 34 authorities
 - 22 issues in contradiction register across all 6 process stages (weighted-scored)
-- **12 verified contradiction records** with full evidence traces
+- **21 verified contradiction records** with full evidence traces
 - Evidence gaps dataset tracking data quality and missing evidence across record types
 - 12 bottleneck records with severity heatmap by stage and pathway
 - 11 recommendations with model drafting text and official evidence traces
@@ -18,7 +18,7 @@ Citation-backed analysis of England's planning system identifying contradictions
 - **15 appeal decision citations** linked to contradiction records
 - 11 recommendation consultation status records
 - Verification state tracked per record (verified/partial/unverified) across contradiction and evidence datasets
-- LPA data quality tiers (`A/B/C`) with coverage scores for all 26 authorities
+- LPA data quality tiers (`A/B/C`) with coverage scores for all 34 authorities
 - Full-text client-side search across all content
 - National Leaflet.js map with decision speed overlay
 - LPA side-by-side comparison page (`compare.html`)
@@ -52,6 +52,9 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Quarterly automated GOV.UK statistics ingest check
 - Ingest workflow now publishes both text and JSON freshness reports as build artifacts
 - Statistics ingest can append quarterly run history (`stats-ingest-history.json`) and source-level freshness details
+- Upgraded GOV.UK ingest pipeline with download, parse, and diff capability for structured data updates
+- Official metric replacement: validation rework rate and delegated share now use official GOV.UK data for tier A authorities (replacing analytical proxies)
+- Jinja2 template architecture: all page builders use `scripts/templates/` for maintainable, reusable HTML generation
 - Data health dashboard page (`data-health.html`) with freshness status for core datasets
 - Export manifest (`site/exports/manifest.json`) includes dataset hashes, row counts, and build timestamp
 - Monthly decision snapshot bundles generated under `site/reports/monthly-snapshot.*`
@@ -80,7 +83,7 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Performance history sections on LPA detail pages
 - Print stylesheet and PDF export button on all pages
 - Comparison history with localStorage persistence
-- 85 generated site pages including benchmark, reports, and trends views
+- ~93 generated site pages including benchmark, reports, trends views, and 8 new LPA profile pages
 
 ## Repository Structure
 
@@ -108,7 +111,7 @@ uk-planning/
 │   ├── plans/
 │   │   ├── lpa-geo.csv              # LPA coordinates for map
 │   │   ├── lpa-data-quality.csv     # LPA evidence quality tiers and coverage scores
-│   │   ├── pilot-lpas.csv           # 26 LPAs across 3 cohorts
+│   │   ├── pilot-lpas.csv           # 34 LPAs across 4 cohorts
 │   │   ├── pilot-plan-documents.csv
 │   │   └── policy-hierarchy.csv
 │   ├── policy/
@@ -118,6 +121,7 @@ uk-planning/
 │       └── scoring.json
 ├── scripts/
 │   ├── build_site.py                # Thin entry point — orchestrates builders/ modules
+│   ├── site_builder.py              # Jinja2-based site builder coordinating template rendering
 │   ├── check_accessibility.py      # Accessibility guardrails for generated HTML
 │   ├── check_metric_drift.py       # Quarter-on-quarter drift threshold checks
 │   ├── check_metric_stability.py   # Stability checks for derived authority metrics
@@ -127,6 +131,11 @@ uk-planning/
 │   ├── onboard_council.py           # Onboarding gate checks and report writer
 │   ├── serve_local.sh
 │   ├── validate_data.py
+│   ├── templates/                   # Jinja2 page templates
+│   │   ├── base.html                # Master layout
+│   │   ├── macros/                  # Reusable template macros
+│   │   ├── pages/                   # Per-page templates
+│   │   └── partials/                # Shared template partials
 │   ├── builders/                    # Modular page-builder package
 │   │   ├── __init__.py
 │   │   ├── config.py                # Paths, constants, site-wide settings
@@ -163,7 +172,7 @@ uk-planning/
 │   │   └── onboarding/              # Per-authority onboarding gate outputs
 │   │   └── ux-kpi-report.json       # Build-time KPI structure and targets artifact
 │   ├── search-index.json            # Client-side search index
-│   └── *.html                       # 85 generated pages
+│   └── *.html                       # ~93 generated pages
 └── .github/workflows/
     ├── ci.yml                       # PR and push: validate, build, link check
     ├── freshness.yml                # Monthly: URL and staleness check
@@ -185,6 +194,12 @@ python3 -m http.server 4173 --directory site
 ```
 
 ## Quality Checks
+
+Setup:
+
+```bash
+pip install -e ".[dev]"
+```
 
 Required before every commit (see `AGENTS.md`):
 
@@ -220,7 +235,7 @@ See `AGENTS.md` for full agent operating rules.
 |------|-------------|
 | `index.html` | Overview and navigation |
 | `legislation.html` | Acts, regulations, and national policy index |
-| `plans.html` | Plan hierarchy and all 26 LPA profiles |
+| `plans.html` | Plan hierarchy and all 34 LPA profiles |
 | `contradictions.html` | Weighted-scored issue register with filters and linked contradiction detail pages |
 | `bottlenecks.html` | Process delay heatmap by stage and pathway |
 | `appeals.html` | PINS appeal decisions linked to contradictions |
