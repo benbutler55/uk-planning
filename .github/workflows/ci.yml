@@ -21,6 +21,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install dependencies
+        run: pip install -e .
+
       - name: Validate data schemas
         run: python3 scripts/validate_data.py
 
