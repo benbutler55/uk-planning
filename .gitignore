@@ -6,3 +6,5 @@ stats-ingest-report.txt
 stats-ingest-report.json
 metric-drift-report.txt
 metric-drift-report.json
+node_modules/
+site/assets/dist/
