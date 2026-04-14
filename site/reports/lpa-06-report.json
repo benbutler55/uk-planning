@@ -29,12 +29,14 @@
     "notes": "County strategic role narrows issue scope but adds consultee complexity"
   },
   "derived_metrics": {
-    "validation_rework_proxy": 13.7,
-    "delegated_ratio_proxy": 79.9,
+    "validation_rework_proxy": 9.7,
+    "delegated_ratio_proxy": 91.3,
     "plan_age_years": 2.3,
     "consultation_lag_proxy": 4.5,
     "backlog_pressure": 51.2,
-    "analytical_confidence": "medium"
+    "analytical_confidence": "medium",
+    "validation_provenance": "official",
+    "delegated_provenance": "official"
   },
   "quarterly_trends": [
     {
@@ -45,7 +47,9 @@
       "appeals_overturned_pct": "2.0",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "9.7",
+      "official_delegated_pct": "91.3"
     },
     {
       "pilot_id": "LPA-06",
@@ -55,7 +59,9 @@
       "appeals_overturned_pct": "2.0",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "9.7",
+      "official_delegated_pct": "91.3"
     },
     {
       "pilot_id": "LPA-06",
@@ -65,7 +71,9 @@
       "appeals_overturned_pct": "1.9",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "9.7",
+      "official_delegated_pct": "91.3"
     },
     {
       "pilot_id": "LPA-06",
@@ -75,7 +83,9 @@
       "appeals_overturned_pct": "1.9",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "9.7",
+      "official_delegated_pct": "91.3"
     }
   ],
   "metric_provenance": {

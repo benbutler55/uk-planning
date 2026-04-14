@@ -129,9 +129,11 @@
         "appeals_overturned_pct",
         "source_table",
         "source_url",
-        "retrieved_at"
+        "retrieved_at",
+        "official_validation_return_pct",
+        "official_delegated_pct"
       ],
-      "content_sha256": "80fa09ffee549aa40e7b701e1f24726421a9046099e7bde09d703243d3d48a57",
+      "content_sha256": "56301c27614b4ada317af85072161b11a95e4170d586ad7e2f7f01afb5065814",
       "csv_path": "exports/lpa-quarterly-trends.csv",
       "json_path": "exports/lpa-quarterly-trends.json"
     },

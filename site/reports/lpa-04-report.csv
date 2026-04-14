@@ -18,8 +18,8 @@ major_in_time_pct_provenance,official
 appeals_overturned_pct_provenance,official
 issue_incidence_provenance,estimated
 data_quality_provenance,estimated
-validation_rework_proxy,13.6
-delegated_ratio_proxy,88.9
+validation_rework_proxy,8.9
+delegated_ratio_proxy,93.6
 plan_age_years,3.3
 consultation_lag_proxy,4.8
 backlog_pressure,42.6

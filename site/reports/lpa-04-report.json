@@ -29,12 +29,14 @@
     "notes": "Large geography and environmental consultations are key bottlenecks"
   },
   "derived_metrics": {
-    "validation_rework_proxy": 13.6,
-    "delegated_ratio_proxy": 88.9,
+    "validation_rework_proxy": 8.9,
+    "delegated_ratio_proxy": 93.6,
     "plan_age_years": 3.3,
     "consultation_lag_proxy": 4.8,
     "backlog_pressure": 42.6,
-    "analytical_confidence": "medium"
+    "analytical_confidence": "medium",
+    "validation_provenance": "official",
+    "delegated_provenance": "official"
   },
   "quarterly_trends": [
     {
@@ -45,7 +47,9 @@
       "appeals_overturned_pct": "1.9",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "8.9",
+      "official_delegated_pct": "93.6"
     },
     {
       "pilot_id": "LPA-04",
@@ -55,7 +59,9 @@
       "appeals_overturned_pct": "1.9",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "8.9",
+      "official_delegated_pct": "93.6"
     },
     {
       "pilot_id": "LPA-04",
@@ -65,7 +71,9 @@
       "appeals_overturned_pct": "1.8",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "8.9",
+      "official_delegated_pct": "93.6"
     },
     {
       "pilot_id": "LPA-04",
@@ -75,7 +83,9 @@
       "appeals_overturned_pct": "1.8",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "8.9",
+      "official_delegated_pct": "93.6"
     }
   ],
   "metric_provenance": {

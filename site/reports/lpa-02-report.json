@@ -29,12 +29,14 @@
     "notes": "Housing policy-weight disputes and constrained land supply dominate"
   },
   "derived_metrics": {
-    "validation_rework_proxy": 12.9,
-    "delegated_ratio_proxy": 82.1,
+    "validation_rework_proxy": 13.5,
+    "delegated_ratio_proxy": 88.4,
     "plan_age_years": 5.3,
     "consultation_lag_proxy": 4.2,
     "backlog_pressure": 77.8,
-    "analytical_confidence": "high"
+    "analytical_confidence": "high",
+    "validation_provenance": "official",
+    "delegated_provenance": "official"
   },
   "quarterly_trends": [
     {
@@ -45,7 +47,9 @@
       "appeals_overturned_pct": "2.8",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "13.5",
+      "official_delegated_pct": "88.4"
     },
     {
       "pilot_id": "LPA-02",
@@ -55,7 +59,9 @@
       "appeals_overturned_pct": "2.6",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "13.5",
+      "official_delegated_pct": "88.4"
     },
     {
       "pilot_id": "LPA-02",
@@ -65,7 +71,9 @@
       "appeals_overturned_pct": "2.5",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "13.5",
+      "official_delegated_pct": "88.4"
     },
     {
       "pilot_id": "LPA-02",
@@ -75,7 +83,9 @@
       "appeals_overturned_pct": "2.4",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "13.5",
+      "official_delegated_pct": "88.4"
     }
   ],
   "metric_provenance": {

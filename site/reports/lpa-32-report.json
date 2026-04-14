@@ -34,7 +34,9 @@
     "plan_age_years": 3.2,
     "consultation_lag_proxy": 5.3,
     "backlog_pressure": 36.8,
-    "analytical_confidence": "low"
+    "analytical_confidence": "low",
+    "validation_provenance": "estimated",
+    "delegated_provenance": "estimated"
   },
   "quarterly_trends": [
     {
@@ -45,7 +47,9 @@
       "appeals_overturned_pct": "2.2",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-04-14"
+      "retrieved_at": "2026-04-14",
+      "official_validation_return_pct": "",
+      "official_delegated_pct": ""
     },
     {
       "pilot_id": "LPA-32",
@@ -55,7 +59,9 @@
       "appeals_overturned_pct": "2.1",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-04-14"
+      "retrieved_at": "2026-04-14",
+      "official_validation_return_pct": "",
+      "official_delegated_pct": ""
     },
     {
       "pilot_id": "LPA-32",
@@ -65,7 +71,9 @@
       "appeals_overturned_pct": "1.9",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-04-14"
+      "retrieved_at": "2026-04-14",
+      "official_validation_return_pct": "",
+      "official_delegated_pct": ""
     },
     {
       "pilot_id": "LPA-32",
@@ -75,7 +83,9 @@
       "appeals_overturned_pct": "1.8",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-04-14"
+      "retrieved_at": "2026-04-14",
+      "official_validation_return_pct": "",
+      "official_delegated_pct": ""
     }
   ],
   "metric_provenance": {

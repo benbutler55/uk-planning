@@ -29,12 +29,14 @@
     "notes": "Emerging plan transition creates front-end uncertainty"
   },
   "derived_metrics": {
-    "validation_rework_proxy": 14.1,
-    "delegated_ratio_proxy": 82.2,
+    "validation_rework_proxy": 11.8,
+    "delegated_ratio_proxy": 90.7,
     "plan_age_years": 5.6,
     "consultation_lag_proxy": 4.2,
     "backlog_pressure": 71.5,
-    "analytical_confidence": "medium"
+    "analytical_confidence": "medium",
+    "validation_provenance": "official",
+    "delegated_provenance": "official"
   },
   "quarterly_trends": [
     {
@@ -45,7 +47,9 @@
       "appeals_overturned_pct": "2.7",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "11.8",
+      "official_delegated_pct": "90.7"
     },
     {
       "pilot_id": "LPA-03",
@@ -55,7 +59,9 @@
       "appeals_overturned_pct": "2.6",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "11.8",
+      "official_delegated_pct": "90.7"
     },
     {
       "pilot_id": "LPA-03",
@@ -65,7 +71,9 @@
       "appeals_overturned_pct": "2.5",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "11.8",
+      "official_delegated_pct": "90.7"
     },
     {
       "pilot_id": "LPA-03",
@@ -75,7 +83,9 @@
       "appeals_overturned_pct": "2.4",
       "source_table": "P151/P152",
       "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
-      "retrieved_at": "2026-03-18"
+      "retrieved_at": "2026-03-18",
+      "official_validation_return_pct": "11.8",
+      "official_delegated_pct": "90.7"
     }
   ],
   "metric_provenance": {

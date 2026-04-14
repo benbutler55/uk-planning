@@ -104,23 +104,53 @@ def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, n
         volatility = (sum((v - mean_speed) ** 2 for v in speeds) / len(speeds)) ** 0.5
 
     # 1) validation rework proxy
-    tier_adjust = {"A": -1.5, "B": 0.0, "C": 2.0}.get(quality_tier, 0.0)
-    issue_adjust = min(4.0, issue_count * 0.12)
-    volatility_adjust = min(1.8, volatility * 0.6)
-    validation_rework_proxy = round(max(5.0, national_validation_proxy + tier_adjust + issue_adjust + volatility_adjust), 1)
+    # Check for official validation data first
+    official_validation = None
+    if trend_rows:
+        val = (trend_rows[-1].get("official_validation_return_pct", "") or "").strip()
+        if val:
+            try:
+                official_validation = float(val)
+            except ValueError:
+                pass
+
+    if official_validation is not None:
+        validation_rework_proxy = official_validation
+        validation_provenance = "official"
+    else:
+        tier_adjust = {"A": -1.5, "B": 0.0, "C": 2.0}.get(quality_tier, 0.0)
+        issue_adjust = min(4.0, issue_count * 0.12)
+        volatility_adjust = min(1.8, volatility * 0.6)
+        validation_rework_proxy = round(max(5.0, national_validation_proxy + tier_adjust + issue_adjust + volatility_adjust), 1)
+        validation_provenance = "estimated"
 
     # 2) delegated decision proxy
-    lpa_type = (lpa.get("lpa_type", "") or "").lower()
-    delegated_base = 90.0
-    if "metropolitan" in lpa_type or "london borough" in lpa_type:
-        delegated_base = 86.0
-    elif "county" in lpa_type:
-        delegated_base = 82.0
-    elif "national park" in lpa_type:
-        delegated_base = 84.0
-    speed_adjust = 0.0 if speed is None else max(-3.0, min(2.0, (speed - 74.0) * 0.12))
-    appeal_adjust = 0.0 if latest_appeal is None else max(-2.5, min(1.0, (1.9 - latest_appeal) * 1.4))
-    delegated_ratio_proxy = round(max(70.0, min(95.0, delegated_base - (high_sev * 0.5) + speed_adjust + appeal_adjust)), 1)
+    # Check for official delegated data first
+    official_delegated = None
+    if trend_rows:
+        val = (trend_rows[-1].get("official_delegated_pct", "") or "").strip()
+        if val:
+            try:
+                official_delegated = float(val)
+            except ValueError:
+                pass
+
+    if official_delegated is not None:
+        delegated_ratio_proxy = official_delegated
+        delegated_provenance = "official"
+    else:
+        lpa_type = (lpa.get("lpa_type", "") or "").lower()
+        delegated_base = 90.0
+        if "metropolitan" in lpa_type or "london borough" in lpa_type:
+            delegated_base = 86.0
+        elif "county" in lpa_type:
+            delegated_base = 82.0
+        elif "national park" in lpa_type:
+            delegated_base = 84.0
+        speed_adjust = 0.0 if speed is None else max(-3.0, min(2.0, (speed - 74.0) * 0.12))
+        appeal_adjust = 0.0 if latest_appeal is None else max(-2.5, min(1.0, (1.9 - latest_appeal) * 1.4))
+        delegated_ratio_proxy = round(max(70.0, min(95.0, delegated_base - (high_sev * 0.5) + speed_adjust + appeal_adjust)), 1)
+        delegated_provenance = "estimated"
 
     # 3) plan age metric
     plan_age_years = derive_plan_age_years(pid, docs_by_lpa)
@@ -148,6 +178,8 @@ def derive_metric_bundle(lpa, issue_row, quality_row, trend_rows, docs_by_lpa, n
         "consultation_lag_proxy": consultation_lag_proxy,
         "backlog_pressure": backlog_pressure,
         "analytical_confidence": analytical_confidence_for_tier(quality_tier),
+        "validation_provenance": validation_provenance,
+        "delegated_provenance": delegated_provenance,
     }
 
 
