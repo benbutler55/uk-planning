@@ -32,6 +32,12 @@ def test_cohort_for_pid_cohort_3():
     assert cohort_for_pid("LPA-26") == "Cohort 3"
 
 
+def test_cohort_for_pid_unknown():
+    from builders.metrics import _COHORT_CACHE
+    _COHORT_CACHE.clear()  # ensure fresh load
+    assert cohort_for_pid("LPA-99") == "Unknown"
+
+
 def test_parse_iso_date_valid():
     assert parse_iso_date("2024-06-15") == date(2024, 6, 15)
 

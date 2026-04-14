@@ -13,15 +13,23 @@ def weighted_score(row, weights):
     return round(total, 2)
 
 
+_COHORT_CACHE = {}
+
+
+def _load_cohort_map():
+    if _COHORT_CACHE:
+        return _COHORT_CACHE
+    from .config import ROOT
+    from .data_loader import read_csv
+    rows = read_csv(ROOT / "data/plans/pilot-lpas.csv")
+    for row in rows:
+        _COHORT_CACHE[row.get("pilot_id", "")] = row.get("cohort", "Unknown")
+    return _COHORT_CACHE
+
+
 def cohort_for_pid(pid):
-    cohort_1 = {"LPA-01", "LPA-02", "LPA-03", "LPA-04", "LPA-05", "LPA-06"}
-    cohort_2 = {"LPA-07", "LPA-08", "LPA-09", "LPA-10", "LPA-11", "LPA-12",
-                "LPA-13", "LPA-14", "LPA-15", "LPA-16"}
-    if pid in cohort_1:
-        return "Cohort 1"
-    if pid in cohort_2:
-        return "Cohort 2"
-    return "Cohort 3"
+    cohort_map = _load_cohort_map()
+    return cohort_map.get(pid, "Unknown")
 
 
 def analytical_confidence_for_tier(tier):

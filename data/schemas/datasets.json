@@ -26,7 +26,7 @@
       "required_columns": [
         "pilot_id", "lpa_name", "lpa_type", "region",
         "selection_rationale", "constraint_profile",
-        "growth_context", "data_access_status"
+        "growth_context", "data_access_status", "cohort"
       ],
       "id_column": "pilot_id"
     },
