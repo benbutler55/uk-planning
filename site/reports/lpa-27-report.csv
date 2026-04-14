@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-04-14
+data_version,v14.0
+pilot_id,LPA-27
+lpa_name,Liverpool City Council
+lpa_type,Metropolitan District
+cohort,Cohort 4
+peer_group,High-growth urban authorities
+region,North West
+growth_context,High growth urban
+constraint_profile,Transport capacity and housing density constraints
+data_quality_tier,B
+coverage_score,80
+total_linked_issues,9
+high_severity_issues,4
+primary_risk_stage,Legal Agreements
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.2
+delegated_ratio_proxy,83.5
+plan_age_years,4.2
+consultation_lag_proxy,4.4
+backlog_pressure,59.6
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

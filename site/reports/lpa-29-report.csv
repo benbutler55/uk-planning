@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-04-14
+data_version,v14.0
+pilot_id,LPA-29
+lpa_name,Coventry City Council
+lpa_type,Metropolitan District
+cohort,Cohort 4
+peer_group,High-growth urban authorities
+region,West Midlands
+growth_context,Urban renewal
+constraint_profile,Transport capacity and brownfield remediation
+data_quality_tier,B
+coverage_score,76
+total_linked_issues,8
+high_severity_issues,3
+primary_risk_stage,Condition Discharge
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.1
+delegated_ratio_proxy,83.7
+plan_age_years,8.4
+consultation_lag_proxy,4.2
+backlog_pressure,60.7
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

@@ -4,5 +4,5 @@ generated_on,2026-04-14
 data_version,v14.0
 top_lpa,"{""pilot_id"": ""LPA-21"", ""lpa_name"": ""Broads Authority"", ""major_in_time_pct"": 85.0}"
 bottom_lpa,"{""pilot_id"": ""LPA-11"", ""lpa_name"": ""Peak District National Park Authority"", ""major_in_time_pct"": 61.0}"
-average_major_in_time_pct,72.73
-authority_count,26
+average_major_in_time_pct,73.24
+authority_count,34

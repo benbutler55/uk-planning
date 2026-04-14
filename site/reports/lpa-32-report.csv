@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-04-14
+data_version,v14.0
+pilot_id,LPA-32
+lpa_name,North Yorkshire Council
+lpa_type,Unitary Authority
+cohort,Cohort 4
+peer_group,Mixed and dispersed authorities
+region,Yorkshire and The Humber
+growth_context,Mixed growth dispersed
+constraint_profile,AONB and minerals safeguarding across dispersed settlement pattern
+data_quality_tier,C
+coverage_score,62
+total_linked_issues,7
+high_severity_issues,2
+primary_risk_stage,Consultation
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,16.2
+delegated_ratio_proxy,89.4
+plan_age_years,3.2
+consultation_lag_proxy,5.3
+backlog_pressure,36.8
+analytical_confidence,low
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

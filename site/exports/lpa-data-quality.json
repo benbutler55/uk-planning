@@ -232,5 +232,77 @@
     "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
     "last_reviewed": "2026-03-30",
     "notes": "Cohort 3 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-27",
+    "lpa_name": "Liverpool City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "80",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-28",
+    "lpa_name": "Exeter City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "78",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "76",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "data_quality_tier": "B",
+    "coverage_score": "82",
+    "evidence_type_mix": "Official stats + London Plan + limited appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-31",
+    "lpa_name": "Lake District National Park Authority",
+    "data_quality_tier": "C",
+    "coverage_score": "58",
+    "evidence_type_mix": "Plan docs + limited official local metrics",
+    "last_reviewed": "2026-04-14",
+    "notes": "National park context reduces comparability of standard metrics"
+  },
+  {
+    "pilot_id": "LPA-32",
+    "lpa_name": "North Yorkshire Council",
+    "data_quality_tier": "C",
+    "coverage_score": "62",
+    "evidence_type_mix": "Official stats + adopted plan + limited evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Post-reorganisation data integration ongoing"
+  },
+  {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "data_quality_tier": "B",
+    "coverage_score": "79",
+    "evidence_type_mix": "Official stats + adopted plan + appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  {
+    "pilot_id": "LPA-34",
+    "lpa_name": "Doncaster Metropolitan Borough Council",
+    "data_quality_tier": "C",
+    "coverage_score": "60",
+    "evidence_type_mix": "Official stats + adopted plan + limited evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
   }
 ]

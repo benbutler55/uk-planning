@@ -1186,6 +1186,118 @@
     }
   },
   {
+    "id": "LPA-27",
+    "page": "plans-lpa-27.html",
+    "title": "Liverpool City Council",
+    "category": "LPA",
+    "text": "liverpool city council north west transport capacity and housing density constraints high growth urban",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "liverpool city council"
+    }
+  },
+  {
+    "id": "LPA-28",
+    "page": "plans-lpa-28.html",
+    "title": "Exeter City Council",
+    "category": "LPA",
+    "text": "exeter city council south west flood risk and green wedge protection high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "exeter city council"
+    }
+  },
+  {
+    "id": "LPA-29",
+    "page": "plans-lpa-29.html",
+    "title": "Coventry City Council",
+    "category": "LPA",
+    "text": "coventry city council west midlands transport capacity and brownfield remediation urban renewal",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "coventry city council"
+    }
+  },
+  {
+    "id": "LPA-30",
+    "page": "plans-lpa-30.html",
+    "title": "Tower Hamlets London Borough",
+    "category": "LPA",
+    "text": "tower hamlets london borough london density and tall buildings policy interaction with london plan very high urban growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "tower hamlets london borough"
+    }
+  },
+  {
+    "id": "LPA-31",
+    "page": "plans-lpa-31.html",
+    "title": "Lake District National Park Authority",
+    "category": "LPA",
+    "text": "lake district national park authority north west national park statutory purposes and affordable housing delivery constrained designated",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "lake district national park authority"
+    }
+  },
+  {
+    "id": "LPA-32",
+    "page": "plans-lpa-32.html",
+    "title": "North Yorkshire Council",
+    "category": "LPA",
+    "text": "north yorkshire council yorkshire and the humber aonb and minerals safeguarding across dispersed settlement pattern mixed growth dispersed",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "north yorkshire council"
+    }
+  },
+  {
+    "id": "LPA-33",
+    "page": "plans-lpa-33.html",
+    "title": "Bath and North East Somerset Council",
+    "category": "LPA",
+    "text": "bath and north east somerset council south west heritage conservation area and green belt constraint interaction high demand constrained",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "bath and north east somerset council"
+    }
+  },
+  {
+    "id": "LPA-34",
+    "page": "plans-lpa-34.html",
+    "title": "Doncaster Metropolitan Borough Council",
+    "category": "LPA",
+    "text": "doncaster metropolitan borough council yorkshire and the humber former mining land remediation and flood risk management regeneration growth",
+    "facets": {
+      "type": "authority",
+      "pathway": "",
+      "confidence": "",
+      "status": "",
+      "authority": "doncaster metropolitan borough council"
+    }
+  },
+  {
     "id": "BN-001",
     "page": "bottlenecks.html",
     "title": "Pre-application — Housing",

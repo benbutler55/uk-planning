@@ -258,5 +258,85 @@
     "primary_risk_stage": "Pre-application",
     "last_reviewed": "2026-03-30",
     "notes": "Cohort 3 initial assessment"
+  },
+  {
+    "pilot_id": "LPA-27",
+    "lpa_name": "Liverpool City Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Legal Agreements",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; waterfront regeneration and s106 complexity"
+  },
+  {
+    "pilot_id": "LPA-28",
+    "lpa_name": "Exeter City Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; flood risk consultee delays"
+  },
+  {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Condition Discharge",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; brownfield remediation condition delays"
+  },
+  {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "total_linked_issues": "10",
+    "high_severity_issues": "5",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; density and tall buildings policy disputes"
+  },
+  {
+    "pilot_id": "LPA-31",
+    "lpa_name": "Lake District National Park Authority",
+    "total_linked_issues": "6",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Pre-application",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; national park purposes create front-end complexity"
+  },
+  {
+    "pilot_id": "LPA-32",
+    "lpa_name": "North Yorkshire Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "2",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Consultation",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; large geography and multiple consultees"
+  },
+  {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; World Heritage Site and heritage disputes at committee"
+  },
+  {
+    "pilot_id": "LPA-34",
+    "lpa_name": "Doncaster Metropolitan Borough Council",
+    "total_linked_issues": "7",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "5",
+    "primary_risk_stage": "Validation",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; former mining land assessment requirements"
   }
 ]

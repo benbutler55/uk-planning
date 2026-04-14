@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-04-14
+data_version,v14.0
+pilot_id,LPA-30
+lpa_name,Tower Hamlets London Borough
+lpa_type,London Borough
+cohort,Cohort 4
+peer_group,London urban authorities
+region,London
+growth_context,Very high urban growth
+constraint_profile,Density and tall buildings policy interaction with London Plan
+data_quality_tier,B
+coverage_score,82
+total_linked_issues,10
+high_severity_issues,5
+primary_risk_stage,Committee
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.4
+delegated_ratio_proxy,81.8
+plan_age_years,5.1
+consultation_lag_proxy,5.0
+backlog_pressure,79.2
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

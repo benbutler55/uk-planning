@@ -1,0 +1,96 @@
+{
+  "report_generated_at": "2026-04-14",
+  "data_version": "v14.0",
+  "pilot_id": "LPA-30",
+  "lpa_name": "Tower Hamlets London Borough",
+  "lpa_type": "London Borough",
+  "cohort": "Cohort 4",
+  "peer_group": "London urban authorities",
+  "region": "London",
+  "growth_context": "Very high urban growth",
+  "constraint_profile": "Density and tall buildings policy interaction with London Plan",
+  "data_quality": {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "data_quality_tier": "B",
+    "coverage_score": "82",
+    "evidence_type_mix": "Official stats + London Plan + limited appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "total_linked_issues": "10",
+    "high_severity_issues": "5",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; density and tall buildings policy disputes"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 14.4,
+    "delegated_ratio_proxy": 81.8,
+    "plan_age_years": 5.1,
+    "consultation_lag_proxy": 5.0,
+    "backlog_pressure": 79.2,
+    "analytical_confidence": "medium"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-30",
+      "lpa_name": "Tower Hamlets London Borough",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "62",
+      "appeals_overturned_pct": "3.0",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-30",
+      "lpa_name": "Tower Hamlets London Borough",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "64",
+      "appeals_overturned_pct": "2.8",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-30",
+      "lpa_name": "Tower Hamlets London Borough",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "66",
+      "appeals_overturned_pct": "2.6",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-30",
+      "lpa_name": "Tower Hamlets London Borough",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "67",
+      "appeals_overturned_pct": "2.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    }
+  ],
+  "metric_provenance": {
+    "major_in_time_pct": "official",
+    "appeals_overturned_pct": "official",
+    "issue_incidence": "estimated",
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
+  },
+  "latest_trend_source": {
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics"
+  }
+}

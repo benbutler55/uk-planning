@@ -1038,5 +1038,325 @@
     "source_table": "P151/P152",
     "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
     "retrieved_at": "2026-03-30"
+  },
+  {
+    "pilot_id": "LPA-27",
+    "lpa_name": "Liverpool City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "67",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-27",
+    "lpa_name": "Liverpool City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "69",
+    "appeals_overturned_pct": "2.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-27",
+    "lpa_name": "Liverpool City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "71",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-27",
+    "lpa_name": "Liverpool City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-28",
+    "lpa_name": "Exeter City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-28",
+    "lpa_name": "Exeter City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "76",
+    "appeals_overturned_pct": "2.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-28",
+    "lpa_name": "Exeter City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "78",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-28",
+    "lpa_name": "Exeter City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "79",
+    "appeals_overturned_pct": "1.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "66",
+    "appeals_overturned_pct": "2.7",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "68",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "71",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "62",
+    "appeals_overturned_pct": "3.0",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "64",
+    "appeals_overturned_pct": "2.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "66",
+    "appeals_overturned_pct": "2.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-30",
+    "lpa_name": "Tower Hamlets London Borough",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "67",
+    "appeals_overturned_pct": "2.5",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-31",
+    "lpa_name": "Lake District National Park Authority",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "78",
+    "appeals_overturned_pct": "1.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-31",
+    "lpa_name": "Lake District National Park Authority",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "80",
+    "appeals_overturned_pct": "1.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-31",
+    "lpa_name": "Lake District National Park Authority",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "82",
+    "appeals_overturned_pct": "1.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-31",
+    "lpa_name": "Lake District National Park Authority",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "84",
+    "appeals_overturned_pct": "1.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-32",
+    "lpa_name": "North Yorkshire Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.2",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-32",
+    "lpa_name": "North Yorkshire Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "72",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-32",
+    "lpa_name": "North Yorkshire Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "74",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-32",
+    "lpa_name": "North Yorkshire Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "76",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "73",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "75",
+    "appeals_overturned_pct": "2.1",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "77",
+    "appeals_overturned_pct": "1.9",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "79",
+    "appeals_overturned_pct": "1.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-34",
+    "lpa_name": "Doncaster Metropolitan Borough Council",
+    "quarter": "2024-Q4",
+    "major_in_time_pct": "65",
+    "appeals_overturned_pct": "2.8",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-34",
+    "lpa_name": "Doncaster Metropolitan Borough Council",
+    "quarter": "2025-Q1",
+    "major_in_time_pct": "67",
+    "appeals_overturned_pct": "2.6",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-34",
+    "lpa_name": "Doncaster Metropolitan Borough Council",
+    "quarter": "2025-Q2",
+    "major_in_time_pct": "70",
+    "appeals_overturned_pct": "2.4",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
+  },
+  {
+    "pilot_id": "LPA-34",
+    "lpa_name": "Doncaster Metropolitan Borough Council",
+    "quarter": "2025-Q3",
+    "major_in_time_pct": "71",
+    "appeals_overturned_pct": "2.3",
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+    "retrieved_at": "2026-04-14"
   }
 ]

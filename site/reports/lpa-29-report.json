@@ -1,0 +1,96 @@
+{
+  "report_generated_at": "2026-04-14",
+  "data_version": "v14.0",
+  "pilot_id": "LPA-29",
+  "lpa_name": "Coventry City Council",
+  "lpa_type": "Metropolitan District",
+  "cohort": "Cohort 4",
+  "peer_group": "High-growth urban authorities",
+  "region": "West Midlands",
+  "growth_context": "Urban renewal",
+  "constraint_profile": "Transport capacity and brownfield remediation",
+  "data_quality": {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "data_quality_tier": "B",
+    "coverage_score": "76",
+    "evidence_type_mix": "Official stats + adopted plan + limited appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-29",
+    "lpa_name": "Coventry City Council",
+    "total_linked_issues": "8",
+    "high_severity_issues": "3",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Condition Discharge",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; brownfield remediation condition delays"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 14.1,
+    "delegated_ratio_proxy": 83.7,
+    "plan_age_years": 8.4,
+    "consultation_lag_proxy": 4.2,
+    "backlog_pressure": 60.7,
+    "analytical_confidence": "medium"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-29",
+      "lpa_name": "Coventry City Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "66",
+      "appeals_overturned_pct": "2.7",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-29",
+      "lpa_name": "Coventry City Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "68",
+      "appeals_overturned_pct": "2.5",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-29",
+      "lpa_name": "Coventry City Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "70",
+      "appeals_overturned_pct": "2.3",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-29",
+      "lpa_name": "Coventry City Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "71",
+      "appeals_overturned_pct": "2.2",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    }
+  ],
+  "metric_provenance": {
+    "major_in_time_pct": "official",
+    "appeals_overturned_pct": "official",
+    "issue_incidence": "estimated",
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
+  },
+  "latest_trend_source": {
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics"
+  }
+}

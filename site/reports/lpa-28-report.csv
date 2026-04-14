@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-04-14
+data_version,v14.0
+pilot_id,LPA-28
+lpa_name,Exeter City Council
+lpa_type,Non-metropolitan District
+cohort,Cohort 4
+peer_group,High-growth urban authorities
+region,South West
+growth_context,High demand constrained
+constraint_profile,Flood risk and green wedge protection
+data_quality_tier,B
+coverage_score,78
+total_linked_issues,7
+high_severity_issues,3
+primary_risk_stage,Consultation
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,14.0
+delegated_ratio_proxy,85.4
+plan_age_years,14.1
+consultation_lag_proxy,4.8
+backlog_pressure,65.3
+analytical_confidence,medium
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

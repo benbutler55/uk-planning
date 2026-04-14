@@ -1,0 +1,28 @@
+field,value
+report_generated_at,2026-04-14
+data_version,v14.0
+pilot_id,LPA-31
+lpa_name,Lake District National Park Authority
+lpa_type,National Park
+cohort,Cohort 4
+peer_group,National park authorities
+region,North West
+growth_context,Constrained designated
+constraint_profile,National Park statutory purposes and affordable housing delivery
+data_quality_tier,C
+coverage_score,58
+total_linked_issues,6
+high_severity_issues,2
+primary_risk_stage,Pre-application
+major_in_time_pct_provenance,official
+appeals_overturned_pct_provenance,official
+issue_incidence_provenance,estimated
+data_quality_provenance,estimated
+validation_rework_proxy,16.1
+delegated_ratio_proxy,85.2
+plan_age_years,4.8
+consultation_lag_proxy,4.3
+backlog_pressure,33.2
+analytical_confidence,low
+latest_trend_source_table,P151/P152
+latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

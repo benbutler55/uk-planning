@@ -1,0 +1,96 @@
+{
+  "report_generated_at": "2026-04-14",
+  "data_version": "v14.0",
+  "pilot_id": "LPA-33",
+  "lpa_name": "Bath and North East Somerset Council",
+  "lpa_type": "Unitary Authority",
+  "cohort": "Cohort 4",
+  "peer_group": "Constrained housing-pressure authorities",
+  "region": "South West",
+  "growth_context": "High demand constrained",
+  "constraint_profile": "Heritage conservation area and Green Belt constraint interaction",
+  "data_quality": {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "data_quality_tier": "B",
+    "coverage_score": "79",
+    "evidence_type_mix": "Official stats + adopted plan + appeal evidence",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 newly onboarded"
+  },
+  "issue_incidence": {
+    "pilot_id": "LPA-33",
+    "lpa_name": "Bath and North East Somerset Council",
+    "total_linked_issues": "9",
+    "high_severity_issues": "4",
+    "process_stage_coverage": "6",
+    "primary_risk_stage": "Committee",
+    "last_reviewed": "2026-04-14",
+    "notes": "Cohort 4 initial assessment; World Heritage Site and heritage disputes at committee"
+  },
+  "derived_metrics": {
+    "validation_rework_proxy": 14.4,
+    "delegated_ratio_proxy": 88.7,
+    "plan_age_years": 3.2,
+    "consultation_lag_proxy": 4.6,
+    "backlog_pressure": 55.6,
+    "analytical_confidence": "medium"
+  },
+  "quarterly_trends": [
+    {
+      "pilot_id": "LPA-33",
+      "lpa_name": "Bath and North East Somerset Council",
+      "quarter": "2024-Q4",
+      "major_in_time_pct": "73",
+      "appeals_overturned_pct": "2.3",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-33",
+      "lpa_name": "Bath and North East Somerset Council",
+      "quarter": "2025-Q1",
+      "major_in_time_pct": "75",
+      "appeals_overturned_pct": "2.1",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-33",
+      "lpa_name": "Bath and North East Somerset Council",
+      "quarter": "2025-Q2",
+      "major_in_time_pct": "77",
+      "appeals_overturned_pct": "1.9",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    },
+    {
+      "pilot_id": "LPA-33",
+      "lpa_name": "Bath and North East Somerset Council",
+      "quarter": "2025-Q3",
+      "major_in_time_pct": "79",
+      "appeals_overturned_pct": "1.8",
+      "source_table": "P151/P152",
+      "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics",
+      "retrieved_at": "2026-04-14"
+    }
+  ],
+  "metric_provenance": {
+    "major_in_time_pct": "official",
+    "appeals_overturned_pct": "official",
+    "issue_incidence": "estimated",
+    "data_quality": "estimated",
+    "validation_rework_proxy": "estimated",
+    "delegated_ratio_proxy": "estimated",
+    "plan_age_years": "estimated",
+    "consultation_lag_proxy": "estimated",
+    "backlog_pressure": "estimated"
+  },
+  "latest_trend_source": {
+    "source_table": "P151/P152",
+    "source_url": "https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics"
+  }
+}

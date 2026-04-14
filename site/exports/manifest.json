@@ -1,6 +1,6 @@
 {
   "version": "v14.0",
-  "generated_at": "2026-03-30T00:00:00Z",
+  "generated_at": "2026-04-14T00:00:00Z",
   "dataset_count": 10,
   "datasets": [
     {
@@ -86,7 +86,7 @@
     },
     {
       "dataset": "lpa-data-quality",
-      "row_count": 26,
+      "row_count": 34,
       "fields": [
         "pilot_id",
         "lpa_name",
@@ -96,13 +96,13 @@
         "last_reviewed",
         "notes"
       ],
-      "content_sha256": "22d51824881d3e8e0631b1bba7870366f0a7a747816bc33efb28f310824fbcbb",
+      "content_sha256": "179e8b173e122b590e1468e56cbe247f590007dea553f2515cc70871e195a203",
       "csv_path": "exports/lpa-data-quality.csv",
       "json_path": "exports/lpa-data-quality.json"
     },
     {
       "dataset": "lpa-issue-incidence",
-      "row_count": 26,
+      "row_count": 34,
       "fields": [
         "pilot_id",
         "lpa_name",
@@ -113,13 +113,13 @@
         "last_reviewed",
         "notes"
       ],
-      "content_sha256": "a1498ebee0be1c40c4e8f85914abfe1d9ce8ed8bd8ef3c542ccab75daee7b017",
+      "content_sha256": "e440c22177ee3da9db8f943fc4fea562b65ef2c0dcc9a65e905d6350884760bb",
       "csv_path": "exports/lpa-issue-incidence.csv",
       "json_path": "exports/lpa-issue-incidence.json"
     },
     {
       "dataset": "lpa-quarterly-trends",
-      "row_count": 104,
+      "row_count": 136,
       "fields": [
         "pilot_id",
         "lpa_name",
@@ -130,7 +130,7 @@
         "source_url",
         "retrieved_at"
       ],
-      "content_sha256": "467fe3a3f9297615178aa0d240484133dfa32c74f0fb2d27c4726c373be5dfb5",
+      "content_sha256": "80fa09ffee549aa40e7b701e1f24726421a9046099e7bde09d703243d3d48a57",
       "csv_path": "exports/lpa-quarterly-trends.csv",
       "json_path": "exports/lpa-quarterly-trends.json"
     },

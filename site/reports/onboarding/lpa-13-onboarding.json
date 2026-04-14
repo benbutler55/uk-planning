@@ -1,11 +1,12 @@
 {
+  "generated_at": "2026-04-14T20:07:10Z",
   "pilot_id": "LPA-13",
   "lpa_name": "Southampton City Council",
-  "region": "South East",
-  "cohort": "Cohort 2",
-  "quality_tier": "B",
   "coverage_status": "complete",
-  "checks": {
+  "quality_tier": "B",
+  "cohort": "Cohort 2",
+  "region": "South East",
+  "gate_status": {
     "ingest": true,
     "validate": true,
     "profile": true,
@@ -14,5 +15,11 @@
   "failed_checks": [],
   "documents_count": 2,
   "trend_points": 4,
-  "profile_page": "plans-lpa-13.html"
+  "profile_page": "plans-lpa-13.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
 }

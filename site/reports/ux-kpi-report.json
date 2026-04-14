@@ -6,8 +6,8 @@
       "recommendations_with_detail_pages": 11
     },
     "coverage_status": {
-      "complete": 21,
-      "partial": 5
+      "complete": 26,
+      "partial": 8
     },
     "instrumentation": {
       "event_schema": [

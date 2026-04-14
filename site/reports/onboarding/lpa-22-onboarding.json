@@ -1,11 +1,12 @@
 {
+  "generated_at": "2026-04-14T20:07:10Z",
   "pilot_id": "LPA-22",
   "lpa_name": "County Durham Council",
-  "region": "North East",
-  "cohort": "Cohort 3",
-  "quality_tier": "C",
   "coverage_status": "partial",
-  "checks": {
+  "quality_tier": "C",
+  "cohort": "Cohort 3",
+  "region": "North East",
+  "gate_status": {
     "ingest": true,
     "validate": true,
     "profile": true,
@@ -14,5 +15,11 @@
   "failed_checks": [],
   "documents_count": 2,
   "trend_points": 4,
-  "profile_page": "plans-lpa-22.html"
+  "profile_page": "plans-lpa-22.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
 }

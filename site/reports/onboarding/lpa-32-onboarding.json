@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-04-14T20:07:10Z",
+  "pilot_id": "LPA-32",
+  "lpa_name": "North Yorkshire Council",
+  "coverage_status": "partial",
+  "quality_tier": "C",
+  "cohort": "Cohort 4",
+  "region": "Yorkshire and The Humber",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 3,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-32.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

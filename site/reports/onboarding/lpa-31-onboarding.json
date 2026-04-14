@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-04-14T20:07:10Z",
+  "pilot_id": "LPA-31",
+  "lpa_name": "Lake District National Park Authority",
+  "coverage_status": "partial",
+  "quality_tier": "C",
+  "cohort": "Cohort 4",
+  "region": "North West",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-31.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}

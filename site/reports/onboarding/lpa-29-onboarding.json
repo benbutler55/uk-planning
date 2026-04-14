@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-04-14T20:07:10Z",
+  "pilot_id": "LPA-29",
+  "lpa_name": "Coventry City Council",
+  "coverage_status": "complete",
+  "quality_tier": "B",
+  "cohort": "Cohort 4",
+  "region": "West Midlands",
+  "gate_status": {
+    "ingest": true,
+    "validate": true,
+    "profile": true,
+    "qa": true
+  },
+  "failed_checks": [],
+  "documents_count": 2,
+  "trend_points": 4,
+  "profile_page": "plans-lpa-29.html",
+  "pipeline": [
+    "ingest",
+    "validate",
+    "profile",
+    "qa"
+  ]
+}
