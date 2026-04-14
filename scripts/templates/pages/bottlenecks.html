@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><h2>Process Stage Overview</h2>
+<p>Bottleneck analysis covering all six planning process stages across housing, commercial, and infrastructure pathways. Median delay figures are indicative based on official statistics and pilot LPA evidence.</p></section>
+<section class="grid">
+<article class="card"><h3>Bottlenecks Identified</h3><p>{{ row_count }}</p></article>
+<article class="card"><h3>Cumulative Delay (weeks, all stages)</h3><p>{{ "%.0f" | format(total_delay) }} weeks</p></article>
+{% if worst %}
+<article class="card"><h3>Worst Single Bottleneck</h3><p>{{ worst.get("process_stage", "") }} &mdash; {{ worst.get("pathway", "") }} ({{ worst.get("median_delay_weeks", "") }} weeks)</p></article>
+{% endif %}
+</section>
+<section class="card"><h2>Delay Heatmap (median weeks by stage and pathway)</h2>
+<p class="small">Stages are listed in pathway order from pre-application to condition discharge.</p>
+<table><thead><tr><th>Stage</th>
+{% for pw in pathways %}
+<th>{{ pw }}</th>
+{% endfor %}
+</tr></thead><tbody>
+{% for row in heatmap_rows %}
+<tr><td><strong>{{ row.stage }}</strong></td>
+{% for cell in row.cells %}
+{% if cell.has_data %}
+<td><span class="badge {{ cell.css }}">{{ cell.weeks }}w</span></td>
+{% else %}
+<td>&mdash;</td>
+{% endif %}
+{% endfor %}
+</tr>
+{% endfor %}
+</tbody></table></section>
+<section class="card"><h2>Bottleneck Detail</h2></section>
+{{ detail_guide_html | safe }}
+{{ detail_table_html | safe }}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><p>Appeal decisions cited as evidence for identified contradictions and bottlenecks. References are illustrative examples drawn from Planning Inspectorate decision records.</p></section>
+{{ filter_controls_html | safe }}
+{{ table_guide_html | safe }}
+{{ filterable_table_html | safe }}
+<section class="card"><h2>Issue to Appeal Cross-Reference</h2><table><thead><tr><th>Issue</th><th>Summary</th><th>Appeals</th></tr></thead><tbody>
+{% for item in cross_ref %}
+<tr><td>{{ item.issue_id }}</td><td>{{ item.summary }}</td><td>{{ item.appeal_ids }}</td></tr>
+{% endfor %}
+</tbody></table></section>
+{% endblock %}
+{% block scripts %}
+{{ filter_script | safe }}
+{% endblock %}

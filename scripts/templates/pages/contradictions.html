@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><h2>Scoring Model</h2><p>Weighted scores use explicit weights: {{ scoring_parts }}.</p></section>
+<section class="grid">
+<article class="card"><h3>Total Issues</h3><p>{{ issue_count }}</p></article>
+<article class="card"><h3>Average Weighted Score</h3><p>{{ "%.2f" | format(avg_ws) }} / 5</p></article>
+</section>
+<section class="card"><h3>Issue Type Breakdown</h3><ul>
+{% for t, c in type_breakdown %}
+<li>{{ t }}: {{ c }}</li>
+{% endfor %}
+</ul></section>
+{{ filter_controls_html | safe }}
+{{ table_guide_html | safe }}
+{{ filterable_table_html | safe }}
+<section class="card guided-only"><p class="small">Mobile tip: tap any table row to open a compact detail drawer.</p></section>
+{% endblock %}
+{% block scripts %}
+{{ filter_script | safe }}
+{{ enhancements_script | safe }}
+{{ drawer_script | safe }}
+{% endblock %}

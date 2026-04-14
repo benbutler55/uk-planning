@@ -10,9 +10,10 @@ from builders.config import ROOT
 from builders.data_loader import read_csv, load_scoring
 from builders.export_utils import write_exports, write_exports_manifest, build_ux_kpi_report
 from builders.page_overview import build_search_index
-from builders.page_analysis import (
-    build_legislation, build_contradictions, build_contradiction_details,
-    build_bottlenecks, build_appeals, build_baselines,
+from builders.context_providers.analysis import (
+    legislation_context, contradictions_context,
+    contradiction_detail_contexts, bottlenecks_context,
+    appeals_context, baselines_context,
 )
 from builders.page_authorities import (
     build_plans, build_map, build_compare, build_benchmark,
@@ -38,16 +39,10 @@ from builders.page_audiences import (
 def main():
     weights = load_scoring()
 
-    build_legislation()
     build_plans()
-    build_contradictions(weights)
     build_recommendations(weights)
-    build_contradiction_details(weights)
     build_recommendation_details()
     build_roadmap()
-    build_baselines()
-    build_bottlenecks()
-    build_appeals()
     build_map()
     build_compare()
     build_benchmark()
@@ -69,6 +64,16 @@ def main():
     builder.register("sources", "pages/sources.html", sources_context)
     builder.register("exports", "pages/exports.html", exports_context)
     builder.register("data-health", "pages/data_health.html", data_health_context)
+    builder.register("legislation", "pages/legislation.html", legislation_context)
+    builder.register("contradictions", "pages/contradictions.html",
+                     lambda: contradictions_context(weights))
+    builder.register("bottlenecks", "pages/bottlenecks.html", bottlenecks_context)
+    builder.register("appeals", "pages/appeals.html", appeals_context)
+    builder.register("baselines", "pages/baselines.html", baselines_context)
+    for detail_ctx in contradiction_detail_contexts(weights):
+        page_name = detail_ctx["output_filename"].replace(".html", "")
+        builder.register(page_name, "pages/contradiction_detail.html",
+                         lambda c=detail_ctx: c)
     builder.render_all()
 
     build_ux_kpi_report()

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><p>Official baseline metrics from GOV.UK planning statistics and PINS casework data. Window: latest 4 quarters.</p></section>
+{{ table_guide_html | safe }}
+{{ table_html | safe }}
+{% endblock %}

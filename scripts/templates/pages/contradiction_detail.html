@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="detail-layout"><div class="detail-sidebar">{{ toc_html | safe }}<section class="card"><h3>At a glance</h3><ul>
+<li><strong>Score:</strong> {{ weighted_score }} / 5</li>
+<li><strong>Type:</strong> {{ issue.get("issue_type", "") }}</li>
+<li><strong>Pathway:</strong> {{ issue.get("affected_pathway", "") }}</li>
+<li><strong>Confidence:</strong> {{ issue.get("confidence", "") }}</li>
+</ul></section></div><div class="detail-main">
+<section class="card" id="summary">
+<h2>{{ issue_id }}: {{ issue.get("summary", "") }}</h2>
+<p>{{ verification_badge_html | safe }} {{ confidence_badge_html | safe }}</p>
+<ul>
+<li><strong>Scope:</strong> {{ issue.get("scope", "") }}</li>
+<li><strong>Type:</strong> {{ issue.get("issue_type", "") }}</li>
+<li><strong>Pathway:</strong> {{ issue.get("affected_pathway", "") }}</li>
+<li><strong>Process stage:</strong> {{ issue.get("process_stage", "") }}</li>
+<li><strong>Weighted score:</strong> {{ weighted_score }} / 5</li>
+</ul></section>
+<div class="detail-section-group"><p class="detail-section-group-heading">Scoring &amp; Classification</p>
+<section class="card"><h3>Score components</h3><ul>
+<li>Severity: {{ issue.get("severity_score", "") }}</li>
+<li>Frequency: {{ issue.get("frequency_score", "") }}</li>
+<li>Legal risk: {{ issue.get("legal_risk_score", "") }}</li>
+<li>Delay impact: {{ issue.get("delay_impact_score", "") }}</li>
+<li>Fixability: {{ issue.get("fixability_score", "") }}</li>
+</ul></section>
+<section class="card"><h3>Linked instruments</h3><p>{% if instruments %}{{ instruments | join(", ") }}{% else %}n/a{% endif %}</p></section></div>
+<div class="detail-section-group"><p class="detail-section-group-heading">Connected Items</p>
+<section class="card" id="connected-items"><h3>Connected recommendations</h3>
+{% if linked_recs %}
+<table><thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Horizon</th><th>Evidence links</th></tr></thead><tbody>
+{% for rec in linked_recs %}
+<tr>
+<td><a href="{{ rec.detail_href }}">{{ rec.get("recommendation_id", "") }}</a></td>
+<td>{{ rec.get("title", "") }}</td>
+<td>{{ rec.get("priority", "") }}</td>
+<td>{{ rec.get("time_horizon", "") }}</td>
+<td>{{ rec.evidence_count }}</td>
+</tr>
+{% endfor %}
+</tbody></table>
+{% else %}
+<p><em>No linked recommendations recorded.</em></p>
+{% endif %}
+</section>
+<section class="card" id="evidence"><h3>Appeal evidence</h3>
+{% if linked_appeals %}
+<table><thead><tr><th>Reference</th><th>LPA</th><th>Date</th><th>Outcome</th><th>Finding</th><th>Source</th></tr></thead><tbody>
+{% for ap in linked_appeals %}
+<tr>
+<td>{{ ap.get("pins_reference", "") }}</td>
+<td>{{ ap.get("lpa", "") }}</td>
+<td>{{ ap.get("decision_date", "") }}</td>
+<td>{{ ap.get("outcome", "") }}</td>
+<td>{{ ap.get("inspector_finding", "") }}</td>
+{% if ap.has_source %}
+<td><a href="{{ ap.get("source_url", "") }}" target="_blank" rel="noopener noreferrer">Source</a></td>
+{% else %}
+<td>&mdash;</td>
+{% endif %}
+</tr>
+{% endfor %}
+</tbody></table>
+{% else %}
+<p><em>No direct appeal records linked.</em></p>
+{% endif %}
+</section>
+<section class="card"><h3>Related bottleneck stages</h3>
+{% if linked_bottlenecks %}
+<table><thead><tr><th>ID</th><th>Stage</th><th>Pathway</th><th>Median delay (weeks)</th></tr></thead><tbody>
+{% for b in linked_bottlenecks %}
+<tr>
+<td>{{ b.get("stage_id", "") }}</td>
+<td>{{ b.get("process_stage", "") }}</td>
+<td>{{ b.get("pathway", "") }}</td>
+<td>{{ b.get("median_delay_weeks", "") }}</td>
+</tr>
+{% endfor %}
+</tbody></table>
+{% else %}
+<p><em>No related bottleneck rows linked.</em></p>
+{% endif %}
+</section>
+<section class="card"><h3>Affected authorities observed in appeals</h3>
+<p>{% if authority_links %}{% for al in authority_links %}{{ al.html | safe }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}No in-scope authorities linked via appeals.{% endif %}</p>
+</section></div>
+<section class="card" id="actions"><h3>Context links</h3><ul>
+<li><a href="contradictions.html#issue_type={{ type_q }}">Back to contradictions filtered by type</a></li>
+<li><a href="contradictions.html#affected_pathway={{ path_q }}">Back to contradictions filtered by pathway</a></li>
+<li><a href="contradictions.html#scope={{ scope_q }}">Back to contradictions filtered by scope</a></li>
+</ul></section>
+<section class="card"><h3>Users also viewed</h3><ul>
+<li><a href="benchmark.html">Benchmark dashboard</a></li>
+<li><a href="reports.html">Authority reports</a></li>
+<li><a href="roadmap.html">Implementation roadmap</a></li>
+</ul></section>
+</div></div>
+{% endblock %}

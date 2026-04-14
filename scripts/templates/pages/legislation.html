@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+{{ table_guide_html | safe }}
+{{ legislation_table_html | safe }}
+{{ policy_guide_html | safe }}
+<section class="card"><h2>National Policy and Guidance Index</h2></section>
+{{ policy_table_html | safe }}
+{% endblock %}
