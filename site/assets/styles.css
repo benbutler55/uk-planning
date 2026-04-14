@@ -953,22 +953,109 @@ a:focus-visible {
     border-top-color: var(--accent);
   }
 
-  .badge { opacity: 0.9; }
+  /* Cards */
+  .card-kpi {
+    background: linear-gradient(135deg, #1a2e2a 0%, var(--surface) 100%);
+  }
+
+  .card-guidance {
+    background: #1e2430;
+    border-color: var(--line);
+  }
+
+  .card-filter {
+    background: #1e2228;
+  }
+
+  .card-hero {
+    background: linear-gradient(180deg, var(--accent-soft) 0%, var(--surface) 40%);
+  }
+
+  .card-kpi .kpi-value { color: var(--accent); }
+
+  /* Detail sections */
+  .detail-section-group {
+    background: #1e2228;
+    border-color: var(--line);
+  }
+
+  .detail-section-group-heading {
+    border-bottom-color: var(--line);
+  }
+
+  /* Tables */
+  th {
+    background: #2d333b;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #1c2028;
+  }
+
+  tbody tr:hover {
+    background: #252d38;
+  }
+
+  /* Dense table sticky columns */
+  .dense-table th:first-child,
+  .dense-table td:first-child {
+    background: var(--surface);
+  }
+
+  .dense-table th:first-child {
+    background: #2d333b;
+  }
+
+  .dense-table tbody tr:nth-child(even) td:first-child {
+    background: #1c2028;
+  }
+
+  .dense-table tbody tr:hover td:first-child {
+    background: #252d38;
+  }
+
+  /* Badges */
   .badge-green { background: #22543d; color: #9ae6b4; }
   .badge-amber { background: #744210; color: #fbd38d; }
   .badge-red { background: #742a2a; color: #feb2b2; }
   .badge-blue { background: #2a4365; color: #90cdf4; }
   .badge-grey { background: #2d3748; color: #cbd5e0; }
 
-  table th { background: #2d333b; }
-  table tr:nth-child(even) td { background: #1c2028; }
-
-  .card-kpi .kpi-value { color: var(--accent); }
-
-  input, select {
+  /* Form controls */
+  input[type="search"],
+  select {
     background: var(--surface);
     color: var(--ink);
     border-color: var(--line);
+  }
+
+  /* Inline help */
+  .inline-help {
+    background: #2d333b;
+  }
+
+  /* TOC links */
+  .detail-toc-links a {
+    background: var(--surface);
+  }
+
+  /* Mobile drawer */
+  .mobile-drawer-panel {
+    background: var(--surface);
+  }
+
+  .mobile-drawer-close {
+    background: var(--surface);
+  }
+
+  /* Skip link */
+  .skip-link:focus {
+    background: var(--surface);
+  }
+
+  /* Mobile nav hover */
+  .top-nav a:hover {
+    background: #252d38;
   }
 }
 
