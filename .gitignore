@@ -8,3 +8,6 @@ metric-drift-report.txt
 metric-drift-report.json
 node_modules/
 site/assets/dist/
+metric-stability-report.txt
+metric-stability-report.json
+.venv/
