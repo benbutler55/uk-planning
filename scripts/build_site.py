@@ -23,11 +23,10 @@ from builders.page_recommendations import (
     build_recommendations, build_recommendation_details,
     build_roadmap, build_consultation,
 )
-from builders.page_methods import (
-    build_metric_methods, build_sources,
-    build_exports_index, build_data_health,
+from builders.context_providers.methods import (
+    methodology_context, metric_methods_context,
+    sources_context, exports_context, data_health_context,
 )
-from builders.context_providers.methods import methodology_context
 from site_builder import SiteBuilder
 from builders.page_audiences import (
     build_audience_policymakers, build_audience_lpas,
@@ -55,7 +54,6 @@ def main():
     build_trends()
     build_reports()
     build_coverage()
-    build_data_health()
     build_consultation()
     build_search_index()
     build_search()
@@ -66,11 +64,12 @@ def main():
     # Jinja2-based pages
     builder = SiteBuilder()
     builder.register("methodology", "pages/methodology.html", methodology_context)
+    builder.register("metric-methods", "pages/metric_methods.html", metric_methods_context)
+    builder.register("sources", "pages/sources.html", sources_context)
+    builder.register("exports", "pages/exports.html", exports_context)
+    builder.register("data-health", "pages/data_health.html", data_health_context)
     builder.render_all()
 
-    build_metric_methods()
-    build_sources()
-    build_exports_index()
     build_ux_kpi_report()
 
     # Write exports

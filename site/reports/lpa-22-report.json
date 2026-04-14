@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-22",
   "lpa_name": "County Durham Council",
@@ -31,9 +31,9 @@
   "derived_metrics": {
     "validation_rework_proxy": 15.6,
     "delegated_ratio_proxy": 89.0,
-    "plan_age_years": 5.4,
+    "plan_age_years": 5.5,
     "consultation_lag_proxy": 4.1,
-    "backlog_pressure": 34.2,
+    "backlog_pressure": 34.5,
     "analytical_confidence": "low"
   },
   "quarterly_trends": [

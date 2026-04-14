@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "macros/tables.html" import table_guide, data_table %}
+<section class="card"><h2>Evidence Links</h2></section>
+<section class="card"><h3>Source reliability tiers</h3><ul><li><strong>Tier 1:</strong> Official statistics and statutory publications.</li><li><strong>Tier 2:</strong> Formal policy guidance and ministerial publications.</li><li><strong>Tier 3:</strong> Analytical estimates and inferred operational evidence.</li></ul></section>
+
+{{ table_guide("How to read this table", [
+    "Each row links a recommendation to a source record.",
+    "Baseline values and windows describe current evidence levels.",
+    "Use source URLs to verify references directly.",
+]) }}
+
+{{ data_table(evidence_links, [
+    ("link_id", "ID"), ("recommendation_id", "Rec"), ("source_dataset", "Source"),
+    ("metric_name", "Metric"), ("baseline_value", "Baseline"), ("source_url", "URL"),
+]) }}
+
+<section class="card"><h2>Official Baseline Metrics</h2></section>
+
+{{ table_guide("How to read this table", [
+    "Each row is a baseline metric with source table and geography.",
+    "Use values with period and source context for valid comparisons.",
+    "Official source links provide direct verification.",
+]) }}
+
+{{ data_table(baselines, [
+    ("metric_id", "ID"), ("metric_name", "Metric"), ("source_table", "Table"),
+    ("geography", "Geography"), ("value", "Value"), ("source_url", "URL"),
+]) }}
+{% endblock %}

@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-23",
   "lpa_name": "Plymouth City Council",
@@ -31,9 +31,9 @@
   "derived_metrics": {
     "validation_rework_proxy": 13.8,
     "delegated_ratio_proxy": 88.9,
-    "plan_age_years": 7.0,
+    "plan_age_years": 7.1,
     "consultation_lag_proxy": 4.8,
-    "backlog_pressure": 47.6,
+    "backlog_pressure": 47.8,
     "analytical_confidence": "medium"
   },
   "quarterly_trends": [

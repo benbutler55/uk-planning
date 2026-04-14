@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><h2>Machine-Readable Exports</h2>
+<p>All core datasets are available in CSV and JSON format for external analysis.</p>
+<ul>
+{% for name in dataset_names %}
+<li><a href="exports/{{ name }}.csv">{{ name }}.csv</a> | <a href="exports/{{ name }}.json">{{ name }}.json</a></li>
+{% endfor %}
+</ul></section>
+<section class="card"><h2>Version Manifest</h2>
+<p>Build manifest includes dataset hashes, row counts, and generation timestamp.</p>
+<p><a href="exports/manifest.json">manifest.json</a></p></section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "macros/tables.html" import table_guide %}
+<section class="card"><p>Monitors freshness of core operational datasets and highlights stale or critical update risk windows.</p></section>
+<section class="grid">
+<article class="card"><h3>Fresh datasets</h3><p>{{ health_counts.get("fresh", 0) }}</p></article>
+<article class="card"><h3>Stale datasets</h3><p>{{ health_counts.get("stale", 0) }}</p></article>
+<article class="card"><h3>Critical datasets</h3><p>{{ health_counts.get("critical", 0) }}</p></article>
+</section>
+
+{{ table_guide("How to read this table", [
+    "Each row is one monitored dataset.",
+    "Age in days is measured from the most recent tracked date field.",
+    "Fresh, stale, and critical statuses are threshold-based.",
+    "Prioritise stale and critical datasets for update before high-stakes use.",
+]) }}
+
+<section class="card"><table><thead><tr><th>Dataset</th><th>Status</th><th>Rows</th><th>Last updated</th><th>Age (days)</th><th>Path</th></tr></thead><tbody>
+{% for row in health_rows %}
+<tr>
+<td>{{ row.dataset }}</td>
+<td>{{ row.status_badge | safe }}</td>
+<td>{{ row.row_count }}</td>
+<td>{{ row.last_updated }}</td>
+<td>{{ row.age_days }}</td>
+<td><code>{{ row.source_path }}</code></td>
+</tr>
+{% endfor %}
+</tbody></table></section>
+{% endblock %}

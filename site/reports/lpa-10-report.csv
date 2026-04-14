@@ -1,5 +1,5 @@
 field,value
-report_generated_at,2026-03-31
+report_generated_at,2026-04-14
 data_version,v14.0
 pilot_id,LPA-10
 lpa_name,Newcastle City Council
@@ -20,9 +20,9 @@ issue_incidence_provenance,estimated
 data_quality_provenance,estimated
 validation_rework_proxy,13.5
 delegated_ratio_proxy,86.0
-plan_age_years,11.0
+plan_age_years,11.1
 consultation_lag_proxy,4.5
-backlog_pressure,48.2
+backlog_pressure,48.5
 analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

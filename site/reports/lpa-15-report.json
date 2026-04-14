@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-15",
   "lpa_name": "Cambridge City Council",
@@ -31,9 +31,9 @@
   "derived_metrics": {
     "validation_rework_proxy": 13.8,
     "delegated_ratio_proxy": 83.7,
-    "plan_age_years": 6.2,
+    "plan_age_years": 6.3,
     "consultation_lag_proxy": 4.2,
-    "backlog_pressure": 58.6,
+    "backlog_pressure": 58.8,
     "analytical_confidence": "medium"
   },
   "quarterly_trends": [

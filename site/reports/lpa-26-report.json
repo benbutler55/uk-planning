@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-26",
   "lpa_name": "Stockport Metropolitan Borough Council",
@@ -31,9 +31,9 @@
   "derived_metrics": {
     "validation_rework_proxy": 14.1,
     "delegated_ratio_proxy": 83.8,
-    "plan_age_years": 15.0,
+    "plan_age_years": 15.1,
     "consultation_lag_proxy": 3.8,
-    "backlog_pressure": 73.2,
+    "backlog_pressure": 73.5,
     "analytical_confidence": "medium"
   },
   "quarterly_trends": [

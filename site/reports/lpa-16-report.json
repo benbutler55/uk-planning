@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-16",
   "lpa_name": "Medway Council",
@@ -31,7 +31,7 @@
   "derived_metrics": {
     "validation_rework_proxy": 15.9,
     "delegated_ratio_proxy": 85.3,
-    "plan_age_years": 22.9,
+    "plan_age_years": 23.0,
     "consultation_lag_proxy": 5.8,
     "backlog_pressure": 100.0,
     "analytical_confidence": "low"

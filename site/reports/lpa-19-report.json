@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-19",
   "lpa_name": "Brighton and Hove City Council",
@@ -31,7 +31,7 @@
   "derived_metrics": {
     "validation_rework_proxy": 14.0,
     "delegated_ratio_proxy": 88.5,
-    "plan_age_years": 3.4,
+    "plan_age_years": 3.5,
     "consultation_lag_proxy": 4.6,
     "backlog_pressure": 55.6,
     "analytical_confidence": "medium"

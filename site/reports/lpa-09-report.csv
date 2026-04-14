@@ -1,5 +1,5 @@
 field,value
-report_generated_at,2026-03-31
+report_generated_at,2026-04-14
 data_version,v14.0
 pilot_id,LPA-09
 lpa_name,Guildford Borough Council
@@ -20,9 +20,9 @@ issue_incidence_provenance,estimated
 data_quality_provenance,estimated
 validation_rework_proxy,14.0
 delegated_ratio_proxy,81.9
-plan_age_years,5.8
+plan_age_years,5.9
 consultation_lag_proxy,4.6
-backlog_pressure,83.6
+backlog_pressure,83.8
 analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

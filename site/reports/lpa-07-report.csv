@@ -1,5 +1,5 @@
 field,value
-report_generated_at,2026-03-31
+report_generated_at,2026-04-14
 data_version,v14.0
 pilot_id,LPA-07
 lpa_name,Leeds City Council
@@ -20,9 +20,9 @@ issue_incidence_provenance,estimated
 data_quality_provenance,estimated
 validation_rework_proxy,13.6
 delegated_ratio_proxy,85.3
-plan_age_years,6.7
+plan_age_years,6.8
 consultation_lag_proxy,4.2
-backlog_pressure,46.8
+backlog_pressure,47.1
 analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics

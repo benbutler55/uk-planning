@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-03-31",
+  "report_generated_at": "2026-04-14",
   "data_version": "v14.0",
   "pilot_id": "LPA-14",
   "lpa_name": "Leicester City Council",
@@ -31,9 +31,9 @@
   "derived_metrics": {
     "validation_rework_proxy": 13.3,
     "delegated_ratio_proxy": 87.9,
-    "plan_age_years": 12.0,
+    "plan_age_years": 12.1,
     "consultation_lag_proxy": 4.2,
-    "backlog_pressure": 68.1,
+    "backlog_pressure": 68.3,
     "analytical_confidence": "medium"
   },
   "quarterly_trends": [

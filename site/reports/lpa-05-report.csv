@@ -1,5 +1,5 @@
 field,value
-report_generated_at,2026-03-31
+report_generated_at,2026-04-14
 data_version,v14.0
 pilot_id,LPA-05
 lpa_name,Newham London Borough Council
@@ -20,7 +20,7 @@ issue_incidence_provenance,estimated
 data_quality_provenance,estimated
 validation_rework_proxy,12.2
 delegated_ratio_proxy,83.6
-plan_age_years,4.2
+plan_age_years,4.3
 consultation_lag_proxy,3.2
 backlog_pressure,56.2
 analytical_confidence,high

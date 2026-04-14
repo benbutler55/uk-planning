@@ -1,5 +1,5 @@
 field,value
-report_generated_at,2026-03-31
+report_generated_at,2026-04-14
 data_version,v14.0
 pilot_id,LPA-08
 lpa_name,Bristol City Council
@@ -20,9 +20,9 @@ issue_incidence_provenance,estimated
 data_quality_provenance,estimated
 validation_rework_proxy,13.7
 delegated_ratio_proxy,88.1
-plan_age_years,10.9
+plan_age_years,11.0
 consultation_lag_proxy,3.7
-backlog_pressure,65.0
+backlog_pressure,65.2
 analytical_confidence,medium
 latest_trend_source_table,P151/P152
 latest_trend_source_url,https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics
