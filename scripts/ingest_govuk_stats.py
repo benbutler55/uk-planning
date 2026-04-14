@@ -12,6 +12,7 @@ Run quarterly after each GOV.UK statistics release:
 
 import csv
 import json
+import re
 import sys
 import urllib.request
 import urllib.error
@@ -93,8 +94,6 @@ class TitleDateParser(HTMLParser):
     def handle_data(self, data):
         if self._in_title:
             self.title += data.strip()
-        import re
-
         for m in re.findall(r"\d{1,2} \w+ 20\d{2}", data):
             self.dates_found.append(m)
 

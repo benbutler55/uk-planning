@@ -82,7 +82,7 @@ def build_ux_kpi_report():
         profile_page_check=True
     )
     report = {
-        "generated_at": date.today().isoformat(),
+        "generated_at": BUILD_VERSION,
         "kpis": {
             "detail_page_coverage": {
                 "contradictions_with_detail_pages": len(contradictions),

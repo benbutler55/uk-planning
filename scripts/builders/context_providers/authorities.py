@@ -6,7 +6,6 @@ import html as html_lib
 import json
 import math
 from collections import defaultdict
-from datetime import date
 
 from ..config import ROOT, SITE, BUILD_VERSION
 from ..data_loader import read_csv, compute_data_health, compute_onboarding_status_rows
@@ -40,7 +39,7 @@ def plans_context():
 
     regions = sorted({r.get("region", "") for r in rows if r.get("region")})
     lpa_types = sorted({r.get("lpa_type", "") for r in rows if r.get("lpa_type")})
-    cohorts = ["Cohort 1", "Cohort 2"]
+    cohorts = sorted({cohort_for_pid(r["pilot_id"]) for r in rows if r.get("pilot_id")})
     qualities = sorted(
         {
             (quality_by_id.get(r["pilot_id"], {}).get("data_quality_tier", "") or "")
@@ -827,9 +826,23 @@ def benchmark_context():
     for lpa in lpas:
         pid = lpa["pilot_id"]
         trows = trends_by_id.get(pid, [])
-        latest_speed = float(trows[-1]["major_in_time_pct"]) if trows else None
-        latest_appeal = float(trows[-1]["appeals_overturned_pct"]) if trows else None
-        speeds = [float(t["major_in_time_pct"]) for t in trows]
+        latest_speed = None
+        latest_appeal = None
+        if trows:
+            try:
+                latest_speed = float(trows[-1].get("major_in_time_pct", 0) or 0)
+            except ValueError:
+                pass
+            try:
+                latest_appeal = float(trows[-1].get("appeals_overturned_pct", 0) or 0)
+            except ValueError:
+                pass
+        speeds = []
+        for t in trows:
+            try:
+                speeds.append(float(t.get("major_in_time_pct", 0) or 0))
+            except ValueError:
+                pass
         spark = sparkline_svg(speeds)
         q = quality_by_id.get(pid, {})
         i = issues_by_id.get(pid, {})
@@ -850,11 +863,10 @@ def benchmark_context():
                 "high_severity_issues": i.get("high_severity_issues", "n/a"),
                 "risk_stage": i.get("primary_risk_stage", "n/a"),
                 "speed_delta": (
-                    float(trows[-1]["major_in_time_pct"])
-                    - float(trows[0]["major_in_time_pct"])
-                )
-                if len(trows) > 1
-                else None,
+                    (latest_speed - speeds[0])
+                    if len(speeds) > 1 and latest_speed is not None
+                    else None
+                ),
             }
         )
         bench[-1].update(
@@ -1036,7 +1048,13 @@ def benchmark_context():
     body += '<label class="filter-item">Peer anchor authority<select id="benchmark-anchor"></select></label>'
     body += '</div><p class="small" id="benchmark-mode-status"></p></section>'
 
-    body += f'<section class="card"><p class="small">Generated on {date.today().isoformat()} from quarterly trends and issue incidence datasets.</p></section>'
+    # Use latest data retrieval date for deterministic builds (avoids CI git-diff failures)
+    latest_retrieved = "n/a"
+    for tr in trend_rows:
+        r = tr.get("retrieved_at", "")
+        if r and (latest_retrieved == "n/a" or r > latest_retrieved):
+            latest_retrieved = r
+    body += f'<section class="card"><p class="small">Data as of {html_lib.escape(latest_retrieved)} from quarterly trends and issue incidence datasets.</p></section>'
     body += render_table_guide(
         "How to read this table",
         [
@@ -1458,7 +1476,12 @@ def reports_context():
 
     reports_dir = SITE / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
-    generated_on = date.today().isoformat()
+    # Use latest data retrieval date for deterministic builds
+    generated_on = "n/a"
+    for tr in trend_rows:
+        r = tr.get("retrieved_at", "")
+        if r and (generated_on == "n/a" or r > generated_on):
+            generated_on = r
     data_version = BUILD_VERSION
     _, health_counts = compute_data_health()
 
