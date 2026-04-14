@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 34 LPAs across 4 cohorts (Cohort 4 added April 2026). Published as a static website on GitHub Pages.
 
-## Current State (v16.0 Phase C)
+## Current State (v15.0 Phase C)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
