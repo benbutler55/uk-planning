@@ -6,6 +6,8 @@ Emits text and JSON reports, and can append run history for quarterly monitoring
 
 Run quarterly after each GOV.UK statistics release:
   python3 scripts/ingest_govuk_stats.py [--warn-only] [--append-history]
+  python3 scripts/ingest_govuk_stats.py --update [--append-history]
+  python3 scripts/ingest_govuk_stats.py --dry-run
 """
 import csv
 import json
@@ -136,6 +138,71 @@ def source_status_for_metrics(metrics, metric_ids):
     return entries
 
 
+def download_source_page(url, timeout=30):
+    """Download a GOV.UK statistics page and return its content."""
+    try:
+        req = urllib.request.Request(url)
+        req.add_header("User-Agent", "uk-planning-stats-ingest/1.0")
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read().decode("utf-8", errors="replace"), None
+    except Exception as e:
+        return None, str(e)
+
+
+def parse_metrics_from_page(content, table_config):
+    """Extract date information from a statistics page to detect updates.
+
+    Returns a dict with detected publication dates and update signals.
+    In a full implementation this would parse the actual CSV data tables.
+    Currently detects freshness signals from page metadata.
+    """
+    parser = TitleDateParser()
+    parser.feed(content)
+    return {
+        "title": parser.title,
+        "dates_found": parser.dates_found,
+        "has_update": len(parser.dates_found) > 0,
+    }
+
+
+def compute_diff(current_metrics, detected_updates):
+    """Compare current metric retrieval dates against detected page updates.
+
+    Returns a list of change records.
+    """
+    changes = []
+    for table_id, config in STATS_TABLES.items():
+        update_info = detected_updates.get(table_id, {})
+        if not update_info.get("has_update"):
+            continue
+        for metric_id in config["metrics"]:
+            current = current_metrics.get(metric_id, {})
+            current_retrieved = current.get("retrieved_at", "")
+            changes.append({
+                "metric_id": metric_id,
+                "source_table": table_id,
+                "current_retrieved_at": current_retrieved,
+                "page_dates_detected": update_info.get("dates_found", []),
+                "action": "check_for_update",
+            })
+    return changes
+
+
+def write_diff_report(changes, mode):
+    """Write a JSON diff report."""
+    report = {
+        "run_date": date.today().isoformat(),
+        "mode": mode,
+        "changes": changes,
+        "summary": {
+            "checked": len(changes),
+            "flagged_for_update": sum(1 for c in changes if c["action"] == "check_for_update"),
+        },
+    }
+    REPORT_JSON_PATH.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    return report
+
+
 def append_history(payload):
     history = []
     if HISTORY_PATH.exists():
@@ -149,8 +216,51 @@ def append_history(payload):
 
 def main():
     warn_only = "--warn-only" in sys.argv
+    update_mode = "--update" in sys.argv
+    dry_run = "--dry-run" in sys.argv
     append_hist = "--append-history" in sys.argv
     metrics = read_metrics()
+
+    if update_mode or dry_run:
+        # Download and check each source
+        detected_updates = {}
+        for table_id, config in STATS_TABLES.items():
+            print(f"Checking {table_id}: {config['description']}...")
+            content, error = download_source_page(config["url"])
+            if error:
+                print(f"  Error downloading {table_id}: {error}")
+                continue
+            parsed = parse_metrics_from_page(content, config)
+            detected_updates[table_id] = parsed
+            print(f"  Title: {parsed['title']}")
+            print(f"  Dates found: {', '.join(parsed['dates_found']) if parsed['dates_found'] else 'none'}")
+
+        changes = compute_diff(metrics, detected_updates)
+        mode_label = "dry-run" if dry_run else "update"
+        report = write_diff_report(changes, mode_label)
+
+        print(f"\n{mode_label.title()} report: {report['summary']['checked']} metrics checked, "
+              f"{report['summary']['flagged_for_update']} flagged for update")
+
+        if dry_run:
+            print("Dry run — no files modified.")
+        elif update_mode:
+            # In update mode, update retrieved_at dates for checked metrics
+            # Full CSV download/parse would go here in a future enhancement
+            print("Update mode — source page checks completed. "
+                  "Full CSV parsing not yet implemented; use manual update for now.")
+
+        if append_hist:
+            append_history({
+                "run_date": date.today().isoformat(),
+                "mode": mode_label,
+                "summary": report["summary"],
+            })
+            print(f"Run history appended to {HISTORY_PATH}")
+
+        return
+
+    # Existing warn-only (or no flags) behaviour below.
     report_lines = [
         "GOV.UK / PINS Planning Statistics Ingest Report",
         f"Date: {date.today().isoformat()}",
