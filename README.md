@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 34 LPAs across 4 cohorts (Cohort 4 added April 2026). Published as a static website on GitHub Pages.
 
-## Current State (v15.0 Phase B)
+## Current State (v16.0 Phase C)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -36,7 +36,7 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Per-record drill-down pages for contradictions (`contradiction-issue-xxx.html`) with connected recommendations, appeals, bottlenecks, and filter-context links
 - Per-record drill-down pages for recommendations (`recommendation-rec-xxx.html`) with status timeline, linked contradictions, milestones, and evidence rows
 - Detail pages now include subsection anchors and sticky mini-TOC blocks (Summary, Evidence, Connected items, Actions)
-- Homepage "England at a glance" KPI strip with source-linked baseline indicators and trend movement card
+- Homepage “England at a glance” KPI strip with source-linked baseline indicators and trend movement card
 - Peer-group benchmark mode for like-for-like authority comparisons, with anchor-authority toggle on benchmark view
 - Expanded authority metrics on benchmark/reports: validation rework proxy, delegated share proxy, plan age, consultation lag proxy, backlog pressure index
 - Analytical confidence badges (high/medium/low) on estimated authority metrics and report bundles
@@ -84,6 +84,10 @@ Citation-backed analysis of England's planning system identifying contradictions
 - Print stylesheet and PDF export button on all pages
 - Comparison history with localStorage persistence
 - ~93 generated site pages including benchmark, reports, trends views, and 8 new LPA profile pages
+- **Shared JS modules** for table filtering, sorting, and mobile drawers (`assets/filters.js`, `assets/tables.js`, `assets/drawers.js`)
+- **Self-hosted Source Sans 3 fonts** (no external Google Fonts dependency; `assets/fonts/` directory)
+- **Dark mode support** via CSS `prefers-color-scheme` media query for automatic light/dark theme switching
+- **Optional esbuild asset minification pipeline** (`scripts/build_assets.sh`) for production-grade CSS/JS compression
 
 ## Repository Structure
 
@@ -121,6 +125,7 @@ uk-planning/
 │       └── scoring.json
 ├── scripts/
 │   ├── build_site.py                # Thin entry point — orchestrates builders/ modules
+│   ├── build_assets.sh              # Optional esbuild minification pipeline for CSS/JS
 │   ├── site_builder.py              # Jinja2-based site builder coordinating template rendering
 │   ├── check_accessibility.py      # Accessibility guardrails for generated HTML
 │   ├── check_metric_drift.py       # Quarter-on-quarter drift threshold checks
@@ -167,6 +172,13 @@ uk-planning/
 ├── site/                            # Generated static website (committed)
 │   ├── assets/styles.css            # Design system stylesheet
 │   ├── assets/shell.js              # Shared JS: view mode, nav, utilities
+│   ├── assets/filters.js            # Table filtering and faceted search
+│   ├── assets/tables.js             # Table sorting, pagination, and interaction
+│   ├── assets/drawers.js            # Mobile detail drawer for dense tables
+│   ├── assets/fonts/                # Self-hosted Source Sans 3 (400, 600, 700 weights)
+│   │   ├── source-sans-3-400.woff2
+│   │   ├── source-sans-3-600.woff2
+│   │   └── source-sans-3-700.woff2
 │   ├── exports/
 │   ├── reports/                     # Per-LPA downloadable comparison bundles
 │   │   └── onboarding/              # Per-authority onboarding gate outputs
