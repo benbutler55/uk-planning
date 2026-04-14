@@ -2,7 +2,7 @@
 
 Citation-backed analysis of England's planning system identifying contradictions, bottlenecks, and opportunities for reform. Covers 34 LPAs across 4 cohorts (Cohort 4 added April 2026). Published as a static website on GitHub Pages.
 
-## Current State (v15.0 Phase C)
+## Current State (v16.0)
 
 - 16 core legislation and regulation records
 - 31 national policy, PPG topic, and NPS records
@@ -88,6 +88,10 @@ Citation-backed analysis of England's planning system identifying contradictions
 - **Self-hosted Source Sans 3 fonts** (no external Google Fonts dependency; `assets/fonts/` directory)
 - **Dark mode support** via CSS `prefers-color-scheme` media query for automatic light/dark theme switching
 - **Optional esbuild asset minification pipeline** (`scripts/build_assets.sh`) for production-grade CSS/JS compression
+- 86 pytest tests covering metrics, helpers, context providers, and template rendering
+- CI pipeline runs ruff lint, pytest, data validation, site build, link check, metric stability, and accessibility checks
+- Makefile with `make check` single-command quality gate
+- Pre-commit hooks for ruff lint and format on Python files
 
 ## Repository Structure
 
@@ -97,6 +101,8 @@ uk-planning/
 ├── IMPLEMENTATION_PLAN.md           # Phased delivery plan
 ├── RELEASE_NOTES.md                 # Version release notes
 ├── README.md                        # This file
+├── Makefile                         # Single-command quality gate (`make check`)
+├── .pre-commit-config.yaml          # Pre-commit hooks for ruff lint and format
 ├── data/
 │   ├── evidence/
 │   │   ├── appeal-decisions.csv     # PINS appeal decisions linked to issues
@@ -205,29 +211,19 @@ python3 scripts/build_site.py
 python3 -m http.server 4173 --directory site
 ```
 
-## Quality Checks
-
-Setup:
+## Setup
 
 ```bash
 pip install -e ".[dev]"
+pre-commit install
 ```
 
-Required before every commit (see `AGENTS.md`):
+## Quality Checks
+
+Single command to run all checks:
 
 ```bash
-python3 scripts/validate_data.py
-python3 scripts/build_site.py
-python3 scripts/check_links.py
-python3 scripts/check_metric_stability.py
-python3 -m pytest scripts/tests/ -v
-```
-
-Optional checks:
-
-```bash
-python3 scripts/check_freshness.py --warn-only   # monthly URL freshness
-python3 scripts/ingest_govuk_stats.py --warn-only  # quarterly stats freshness
+make check
 ```
 
 ## Contribution Workflow

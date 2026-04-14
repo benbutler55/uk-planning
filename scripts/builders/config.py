@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 SITE = ROOT / "site"
 EXPORTS = SITE / "exports"
 SCORING_PATH = ROOT / "data/schemas/scoring.json"
-BUILD_VERSION = "v15.0"
+BUILD_VERSION = "v16.0"
 
 SECTION_CONFIG = {
     "overview": {
