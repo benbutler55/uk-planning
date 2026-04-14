@@ -23,11 +23,11 @@
 <section class="card" id="actions"><h3>Status timeline</h3>
 <table><thead><tr><th>Stage</th><th>Value</th></tr></thead><tbody>
 <tr><td>Submission status</td><td>{{ status.get("submission_status", "Not set") }}</td></tr>
-<tr><td>Submitted to</td><td>{{ status.get("submitted_to", "") or "&mdash;" | safe }}</td></tr>
-<tr><td>Submission date</td><td>{{ status.get("submission_date", "") or "&mdash;" | safe }}</td></tr>
-<tr><td>Response received</td><td>{{ status.get("response_received", "") or "&mdash;" | safe }}</td></tr>
-<tr><td>Response summary</td><td>{{ status.get("response_summary", "") or "&mdash;" | safe }}</td></tr>
-<tr><td>Next action</td><td>{{ status.get("next_action", "") or "&mdash;" | safe }}</td></tr>
+<tr><td>Submitted to</td><td>{{ (status.get("submitted_to", "") or "&mdash;") | safe }}</td></tr>
+<tr><td>Submission date</td><td>{{ (status.get("submission_date", "") or "&mdash;") | safe }}</td></tr>
+<tr><td>Response received</td><td>{{ (status.get("response_received", "") or "&mdash;") | safe }}</td></tr>
+<tr><td>Response summary</td><td>{{ (status.get("response_summary", "") or "&mdash;") | safe }}</td></tr>
+<tr><td>Next action</td><td>{{ (status.get("next_action", "") or "&mdash;") | safe }}</td></tr>
 </tbody></table></section>
 <section class="card" id="connected-items"><h3>Linked contradictions</h3>
 {% if linked_issues %}
