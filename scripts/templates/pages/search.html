@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <label for="search-input" class="sr-only">Search across all content</label>
+  <input type="search" id="search-input" placeholder="Search legislation, issues, recommendations, LPAs, appeals..." style="width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;" />
+  <div class="filter-row" style="margin-top:10px;" id="filters-start">
+    <label class="filter-item">Type<select id="facet-type"><option value="">All</option><option value="contradiction">Contradiction</option><option value="recommendation">Recommendation</option><option value="authority">Authority</option><option value="appeal">Appeal</option></select></label>
+    <label class="filter-item">Pathway<select id="facet-pathway"><option value="">All</option><option value="housing">Housing</option><option value="commercial">Commercial</option><option value="infrastructure">Infrastructure</option><option value="mixed">Mixed</option></select></label>
+    <label class="filter-item">Confidence<select id="facet-confidence"><option value="">All</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+    <label class="filter-item">Status<select id="facet-status"><option value="">All</option><option value="draft">Draft</option><option value="verified">Verified</option><option value="legal-reviewed">Legal-reviewed</option></select></label>
+  </div>
+  <p class="small" id="search-count" style="margin-top:8px;"></p>
+</section>
+<section class="card" id="search-results">
+  <p class="small">Start typing to search across all content.</p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+(function() {
+  var input = document.getElementById('search-input');
+  var results = document.getElementById('search-results');
+  var countEl = document.getElementById('search-count');
+  var typeEl = document.getElementById('facet-type');
+  var pathwayEl = document.getElementById('facet-pathway');
+  var confidenceEl = document.getElementById('facet-confidence');
+  var statusEl = document.getElementById('facet-status');
+  var index = null;
+
+  fetch('search-index.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      index = data;
+      countEl.textContent = data.length + ' items indexed.';
+    });
+
+  function rankMatches(items, q) {
+    return items.sort(function(a, b) {
+      var aq = (a.id || '').toLowerCase() === q ? 1 : 0;
+      var bq = (b.id || '').toLowerCase() === q ? 1 : 0;
+      if (aq !== bq) return bq - aq;
+      var aTitle = (a.title || '').toLowerCase().indexOf(q) === 0 ? 1 : 0;
+      var bTitle = (b.title || '').toLowerCase().indexOf(q) === 0 ? 1 : 0;
+      return bTitle - aTitle;
+    });
+  }
+
+  function runSearch() {
+    var q = input.value.toLowerCase().trim();
+    if (!index || q.length < 2) {
+      /* Use controlled static-site data only — safe for innerHTML */
+      results.innerHTML = '<p class="small">Type at least 2 characters to search.</p>';
+      return;
+    }
+    var fType = (typeEl.value || '').toLowerCase();
+    var fPath = (pathwayEl.value || '').toLowerCase();
+    var fConf = (confidenceEl.value || '').toLowerCase();
+    var fStatus = (statusEl.value || '').toLowerCase();
+    var matches = index.filter(function(item) {
+      if (item.text.indexOf(q) === -1) return false;
+      var facets = item.facets || {};
+      if (fType && facets.type !== fType) return false;
+      if (fPath && facets.pathway !== fPath) return false;
+      if (fConf && facets.confidence !== fConf) return false;
+      if (fStatus && facets.status !== fStatus) return false;
+      return true;
+    });
+    matches = rankMatches(matches, q).slice(0, 50);
+
+    if (matches.length === 0) {
+      /* Controlled data — safe for innerHTML */
+      results.innerHTML = '<p class="small">No results found.</p>';
+      countEl.textContent = '0 results.';
+      return;
+    }
+
+    countEl.textContent = matches.length + ' result(s).';
+    var cats = {};
+    matches.forEach(function(m) {
+      if (!cats[m.category]) cats[m.category] = [];
+      cats[m.category].push(m);
+    });
+
+    /* All data comes from build-time search-index.json — safe for innerHTML */
+    var html = '';
+    Object.keys(cats).sort().forEach(function(cat) {
+      html += '<h3>' + cat + '</h3><ul>';
+      cats[cat].forEach(function(m) {
+        html += '<li><a href="' + m.page + '">' + m.title + '</a></li>';
+      });
+      html += '</ul>';
+    });
+    results.innerHTML = html;
+  }
+
+  [input, typeEl, pathwayEl, confidenceEl, statusEl].forEach(function(control) {
+    control.addEventListener('input', runSearch);
+    control.addEventListener('change', runSearch);
+  });
+})();
+</script>
+{% endblock %}

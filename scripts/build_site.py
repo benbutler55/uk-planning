@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from builders.config import ROOT
 from builders.data_loader import read_csv, load_scoring
 from builders.export_utils import write_exports, write_exports_manifest, build_ux_kpi_report
-from builders.page_overview import build_index, build_search_index, build_search
+from builders.page_overview import build_search_index
 from builders.page_analysis import (
     build_legislation, build_contradictions, build_contradiction_details,
     build_bottlenecks, build_appeals, build_baselines,
@@ -27,6 +27,7 @@ from builders.context_providers.methods import (
     methodology_context, metric_methods_context,
     sources_context, exports_context, data_health_context,
 )
+from builders.context_providers.overview import index_context, search_context
 from site_builder import SiteBuilder
 from builders.page_audiences import (
     build_audience_policymakers, build_audience_lpas,
@@ -37,7 +38,6 @@ from builders.page_audiences import (
 def main():
     weights = load_scoring()
 
-    build_index()
     build_legislation()
     build_plans()
     build_contradictions(weights)
@@ -56,13 +56,14 @@ def main():
     build_coverage()
     build_consultation()
     build_search_index()
-    build_search()
     build_audience_policymakers()
     build_audience_lpas()
     build_audience_developers()
     build_audience_public()
     # Jinja2-based pages
     builder = SiteBuilder()
+    builder.register("index", "pages/index.html", index_context)
+    builder.register("search", "pages/search.html", search_context)
     builder.register("methodology", "pages/methodology.html", methodology_context)
     builder.register("metric-methods", "pages/metric_methods.html", metric_methods_context)
     builder.register("sources", "pages/sources.html", sources_context)

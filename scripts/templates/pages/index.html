@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% from "macros/cards.html" import card_kpi, card_hero %}
+{% block content %}
+{{ card_hero("Current Phase", "Phase 6 — trust, monitoring, and decision readiness with drift checks and data health reporting.") }}
+<h2 class="section-heading">Key Indicators</h2>
+<section class="card">
+  <h2>England at a glance</h2>
+  <p class="small">Headline indicators with direct source references for rapid triage.</p>
+  <div class="grid">
+    {% for card in metric_cards %}
+    <article class="card card-kpi">
+      <h3>{{ card.label }}</h3>
+      <p class="kpi-value">{{ card.value }}</p>
+      <p class="small">Source: {{ card.source_line | safe }}</p>
+    </article>
+    {% endfor %}
+    <article class="card card-kpi">
+      <h3>LPA average 4Q movement</h3>
+      <p class="kpi-value">{{ avg_delta }} pp ({{ delta_arrow }})</p>
+      <p class="small">Source: <a href="exports/lpa-quarterly-trends.csv">lpa-quarterly-trends.csv</a></p>
+    </article>
+  </div>
+</section>
+<section class="grid">
+  <article class="card card-guidance">
+    <h3>Goal</h3>
+    <p>Build a coherent cross-level planning framework that is faster, clearer, and more predictable.</p>
+  </article>
+  <article class="card card-guidance">
+    <h3>Outputs</h3>
+    <ul>
+      <li>Legal and policy inventory</li>
+      <li>Plan hierarchy mapping</li>
+      <li>Contradiction register with weighted scoring</li>
+      <li>Actionable reform package with evidence traces</li>
+      <li>Machine-readable exports (CSV/JSON)</li>
+    </ul>
+  </article>
+  <article class="card card-guidance">
+    <h3>Delivery Horizon</h3>
+    <p>Pilot Release for policy-professional audience. Static website on GitHub Pages.</p>
+  </article>
+</section>
+<h2 class="section-heading">Explore by Goal</h2>
+<section class="card" id="filters-start">
+  <div class="grid">
+    <article class="card"><h3>Understand national issues</h3><p>Review contradictions, bottlenecks, and appeal evidence across the system.</p><p><a href="contradictions.html">Open system analysis &rarr;</a></p></article>
+    <article class="card"><h3>Compare authorities</h3><p>Use benchmark, map, and compare tools to examine local performance differences.</p><p><a href="benchmark.html">Open authority insights &rarr;</a></p></article>
+    <article class="card"><h3>Track recommendation delivery</h3><p>Follow recommendation status, milestones, and consultation progress.</p><p><a href="recommendations.html">Open recommendations &rarr;</a></p></article>
+    <article class="card"><h3>Download data</h3><p>Get machine-readable exports and version metadata for external analysis.</p><p><a href="exports.html">Open data and methods &rarr;</a></p></article>
+  </div>
+</section>
+<h2 class="section-heading">Audience Views</h2>
+<section class="grid">
+  <article class="card"><h3>Policy Makers</h3><p>Priority actions, evidence, and reform tracking for policy teams.</p><p><a href="audience-policymakers.html">View &rarr;</a></p></article>
+  <article class="card"><h3>Local Planning Authorities</h3><p>Authority-specific insights, benchmarks, and improvement actions.</p><p><a href="audience-lpas.html">View &rarr;</a></p></article>
+  <article class="card"><h3>Developers</h3><p>Key impacts, recommendations, and authority comparisons.</p><p><a href="audience-developers.html">View &rarr;</a></p></article>
+  <article class="card"><h3>Public</h3><p>Plain-language findings and proposed improvements.</p><p><a href="audience-public.html">View &rarr;</a></p></article>
+</section>
+<h2 class="section-heading">Data &amp; Health</h2>
+<section class="card">
+  <h2>Data Health Snapshot</h2>
+  <p>{{ health_badges | safe }}</p>
+  {% if health_top %}
+  <p class="small">Oldest monitored dataset: {{ health_top.dataset }} ({{ health_top.age_days }} days).</p>
+  {% endif %}
+  <p><a href="data-health.html">Open full data health report</a></p>
+</section>
+{% endblock %}
