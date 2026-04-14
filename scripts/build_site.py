@@ -24,9 +24,11 @@ from builders.page_recommendations import (
     build_roadmap, build_consultation,
 )
 from builders.page_methods import (
-    build_methodology, build_metric_methods, build_sources,
+    build_metric_methods, build_sources,
     build_exports_index, build_data_health,
 )
+from builders.context_providers.methods import methodology_context
+from site_builder import SiteBuilder
 from builders.page_audiences import (
     build_audience_policymakers, build_audience_lpas,
     build_audience_developers, build_audience_public,
@@ -61,7 +63,11 @@ def main():
     build_audience_lpas()
     build_audience_developers()
     build_audience_public()
-    build_methodology()
+    # Jinja2-based pages
+    builder = SiteBuilder()
+    builder.register("methodology", "pages/methodology.html", methodology_context)
+    builder.render_all()
+
     build_metric_methods()
     build_sources()
     build_exports_index()
