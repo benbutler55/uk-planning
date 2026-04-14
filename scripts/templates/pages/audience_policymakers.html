@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><h2>Priority Reform Actions</h2>
+<p>Recommendations ranked by priority with delivery ownership and implementation vehicle.</p></section>
+<section class="card"><h3>If you only do 3 things</h3><ol><li>Prioritise high-confidence recommendations with statutory blockers.</li><li>Use roadmap dependencies to sequence delivery commitments.</li><li>Track submission and response status via consultation page.</li></ol></section>
+{{ recs_guide_html | safe }}
+{{ recs_table_html | safe }}
+<section class="card"><h2>System Friction Summary</h2>
+<p>Top contradictions requiring policy intervention.</p></section>
+{{ issues_guide_html | safe }}
+{{ issues_table_html | safe }}
+{% endblock %}

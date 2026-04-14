@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card"><h2>Actions for Local Planning Authorities</h2>
+<p>Recommendations where LPAs are lead or co-delivery owners.</p></section>
+<section class="card"><h3>If you only do 3 things</h3><ol><li>Prioritise validation and pre-application consistency actions.</li><li>Use benchmark and reports to compare peers.</li><li>Track data quality and update stale local records.</li></ol></section>
+{{ recs_guide_html | safe }}
+{{ recs_table_html | safe }}
+{% if has_pilot_baselines %}
+<section class="card"><h2>Pilot LPA Baselines</h2></section>
+{{ baselines_guide_html | safe }}
+{{ baselines_table_html | safe }}
+{% endif %}
+{% endblock %}

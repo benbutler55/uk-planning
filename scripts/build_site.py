@@ -29,21 +29,17 @@ from builders.context_providers.methods import (
     sources_context, exports_context, data_health_context,
 )
 from builders.context_providers.overview import index_context, search_context
-from site_builder import SiteBuilder
-from builders.page_audiences import (
-    build_audience_policymakers, build_audience_lpas,
-    build_audience_developers, build_audience_public,
+from builders.context_providers.audiences import (
+    policymakers_context, lpas_context,
+    developers_context, public_context,
 )
+from site_builder import SiteBuilder
 
 
 def main():
     weights = load_scoring()
 
     build_search_index()
-    build_audience_policymakers()
-    build_audience_lpas()
-    build_audience_developers()
-    build_audience_public()
     # Jinja2-based pages
     builder = SiteBuilder()
     builder.register("index", "pages/index.html", index_context)
@@ -83,6 +79,13 @@ def main():
         page_name = detail_ctx["output_filename"].replace(".html", "")
         builder.register(page_name, "pages/plans_detail.html",
                          lambda c=detail_ctx: c)
+    # Audience pages
+    builder.register("audience-policymakers", "pages/audience_policymakers.html",
+                     policymakers_context)
+    builder.register("audience-lpas", "pages/audience_lpas.html", lpas_context)
+    builder.register("audience-developers", "pages/audience_developers.html",
+                     developers_context)
+    builder.register("audience-public", "pages/audience_public.html", public_context)
     builder.render_all()
 
     build_ux_kpi_report()
